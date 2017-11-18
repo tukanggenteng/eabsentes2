@@ -49,16 +49,34 @@ class Controller extends BaseController
         $tahun=date("Y");
 
 //        return dd($bulan);
+        $date=date('N');
+
+        $sekarang=date('Y-m-d');
+        $status=false;
+
+        if ($date=1){
+            $hari='Senin';
+            $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
+            $status=true;
+        }
+        elseif ($date=2){
+            $hari='Selasa';
+            $awal=date("Y-m-d",strtotime("-10 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-4 days",strtotime($sekarang)));
+            $status=true;
+        }
 
         $cekrekap=rekapbulanan::where('instansi_id','=',Auth::user()->instansi_id)
-           ->whereMonth('periode','=',$bulan)
-           ->whereYear('periode','=',$tahun)
+            ->where('periode','=',$awal)
             ->count();
 //        $cekrekap=rekapbulanan::all()
 //            ->count();
 //        dd($cekrekap);
+
+
         if ($cekrekap==0){
-            return "Segera lakukan rekap absensi pegawai bulan lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap bulanan dengan mengklik ";
+            return "Segera lakukan rekap absensi pegawai minggu lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap bulanan dengan mengklik ";
         }
         else
         {

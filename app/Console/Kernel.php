@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        '\App\Console\Commands\TiapHariCommand',
+        \App\Console\Commands\TiapHariCommand::class,
     ];
 
     /**
@@ -26,14 +26,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('TiapHariCommand:tambahabsen')
-             ->dailyAt('00:18');
+	             ->dailyAt('00:01');
+	// ->everyMinute();
+       // $schedule->call(function () {
 
-        $schedule->call(function () {
 
+//            Mail::to('emailsampah@emailuser.com')->send(new BlogPost());
 
-            Mail::to('emailsampah@emailuser.com')->send(new BlogPost());
-
-        })->monthlyOn(1, '20:00');
+  //      })->monthlyOn(1, '20:00');
 
     }
 

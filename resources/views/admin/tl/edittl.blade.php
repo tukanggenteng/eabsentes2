@@ -28,13 +28,6 @@
 
             <!-- Main content -->
             <section class="content">
-                @if (!empty(($inforekap)))
-                    <div class="alert alert-warning alert-dismissible">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        <h4><i class="icon fa fa-bell"></i> Alert!</h4>
-                        {{$inforekap}}<a href='/rekapbulanan'>link ini.</a>
-                    </div>
-                @endif
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
@@ -99,13 +92,10 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
+
+                                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 

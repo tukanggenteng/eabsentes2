@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class jenisabsen extends Model
 {
     //
+    protected $table="jenisabsens";
 }

@@ -193,8 +193,8 @@
                     <th style="width: 10px">#</th>
                     <th>NIP</th>
                     <th>Nama</th>
-                    <th style="width: 20px">Apel</th>
                     <th style="width: 20px">Absent</th>
+                    <th style="width: 20px">Apel</th>
                     <th style="width: 30px">Jam</th>
                   </tr>
                   @foreach ($pegawaibulan as $key => $pegawai2)
@@ -202,8 +202,8 @@
                       <td>{{$key+1}}</td>
                       <td>{{$pegawai2->nip}}</td>
                       <td>{{$pegawai2->nama}}</td>
-                      <td><span class="badge bg-green">{{round($pegawai2->persentasehadir,2)}}%</span></td>
-                      <td><span class="badge bg-red">{{round($pegawai2->persentaseapel,2)}}%</span></td>
+                      <td><span class="badge bg-red">{{round($pegawai2->persentasehadir,2)}}%</span></td>
+                      <td><span class="badge bg-green">{{round($pegawai2->persentaseapel,2)}}%</span></td>
                       <td><span class="badge bg-light-blue">{{$pegawai2->total}}</span></td>
                     </tr>
                   @endforeach
@@ -224,8 +224,8 @@
                     <th style="width: 10px">#</th>
                     <th>NIP</th>
                     <th>Nama</th>
-                    <th style="width: 20px">Apel</th>
                     <th style="width: 20px">Absent</th>
+                    <th style="width: 20px">Apel</th>
                     <th style="width: 30px">Jam</th>
                   </tr>
                   @foreach ($pegawaitahun as $key => $pegawai3)
@@ -233,8 +233,8 @@
                       <td>{{$key+1}}</td>
                       <td>{{$pegawai3->nip}}</td>
                       <td>{{$pegawai3->nama}}</td>
-                      <td><span class="badge bg-green">{{round($pegawai3->persentasehadir,2)}}%</span></td>
-                      <td><span class="badge bg-red">{{round($pegawai3->persentaseapel,2)}}%</span></td>
+                      <td><span class="badge bg-red">{{round($pegawai3->persentasehadir,2)}}%</span></td>
+                      <td><span class="badge bg-green">{{round($pegawai3->persentaseapel,2)}}%</span></td>
                       <td><span class="badge bg-light-blue">{{$pegawai3->total}}</span></td>
                     </tr>
                   @endforeach
@@ -325,17 +325,8 @@
     </div>
     <!-- /.container -->
   </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="container">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> 2.4.0
-      </div>
-      <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-      reserved.
-    </div>
-    <!-- /.container -->
-  </footer>
+
+          @include('layouts.footer')
 </div>
 <!-- ./wrapper -->
 

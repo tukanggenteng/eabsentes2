@@ -101,20 +101,20 @@
                             <hr>
                             <table class="table table-hover">
                                 <tr>
-                                    <th>#</th>
+                                    <th>
+                                        <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
+                                    </th>
                                     <th>NIP</th>
                                     <th>Nama</th>
-                                    <th>Jabatan</th>
                                 </tr>
 
                                 @foreach($rulejadwals as $rulejadwal)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="checkbox[]" value="{{$rulejadwal->id}}" class="flat-red">
+                                        <input type="checkbox" name="checkbox[]" value="{{$rulejadwal->id}}" class="flat-red checkbox">
                                     </td>
                                     <td>{{$rulejadwal->nip}}</td>
                                     <td>{{$rulejadwal->nama}}</td>
-                                    <td>{{$rulejadwal->jabatan}}</td>
                                 </tr>
                                 @endforeach
                             </table>
@@ -152,9 +152,9 @@
 
                             <table class="table table-hover">
                                 <tr>
+
                                     <th>NIP</th>
                                     <th>Nama</th>
-                                    <th>Jabatan</th>
                                     <th>Jenis Jadwal</th>
                                     <th>Tanggal Mulai</th>
                                     <th>Tanggal Akhir</th>
@@ -165,13 +165,12 @@
                                     <tr>
                                         <td>{{$rulejadwal2->nip}}</td>
                                         <td>{{$rulejadwal2->nama}}</td>
-                                        <td>{{$rulejadwal2->jabatan}}</td>
                                         <td>{{$rulejadwal2->jenis_jadwal}}</td>
                                         <td>{{$rulejadwal2->tanggal_awalrule}}</td>
                                         <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ $rulejadwal2->id }}/edit">Edit</a>
+                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
                                             <a class="btn-sm btn-danger" data-method="delete"
-                                               data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ $rulejadwal2->id }}/hapus">Hapus</a></td>
+                                               data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -190,13 +189,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 
@@ -241,7 +235,22 @@
                             }
                         }
                 );
+
+                $('#select_all').on('ifChanged', function(event){
+                    if(!this.changed) {
+                        this.changed=true;
+                        $('.checkbox').iCheck('check');
+                    } else {
+                        this.changed=false;
+                        $('.checkbox').iCheck('uncheck');
+                    }
+                    $('.checkbox').iCheck('update');
+                });
+
             });
+
+
+
 
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',

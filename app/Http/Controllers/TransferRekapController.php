@@ -45,19 +45,19 @@ class TransferRekapController extends Controller
 
         return Datatables::of($rekaps)
             ->editColumn('ijin',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_ijin"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-ijin="'.$rekaps->ijin.'" data-target="#modal_ijin"><i class="fa fa-download"></i> '.$rekaps->ijin.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_ijin"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ijin="'.$rekaps->ijin.'" data-target="#modal_ijin"><i class="fa fa-download"></i> '.$rekaps->ijin.'</button>';})
             ->editColumn('sakit',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_sakit"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-sakit="'.$rekaps->sakit.'" data-target="#modal_sakit"><i class="fa fa-download"></i> '.$rekaps->sakit.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_sakit"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-sakit="'.$rekaps->sakit.'" data-target="#modal_sakit"><i class="fa fa-download"></i> '.$rekaps->sakit.'</button>';})
             ->editColumn('cuti',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_cuti"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-cuti="'.$rekaps->cuti.'" data-target="#modal_cuti"><i class="fa fa-download"></i> '.$rekaps->cuti.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_cuti"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-cuti="'.$rekaps->cuti.'" data-target="#modal_cuti"><i class="fa fa-download"></i> '.$rekaps->cuti.'</button>';})
             ->editColumn('tugas_luar',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_tl"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-tl="'.$rekaps->tugas_luar.'" data-target="#modal_tl"><i class="fa fa-download"></i> '.$rekaps->tugas_luar.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_tl"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tl="'.$rekaps->tugas_luar.'" data-target="#modal_tl"><i class="fa fa-download"></i> '.$rekaps->tugas_luar.'</button>';})
             ->editColumn('tugas_belajar',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_tb"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-tb="'.$rekaps->tugas_belajar.'" data-target="#modal_tb"><i class="fa fa-download"></i> '.$rekaps->tugas_belajar.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_tb"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tb="'.$rekaps->tugas_belajar.'" data-target="#modal_tb"><i class="fa fa-download"></i> '.$rekaps->tugas_belajar.'</button>';})
             ->editColumn('rapatundangan',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_rp"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-rp="'.$rekaps->rapatundangan.'" data-target="#modal_rp"><i class="fa fa-download"></i> '.$rekaps->rapatundangan.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_rp"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-rp="'.$rekaps->rapatundangan.'" data-target="#modal_rp"><i class="fa fa-download"></i> '.$rekaps->rapatundangan.'</button>';})
             ->editColumn('ijinterlambat',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_it"  data-toggle="modal" data-pegawaiid="'.$rekaps->pegawai_id.'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.$rekaps->id.'" data-it="'.$rekaps->ijinterlambat.'" data-target="#modal_it"><i class="fa fa-download"></i> '.$rekaps->ijinterlambat.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_it"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-it="'.$rekaps->ijinterlambat.'" data-target="#modal_it"><i class="fa fa-download"></i> '.$rekaps->ijinterlambat.'</button>';})
             ->rawColumns(['ijin','sakit','cuti','tugas_luar','tugas_belajar','rapatundangan','ijinterlambat'])
             ->make(true);
     }
@@ -68,6 +68,7 @@ class TransferRekapController extends Controller
             'lamaijin'=>'required',
             'fileijin'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
         );
+        // return $request->sisalamaijin;
 
         $validator=Validator::make(Input::all(),$rules);
         if($validator->fails()){
@@ -75,16 +76,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idijin);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idijin))->first();
             $updatedata->ijin=$request->sisalamaijin;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('fileijin')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idijin.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idijin).'+'.$tgl.'.'.$ext;
             $request->file('fileijin')->storeAs('public/file/ijin',$filename);
             $bleave = new ijin();
-            $bleave->rekapbulanan_id=$request->idijin;
+            $bleave->rekapbulanan_id=decrypt($request->idijin);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamaijin;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -107,16 +108,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idsakit);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idsakit))->first();
             $updatedata->sakit=$request->sisalamasakit;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('filesakit')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idsakit.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idsakit).'+'.$tgl.'.'.$ext;
             $request->file('filesakit')->storeAs('public/file/sakit',$filename);
             $bleave = new sakit();
-            $bleave->rekapbulanan_id=$request->idsakit;
+            $bleave->rekapbulanan_id=decrypt($request->idsakit);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamasakit;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -139,16 +140,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idcuti);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idcuti))->first();
             $updatedata->cuti=$request->sisalamacuti;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('filecuti')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idcuti.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idcuti).'+'.$tgl.'.'.$ext;
             $request->file('filecuti')->storeAs('public/file/cuti',$filename);
             $bleave = new cuti();
-            $bleave->rekapbulanan_id=$request->idcuti;
+            $bleave->rekapbulanan_id=decrypt($request->idcuti);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamacuti;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -171,16 +172,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idtb);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idtb))->first();
             $updatedata->tugas_belajar=$request->sisalamatb;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('filetb')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idtb.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtb).'+'.$tgl.'.'.$ext;
             $request->file('filetb')->storeAs('public/file/tugasbelajar',$filename);
             $bleave = new tugasbelajar();
-            $bleave->rekapbulanan_id=$request->idtb;
+            $bleave->rekapbulanan_id=decrypt($request->idtb);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamatb;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -203,16 +204,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idtl);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idtl))->first();
             $updatedata->tugas_luar=$request->sisalamatl;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('filetl')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idtl.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtl).'+'.$tgl.'.'.$ext;
             $request->file('filetl')->storeAs('public/file/tugasluar',$filename);
             $bleave = new tugasluar();
-            $bleave->rekapbulanan_id=$request->idtl;
+            $bleave->rekapbulanan_id=decrypt($request->idtl);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamatl;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -235,16 +236,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idrp);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idrp))->first();
             $updatedata->rapatundangan=$request->sisalamarp;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('filerp')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idrp.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idrp).'+'.$tgl.'.'.$ext;
             $request->file('filerp')->storeAs('public/file/rapatundangan',$filename);
             $bleave = new rapatundangan();
-            $bleave->rekapbulanan_id=$request->idrp;
+            $bleave->rekapbulanan_id=decrypt($request->idrp);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamarp;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -267,16 +268,16 @@ class TransferRekapController extends Controller
         }
         else
         {
-            $updatedata=rekapbulanan::find($request->idit);
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idit))->first();
             $updatedata->ijinterlambat=$request->sisalamait;
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
             $ext=$request->file('fileit')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.$request->idit.'+'.$tgl.'.'.$ext;
+            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idit).'+'.$tgl.'.'.$ext;
             $request->file('fileit')->storeAs('public/file/ijinterlambat',$filename);
             $bleave = new ijinterlambat();
-            $bleave->rekapbulanan_id=$request->idit;
+            $bleave->rekapbulanan_id=decrypt($request->idit);
             $bleave->namafile=$filename;
             $bleave->lama=$request->lamait;
             $bleave->instansi_id=Auth::user()->instansi_id;
@@ -365,10 +366,11 @@ class TransferRekapController extends Controller
 //            $table=rekapbulanan::all();
         }
 //        dd($table);
-        return view('rekapabsen.downloadsuratijin',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsuratijin',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadijin($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/ijin/".$id;
 
         $headers = array(
@@ -459,10 +461,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsuratsakit',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsuratsakit',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadsakit($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/sakit/".$id;
 
         $headers = array(
@@ -543,10 +546,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsuratcuti',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsuratcuti',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadcuti($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/cuti/".$id;
 
         $headers = array(
@@ -627,10 +631,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsurattugasluar',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsurattugasluar',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadtl($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/tugasluar/".$id;
 
         $headers = array(
@@ -711,10 +716,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsurattugasbelajar',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsurattugasbelajar',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadtb($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/tugasbelajar/".$id;
 
         $headers = array(
@@ -795,10 +801,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsuratrapatundangan',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsuratrapatundangan',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadru($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/rapatundangan/".$id;
 
         $headers = array(
@@ -879,10 +886,11 @@ class TransferRekapController extends Controller
                 ->paginate(50);
         }
 
-        return view('rekapabsen.downloadsuratijinterlambat',['rekaps'=>$table,'inforekap'=>$inforekap]);
+        return view('rekapabsen.downloadsuratijinterlambat',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
     public function downloadit($id){
+        $id=decrypt($id);
         $file= public_path(). "/storage/file/ijinterlambat/".$id;
 
         $headers = array(

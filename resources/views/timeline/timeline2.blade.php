@@ -31,7 +31,10 @@
                         <ul class="timeline">
                             <!-- timeline item -->
                             <li v-for="att in atts">
-                                <i class="fa fa-map-marker bg-blue"></i>
+                              <i class="fa fa-map-marker bg-blue" v-if="att.statusmasuk== 'hadir'"></i>
+                              <i class="fa fa-map-marker bg-orange" v-if="att.statusmasuk== 'hadir terlambat'"></i>
+                              <i class="fa fa-map-marker bg-yellow" v-if="att.statusmasuk== 'pulang lebih cepat'"></i>
+                              <i class="fa fa-map-marker bg-green" v-if="att.statusmasuk== 'pulang'"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> @{{ att.tanggal }}</span>
 
@@ -58,13 +61,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
 
     </div>
     <!-- ./wrapper -->
@@ -85,7 +83,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
 
     <script type="text/javascript">
-        var socket = io('http://eabsen.dev:3000');
+        var socket = io('http://eabsen.kalselprov.go.id:3000');
         new Vue({
             el: '#app',
             data: {

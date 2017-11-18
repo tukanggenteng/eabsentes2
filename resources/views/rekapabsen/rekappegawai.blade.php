@@ -62,7 +62,6 @@
                                 <tr>
                                     <th>NIP</th>
                                     <th>Nama</th>
-                                    <th>Jabatan</th>
                                     <th>Aksi</th>
                                 </tr>
 
@@ -70,8 +69,7 @@
                                     <tr>
                                         <td>{{$pegawai->nip}}</td>
                                         <td>{{$pegawai->nama}}</td>
-                                        <td>{{$pegawai->jabatan}}</td>
-                                        <td><a class="btn-sm btn-success" href="/rekapabsensipegawai/{{$pegawai->id}}/{{$bulan}}">Rekap</a></td>
+                                        <td><a class="btn-sm btn-success" href="/rekapabsensipegawai/{{encrypt($pegawai->id)}}/{{encrypt($bulan)}}">Rekap</a></td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -88,13 +86,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 

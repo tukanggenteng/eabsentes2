@@ -24,25 +24,28 @@ class JadwalKerjaController extends Controller
         $jadwalkerja=array();
         $isi=array();
         $tables=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)->get();
+        // dd($tables);
+        // foreach ($tables as $table){
+        //     $harikerja=rulejammasuk::where('jadwalkerja_id','=',$table->id)->count();
+        //     if ($harikerja == 0) {
+        //         $isi['id']=($table->id);
+        //         $isi['jenis_jadwal']=($table->jenis_jadwal);
+        //         array_push($jadwalkerja,$isi);
+        //     }
+        // }
+        //
+        // dd($jadwalkerja);
 
-        foreach ($tables as $table){
-            $harikerja=rulejammasuk::where('jadwalkerja_id','=',$table->id)->count();
-            if ($harikerja == 0) {
-                $isi['id']=($table->id);
-                $isi['jenis_jadwal']=($table->jenis_jadwal);
-                array_push($jadwalkerja,$isi);
-            }
-        }
 
         $rule=rulejammasuk::join('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal')->where('rulejammasuks.instansi_id',Auth::user()->instansi_id)->get();
 //        dd($rule);
         // $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
-        return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rules'=>$rule]);
+        return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'rules'=>$rule]);
     }
 
     public function store(Request $request){
         $this->validate($request, [
-            'jenisjadwal'=>'required|min:5',
+            'jenisjadwal'=>'required',
             'awal'=>'required|min:5',
             'pulang'=>'required|min:5'
         ]);
@@ -53,6 +56,7 @@ class JadwalKerjaController extends Controller
         $user->jam_keluarjadwal = $request->pulang;
         $user->instansi_id = $request->instansi_id;
         $user->save();
+        // dd("tes");
         return redirect('/jadwalkerja');
 
     }
@@ -67,8 +71,11 @@ class JadwalKerjaController extends Controller
         {
             $inforekap=$this->notifrekap();
         }
-        $jadwal=jadwalkerja::find($id)->first();
-//        dd($jadwal);
+        $id = decrypt($id);
+        // dd($id);
+        $jadwal=jadwalkerja::where('id','=',$id)->first();
+
+      //  dd($jadwal);
         return view('jadwalkerja.editjadwalkerja',['inforekap'=>$inforekap,'jadwals'=>$jadwal]);
     }
 
@@ -87,6 +94,7 @@ class JadwalKerjaController extends Controller
     }
 
     public function deletestore($id){
+        $id = decrypt($id);
         $table=jadwalkerja::find($id);
         $table->delete();
         return redirect('/jadwalkerja');

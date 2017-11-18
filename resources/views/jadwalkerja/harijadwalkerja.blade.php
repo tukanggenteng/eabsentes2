@@ -96,7 +96,7 @@
                                                     <td>{{$hasildata['jenis_jadwal']}}</td>
                                                     <td>
                                                     <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/harikerja/hapus/{{ $hasildata['jadwalkerja_id'] }}">Hapus</a></td>
+                                                    data-token="{{csrf_token()}}" href="/harikerja/hapus/{{ encrypt($hasildata['jadwalkerja_id']) }}">Hapus</a></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
@@ -126,13 +126,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 

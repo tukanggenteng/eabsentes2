@@ -77,7 +77,7 @@
                                     <td>{{$rekap->nama}}</td>
                                     <td>{{$rekap->mulaitanggal}}</td>
                                     <td>{{$rekap->lama}}</td>
-                                    <td><a class="btn-sm btn-success" href="/transrekap/download/cuti/surat/{{$rekap->namafile}}"><i class="fa fa-download"></i></a></td>
+                                    <td><a class="btn-sm btn-success" href="/transrekap/download/cuti/surat/{{encrypt($rekap->namafile)}}"><i class="fa fa-download"></i></a></td>
                                 </tr>
                             @endforeach
                         </table>
@@ -86,7 +86,7 @@
 
                     <div class="box-footer clearfix">
                         <ul class="pagination pagination-sm no-margin pull-right">
-                            {{$rekaps->links()}}
+                            {{$rekaps->appends(['nip'=>($nip),'nama'=>$nama,'periode'=>($periode)])->links()}}
                         </ul>
                     </div>
                 </div>
@@ -94,13 +94,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 

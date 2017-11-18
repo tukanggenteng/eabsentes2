@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+
+
         Schema::create('instansis', function (Blueprint $table) {
             $table->increments('id');
             $table->string('kode');
@@ -44,6 +46,7 @@ class CreateUsersTable extends Migration
             $table->date('tanggal_att')->nullable();
             $table->time('jam_masuk')->nullable();
             $table->unsignedInteger('masukinstansi_id')->nullable();
+            $table->time('terlambat');
             $table->time('jam_keluar')->nullable();
             $table->unsignedInteger('keluarinstansi_id')->nullable();
             $table->time('akumulasi_sehari')->nullable();
@@ -87,6 +90,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+
         Schema::create('rulejadwalpegawais',function(Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('pegawai_id');
@@ -112,9 +116,6 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('nip');
             $table->string('nama');
-            $table->string('jabatan')->nullable();
-            $table->string('jenispns')->nullable();
-            $table->boolean('status_aktif')->nullable();
             $table->unsignedInteger('instansi_id')->nullable();
             $table->timestamps();
         });
@@ -139,6 +140,7 @@ class CreateUsersTable extends Migration
             $table->integer('persentase_apel');
             $table->integer('persentase_tidakhadir');
             $table->time('total_akumulasi');
+            $table->time('total_terlambat');
             $table->unsignedInteger('instansi_id')->nullable();
             $table->timestamps();
         });
@@ -162,6 +164,7 @@ class CreateUsersTable extends Migration
             $table->integer('persentase_apel');
             $table->integer('persentase_tidakhadir');
             $table->time('total_akumulasi');
+            $table->time('total_terlambat');
             $table->unsignedInteger('instansi_id')->nullable();
             $table->timestamps();
         });
@@ -185,7 +188,6 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('instansi_id');
             $table->timestamps();
         });
-
         Schema::create('sakits',function (Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rekapbulanan_id');
@@ -206,6 +208,8 @@ class CreateUsersTable extends Migration
             $table->timestamps();
         });
 
+
+
         Schema::create('ijinterlambats',function (Blueprint $table){
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rekapbulanan_id');
@@ -215,6 +219,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('instansi_id');
             $table->timestamps();
         });
+
 
         Schema::create('ijins',function (Blueprint $table){
             $table->bigIncrements('id');
@@ -363,6 +368,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+
+
         Schema::dropIfExists('users');
         Schema::dropIfExists('instansis');
         Schema::dropIfExists('roles');
@@ -374,13 +381,14 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('rulejadwalpegawais');
         Schema::dropIfExists('rulejammasuks');
         Schema::dropIfExists('pegawais');
-        Schema::dropIfExists('transaksiabsens');
         Schema::dropIfExists('rekapbulanans');
+        Schema::dropIfExists('masterbulanans');
         Schema::dropIfExists('tugasluars');
         Schema::dropIfExists('tugasbelajars');
         Schema::dropIfExists('sakits');
         Schema::dropIfExists('cutis');
+        Schema::dropIfExists('ijinterlambats');
         Schema::dropIfExists('ijins');
-        Schema::dropIfExists('rapatundangan');
+        Schema::dropIfExists('rapatundangans');
     }
 }

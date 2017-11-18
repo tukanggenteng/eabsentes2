@@ -35,7 +35,7 @@
                                 <h3 class="box-title">Manajemen User</h3>
                             </div>
                             <div class="box-body">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add">
+                                <button type="button" id="modal_add2" class="btn btn-primary" data-toggle="modal" data-target="#modal_add">
                                     Tambah
                                 </button>
                                 <hr>
@@ -270,6 +270,20 @@
             });
         });
     </script>
+
+    <script type="text/javascript">
+        $(document).on('click','#modal_add2',function () {
+            $('#username').val("");
+            $('#username').removeAttr('disabled');
+            $('#email').removeAttr('disabled');
+            $('#email').val("");
+            $('#nama').val("");
+            $('#password').val("");
+            $('#instansi').val("");
+            $('#modal_add').modal("show");
+        });
+    </script>
+
     <script type="text/javascript">
         $(document).on('click','.modal_edit',function () {
             $('#username2').val($(this).data('username'));
@@ -295,7 +309,7 @@
         $(document).on('click','#simpanadduser',function (){
             $.ajax({
                 type:'post',
-                url:'/postuser',
+                url:'{{route('adduser')}}',
                 data: new FormData($('#formuseradd')[0]),
                 dataType:'json',
                 async:false,
@@ -326,7 +340,7 @@
         $(document).on('click','#simpanedituser',function (){
             $.ajax({
                 type:'post',
-                url:'{{url('edituser')}}',
+                url:'{{route('edituser')}}',
                 data: new FormData($('#formedituser')[0]),
                 dataType:'json',
                 async:false,
@@ -353,7 +367,7 @@
         $(document).on('click','#simpandeluser',function (){
             $.ajax({
                 type:'post',
-                url:'{{url('deleteuser')}}',
+                url:'{{route('deleteuser')}}',
                 data: new FormData($('#formdeleteuser')[0]),
                 dataType:'json',
                 async:false,

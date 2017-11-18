@@ -14,6 +14,7 @@ class LoginController extends Controller
     }
 
     public function getLogin(){
+
             return view('welcome');
     }
 
@@ -22,12 +23,37 @@ class LoginController extends Controller
             'email'=>$request->username,
             'password'=>$request->password
         ])){
-            return redirect('/home');
+          // dd(Auth::user()->role->namaRole="kadis");
+            if (Auth::user()->role->namaRole=="kadis"){
+              return redirect('/home/pegawai');
+            }
+            elseif (Auth::user()->role->namaRole=="sekda"){
+              return redirect('/dashboard');
+            }
+            elseif (Auth::user()->role->namaRole=="pegawai"){
+              return redirect('/user/pegawai');
+            }
+            else {
+              return redirect('/home');
+            }
         }elseif (Auth::attempt([
             'username'=>$request->username,
             'password'=>$request->password
         ])){
+          // dd(Auth::user()->role->namaRole="kadis");
+          if (Auth::user()->role->namaRole=="kadis"){
+            return redirect('/home/pegawai');
+          }
+          elseif (Auth::user()->role->namaRole=="sekda"){
+            return redirect('/dashboard');
+          }
+          elseif (Auth::user()->role->namaRole=="pegawai"){
+            return redirect('/user/pegawai');
+          }
+          else {
+            // dd(Auth::user()->role->namaRole="pegawai");
             return redirect('/home');
+          }
         }else{
             return redirect()->back()->with('error', 'Login gagal !!');
         }

@@ -44,7 +44,12 @@ class InstansiController extends Controller
      */
     public function store(Request $request)
     {
-
+      // $url1='simpeg.kalselprov.go.id/api/unker';
+      // $json = file_get_contents($url1);
+      //
+      // // deserialize data from JSON
+      // $contoh = json_decode($json,true);
+      // dd($contoh);
 
         $response=Curl::to('https://simpeg.kalselprov.go.id/api/unker')
             ->get();
@@ -96,7 +101,7 @@ class InstansiController extends Controller
 
         }
 
-        return $instansi;
+        return response()->json($instansi);
     }
 
     /**

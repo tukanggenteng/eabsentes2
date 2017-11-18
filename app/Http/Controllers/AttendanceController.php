@@ -18,18 +18,21 @@ class AttendanceController extends Controller
     //
     public function store(Request $request){
 
-//        $jam=$request->json('jam2');
-//        $basic=substr($jam,5);
-//        $hasilbasic=str_replace(":","",$basic);
-//        $hasil=$this->encryptOTP($hasilbasic);
-//        $statusauth="0";
-//        $auth=$request->json('auth');
-//
-//        if ($hasil==$auth){
-//            $statusauth="1";
-//        }else{
-//            $statusauth="0";
-//        }
+       $jam=$request->json('jam');
+       $tanggal=$request->json('tanggal');
+       $user_id=$request->json('user_id');
+       $instansi=$request->json('instansi');
+       $status=$request->json('status');
+       $auth=$request->json('token');
+       $hasilbasic=$jam.$tanggal.$user_id.$instansi.$status;
+       $hasil=$this->encryptOTP($hasilbasic);
+       $statusauth="0";
+
+       if ($hasil==$auth){
+           $statusauth="1";
+       }else{
+           $statusauth="0";
+       }
 
 
 
@@ -39,7 +42,7 @@ class AttendanceController extends Controller
             $hitungabsen=att::where('pegawai_id','=',$request->json('user_id'))
                 ->where('tanggal_att','=',$request->json('tanggal'))
                 ->count();
-
+              // dd($hitungabsen);
             if ($hitungabsen>0) {
 
                 $absens = att::where('pegawai_id', '=', $request->json('user_id'))
@@ -53,11 +56,11 @@ class AttendanceController extends Controller
                         ->select('jadwalkerjas.id', 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
-
                     $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_masukkerja']));
                     $jamakhir = $cek[0]['jam_masukjadwal'];
                     //menentukan jam toleransi masuk pegawai
-                    $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
+                    // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
+                    $jamakhir2=$jamakhir;
                     $jamfingerprint = date("H:i", strtotime($request->json('jam')));
                     // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
 //                    if (($jamfingerprint >= $jamawal) && ($jamfingerprint <= ($jamakhir2))) {
@@ -72,12 +75,12 @@ class AttendanceController extends Controller
                         //jika hasil nya lebih dari 0 maka
                         if ($cari > 0) {
                             //melakukan perubahan data absen trans yang ada
-                            $table = atts_tran::where('tanggal', '=', $request->json('tanggal'))
-                                ->where('pegawai_id', '=', $request->json('user_id'))
-                                ->first();
-                            $table->jam = $request->json('jam');
-                            $table->tanggal = $request->json('tanggal');
-                            $table->save();
+                            // $table = atts_tran::where('tanggal', '=', $request->json('tanggal'))
+                            //     ->where('pegawai_id', '=', $request->json('user_id'))
+                            //     ->first();
+                            // $table->jam = $request->json('jam');
+                            // $table->tanggal = $request->json('tanggal');
+                            // $table->save();
                         } else {
                             //menambah data absen trans yang baru
                             $save = new atts_tran();
@@ -87,38 +90,68 @@ class AttendanceController extends Controller
                             $save->lokasi_alat = $request->json('instansi');
                             $save->status_kedatangan = $request->json('status');
                             $save->save();
+
+                            //meubah data masuk
+                            $table = att::where('tanggal_att', '=', $request->json('tanggal'))
+                                ->where('pegawai_id', '=', $request->json('user_id'))
+                                ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                                ->first();
+                            //                    dd($table);
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $request->json('user_id'))->get();
+                            if ($pegawai[0]['instansi_id']==$request->json('instansi'))
+                            {
+                              $table->jenisabsen_id = "1";
+                            }else {
+                          $table->jenisabsen_id = "8";
+                            }
+                            if ($request->json('jam')>$jamakhir)
+                            {
+                              $terlambatnya=$this->kurangwaktu($request->json('jam'),$jamakhir);
+                            }
+                            else {
+                              $terlambatnya="00:00:00";
+                            }
+                            $table->terlambat=$terlambatnya;
+                            $table->jam_masuk = $request->json('jam');
+                            $table->tanggal_att = $request->json('tanggal');
+                            $table->masukinstansi_id = $request->json('instansi');
+
+                            $table->save();
+
+
+
+                            $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
+
+                            if ($request->json('jam')>$jamakhir2){
+
+                              $status = "hadir terlambat";
+                              // dd($status);
+                            }
+                            else {
+
+                              $status = "hadir";
+                            }
+                            if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                                $class = "bg-green";
+                            } else {
+                                $class = "bg-yellow";
+                            }
+                            $tanggalbaru = date("d-M-Y");
+
+                            event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                            return "BISA Datang";
                         }
-                        //meubah data masuk
-                        $table = att::where('tanggal_att', '=', $request->json('tanggal'))
-                            ->where('pegawai_id', '=', $request->json('user_id'))
-                            ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
-                            ->first();
-                        //                    dd($table);
 
-                        $table->jam_masuk = $request->json('jam');
-                        $table->tanggal_att = $request->json('tanggal');
-                        $table->masukinstansi_id = $request->json('instansi');
-                        $table->jenisabsen_id = "1";
-                        $table->save();
-
-                        $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
-                            ->where('pegawais.id', '=', $request->json('user_id'))->get();
-
-                        $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
-                        $status = "hadir";
-                        if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
-                            $class = "bg-green";
-                        } else {
-                            $class = "bg-yellow";
-                        }
-                        $tanggalbaru = date("d-M-Y", strtotime($request->json('tanggal')));
-
-                        event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                        return "BISA Datang";
                     } else {
-                        return ("tidak bisa  Databg");
+                      // dd("jam datang ".$jamfingerprint." ")
+                      // dd(($jamfingerprint <= $cek[0]['jamsebelum_pulangkerja']));
+                        return ("tidak bisa  Datang");
                     }
                 }
+            }
+            else {
+              return "tidak sukses";
             }
         }
         // ########### absen pulang
@@ -158,8 +191,9 @@ class AttendanceController extends Controller
                         $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
                         $jamakhir = $cek[0]['jam_keluarjadwal'];
                         //menentukan jam toleransi masuk pegawai
-                        $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
+                        // $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
                         $jamfingerprint = date("H:i", strtotime($request->json('jam')));
+                        $jamakhir2=$jamakhir;
 //                         dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
 //                        if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
                         if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
@@ -221,10 +255,6 @@ class AttendanceController extends Controller
                                     $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($table2[0]['jam_keluarjadwal'])));
                                     $akumulasi=$this->kurangwaktu($jamban2,$jamban);
                                 }
-
-//                                $jamban=$table2[0]['jam_masukjadwal'];
-//                                $jamban2=$table2[0]['jam_keluarjadwal'];
-//                                $akumulasi=$this->kurangwaktu($jamban2,$jamban);
                             }
 
                             $table = att::where('tanggal_att', '=', $tanggalkemarin)
@@ -232,13 +262,17 @@ class AttendanceController extends Controller
                                 ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                                 ->first();
 
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $request->json('user_id'))->get();
+                            if (($pegawai[0]['instansi_id']==$request->json('instansi')) && ($table->masukinstansi_id==$request->json('instansi')))
+                            {
+                              $table->jenisabsen_id = "1";
+                            }elseif (($pegawai[0]['instansi_id']!=$request->json('instansi')) && ($table->masukinstansi_id!=$request->json('instansi')))
+                            {
+                              $table->jenisabsen_id = "8";
+                            }
                             $table->jam_keluar = $request->json('jam');
                             $table->keluarinstansi_id = $request->json('instansi');
-                            if ($table->masukinstansi_id==$table->keluarinstansi_id){
-                                $table->jenisabsen_id = "8";
-                            }else{
-                              $table->jenisabsen_id = "1";
-                            }
                             $table->akumulasi_sehari = $akumulasi;
                             $table->save();
 
@@ -246,13 +280,13 @@ class AttendanceController extends Controller
                                 ->where('pegawais.id', '=', $request->json('user_id'))->get();
 
                             $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
-                            $status = "hadir";
+                            $status = "pulang";
                             if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
                                 $class = "bg-green";
                             } else {
                                 $class = "bg-yellow";
                             }
-                            $tanggalbaru = date("d-M-Y", strtotime($tanggalkemarin));
+                            $tanggalbaru = date("d-M-Y");
 
                             event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
                             return "BISA Pulang1";
@@ -333,13 +367,20 @@ class AttendanceController extends Controller
                                 ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                                 ->first();
 
-                            $table->jam_keluar = $request->json('jam');
-                            $table->keluarinstansi_id = $request->json('instansi');
-                            if ($table->masukinstansi_id==$table->keluarinstansi_id){
-                                $table->jenisabsen_id = "8";
-                            }else{
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $request->json('user_id'))->get();
+                            if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$request->json('instansi')))
+                            {
                               $table->jenisabsen_id = "1";
                             }
+                            // elseif (($pegawai[0]['instansi_id']!=$request->json('instansi')) && ($table->masukinstansi_id!=$request->json('instansi')))
+                            else
+                            {
+                            $table->jenisabsen_id = "8";
+                            }
+
+                            $table->jam_keluar = $request->json('jam');
+                            $table->keluarinstansi_id = $request->json('instansi');
                             $table->akumulasi_sehari = $akumulasi;
                             $table->save();
 
@@ -347,13 +388,13 @@ class AttendanceController extends Controller
                                 ->where('pegawais.id', '=', $request->json('user_id'))->get();
 
                             $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
-                            $status = "hadir";
+                            $status = "pulang lebih cepat";
                             if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
                                 $class = "bg-green";
                             } else {
                                 $class = "bg-yellow";
                             }
-                            $tanggalbaru = date("d-M-Y", strtotime($tanggalkemarin));
+                            $tanggalbaru = date("d-M-Y");
 
                             event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
                             return "Pulang cepat";
@@ -381,7 +422,8 @@ class AttendanceController extends Controller
                         $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
                         $jamakhir = $cek[0]['jam_keluarjadwal'];
                         //menentukan jam toleransi masuk pegawai
-                        $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
+                        // $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
+                        $jamakhir2=$jamakhir;
                         $jamfingerprint = date("H:i", strtotime($request->json('jam')));
 //                         dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
                         if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
@@ -459,13 +501,20 @@ class AttendanceController extends Controller
                                 ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                                 ->first();
 
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $request->json('user_id'))->get();
+                                if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$request->json('instansi')))
+                                {
+                                  $table->jenisabsen_id = "1";
+                                }
+                                // elseif (($pegawai[0]['instansi_id']!=$request->json('instansi')) && ($table->masukinstansi_id!=$request->json('instansi')))
+                                else
+                                {
+                                $table->jenisabsen_id = "8";
+                                }
+
                             $table->jam_keluar = $request->json('jam');
                             $table->keluarinstansi_id = $request->json('instansi');
-                            if ($table->masukinstansi_id==$table->keluarinstansi_id){
-                                $table->jenisabsen_id = "8";
-                            }else{
-                              $table->jenisabsen_id = "1";
-                            }
                             $table->akumulasi_sehari = $akumulasi;
                             $table->save();
 
@@ -473,13 +522,18 @@ class AttendanceController extends Controller
                                 ->where('pegawais.id', '=', $request->json('user_id'))->get();
 
                             $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
-                            $status = "hadir";
+
+                            if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
+                              // dd("jam awal".$jamakhir2." Jam finger ".$jamfingerprint." jam akhir".$jamawal);
+
+                              $status="pulang";
+                            }
                             if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
                                 $class = "bg-green";
                             } else {
                                 $class = "bg-yellow";
                             }
-                            $tanggalbaru = date("d-M-Y", strtotime($tanggalkemarin));
+                            $tanggalbaru = date("d-M-Y");
 
                             event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
                             return "BISA Pulang3";
@@ -561,13 +615,19 @@ class AttendanceController extends Controller
                                 ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                                 ->first();
 //                            dd($table);
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $request->json('user_id'))->get();
+                                if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$request->json('instansi')))
+                                {
+                                  $table->jenisabsen_id = "1";
+                                }
+                                // elseif (($pegawai[0]['instansi_id']!=$request->json('instansi')) && ($table->masukinstansi_id!=$request->json('instansi')))
+                                else
+                                {
+                                $table->jenisabsen_id = "8";
+                                }
                             $table->jam_keluar = $request->json('jam');
                             $table->keluarinstansi_id = $request->json('instansi');
-                            if ($table->masukinstansi_id==$table->keluarinstansi_id){
-                                $table->jenisabsen_id = "8";
-                            }else{
-                              $table->jenisabsen_id = "1";
-                            }
                             $table->akumulasi_sehari = $akumulasi;
                             $table->save();
 
@@ -575,7 +635,7 @@ class AttendanceController extends Controller
                                 ->where('pegawais.id', '=', $request->json('user_id'))->get();
 
                             $instansi = instansi::where('id', '=', $request->json('instansi'))->get();
-                            $status = "hadir";
+                            $status = "pulang lebih cepat";
                             if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
                                 $class = "bg-green";
                             } else {

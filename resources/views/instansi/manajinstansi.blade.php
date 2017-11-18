@@ -28,7 +28,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
@@ -57,6 +56,7 @@
                                             <table id="tableaja" class="table">
                                                 <thead>
                                                 <tr>
+                                                    <th>Id</th>
                                                     <th>Kode</th>
                                                     <th>Nama Instansi</th>
                                                 </tr>
@@ -78,14 +78,8 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
-        
+                @include('layouts.footer')
+
     </div>
     <!-- ./wrapper -->
 
@@ -122,6 +116,7 @@
                 serverSide: true,
                 ajax: '{{route('datainstansi')}}',
                 columns: [
+                    {data:'id',name:'id'},
                     { data: 'kode', name: 'kode' },
                     { data: 'namaInstansi', name: 'namaInstansi' }
                 ]

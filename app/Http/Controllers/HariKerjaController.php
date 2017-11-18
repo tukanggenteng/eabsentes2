@@ -153,6 +153,7 @@ class HariKerjaController extends Controller
     {
         //
 //        dd($id);
+        $id=decrypt($id);
         $table=harikerja::where('jadwalkerja_id',$id);
 //        dd($table);
         $table->delete();

@@ -16,6 +16,14 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
 
+<style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+</style>
+
 <!-- Include Date Range Picker -->
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
@@ -34,13 +42,20 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
+          @include('layouts.inforekap')
 
+                <!-- hari ini -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Hari</strong></p>
+                  </div>
+                </div>
                 <div class="row">
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/absent">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Tanpa Kabar</span>
                                     <span class="info-box-number">{{$tidakhadir}}</span>
@@ -52,10 +67,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/sakit">
                                 <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Sakit</span>
+                                    <span class="info-box-text">Sakit</a></span>
                                     <span class="info-box-number">{{$sakit}}</span>
                                 </div>
                                 <!-- /.info-box-content -->
@@ -69,7 +85,9 @@
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/ijin">
                                 <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Izin</span>
                                     <span class="info-box-number">{{$ijin}}</span>
@@ -81,8 +99,9 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/sakit">
                                 <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Cuti</span>
                                     <span class="info-box-number">{{$cuti}}</span>
@@ -96,8 +115,9 @@
                 <div class="row">
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/tugasluar">
                                 <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Tugas Luar</span>
                                     <span class="info-box-number">{{$tl}}</span>
@@ -109,8 +129,9 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/tugasbelajar">
                                 <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Tugas Belajar</span>
                                     <span class="info-box-number">{{$tb}}</span>
@@ -126,7 +147,9 @@
 
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/terlambat">
                                 <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Terlambat</span>
                                     <span class="info-box-number">{{$terlambat}}</span>
@@ -138,8 +161,9 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box">
+                              <a href="/detail/harian/rapatundangan">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
-
+                              </a>
                                 <div class="info-box-content">
                                     <span class="info-box-text">Event</span>
                                     <span class="info-box-number">{{$event}}</span>
@@ -150,6 +174,270 @@
                         </div>
                         <!-- /.col -->
                     </div>
+
+                <!-- bulan     -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Bulan</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+
+                              <a href="/detail/bulan/absent">
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tanpa Kabar</span>
+                                    <span class="info-box-number">{{$tidakhadirbulan}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/bulan/sakit">
+                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Sakit</span>
+                                    <span class="info-box-number">{{$sakitbulan}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix visible-sm-block"></div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/bulan/ijin">
+                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Izin</span>
+                                    <span class="info-box-number">{{$ijinbulan}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/bulan/cuti">
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Cuti</span>
+                                    <span class="info-box-number">{{$cutibulan}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                <div class="row">
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="info-box">
+                                  <a href="/detail/bulan/tugasluar">
+                                    <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
+                                  </a>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Tugas Luar</span>
+                                        <span class="info-box-number">{{$tlbulan}}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="info-box">
+                                  <a href="/detail/bulan/tugasbelajar">
+                                    <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
+                                  </a>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Tugas Belajar</span>
+                                        <span class="info-box-number">{{$tbbulan}}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+
+                            <!-- fix for small devices only -->
+                            <div class="clearfix visible-sm-block"></div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="info-box">
+                                  <a href="/detail/bulan/terlambat">
+                                    <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                                  </a>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Terlambat</span>
+                                        <span class="info-box-number">{{$terlambatbulan}}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="info-box">
+                                  <a href="/detail/bulan/rapatundangan">
+                                    <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
+                                  </a>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Event</span>
+                                        <span class="info-box-number">{{$eventbulan}}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                <!-- tahun -->
+                <div class="row">
+                  <div class="col-md-12">
+                    <p><strong>Tahun</strong></p>
+                  </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/absent">
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tanpa Kabar</span>
+                                    <span class="info-box-number">{{$tidakhadirtahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/sakit">
+                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Sakit</span>
+                                    <span class="info-box-number">{{$sakittahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix visible-sm-block"></div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/ijin">
+                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Izin</span>
+                                    <span class="info-box-number">{{$ijintahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/cuti">
+                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Cuti</span>
+                                    <span class="info-box-number">{{$cutitahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/tugasluar">
+                                <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tugas Luar</span>
+                                    <span class="info-box-number">{{$tltahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/tugasbelajar">
+                                <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Tugas Belajar</span>
+                                    <span class="info-box-number">{{$tbtahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix visible-sm-block"></div>
+
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/terlambat">
+                                <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Terlambat</span>
+                                    <span class="info-box-number">{{$terlambattahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box">
+                              <a href="/detail/tahun/rapatundangan">
+                                <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
+                              </a>
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Event</span>
+                                    <span class="info-box-number">{{$eventtahun}}</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
 
                 <div class="row">
                     <div class="col-md-8">
@@ -218,26 +506,18 @@
                                     </div>
                                 </form>
                             </div>
-                            {{--<ul v-for="chat in chats">--}}
-                                {{--<div v-if="chat.user_id == '{{Auth::user()->id}}'">--}}
-                                    {{--<li>@{{ chat.text }}</li>--}}
-                                {{--</div>--}}
-                                {{--<div v-else>--}}
-                                    {{--<li>asdsad</li>--}}
-                                {{--</div>--}}
-                            {{--</ul>--}}
                             <!-- /.box-footer-->
                             <div  class="box-body">
 
                                 <div class="direct-chat-messages" id="app" style="overflow-y:scroll;height:300px;">
                                     <div class="" v-for="chat in chats">
-                                        <div class="direct-chat-msg right" v-if="chat.user_id== '1'">
+                                        <div class="direct-chat-msg right" v-if="chat.user_id== {{Auth::user()->id}}">
                                             <div class="direct-chat-info clearfix">
                                                 <span class="direct-chat-name pull-right">@{{ chat.name  }}</span>
                                                 <span class="direct-chat-timestamp pull-left">@{{ chat.created_at }}</span>
                                             </div>
                                             <!-- /.direct-chat-info -->
-                                            <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
                                             <!-- /.direct-chat-img -->
                                             <div class="direct-chat-text">
                                                 @{{ chat.text }}
@@ -249,7 +529,7 @@
                                                 <span class="direct-chat-timestamp pull-right" >@{{ chat.created_at }}</span>
                                             </div>
                                             <!-- /.direct-chat-info -->
-                                            <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
                                             <!-- /.direct-chat-img -->
                                             <div class="direct-chat-text">
                                                 @{{ chat.text }}
@@ -275,17 +555,69 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">Detail Absen</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive">
+                          <table class="table table-striped">
+                            <tr>
+                              <th style="width: 10px">#</th>
+                              <th>NIP</th>
+                              <th>Nama</th>
+                              <th>Jam Masuk</th>
+                              <th>Lokasi Absen Masuk</th>
+                              <th>Absen Terlambat</th>
+                              <th>Jam Keluar</th>
+                              <th>Lokasi Absen Keluar</th>
+                              <th>Akumulasi</th>
+                              <th>Keterangan</th>
+                              <th>Jadwal Kerja</th>
+                            </tr>
+                            @foreach ($kehadirans as $key => $kehadiran)
+
+                              <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$kehadiran->nip}}</td>
+                                <td>{{$kehadiran->nama}}</td>
+                                <td>{{$kehadiran->jam_masuk}}</td>
+                                <td>{{$kehadiran->namainstansimasuk}}</td>
+                                @if ($kehadiran->terlambat=="00:00:00")
+                                <td>{{$kehadiran->terlambat}}</td>
+                                @else
+                                <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
+                                @endif
+                                <td>{{$kehadiran->jam_keluar}}</td>
+                                <td>{{$kehadiran->namainstansikeluar}}</td>
+                                <td>{{$kehadiran->akumulasi_sehari}}</td>
+                                @if ($kehadiran->jenis_absen=="Absent")
+                                <td><span class="badge bg-red">{{$kehadiran->jenis_absen}}</span></td>
+                                @else
+                                <td>{{$kehadiran->jenis_absen}}</td>
+                                @endif
+                                <td>{{$kehadiran->jenis_jadwal}}</td>
+                              </tr>
+                            @endforeach
+                          </table>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer clearfix">
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                {{$kehadirans->links()}}
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
 
         <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
@@ -349,37 +681,72 @@
                 absen.push(response['Absen']);
                 apel.push(response['Apel']);
 
-                var ctx = $('#container');
-                var stackedLine = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
-                        datasets: [
-                            {
-                                label: "Persentase Apel",
-                                data: apel[0],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)'
-                                ],
-                                borderWidth: 1
-                            },
-                            {
-                                label: "Persentase Tidak Hadir",
-                                data: absen[0],
-                                backgroundColor: [
-                                    'rgba(54, 162, 235, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(54, 162, 235, 1)'
-                                ],
-                                borderWidth: 1
-                            }
-                        ]
-                    }
-                });
+                // var ctx = $('#container').getContext("2d");
+                var ctx = document.getElementById("container").getContext("2d");
+                var color = Chart.helpers.color;
+                  window.myBar = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                              labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
+                              datasets: [
+                                  {
+                                      label: "Persentase Apel",
+                                      data: apel[0],
+                                      backgroundColor: [
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                      ],
+                                      borderColor: [
+                                          'rgba(255,99,132,1)'
+                                      ],
+                                      borderWidth: 1,
+                                  },
+                                  {
+                                      label: "Persentase Tidak Hadir",
+                                      data: absen[0],
+                                      backgroundColor: [
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                      ],
+                                      borderColor: [
+                                          'rgba(54, 162, 235, 1)'
+                                      ],
+                                      borderWidth: 1,
+                                  }
+                              ]
+                          },
+                      options: {
+                          responsive: true,
+                          legend: {
+                              position: 'top',
+                          },
+                          title: {
+                              display: true,
+                              text: 'Grafik Absensi'
+                          }
+                      }
+                  });
+
             });
         });
 
@@ -398,37 +765,70 @@
                 absen.push(response['Absen']);
                 apel.push(response['Apel']);
 
-                var ctx = $('#container');
-                var stackedLine = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
-                        datasets: [
-                            {
-                                label: "Persentase Apel",
-                                data: apel[0],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)'
-                                ],
-                                borderWidth: 1
-                            },
-                            {
-                                label: "Persentase Tidak Hadir",
-                                data: absen[0],
-                                backgroundColor: [
-                                    'rgba(54, 162, 235, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(54, 162, 235, 1)'
-                                ],
-                                borderWidth: 1
-                            }
-                        ]
-                    }
-                });
+                var ctx = document.getElementById("container").getContext("2d");
+                var color = Chart.helpers.color;
+                  window.myBar = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                              labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
+                              datasets: [
+                                  {
+                                      label: "Persentase Apel",
+                                      data: apel[0],
+                                      backgroundColor: [
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                          'rgba(255, 99, 132, 0.2)',
+                                      ],
+                                      borderColor: [
+                                          'rgba(255,99,132,1)'
+                                      ],
+                                      borderWidth: 1,
+                                  },
+                                  {
+                                      label: "Persentase Tidak Hadir",
+                                      data: absen[0],
+                                      backgroundColor: [
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                          'rgba(54, 162, 235, 0.2)',
+                                      ],
+                                      borderColor: [
+                                          'rgba(54, 162, 235, 1)'
+                                      ],
+                                      borderWidth: 1,
+                                  }
+                              ]
+                          },
+                      options: {
+                          responsive: true,
+                          legend: {
+                              position: 'top',
+                          },
+                          title: {
+                              display: true,
+                              text: 'Grafik Absensi'
+                          }
+                      }
+                  });
             });
         });
     </script>
@@ -482,7 +882,7 @@
         });
     </script>
     <script type="text/javascript">
-        var socket = io('http://eabsen.dev:3000');
+        var socket = io('http://eabsen.kalselprov.go.id:3000');
         new Vue({
             el: '#app',
             data: {
@@ -492,7 +892,7 @@
                 // 'test-channel:UserSignedUp'
 
                 socket.on('chats:App\\Events\\ChatEvent', function(data) {
-                    this.chats.append({user_id:data.user_id,name:data.name,created_at:data.created_at,text:data.text})
+                    this.chats.unshift({user_id:data.user_id,name:data.name,created_at:data.created_at,text:data.text})
 //                    alert(data.text)
                     console.log(data)
                 }.bind(this))

@@ -111,9 +111,9 @@
                                                     <td>{{ $jadwalkerja->jam_masukjadwal }}</td>
                                                     <td>{{ $jadwalkerja->jam_keluarjadwal }}</td>
                                                     <td>{{ $jadwalkerja->jenis_jadwal }}</td>
-                                                    <td><a class="btn-sm btn-success" href="/jadwalkerja/{{ $jadwalkerja->id }}/edit">Edit</a>
+                                                    <td><a class="btn-sm btn-success" href="/jadwalkerja/{{ encrypt($jadwalkerja->id) }}/edit">Edit</a>
                                                         <a class="btn-sm btn-danger" data-method="delete"
-                                                           data-token="{{csrf_token()}}" href="/jadwalkerja/{{ $jadwalkerja->id }}/hapus">Hapus</a></td>
+                                                           data-token="{{csrf_token()}}" href="/jadwalkerja/{{ encrypt($jadwalkerja->id) }}/hapus">Hapus</a></td>
                                                     </tr>
                                                 @endforeach
 
@@ -221,9 +221,9 @@
                                                     <td>{{ $rule->jamsebelum_masukkerja }}</td>
                                                     <td>{{ $rule->jamsebelum_pulangkerja }}</td>
                                                     <td>{{ $rule->jenis_jadwal }}</td>
-                                                    <td><a class="btn-sm btn-success" href="/rulejadwalkerja/{{ $rule->id }}/edit">Edit</a>
+                                                    <td><a class="btn-sm btn-success" href="/rulejadwalkerja/{{ encrypt($rule->id) }}/edit">Edit</a>
                                                         <a class="btn-sm btn-danger" data-method="delete"
-                                                           data-token="{{csrf_token()}}" href="/rulejadwalkerja/{{ $rule->id }}/hapus">Hapus</a></td>
+                                                           data-token="{{csrf_token()}}" href="/rulejadwalkerja/{{ encrypt($rule->id) }}/hapus">Hapus</a></td>
                                                 </tr>
                                                 @endforeach
 
@@ -246,13 +246,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 

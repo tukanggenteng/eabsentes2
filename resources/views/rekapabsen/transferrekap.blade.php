@@ -42,7 +42,7 @@
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Manajemen User</h3>
+                                <h3 class="box-title">Upload Surat Pendukung</h3>
                             </div>
                             <div class="box-body">
                                 <hr>
@@ -466,13 +466,7 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 
@@ -500,13 +494,6 @@
     <!-- AdminLTE for demo purposes -->
     {{--<script src="{{asset('dist/js/demo.js')}}"></script>--}}
     <!-- Page script -->
-    {{--<script>--}}
-        {{--$(function () {--}}
-            {{--//Initialize Select2 Elements--}}
-            {{--$('.select2').select2()--}}
-
-        {{--})--}}
-    {{--</script>--}}
     <script type="text/javascript">
 
         $(function() {
@@ -799,8 +786,8 @@
 
         $(document).on('click','#simpanijin',function (){
             var sisaijin=$('#sisalamaijin').val()-$('#lamaijin').val();
+            // alert(sisaijin);
             $('#sisalamaijin').val(sisaijin);
-
             $.ajax({
                 type:'post',
                 url:'{{url('transrekap/postijin')}}',

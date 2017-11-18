@@ -12,23 +12,88 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-        {{-- <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-        </button>
-      </span>
-            </div>
-        </form> --}}
+
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">Navigasi Utama</li>
+            @if (Auth::user()->role->namaRole=="admin")
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i> <span>Jadwal Kerja</span>
+                    <i class="fa fa-users"></i> <span>Pegawai</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/pegawai"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
+                    <li><a href="/finger"><i class="fa fa-circle-o"></i> Manajemen Finger</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-bank"></i> <span>Instansi</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/instansi"><i class="fa fa-circle-o"></i> Manajemen Instansi</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-thumbs-up"></i> <span>Fingerprint</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/macaddress"><i class="fa fa-circle-o"></i> Manajemen Mac Addr</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Rekap</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/rekapbulanan/rekapbulanan/admin"><i class="fa fa-circle-o"></i> Rekap Absen Mingguan</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i> <span>User</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/user"><i class="fa fa-circle-o"></i> Manajemen User</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-text"></i> <span>Surat</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/ijin/admin"><i class="fa fa-circle-o"></i> Ijin</a></li>
+                    <li><a href="/sakit/admin"><i class="fa fa-circle-o"></i> Sakit</a></li>
+                    <li><a href="/cuti/admin"><i class="fa fa-circle-o"></i> Cuti</a></li>
+                    <li><a href="/tugasbelajar/admin"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
+                    <li><a href="/tugasluar/admin"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
+                    <li><a href="/rapatundangan/admin"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                    <li><a href="/ijinterlambat/admin"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
+            </li>
+            @else
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-calendar"></i> <span>Jadwal Kerja</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -41,18 +106,49 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-files-o"></i>
+                    <i class="fa fa-users"></i>
                     <span>Pegawai</span>
                     <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-
+                    <li><a href="/pegawai/show"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
-                    <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Rekap Absen</a></li>
+                    <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
                     <li><a href="/transrekap"><i class="fa fa-circle-o"></i> Upload Surat</a></li>
+
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-text"></i> <span>Surat</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/transrekap/download/ijin"><i class="fa fa-circle-o"></i> Ijin</a></li>
+                  <li><a href="/transrekap/download/sakit"><i class="fa fa-circle-o"></i> Sakit</a></li>
+                  <li><a href="/transrekap/download/cuti"><i class="fa fa-circle-o"></i> Cuti</a></li>
+                  <li><a href="/transrekap/download/tl"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
+                  <li><a href="/transrekap/download/tb"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
+                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                  <li><a href="/transrekap/download/it"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-calendar"></i> <span>Laporan</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/laporanharian"><i class="fa fa-circle-o"></i> Harian</a></li>
+                    <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
+                </ul>
+            </li>
+            @endif
         </ul>
 </aside>

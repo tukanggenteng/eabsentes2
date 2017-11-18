@@ -7,7 +7,7 @@
                 <span class="direct-chat-timestamp pull-left">{{$chat->created_at}}</span>
             </div>
             <!-- /.direct-chat-info -->
-            <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image">
+            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
             <!-- /.direct-chat-img -->
             <div class="direct-chat-text">
                 {{$chat->text}}
@@ -21,7 +21,7 @@
                 <span class="direct-chat-timestamp pull-right">{{$chat->created_at}}</span>
             </div>
             <!-- /.direct-chat-info -->
-            <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image">
+            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
             <!-- /.direct-chat-img -->
             <div class="direct-chat-text">
                 {{$chat->text}}

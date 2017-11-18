@@ -35,14 +35,21 @@
           <!-- Main content -->
           <section class="content">
             @include('layouts.inforekap')
-            
+
+            @if ((session('status')))
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-times"></i> Perhatian!</h4>
+                {{session('status')}}
+            </div>
+            @endif
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Rekap Absensi Pegawai</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
-                        <form action="/rekapabsensipegawai/{{$pegawai[0]['id']}}" method="post">
+                        <form action="/rekapabsensipegawai/{{encrypt($pegawai[0]['id'])}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="col-md-3">
@@ -136,13 +143,8 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
 
 
     </div>
@@ -207,18 +209,21 @@
 //            });
 
             var currentTime = new Date();
-            if (hari="Monday"){
+            if (hari=="Monday"){
                 var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
                 var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+5);
             }
-            else if (hari="Tuesday"){
-                alert(hari);
+            else if (hari=="Tuesday"){
                 var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
                 var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+8);
             }
             else
             {
+                // alert("asdasdasdasd");
+                // var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
+                // var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+8);
                 $('#periode').attr("disabled",true);
+                $('input[type="checkbox"]').attr("disabled",true);
             }
 
             $('input[name="periode"]').daterangepicker({

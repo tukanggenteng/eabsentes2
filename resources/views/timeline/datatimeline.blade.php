@@ -1,7 +1,11 @@
 @foreach($attstrans as $attstran)
 <li>
-    <i class="fa fa-map-marker bg-blue"></i>
 
+    @if ($attstran->status_kedatangan=="0")
+    <i class="fa fa-map-marker bg-blue"></i>
+    @else
+      <i class="fa fa-map-marker bg-green"></i>
+    @endif
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> {{ $attstran->tanggal }}</span>
 

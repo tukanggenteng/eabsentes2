@@ -9,9 +9,15 @@ Route::group(['middleware'=>['api']], function () {
     Route::get('/triger','TrigerController@index');
     //gasan pegawai
     Route::get('/cekpegawai','PegawaiController@cekpegawai');
+
+    Route::get('/cekpegawai/{id}','PegawaiController@cekpegawaiinstansi');
+
     Route::get('/ambilfinger/{id}','PegawaiController@ambilfinger');
     //addfingerpegawai
     Route::post('/addfinger','PegawaiController@addfinger');
 
+    Route::get('/admin/finger','PegawaiController@getadmin');
     // Route::post('/otp','AttendanceController@encryptdata');
+
+    Route::get('/macaddress','MacAdressControllers@macaddress');
 });

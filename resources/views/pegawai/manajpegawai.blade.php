@@ -28,12 +28,11 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Manajemen User</h3>
+                                <h3 class="box-title">Manajemen Pegawai</h3>
                             </div>
                             <div class="box-body">
                                 <div class="row">
@@ -41,7 +40,7 @@
                                         <form id="formsinkronpegawai" action="" method="post" role="form" enctype="multipart/form-data">
                                             <div class="form-group checkbox">
                                                 <label>
-                                                    Sinkron Data Instansi
+                                                    Sinkron Data Pegawai
                                                 </label>
                                                 {{csrf_field()}}
                                                 <input data-toggle="toggle" id="sinkron" name="sinkron" type="checkbox">
@@ -50,7 +49,20 @@
                                         </form>
                                     </div>
                                 </div>
-
+                                <!-- <div class="row">
+                                  <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <p>Banyak data pegawai {{$hitungs}}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <form action="/pegawai" method="post">
+                                          {{csrf_field()}}
+                                          <input type="text" name="cari" placeholder="NIP/Nama/Instansi">
+                                          <button type="submit" name="button"><i class="fa fa-search"></i></button>
+                                        </form>
+                                    </div>
+                                  </div>
+                                </div> -->
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
@@ -59,16 +71,30 @@
                                                 <tr>
                                                     <th>NIP</th>
                                                     <th>Nama</th>
-                                                    <th>Jabatan</th>
                                                     <th>Instansi</th>
                                                 </tr>
                                                 </thead>
+                                                <!-- <tbody>
+                                                  @foreach($pegawais as $pegawai)
+                                                      <tr>
+                                                          <td>{{$pegawai->nip}}</td>
+                                                          <td>{{$pegawai->nama}}</td>
+                                                          <td>{{$pegawai->namaInstansi}}</td>
+                                                      </tr>
+                                                  @endforeach
+                                                </tbody> -->
                                             </table>
                                         </div>
+
                                     </div>
                                 </div>
 
                             </div>
+                            <!-- <div class="box-footer clearfix">
+                                <ul class="pagination pagination-sm no-margin pull-right">
+                                    {{$pegawais->links()}}
+                                </ul>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -78,13 +104,8 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
-            </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
-            reserved.
-        </footer>
+
+                @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 
@@ -124,7 +145,6 @@
                 columns: [
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
-                    { data: 'jabatan', name: 'jabatan' },
                     { data: 'instansi.namaInstansi', name: 'namaInstansi' },
                 ]
             });
