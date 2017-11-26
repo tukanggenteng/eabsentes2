@@ -30,6 +30,4 @@
         </div>
         <!-- /.direct-chat-msg -->
         @endif
-
-
 @endforeach

@@ -8,7 +8,9 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Silahkan Login untuk memulai.</p>
+            <p class="login-box-msg">Silahkan Login untuk memulai.<br>
+            Tutorial <a href="https://youtu.be/Nemvt9hGkGw">E-Absen</a>
+            </p>
 
             <form action="/" method="post">
                 <div class="form-group has-feedback">

@@ -248,7 +248,7 @@ class ChartController extends Controller
             ->count();
 
         $chats=chat::join('users','chats.user_id','=','users.id')
-            ->orderBy('chats.id', 'desc')
+            ->orderBy('chats.created_at', 'desc')
             ->paginate(5, array('chats.user_id','chats.text','users.name','chats.created_at'));
 
         if ($request->ajax()) {
