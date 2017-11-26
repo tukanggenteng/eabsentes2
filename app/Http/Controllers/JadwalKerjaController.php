@@ -75,7 +75,7 @@ class JadwalKerjaController extends Controller
         // dd($id);
         $jadwal=jadwalkerja::where('id','=',$id)->first();
 
-      //  dd($jadwal);
+       // dd($jadwal);
         return view('jadwalkerja.editjadwalkerja',['inforekap'=>$inforekap,'jadwals'=>$jadwal]);
     }
 

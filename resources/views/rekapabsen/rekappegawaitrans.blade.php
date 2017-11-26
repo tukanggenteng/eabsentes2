@@ -185,46 +185,9 @@
     <script type="text/javascript">
         $(function() {
 
-//            var d = new Date();
-//            var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-//            document.getElementById("demo").innerHTML = days[d.getDay()];
 
-            var month=new Date();
-            var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-            var hari = days[month.getDay()];
-
-            var m = month.getMonth()+1;
-            var mkurang=month.getMonth();
-            var year= month.getFullYear();
-            var today = new Date();
-
-//            alert(hari);
-            var lastDate = new Date(today.getFullYear(), m-2, 31);
-//            alert(today);
-//            $('input[name="periode"]').daterangepicker({
-//                startDate: "-"+mkurang+"m",
-//                endDate: lastDate,
-//                minDate: "-"+mkurang+"m",
-//                maxDate:lastDate
-//            });
-
-            var currentTime = new Date();
-            if (hari=="Monday"){
-                var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
-                var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+5);
-            }
-            else if (hari=="Tuesday"){
-                var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
-                var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+8);
-            }
-            else
-            {
-                // alert("asdasdasdasd");
-                // var minDate = new Date(currentTime.getFullYear(), currentTime.getMonth(),currentTime.getDay()-1); //previous month
-                // var maxDate =  new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDay()+8);
-                $('#periode').attr("disabled",true);
-                $('input[type="checkbox"]').attr("disabled",true);
-            }
+            var minDate="{{$awal}}";
+            var maxDate="{{$akhir}}";
 
             $('input[name="periode"]').daterangepicker({
                 locale: {

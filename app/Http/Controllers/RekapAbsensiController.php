@@ -19,7 +19,7 @@ class RekapAbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
 
         if ($this->notifrekap()=="")
@@ -32,18 +32,88 @@ class RekapAbsensiController extends Controller
             $inforekap=$this->notifrekap();
         }
 
-        if ($request->periode==""){
-            $bulan2=date('Y-m');
-        }
-        else
-        {
-            $bulan2=$request->periode;
-        }
-
 //        dd($bulan2);
 
-        $pegawai=pegawai::where('instansi_id','=',Auth::user()->instansi_id)->paginate(40);
-        return view('rekapabsen.rekappegawai',['inforekap'=>$inforekap,'pegawais'=>$pegawai,'bulan'=>$bulan2]);
+        // $pegawai=pegawai::where('instansi_id','=',Auth::user()->instansi_id)->paginate(40);
+        // return view('rekapabsen.rekappegawai',['inforekap'=>$inforekap,'pegawais'=>$pegawai,'bulan'=>$bulan2]);
+
+        $date=date('N');
+
+        $sekarang=date('Y-m-d');
+        $status=false;
+        if ($date==1){
+            $hari='Senin';
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+            $status=true;
+        }
+        elseif ($date==2){
+            $hari='Selasa';
+            $awal=date("Y-m-d",strtotime("-8 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-2 days",strtotime($sekarang)));
+            $status=true;
+        }
+        elseif ($date==3) {
+          // dd("asda");
+          $hari='Rabu';
+          $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
+          $status=false;
+        }
+        elseif ($date==4) {
+          // dd("asda");
+          $hari='Kamis';
+          $awal=date("Y-m-d",strtotime("-10 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-4 days",strtotime($sekarang)));
+          $status=false;
+        }
+        elseif ($date==5) {
+          // dd("asda");
+          $hari='Jumat';
+          $awal=date("Y-m-d",strtotime("-11 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-5 days",strtotime($sekarang)));
+          $status=false;
+        }
+        elseif ($date==6) {
+          // dd("asda");
+          $hari='Sabtu';
+          $awal=date("Y-m-d",strtotime("-12 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-6 days",strtotime($sekarang)));
+          $status=false;
+        }
+        elseif ($date==7) {
+          // dd("asda");
+          $hari='Minggu';
+          $awal=date("Y-m-d",strtotime("-13 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $status=false;
+        }
+
+        $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+        ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+        ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+        ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+        ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->where('atts.tanggal_att','>=',$awal)
+        ->where('atts.tanggal_att','<=',$akhir)
+        ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+        ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->orderBy('atts.tanggal_att','desc')
+        ->paginate(30);
+
+
+        $jadwalkerjas=att::join('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            ->where('atts.tanggal_att','>=',$awal)
+            ->where('atts.tanggal_att','<=',$akhir)
+            ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+            ->distinct()
+            ->select('atts.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
+            ->get();
+        // dd($jadwalkerjas);
+        $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir');
+        return view('rekapabsen.rekappegawai',['awal'=>$awal,'akhir'=>$akhir,'jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen]);
     }
 
     /**
@@ -88,7 +158,7 @@ class RekapAbsensiController extends Controller
         ->whereYear('atts.tanggal_att','=',$tanggal[0])
         ->whereMonth('atts.tanggal_att','=',$tanggal[1])
         ->where('atts.pegawai_id','=',$id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+        ->select('atts.*','pegawais.id as idpegawai','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(31);
@@ -117,7 +187,11 @@ class RekapAbsensiController extends Controller
         $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir')
             // ->where('jenis_absen','!=','Rapat/Undangan')
             ;
-        return view('rekapabsen.rekappegawaitrans',['jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen,'bulan'=>$id2,'pegawai'=>$pegawai]);
+        $awal=date("Y/m/d");
+        $awal=date("Y/m/d",strtotime("-7 days", strtotime($awal)));
+        $akhir=date("Y/m/d");
+        $akhir=date("Y/m/d",strtotime("-1 days", strtotime($akhir)));
+        return view('rekapabsen.rekappegawaitrans',['awal'=>$awal,'akhir'=>$akhir,'jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen,'bulan'=>$id2,'pegawai'=>$pegawai]);
     }
 
     /**
@@ -126,234 +200,260 @@ class RekapAbsensiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request)
     {
-        $id=decrypt($id);
 
         $this->validate($request, [
             'periode'=>'required',
             'checkbox'=>'required',
+            'checkboxnip'=>'required',
             'jenisabsen'=>'required'
         ]);
 
-        $pegawaiid=$id;
         $hapusspasi=str_replace(" ","",$request->periode);
         $tanggal=explode("-",$hapusspasi);
         $hasil=date("d",strtotime($tanggal[0]));
         $hasil2=date("d",strtotime($tanggal[1]));
 
-        // dd($tanggal);
-        $attshitung = att::join('jadwalkerjas', 'atts.jadwalkerja_id', '=', 'jadwalkerjas.id')
-            ->where('tanggal_att', '>=', $tanggal[0])
-            ->where('tanggal_att', '<=', $tanggal[1])
-            ->where('pegawai_id', '=', $id)
-            ->count();
+        // dd($request->checkboxnip);
+        foreach ($request->checkboxnip as $key => $pegawai) {
 
-        $data=array();
-        $i=0;
-        if ($attshitung>0){
-            for ($x = (int)$hasil; $x < (int)$hasil2; $x++)
-            {
-    //            dd($x);
-                foreach ($request->checkbox as $key=> $data) {
-                    dd($data);
-                    $tanggalbaru = date("Y-m-d", (strtotime("+" . $i . "days", strtotime($tanggal[0]))));
+          $id=$pegawai;
 
-                    $atts = att::join('jadwalkerjas', 'atts.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                        ->where('tanggal_att', '=', $tanggalbaru)
-                        ->where('pegawai_id', '=', $id)
-                        ->where('jadwalkerja_id','=',$data)
-                        ->get();
+          $i=0;
+          $tanggalbaru =$tanggal[0];
+
+              for ($x = (int)$hasil; $x <= (int)$hasil2; $x++)
+              {
+                // dd("sda");
+
+                  foreach ($request->checkbox as $key=> $data) {
+                      // dd($data);
+                      $atts = att::join('jadwalkerjas', 'atts.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                          ->where('atts.tanggal_att', '=', $tanggalbaru)
+                          ->where('atts.id', '=', $id)
+                          ->where('atts.jadwalkerja_id','=',$data)
+                          ->get();
+
+                      // dd($atts);
 
 
-                      foreach ($atts as $key => $att) {
-                        $akumulasistandar = jadwalkerja::where('id', '=', $data)->get();
+                        foreach ($atts as $key => $att) {
+                          $akumulasistandar = jadwalkerja::where('id', '=', $data)->get();
 
-                        $jamawalakumulasi = strtotime($akumulasistandar[0]['jam_masuk']);
-                        $jamakhirakumulasi = strtotime($akumulasistandar[0]['jam_keluar']);
-                        $jamtoleransi = strtotime('00:30:00');
+                          $jamawalakumulasi = ($akumulasistandar[0]['jam_masukjadwal']);
+                          $jamakhirakumulasi = ($akumulasistandar[0]['jam_keluarjadwal']);
+                          $jamtoleransi = strtotime('00:30:00');
+                          // dd($jamawalakumulasi);
+                          // $jamstandar = date("H:i:s", $this->kurangwaktu($jamakhirakumulasi,$jamawalakumulasi));
 
-                        $jamstandar = date("H:i", $jamakhirakumulasi - $jamawalakumulasi - $jamtoleransi);
-                        $jamstandar2 = date("H:i", $jamakhirakumulasi - $jamawalakumulasi);
+                          $jamstandar=$this->kurangwaktu($jamakhirakumulasi,$jamawalakumulasi);
+                          // dd($jamstandar);
+                          if ($att['akumulasi_sehari'] <= $jamstandar) {
 
-                        if ($att['akumulasi_sehari'] <= $jamstandar) {
+                              $search = att::where('tanggal_att', '=', $tanggalbaru)
+                                  ->where('id', '=', $id)
+                                  ->count();
+                              // dd($search);
+                              if ($search > 0) {
+                                  // dd('aasdas');
+                                  if ($request->jenisabsen == "2") {
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('id', '=', $id)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->first();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
+                                  } elseif  ($request->jenisabsen=="3"){
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="4"){
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                            $search = att::where('tanggal_att', '=', $tanggalbaru)
-                                ->where('pegawai_id', '=', $id)
-                                ->count();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="5"){
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                            if ($search > 0) {
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="6"){
+                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                if ($request->jenisabsen == "2") {
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('pegawai_id', '=', $id)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->first();
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
-                                    $table->save();
-                                } elseif  ($request->jenisabsen=="3"){
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="4"){
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="5"){
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masuk'],$jadwalkerja[0]['jam_keluar']);
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="6"){
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = $akumulasi;
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="7"){
+                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masuk'],$jadwalkerja[0]['jam_keluar']);
+                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="7"){
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = $akumulasi;
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="8"){
+                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="8"){
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->terlambat = "00:00:00";
+                                      $table->akumulasi_sehari = $akumulasi;
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="9"){
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
+                                  }
 
-                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                  elseif  ($request->jenisabsen=="10"){
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->terlambat = "00:00:00";
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                }
-                                elseif  ($request->jenisabsen=="9"){
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->first();
+                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->terlambat = "00:00:00";
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
-                                    $table->save();
-                                }
+                                      $table2 = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->get();
 
-                                elseif  ($request->jenisabsen=="10"){
+                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$table2[0]['jam_keluar']);
 
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                                    $table2 = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pegawai_id', '=', $id)
-                                        ->get();
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = $jadwalkerja[0]['jam_masukjadwal'];
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->terlambat = "00:00:00";
+                                      $table->akumulasi_sehari = $akumulasi;
+                                      $table->save();
+                                  }
+                                  elseif  ($request->jenisabsen=="11"){
 
-                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$table2[0]['jam_keluar']);
+                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$att['jadwalkerja_id'])
-                                        ->where('pega  wai_id', '=', $id)
-                                        ->first();
+                                      $table2 = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->get();
 
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $jadwalkerja[0]['jam_masukjadwal'];
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->terlambat = "00:00:00";
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                }
+                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$table2[0]['jam_keluar']);
 
-                            } else {
+                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                          ->where('jadwalkerja_id','=',$data)
+                                          ->where('id', '=', $id)
+                                          ->first();
 
-                            }
-                        } else {
+                                      $table->jenisabsen_id = $request->jenisabsen;
+                                      $table->jam_masuk = null;
+                                      $table->terlambat = "00:00:00";
+                                      $table->masukinstansi_id=Auth::user()->instansi_id;
+                                      $table->jam_keluar = null;
+                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->save();
 
+                                  }
+
+                              } else {
+
+                              }
+                          } else {
+
+                          }
                         }
-                      }
 
-                }
-                    $i++;
-            }
+                  }
+
+                  $i++;
+                  $tanggalbaru = date("Y-m-d", (strtotime("+" . $i . "days", strtotime($tanggal[0]))));
+              }
+
+        }
 
         return redirect()->back()->with('status','Atur ijin berhasil');
-          }
-      else {
-        return redirect()->back()->with('status','Data kehadiran tidak ada.');
-      }
+
 //        dd($x);
 //        dd($data);
     }

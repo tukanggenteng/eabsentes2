@@ -85,8 +85,9 @@ class RuleJadwalKerja extends Controller
         {
             $inforekap=$this->notifrekap();
         }
+        $id=decrypt($id);
         $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
-        $rule=rulejammasuk::find($id);
+        $rule=rulejammasuk::where('id','=',$id)->first();
 //        dd($rule);
         return view('jadwalkerja.editrulejadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rule'=>$rule]);
     }
@@ -125,7 +126,8 @@ class RuleJadwalKerja extends Controller
     public function destroy($id)
     {
         //
-        $table=rulejammasuk::find($id);
+        $id=decrypt($id);
+        $table=rulejammasuk::where('id','=',$id)->first();
         $table->delete();
         return redirect('/jadwalkerja');
     }

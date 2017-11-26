@@ -35,54 +35,110 @@
           <!-- Main content -->
           <section class="content">
             @include('layouts.inforekap')
-
-                <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Rekap Absensi Pegawai</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body table-responsive">
-                        <form action="/rekapabsensipegawai" method="post">
-                            <div class="row">
-                                <div class="col-md-12">
+            @if ((session('status')))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-bell"></i> Perhatian!</h4>
+                {{session('status')}}
+            </div>
+            @endif
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Rekap Absensi Pegawai</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <form action="/rekapabsensipegawai" method="post">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Periode</label>
-                                        <div class="input-group input-group-sm" style="width: 100px;">
-                                            <input type="text" id="periode" name="periode" readonly class="form-control pull-right" placeholder="Periode" value="{{$bulan}}">
-                                            <div class="input-group-btn">
-                                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
+                                            <input class="form-control" type="text" id="periode" name="periode" >
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Jenis Absen</label>
+                                        <select id="jenisabsen" name="jenisabsen" class="form-control">
+                                            @foreach($jenisabsens as $jenisabsen)
+                                                <option value="{{$jenisabsen->id}}">{{$jenisabsen->jenis_absen}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            {{csrf_field()}}
-                        </form>
-                            <table class="table table-hover">
+                            <div class="col-md-12">
+                                <div class="col-md-7">
+                                    <label>Jadwal Kerja</label>
+                                    @foreach($jadwalkerjas as $jadwalkerja)
+                                    <div class="form-group">
+                                        <input type="checkbox" name="checkbox[]" value="{{$jadwalkerja->jadwalkerja_id}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                        {{csrf_field()}}
+                    <hr>
+                        <table class="table table-hover table-responsive">
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
+                                </th>
+                                <th>NIP</th>
+                                <th>Nama</th>
+                                <th>Tanggal</th>
+                                <th>Jam Masuk</th>
+                                <th>Lokasi Masuk</th>
+                                <th>Jam Keluar</th>
+                                <th>Lokasi Keluar</th>
+                                <th>Jadwal Kerja</th>
+                                <th>Akumulasi</th>
+                                <th>Status</th>
+                            </tr>
+
+                            @foreach($atts as $att)
                                 <tr>
-                                    <th>NIP</th>
-                                    <th>Nama</th>
-                                    <th>Aksi</th>
+                                    <td>
+                                        <input type="checkbox" name="checkboxnip[]" value="{{$att->id}}" class="flat-red checkbox">
+                                    </td>
+                                    <td>{{$att->nip}}</td>
+                                    <td>{{$att->nama}}</td>
+                                    <td>{{$att->tanggal_att}}</td>
+                                    <td>{{$att->jam_masuk}}</td>
+                                    <td>{{$att->namainstansimasuk}}</td>
+                                    <td>{{$att->jam_keluar}}</td>
+                                    <td>{{$att->namainstansikeluar}}</td>
+                                    <td>{{$att->jenis_jadwal}}</td>
+                                    <td>{{$att->akumulasi_sehari}}</td>
+                                    <td>{{$att->jenis_absen}}</td>
                                 </tr>
-
-                                @foreach($pegawais as $pegawai)
-                                    <tr>
-                                        <td>{{$pegawai->nip}}</td>
-                                        <td>{{$pegawai->nama}}</td>
-                                        <td><a class="btn-sm btn-success" href="/rekapabsensipegawai/{{encrypt($pegawai->id)}}/{{encrypt($bulan)}}">Rekap</a></td>
-                                    </tr>
-                                @endforeach
-                            </table>
-                    </div>
-                    <!-- /.box-body -->
-
-                    <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            {{$pegawais->links()}}
-                        </ul>
-                    </div>
+                            @endforeach
+                        </table>
+                    </form>
                 </div>
-            </section>
+                <!-- /.box-body -->
+
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {{$atts->links()}}
+                    </ul>
+                </div>
+            </div>
+          </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
@@ -124,14 +180,40 @@
 
 
     <script type="text/javascript">
+        // $(function() {
+        //     $('input[name="periode"]').datepicker({
+        //         format: "mm-yyyy",
+        //         startView: "months",
+        //         startDate:"-1m",
+        //         endDate:"-1m",
+        //         minViewMode: "months"
+        //     });
+        // });
         $(function() {
-            $('input[name="periode"]').datepicker({
-                format: "mm-yyyy",
-                startView: "months",
-                startDate:"-1m",
-                endDate:"-1m",
-                minViewMode: "months"
+
+
+            var minDate="{{$awal}}";
+            var maxDate="{{$akhir}}";
+
+            $('input[name="periode"]').daterangepicker({
+                locale: {
+                    format: 'YYYY/MM/DD'
+                },
+                startDate:minDate,
+                endDate:maxDate,
+                minDate:minDate,
+                maxDate:maxDate
             });
+        });
+        $('#select_all').on('ifChanged', function(event){
+            if(!this.changed) {
+                this.changed=true;
+                $('.checkbox').iCheck('check');
+            } else {
+                this.changed=false;
+                $('.checkbox').iCheck('uncheck');
+            }
+            $('.checkbox').iCheck('update');
         });
 
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({

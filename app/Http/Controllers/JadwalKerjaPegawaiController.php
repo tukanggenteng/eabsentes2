@@ -45,6 +45,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                ->orderBy('rulejadwalpegawais.tanggal_awalrule','desc')
                 ->paginate(30);
             $rulejadwal=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
             ->where('nip','like','%'.$request->table_search.'%')
@@ -68,6 +69,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                ->orderBy('rulejadwalpegawais.tanggal_awalrule','desc')
                 ->paginate(30);
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
             $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
@@ -85,6 +87,7 @@ class JadwalKerjaPegawaiController extends Controller
                 //->where('tanggal_akhirrule','>=',$tanggalsekarang)
                 ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                ->orderBy('rulejadwalpegawais.tanggal_awalrule','desc')
                 ->paginate(30);
             $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
             $cari=$request->table_search;
@@ -97,6 +100,7 @@ class JadwalKerjaPegawaiController extends Controller
                 //->where('tanggal_awalrule','<=',$tanggalsekarang)
                 //->where('tanggal_akhirrule','>=',$tanggalsekarang)
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                ->orderBy('rulejadwalpegawais.tanggal_awalrule','desc')
                 ->paginate(30);
 //            dd($rulejadwal2);
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);

@@ -100,12 +100,12 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/laporanharian/pdf','PDFController@pdfharian');
 
 
-      Route::get('/laporanbulan','PDFController@pdfbulanindex');
-      Route::post('/laporanbulan','PDFController@pdfbulanindex');
-      Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
-      Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
-      Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
-      Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
+      // Route::get('/laporanbulan','PDFController@pdfbulanindex');
+      // Route::post('/laporanbulan','PDFController@pdfbulanindex');
+      // Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
+      // Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
+      // Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
+      // Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
 
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');
@@ -136,16 +136,16 @@ Route::group(['middleware' => ['rule:user']],function(){
 
       #rekap absensi pegawai (menentukan jenis absen)
       Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
-      Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
-      Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
-      Route::post('/rekapabsensipegawai/{id}','RekapAbsensiController@edit');
+      // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
+      // Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
+      Route::post('/rekapabsensipegawai','RekapAbsensiController@edit');
 
       #table rekap mingguan
       Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');
       Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
 
       #backend proses
-      Route::post('/rekapbulanan','MasterAbsensiController@index');
+      Route::post('/rekapbulanans','MasterAbsensiController@index');
 
       #transfer surat rekap
       Route::get('/transrekap/datarekap','TransferRekapController@datagrid')->name('datatransrekap');
@@ -259,7 +259,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/pegawai','PegawaiController@index');
       Route::post('/pegawai','PegawaiController@index');
       Route::get('/pegawai/datapegawai','PegawaiController@data')->name('datapegawai');
-      Route::get('/pegawai/sinkron','PegawaiController@store')->name('sinkronpegawai');
+      Route::post('/pegawai/sinkron','PegawaiController@store')->name('sinkronpegawai');
       // Route::get('/pegawai/manajemen','PegawaiController@pagepegawaiadmin');
       // Route::get('/pegawai/show/data/admin','PegawaiController@datauser')->name('datapegawaiadmin');
       // Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');

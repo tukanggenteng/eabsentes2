@@ -29,19 +29,23 @@ class MasterAbsensiController extends Controller
 
         $sekarang=date('Y-m-d');
         $status=false;
-        if ($date=1){
+        if ($date==1){
             $hari='Senin';
-            $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
             $status=true;
         }
-        elseif ($date=2){
+        elseif ($date==2){
             $hari='Selasa';
-            $awal=date("Y-m-d",strtotime("-10 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-4 days",strtotime($sekarang)));
+            $awal=date("Y-m-d",strtotime("-8 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-2 days",strtotime($sekarang)));
             $status=true;
         }
-        else {
+        elseif ($date==3) {
+          // dd("asda");
+          $hari='Rabu';
+          $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
           $status=false;
         }
 
@@ -59,6 +63,7 @@ class MasterAbsensiController extends Controller
 
 
         $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+            ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
             ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->where('atts.tanggal_att','>=',$awal)
@@ -72,11 +77,12 @@ class MasterAbsensiController extends Controller
                       ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
                       ->where('atts.tanggal_att','>=',$awal)
                       ->where('atts.tanggal_att','<=',$akhir)
+                      ->where('atts.jenisabsen_id','!=','11')
                       ->where('atts.jenisabsen_id','!=','9')
                       ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
                       ->select('atts.tanggal_att')
                       ->count();
-
+                      // dd($awal.' = '.$akhir);
                   $perbaikanakumulasi=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                       ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                       ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
@@ -89,7 +95,38 @@ class MasterAbsensiController extends Controller
                       ->get();
 
                   foreach ($perbaikanakumulasi as $key => $value) {
-                      $selisih=$this->kurangwaktu($value->jam_masukjadwal,$value->jam_keluarjadwal);
+                    if ($value->jam_masukjadwal > $value->jam_keluarjadwal)
+                    {
+                        if ($value->jam_masuk > $value->jam_masukjadwal)
+                        {
+                            $jamban=$value->jam_masuk;
+                            $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                            $selisih=$this->kurangwaktu($jamban,$jamban2);
+                        }
+                        else
+                        {
+                            $jamban=($value->jam_masukjadwal);
+                            $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                            $selisih=$this->kurangwaktu($jamban,$jamban2);
+                        }
+
+                    }
+                    else{
+                        if ($value->jam_masuk > $value->jam_masukjadwal)
+                        {
+                            $jamban=$value->jam_masuk;
+                            $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                            $selisih=$this->kurangwaktu($jamban2,$jamban);
+                        }
+                        else
+                        {
+                            $jamban=($value->jam_masuk);
+                            $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                            $selisih=$this->kurangwaktu($jamban2,$jamban);
+                        }
+
+                    }
+
 
                       $time_array = explode(':', $selisih);
                       $hours = (int)$time_array[0];

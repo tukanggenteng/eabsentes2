@@ -50,6 +50,7 @@
                                             <table id="tableaja" class="table">
                                                 <thead>
                                                 <tr>
+                                                    <th>Id</th>
                                                     <th>NIP</th>
                                                     <th>Nama</th>
                                                     <th>Instansi</th>
@@ -205,6 +206,8 @@
                 serverSide: true,
                 ajax: '{{route('datapegawaiuser')}}',
                 columns: [
+
+                    { data: 'id', name: 'id' },
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'namaInstansi', name: 'namaInstansi' },

@@ -16,7 +16,7 @@ class Controller extends BaseController
     protected function encryptOTP($data){
         $hitungchar=strlen($data);
         $pecahstring=str_split($data);
-        $kunci="D4v1Nc!j4R4k134rp4K4130ff1c3";
+        $kunci="D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+12%";
         $pecahkunci=str_split($kunci);
         $hasilhash="";
         foreach ($pecahstring as $key => $value) {
@@ -24,7 +24,7 @@ class Controller extends BaseController
             $hasilkunci=ord($pecahkunci[$key]);
             $hasilstringkunci=$hasilkunci+$hasilstring;
             $modhasilstringkunci=fmod($hasilstringkunci, 26);
-            $hasilmod=$modhasilstringkunci+31;
+            $hasilmod=$modhasilstringkunci+41;
             $hurufmod=chr($hasilmod);
             $hasilhash=$hasilhash.$hurufmod;
         }
@@ -34,9 +34,9 @@ class Controller extends BaseController
 
     protected function kurangwaktu($base, $toadd) {
         date_default_timezone_set('Asia/Makassar');
-        $start = date_create($toadd);
-        $end = date_create($base);
-        $diff=date_diff($start,$end);
+        $toadd = date_create($toadd);
+        $base = date_create($base);
+        $diff=date_diff($toadd,$base);
         return $diff->format("%H:%i:%s");
     }
 
@@ -56,23 +56,24 @@ class Controller extends BaseController
 
         if ($date=1){
             $hari='Senin';
-            $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
             $status=true;
         }
         elseif ($date=2){
             $hari='Selasa';
-            $awal=date("Y-m-d",strtotime("-10 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-4 days",strtotime($sekarang)));
+            $awal=date("Y-m-d",strtotime("-8 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-2 days",strtotime($sekarang)));
             $status=true;
         }
 
-        $cekrekap=rekapbulanan::where('instansi_id','=',Auth::user()->instansi_id)
-            ->where('periode','=',$awal)
+        $cekrekap=rekapbulanan::leftJoin('pegawais','pegawais.id','=','rekapbulanans.pegawai_id')
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            ->where('rekapbulanans.periode','=',$awal)
             ->count();
 //        $cekrekap=rekapbulanan::all()
 //            ->count();
-//        dd($cekrekap);
+       // dd($cekrekap);
 
 
         if ($cekrekap==0){

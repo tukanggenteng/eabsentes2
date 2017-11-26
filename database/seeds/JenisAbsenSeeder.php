@@ -63,5 +63,11 @@ class JenisAbsenSeeder extends Seeder
             'jenis_absen' => 'Ijin Terlambat'
         ]
         );
+        DB::table('jenisabsens')->insert(
+        [
+            'id' => '11',
+            'jenis_absen' => 'Ganti Shift'
+        ]
+        );
     }
 }

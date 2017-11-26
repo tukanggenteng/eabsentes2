@@ -82,7 +82,7 @@
                             </div>
                             <div class="box-footer clearfix">
                                 <ul class="pagination pagination-sm no-margin pull-right">
-                                    {{$pegawais->appends(['cari'=>($cari)])links()}}
+                                    {{$pegawais->appends(['cari'=>($cari)])->links()}}
                                 </ul>
                             </div>
                         </div>

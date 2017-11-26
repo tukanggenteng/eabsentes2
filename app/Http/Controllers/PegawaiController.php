@@ -391,8 +391,6 @@ class PegawaiController extends Controller
 
      public function cekpegawaiinstansi($id){
         $table=pegawai::where('instansi_id','=',$id)->get();
-         //$table=pegawai::all();
- 	//return response()->json($table);
      	return $table;
  	   }
 
@@ -431,8 +429,27 @@ class PegawaiController extends Controller
       $table=pegawai::where('id','=','7239')
                 ->orWhere('id','=','10219')
                 ->get();
-      // dd($table);
-    return $table;
+      return $table;
+    }
+
+    public function cekpegawaiparams($id){
+      $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+       $table=pegawai::
+       leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+       ->where('instansi_id','!=',null)
+       ->where('id','=',$id)
+       ->where('finger','>',0)
+       ->get();
+
+    	return $table;
+    }
+
+    public function getadminparams($id){
+      $table=pegawai::where('id','=','7239')
+                ->orWhere('id','=','10219')
+                ->orWhere('id','=',$id)
+                ->get();
+      return $table;
     }
 
 }
