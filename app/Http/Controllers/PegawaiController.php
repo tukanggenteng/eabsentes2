@@ -312,6 +312,7 @@ class PegawaiController extends Controller
     public function datauser(){
         $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
               ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+              ->select('pegawais.*','instansis.namaInstansi')
               ->get();
         return Datatables::of($users)
               ->addColumn('action', function ($users) {
