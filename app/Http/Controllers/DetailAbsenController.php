@@ -173,8 +173,7 @@ class DetailAbsenController extends Controller
 
     // bulanan
 
-    public function absentbulan()
-    {
+    public function absentbulan(){
       $bulan=date("m");
       $tahun=date("Y");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
@@ -353,8 +352,7 @@ class DetailAbsenController extends Controller
 
     // tahun
 
-    public function absenttahun()
-    {
+    public function absenttahun(){
       $tahun=date("Y");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')

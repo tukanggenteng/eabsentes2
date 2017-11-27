@@ -14,24 +14,24 @@ class FingerPegawaiController extends Controller
 
       if ($request->cari=="")
       {
-	$finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
-        $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
-              ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
-              //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
-              ->orderBy('fingerpegawais.finger','desc')
-              ->paginate(30);
+          $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+                $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                      ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+                      //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
+                      ->orderBy('fingerpegawais.finger','desc')
+                      ->paginate(30);
       }
       else {
         // dd("asd");
-	$finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
-        $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
-              ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
-              //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
-              ->orWhere('pegawais.nip','like','%'.$request->cari.'%')
-              ->orWhere('pegawais.nama','like','%'.$request->cari.'%')
-              ->orWhere('instansis.namaInstansi','like','%'.$request->cari.'%')
-              ->orderBy('fingerpegawais.finger','desc')
-              ->paginate(30);
+          $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
+                $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                      ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+                      //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
+                      ->orWhere('pegawais.nip','like','%'.$request->cari.'%')
+                      ->orWhere('pegawais.nama','like','%'.$request->cari.'%')
+                      ->orWhere('instansis.namaInstansi','like','%'.$request->cari.'%')
+                      ->orderBy('fingerpegawais.finger','desc')
+                      ->paginate(30);
       }
 
       return view('finger.fingerpegawai',['pegawais'=>$pegawais,'cari'=>$request->cari]);
@@ -55,7 +55,7 @@ class FingerPegawaiController extends Controller
     public function destroy($id){
       $id=decrypt($id);
       $hapus=fingerpegawai::where('id','=',$id)->first();
-	//dd($hapus);
+	    //dd($hapus);
       $hapus->delete();
       return redirect()->back();
     }

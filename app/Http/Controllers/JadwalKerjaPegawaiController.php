@@ -18,7 +18,6 @@ class JadwalKerjaPegawaiController extends Controller
     public function index(Request $request)
     {
         //
-//        dd($request->table_search);
 
         if ($this->notifrekap()=="")
         {
@@ -29,9 +28,9 @@ class JadwalKerjaPegawaiController extends Controller
         {
             $inforekap=$this->notifrekap();
         }
-//        dd($inforekap);
+        
         $tanggalsekarang=date("Y-m-d");
-//        dd($tanggalsekarang);
+        
         if ((isset($request->table_search2)) && (isset($request->table_search)) )
         {
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
@@ -102,10 +101,10 @@ class JadwalKerjaPegawaiController extends Controller
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                 ->orderBy('rulejadwalpegawais.tanggal_awalrule','desc')
                 ->paginate(30);
-//            dd($rulejadwal2);
+           //dd($rulejadwal2);
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
             $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
-//            dd($rulejadwal);
+           //dd($rulejadwal);
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
         }
 
@@ -142,12 +141,10 @@ class JadwalKerjaPegawaiController extends Controller
 
             $tanggalhariini=date("Y-m-d");
 
-//            dd($tanggal[0]."+".$tanggal[1]);
 
             $tanggalawal=date("Y-m-d",strtotime($tanggal[0]));
             $tanggalakhir=date("Y-m-d",strtotime($tanggal[1]));
 
-//            dd($tanggalakhir."+".$tanggalawal);
 
             $verifikasi=rulejadwalpegawai::where('tanggal_awalrule','<=',$tanggalawal)
                 ->where('tanggal_akhirrule','>=',$tanggalakhir)
@@ -155,7 +152,6 @@ class JadwalKerjaPegawaiController extends Controller
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
                 ->count();
 
-//            dd($verifikasi);
 
             if ($verifikasi>0) {
                 return redirect('/jadwalkerjapegawai')->with('err','Terdapat data jadwal pegawai lebih dari 2 kali pada hari yang sama.');
@@ -242,7 +238,7 @@ class JadwalKerjaPegawaiController extends Controller
     public function update(Request $request)
     {
         //
-//        dd($id);
+       //dd($id);
         $this->validate($request, [
             'jadwalkerjamasuk'=>'required'
         ]);
@@ -267,7 +263,6 @@ class JadwalKerjaPegawaiController extends Controller
     public function destroy($id)
     {
         //
-//        dd($id);
         $id=decrypt($id);
         $table=rulejadwalpegawai::find($id);
         $table->delete();

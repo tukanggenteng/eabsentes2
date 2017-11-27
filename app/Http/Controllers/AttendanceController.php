@@ -58,10 +58,6 @@ class AttendanceController extends Controller
                           // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                           $jamakhir2=$jamakhir;
                           $jamfingerprint = date("H:i", strtotime($request->json('jam')));
-                          // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
-                         //if (($jamfingerprint >= $jamawal) && ($jamfingerprint <= ($jamakhir2))) {
-                         //dd("jam sebelum masuk kerja=".$cek[0]['jamsebelum_masukkerja']." jam fingerprint=".$jamfingerprint." jam keluar jadwal=".$cek[0]['jam_keluarjadwal']);
-                         //dd(($jamfingerprint >= $cek[0]['jamsebelum_masukkerja']) && ($jamfingerprint<=$cek[0]['jam_keluarjadwal']));
                           if (($jamfingerprint >= $cek[0]['jamsebelum_masukkerja']) && ($jamfingerprint<=$cek[0]['jam_keluarjadwal'])) {
                               //menghitung data absen trans pegawai
                               $cari = atts_tran::where('pegawai_id', '=', $request->json('user_id'))
@@ -70,13 +66,7 @@ class AttendanceController extends Controller
                                   ->count();
                               //jika hasil nya lebih dari 0 maka
                               if ($cari > 0) {
-                                  //melakukan perubahan data absen trans yang ada
-                                  // $table = atts_tran::where('tanggal', '=', $request->json('tanggal'))
-                                  //     ->where('pegawai_id', '=', $request->json('user_id'))
-                                  //     ->first();
-                                  // $table->jam = $request->json('jam');
-                                  // $table->tanggal = $request->json('tanggal');
-                                  // $table->save();
+                                  
                               } else {
                                   //menambah data absen trans yang baru
                                   $save = new atts_tran();
@@ -136,18 +126,19 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Datang";
+                                  return "Success";
+                                  //bisadatang
                               }
 
                           } else {
-                            // dd("jam datang ".$jamfingerprint." ")
-                            // dd(($jamfingerprint <= $cek[0]['jamsebelum_pulangkerja']));
-                              return ("tidak bisa  Datang");
+                              return ("Failed");
+                              //tidakbisadatang
                           }
                       }
                   }
                   else {
-                    return "tidak sukses";
+                    return "Failed";
+                    //tidaksukses
                   }
               }
               // ########### absen pulang
@@ -191,7 +182,7 @@ class AttendanceController extends Controller
                               $jamfingerprint = date("H:i", strtotime($request->json('jam')));
                               $jamakhir2=$jamakhir;
                               // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
-      //                        if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
+                              //if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
                               if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
                                   //menghitung data absen trans pegawai
                                   $cari = atts_tran::where('pegawai_id', '=', $request->json('user_id'))
@@ -285,7 +276,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Pulang1";
+                                  return "Success";
+                                  //Bisa Pulang
                               }
 
                               elseif (($jamfingerprint < ( $jamakhir)))
@@ -393,7 +385,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "Pulang cepat";
+                                  return "Failed";
+                                  //Pulang Cepat
                               }
                           }
                       }
@@ -532,7 +525,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Pulang3";
+                                  return "Success";
+                                  //Bisa Pulan 3
                               }
                               elseif(($jamfingerprint < ( $jamakhir)))
 
@@ -640,22 +634,21 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y", strtotime($tanggalkemarin));
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "Pulang cepat";
+                                  return "Success";
+                                  //Pulang Cepat
                               }
                           }
                       }
                   }
-
-
-
               }
-
-        }else{
+        }
+        else{
             $statusauth=false;
-            return "gaga";
+            return "Failed Token";
+            //Token Salah 
         }
 
-}
+    }
 
     public function show(){
         $tanggal=date('H:i');

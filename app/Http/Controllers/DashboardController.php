@@ -688,17 +688,17 @@ class DashboardController extends Controller
       WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS total
       FROM pegawais ORDER BY persentaseapel DESC,total DESC LIMIT 20');
 
-  $instansipertahun=DB::select('SELECT namaInstansi,@instansi:=id AS id,
-    (SELECT AVG(persentase_tidakhadir)
-    FROM masterbulanans
-    WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS persentasehadir,
-    (SELECT AVG(persentase_apel)
-    FROM masterbulanans
-    WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS persentaseapel,
-    (SELECT SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total
-    FROM masterbulanans
-    WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS totall
-    FROM instansis ORDER BY persentaseapel,totall DESC,persentasehadir ASC LIMIT 20');
+        $instansipertahun=DB::select('SELECT namaInstansi,@instansi:=id AS id,
+            (SELECT AVG(persentase_tidakhadir)
+            FROM masterbulanans
+            WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS persentasehadir,
+            (SELECT AVG(persentase_apel)
+            FROM masterbulanans
+            WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS persentaseapel,
+            (SELECT SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total
+            FROM masterbulanans
+            WHERE instansi_id=@instansi AND YEAR(periode)="'.$tahun.'" ) AS totall
+            FROM instansis ORDER BY persentaseapel,totall DESC,persentasehadir ASC LIMIT 20');
 
 
       if (isset($id))

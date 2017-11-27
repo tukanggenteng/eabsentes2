@@ -14,8 +14,7 @@ class HariKerjaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         //
         if ($this->notifrekap()=="")
         {
@@ -40,7 +39,7 @@ class HariKerjaController extends Controller
             }
         }
 
-//        dd($jadwalkerjas);
+        // dd($jadwalkerjas);
 
         $harikerja=harikerja::join('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
             ->select('harikerjas.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
@@ -69,7 +68,7 @@ class HariKerjaController extends Controller
             $hasildata=array();
             $subdata=array();
         }
-//        dd($jadwalkerjadata);
+        //dd($jadwalkerjadata);
         return view('jadwalkerja.harijadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerjas,'hasildatas'=>$jadwalkerjadata]);
     }
 
@@ -96,10 +95,10 @@ class HariKerjaController extends Controller
             'jadwalkerjamasuk'=>'required',
             'checkbox'=>'required'
         ]);
-      //  dd($request->checkbox);
-//
+            //dd($request->checkbox);
+
         foreach ($request->checkbox as $key=> $data){
-//            dd($data);
+        //    dd($data);
             $user = new harikerja();
             $user->hari = $data;
             $user->jadwalkerja_id = $request->jadwalkerjamasuk;
@@ -152,10 +151,10 @@ class HariKerjaController extends Controller
     public function destroy($id)
     {
         //
-//        dd($id);
+       //dd($id);
         $id=decrypt($id);
         $table=harikerja::where('jadwalkerja_id',$id);
-//        dd($table);
+        //dd($table);
         $table->delete();
         return redirect('/harikerja');
     }

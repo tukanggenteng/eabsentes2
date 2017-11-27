@@ -38,7 +38,7 @@ class JadwalKerjaController extends Controller
 
 
         $rule=rulejammasuk::join('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal')->where('rulejammasuks.instansi_id',Auth::user()->instansi_id)->get();
-//        dd($rule);
+       //dd($rule);
         // $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
         return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'rules'=>$rule]);
     }
