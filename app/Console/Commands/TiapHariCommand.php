@@ -403,7 +403,7 @@ class TiapHariCommand extends Command
                                         {
                                           $start = date_create($value->jam_masuk);
                                           $end = date_create($value->jam_keluarjadwal);
-                                          $end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
+                                          //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
                                           $selisih=date_diff($end,$start);
                                             // $jamban=$value->jam_masuk;
                                             // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
@@ -413,7 +413,7 @@ class TiapHariCommand extends Command
                                         {
                                           $start = date_create($value->jam_masukjadwal);
                                           $end = date_create($value->jam_keluarjadwal);
-                                          $end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
+                                          //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
                                           $selisih=date_diff($end,$start);
                                             // $jamban=($value->jam_masukjadwal);
                                             // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));

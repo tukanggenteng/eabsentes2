@@ -67,11 +67,17 @@ class Controller extends BaseController
             $status=true;
         }
 
+        if ($status==true)
+        {
         $cekrekap=rekapbulanan::leftJoin('pegawais','pegawais.id','=','rekapbulanans.pegawai_id')
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('rekapbulanans.periode','=',$awal)
             ->count();
-            
+        }
+        else
+        {
+            $cekrekap=1;
+        }   
 
 
         if ($cekrekap==0){
