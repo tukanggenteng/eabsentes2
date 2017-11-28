@@ -51,9 +51,11 @@ class TiapHariCommand extends Command
         $tanggal=date('d');
         if ($tanggal==8){
           $sekarang=date("Y-m-d");
-          $bulan=date("m",strtotime("-1 month",strtotime($sekarang)));
+          $bulan=date("Y-m",strtotime("-1 month",strtotime($sekarang)));
           // $bulan=date("m");
-          $tahun=date("Y");
+          $pecah=explode("-",$bulan);
+          $bulan=$pecah[1];
+          $tahun=$pecah[0];
 
           $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
               ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')

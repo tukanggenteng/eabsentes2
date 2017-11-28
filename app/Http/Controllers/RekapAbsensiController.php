@@ -49,43 +49,43 @@ class RekapAbsensiController extends Controller
         }
         elseif ($date==2){
             $hari='Selasa';
-            $awal=date("Y-m-d",strtotime("-8 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-2 days",strtotime($sekarang)));
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
             $status=true;
         }
         elseif ($date==3) {
           // dd("asda");
           $hari='Rabu';
-          $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
           $status=false;
         }
         elseif ($date==4) {
           // dd("asda");
           $hari='Kamis';
-          $awal=date("Y-m-d",strtotime("-10 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-4 days",strtotime($sekarang)));
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
           $status=false;
         }
         elseif ($date==5) {
           // dd("asda");
           $hari='Jumat';
-          $awal=date("Y-m-d",strtotime("-11 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-5 days",strtotime($sekarang)));
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
           $status=false;
         }
         elseif ($date==6) {
           // dd("asda");
           $hari='Sabtu';
-          $awal=date("Y-m-d",strtotime("-12 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-6 days",strtotime($sekarang)));
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
           $status=false;
         }
         elseif ($date==7) {
           // dd("asda");
           $hari='Minggu';
-          $awal=date("Y-m-d",strtotime("-13 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
           $status=false;
         }
 

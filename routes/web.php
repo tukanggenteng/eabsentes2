@@ -100,12 +100,12 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/laporanharian/pdf','PDFController@pdfharian');
 
 
-      // Route::get('/laporanbulan','PDFController@pdfbulanindex');
-      // Route::post('/laporanbulan','PDFController@pdfbulanindex');
-      // Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
-      // Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
-      // Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
-      // Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
+      Route::get('/laporanbulan','PDFController@pdfbulanindex');
+      Route::post('/laporanbulan','PDFController@pdfbulanindex');
+      Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
+      Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
+      Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
+      Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
 
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');
