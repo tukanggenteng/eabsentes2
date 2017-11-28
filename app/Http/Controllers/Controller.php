@@ -54,13 +54,13 @@ class Controller extends BaseController
         $sekarang=date('Y-m-d');
         $status=false;
 
-        if ($date=1){
+        if ($date==1){
             $hari='Senin';
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
             $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
             $status=true;
         }
-        elseif ($date=2){
+        elseif ($date==2){
             $hari='Selasa';
             $awal=date("Y-m-d",strtotime("-8 days",strtotime($sekarang)));
             $akhir=date("Y-m-d",strtotime("-2 days",strtotime($sekarang)));
@@ -71,9 +71,7 @@ class Controller extends BaseController
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('rekapbulanans.periode','=',$awal)
             ->count();
-//        $cekrekap=rekapbulanan::all()
-//            ->count();
-       // dd($cekrekap);
+            
 
 
         if ($cekrekap==0){

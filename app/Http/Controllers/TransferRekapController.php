@@ -34,14 +34,14 @@ class TransferRekapController extends Controller
                 'rekapbulanans.hadir','rekapbulanans.tanpa_kabar','rekapbulanans.ijinterlambat','rekapbulanans.ijin','rekapbulanans.sakit',
                 'rekapbulanans.cuti','rekapbulanans.tugas_luar','rekapbulanans.tugas_belajar','rekapbulanans.terlambat',
                 'rekapbulanans.rapatundangan','pegawais.nip','pegawais.nama'])
-            ->where('rekapbulanans.instansi_id','=',Auth::user()->instansi_id)
-            ->orWhere('rekapbulanans.ijin','>','0')
-            ->orWhere('rekapbulanans.sakit','>','0')
-            ->orWhere('rekapbulanans.cuti','>','0')
-            ->orWhere('rekapbulanans.tugas_luar','>','0')
-            ->orWhere('rekapbulanans.ijinterlambat','>','0')
-            ->orWhere('rekapbulanans.tugas_belajar','>','0')
-            ->orWhere('rekapbulanans.rapatundangan','>','0');
+            // ->orWhere('rekapbulanans.ijin','>','0')
+            // ->orWhere('rekapbulanans.sakit','>','0')
+            // ->orWhere('rekapbulanans.cuti','>','0')
+            // ->orWhere('rekapbulanans.tugas_luar','>','0')
+            // ->orWhere('rekapbulanans.ijinterlambat','>','0')
+            // ->orWhere('rekapbulanans.tugas_belajar','>','0')
+            // ->where('rekapbulanans.rapatundangan','>','0')
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id);
 
         return Datatables::of($rekaps)
             ->editColumn('ijin',function (rekapbulanan $rekaps){
