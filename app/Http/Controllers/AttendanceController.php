@@ -136,18 +136,21 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Datang";
+                                  return "Success";
+                                  //bisadatang
                               }
 
                           } else {
                             // dd("jam datang ".$jamfingerprint." ")
                             // dd(($jamfingerprint <= $cek[0]['jamsebelum_pulangkerja']));
-                              return ("tidak bisa  Datang");
+                              return ("Failed");
+                              //tidakbisadatang
                           }
                       }
                   }
                   else {
-                    return "tidak sukses";
+                    return "Failed";
+                    //tidaksukses
                   }
               }
               // ########### absen pulang
@@ -285,7 +288,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Pulang1";
+                                  return "Success";
+                                  //Bisa Pulang
                               }
 
                               elseif (($jamfingerprint < ( $jamakhir)))
@@ -393,7 +397,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "Pulang cepat";
+                                  return "Failed";
+                                  //Pulang Cepat
                               }
                           }
                       }
@@ -532,7 +537,8 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y");
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "BISA Pulang3";
+                                  return "Success";
+                                  //Bisa Pulan 3
                               }
                               elseif(($jamfingerprint < ( $jamakhir)))
 
@@ -640,19 +646,18 @@ class AttendanceController extends Controller
                                   $tanggalbaru = date("d-M-Y", strtotime($tanggalkemarin));
 
                                   event(new Timeline($request->json('user_id'), $tanggalbaru, $request->json('jam'), $request->json('instansi'), $request->json('status'), $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                  return "Pulang cepat";
+                                  return "Success";
+                                  //Pulang Cepat
                               }
                           }
                       }
                   }
-
-
-
               }
 
         }else{
             $statusauth=false;
-            return "gaga";
+            return "Failed Token";
+            //Token Salah 
         }
 
 }
