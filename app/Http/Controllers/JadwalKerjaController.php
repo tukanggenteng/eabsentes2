@@ -23,7 +23,7 @@ class JadwalKerjaController extends Controller
 
         $jadwalkerja=array();
         $isi=array();
-        $tables=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)->get();
+        $tables=jadwalkerja::all();
         // dd($tables);
         // foreach ($tables as $table){
         //     $harikerja=rulejammasuk::where('jadwalkerja_id','=',$table->id)->count();
