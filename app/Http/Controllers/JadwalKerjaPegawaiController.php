@@ -149,15 +149,15 @@ class JadwalKerjaPegawaiController extends Controller
 
 //            dd($tanggalakhir."+".$tanggalawal);
 
-            $verifikasi=rulejadwalpegawai::whereDate('tanggal_awalrule',',<=',$tanggalawal)
-                ->whereDate('tanggal_akhirrule','>=',$tanggalakhir)
-                // ->orWhere('tanggal_awalrule',',<=',$tanggalawal)
-                // ->where('tanggal_akhirrule','>=',$tanggalakhir)
+            $verifikasi=rulejadwalpegawai::where('tanggal_awalrule',',>=',$tanggalawal)
+                ->orWhere('tanggal_akhirrule','<=',$tanggalakhir)
+                ->orWhere('tanggal_awalrule',',<=',$tanggalawal)
+                ->orWhere('tanggal_akhirrule','>=',$tanggalakhir)
                 ->where('pegawai_id','=',$data)
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
                 ->count();
 
-           dd($verifikasi);
+        //    dd($verifikasi);
 
             if ($verifikasi>0) {
                 return redirect('/jadwalkerjapegawai')->with('err','Terdapat data jadwal pegawai lebih dari 2 kali pada hari yang sama.');
