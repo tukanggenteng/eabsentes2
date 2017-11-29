@@ -28,6 +28,7 @@
                 <ul class="treeview-menu">
                     <li><a href="/pegawai"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/finger"><i class="fa fa-circle-o"></i> Manajemen Finger</a></li>
+                    <li><a href="/jadwalkerja"><i class="fa fa-circle-o"></i> Jadwal Kerja</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -91,18 +92,11 @@
                     <li><a href="/ijinterlambat/admin"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
             </li>
             @else
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-calendar"></i> <span>Jadwal Kerja</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
+            <li>
+                <a href="/timeline">
+                    <i class="fa fa-calendar"></i> <span>Timeline</span>
+                    
                 </a>
-                <ul class="treeview-menu">
-                    <li><a href="/timeline"><i class="fa fa-circle-o"></i> Timeline</a></li>
-                    <li><a href="/jadwalkerja"><i class="fa fa-circle-o"></i> Jadwal Kerja</a></li>
-                    <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Hari Kerja</a></li>
-                </ul>
             </li>
             <li class="treeview">
                 <a href="#">

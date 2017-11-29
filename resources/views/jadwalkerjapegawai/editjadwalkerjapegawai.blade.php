@@ -71,7 +71,7 @@
                                             <label>Jenis Jadwal Kerja</label>
                                             <select class="form-control" name="jadwalkerjamasuk" value="{{$rulejadwals[0]['jadwalkerja_id']}}">
                                                 @foreach($jadwalkerjas as $jadwalkerja)
-                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}}</option>
+                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}} ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}})</option>
                                                 @endforeach
                                             </select>
                                         </div>

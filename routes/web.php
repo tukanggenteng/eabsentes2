@@ -113,18 +113,7 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
       Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
 
-      #jadwalkerja
-      Route::get('/jadwalkerja','JadwalKerjaController@index');
-      Route::post('/jadwalkerja','JadwalKerjaController@store');
-      Route::get('/jadwalkerja/{id}/edit','JadwalKerjaController@editshow');
-      Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
-      Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
-
-      #rulejadwalkerja
-      Route::post('/rulejadwalkerja','RuleJadwalKerja@store');
-      Route::get('/rulejadwalkerja/{id}/edit','RuleJadwalKerja@edit');
-      Route::put('/rulejadwalkerja/{id}','RuleJadwalKerja@update');
-      Route::get('/rulejadwalkerja/{id}/hapus','RuleJadwalKerja@destroy');
+      
 
       #atur jadwal kerja pegawai
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
@@ -203,6 +192,19 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/user/register','UserController@register');
 
 Route::group(['middleware' => ['rule:admin']],function(){
+
+      #jadwalkerja
+      Route::get('/jadwalkerja','JadwalKerjaController@index');
+      Route::post('/jadwalkerja','JadwalKerjaController@store');
+      Route::get('/jadwalkerja/{id}/edit','JadwalKerjaController@editshow');
+      Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
+      Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
+
+      #rulejadwalkerja
+      Route::post('/rulejadwalkerja','RuleJadwalKerja@store');
+      Route::get('/rulejadwalkerja/{id}/edit','RuleJadwalKerja@edit');
+      Route::put('/rulejadwalkerja/{id}','RuleJadwalKerja@update');
+      Route::get('/rulejadwalkerja/{id}/hapus','RuleJadwalKerja@destroy');
 
       #manajemen fingerpegawai
       Route::get('/finger','FingerPegawaiController@index');
