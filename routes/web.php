@@ -62,7 +62,7 @@ Route::group(['middleware'=>['rule:user,admin,kadis']],function(){
 
 });
 
-Route::group(['middleware' => ['rule:kadis,sekda,user,admin,pegawai']],function(){
+Route::group(['middleware' => ['rule:kadis,sekda,user,admin,pegawai,gubernur']],function(){
   Route::get('/changepassword','UserController@indexchange');
   Route::post('/changepassword','UserController@changepassword');
 
@@ -82,6 +82,12 @@ Route::group(['middleware' => ['rule:kadis']],function(){
   Route::get('/home/pegawai/tahun/{id}','DashboardController@index');
   Route::get('/instansi/grafik','DashboardController@datatahun')->name('grafikinstansicari');
   Route::get('/pegawai/grafik','DashboardController@datapegawai');
+});
+
+Route::group(['middleware' => ['rule:gubernur']],function(){
+  Route::get('/dashboard/gub','DashboardController@dashboardgubernur');
+  Route::get('/datapegawaigub','DashboardController@datapegawaigub')->name('datapegawaigub');
+  Route::get('/pegawai/gub/{id}','DashboardController@datapegawaigubdetail');
 });
 
 Route::group(['middleware' => ['rule:sekda']],function(){

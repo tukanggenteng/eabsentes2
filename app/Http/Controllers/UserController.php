@@ -164,7 +164,15 @@ class UserController extends Controller
     }
 
     public function indexchange(){
-      return view('user.changepassword');
+      if (Auth::user()->role->namaRole=="gubernur")
+      {
+        return view('user.changepasswordtop'); 
+      }
+      else
+      {
+        return view('user.changepassword');
+      }
+      
     }
 
     public function changepassword(Request $request){

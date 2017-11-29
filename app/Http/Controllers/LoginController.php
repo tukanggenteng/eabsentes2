@@ -33,6 +33,9 @@ class LoginController extends Controller
             elseif (Auth::user()->role->namaRole=="pegawai"){
               return redirect('/user/pegawai');
             }
+            elseif (Auth::user()->role->namaRole=="gubernur"){
+              return redirect('/dashboard/gub');
+            }
             else {
               return redirect('/home');
             }
@@ -49,6 +52,9 @@ class LoginController extends Controller
           }
           elseif (Auth::user()->role->namaRole=="pegawai"){
             return redirect('/user/pegawai');
+          }
+          elseif (Auth::user()->role->namaRole=="gubernur"){
+            return redirect('/dashboard/gub');
           }
           else {
             // dd(Auth::user()->role->namaRole="pegawai");

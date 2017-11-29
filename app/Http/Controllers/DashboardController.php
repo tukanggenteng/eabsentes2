@@ -8,6 +8,7 @@ use App\masterbulanan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\Datatables\Facades\Datatables;
 use App\instansi;
 
 class DashboardController extends Controller
@@ -742,5 +743,41 @@ class DashboardController extends Controller
         return view('dashboard.dashboardsekda',['instansis'=>$instansi2,'pegawaibulan'=>$pegawaibulan,'pegawaitahun'=>$pegawaitahun,'instansitahun'=>$instansipertahun,'statuscari'=>'','tahun'=>$tahun2]);
       }
 
+    }
+
+    public function dashboardgubernur(Request $request){
+        return view('dashboard.dashboardgubernur');
+    }
+
+    public function datapegawaigub(){
+        $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+        ->select('pegawais.nip','pegawais.nama')
+        ->get();
+        return Datatables::of($users)
+                ->addColumn('action', function ($users) {
+                    return '<button type="button" class="modal_data btn btn-success btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-target="#modal_data"><i class="fa fa-user"></i> Lihat Data</button>';
+                })
+            ->make(true);
+    }
+
+    public function datapegawaigubdetail($id){
+        $url="https://simpeg.kalselprov.go.id/api/identitas?nip=".$id;
+        $ch = curl_init();
+        // Disable SSL verification
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // Will return the response, if false it print the response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // Execute
+        $result=curl_exec($ch);
+        // Closing
+        curl_close($ch);
+        // dd($result);
+  
+        //Will dump a beauty json :3
+        $jsons=(json_decode($result, true));
+
+        return $jsons;
     }
 }

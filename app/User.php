@@ -118,5 +118,24 @@ class User extends Authenticatable
                 return false;
             }
         }
+        elseif (count($namaRole)== 6)
+        {
+            if ($this->role->namaRole == $namaRole[0]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[1]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[2]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[3]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[4]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[5]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
