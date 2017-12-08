@@ -289,4 +289,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/user/edituser','UserController@edit')->name('edituser');
       Route::post('/user/deleteuser','UserController@delete')->name('deleteuser');
 
+      #trigger
+      Route::get('/trigger','TrigerController@form');
+      Route::post('/trigger','TrigerController@edit');
 });

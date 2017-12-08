@@ -24,4 +24,8 @@ Route::group(['middleware'=>['api']], function () {
     // Route::post('/otp','AttendanceController@encryptdata');
 
     Route::get('/macaddress','MacAdressControllers@macaddress');
+
+    Route::get('/version','VersionController@index');
+
+    Route::post('/logerror','LogFingerErrorController@create');
 });

@@ -67,6 +67,7 @@
             <th class="header garis">Absent</th>
             <th class="header garis">Izin</th>
             <th class="header garis">Izin Terlambat</th>
+            <th class="header garis">Terlambat</th>
             <th class="header garis">Sakit</th>
             <th class="header garis">Cuti</th>
             <th class="header garis">Tugas Luar</th>
@@ -89,6 +90,8 @@
                   <td class="garis tabledata">{{$att->tanpa_kabar}}</td>
                   <td class="garis tabledata">{{$att->ijin}}</td>
                   <td class="garis tabledata">{{$att->ijinterlambat}}</td>
+
+                  <td class="garis tabledata">{{$att->terlambat}}</td>
                   <td class="garis tabledata">{{$att->sakit}}</td>
                   <td class="garis tabledata">{{$att->cuti}}</td>
                   <td class="garis tabledata">{{$att->tugas_luar}}</td>

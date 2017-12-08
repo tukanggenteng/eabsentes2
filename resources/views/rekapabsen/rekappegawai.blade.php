@@ -44,7 +44,7 @@
             @endif
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Rekap Absensi Pegawai</h3>
+                    <h3 class="box-title">Keterangan Absensi Pegawai</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">

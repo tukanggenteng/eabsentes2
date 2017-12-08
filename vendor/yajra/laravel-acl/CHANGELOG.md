@@ -1,5 +1,13 @@
 # Changelog
 
+## v3.5.0 - 2017-11-21
+- Add @role directive. #22
+- Deprecate @isRole directive in favor of @role directive.
+
+## v3.4.0 - 2017-11-21
+- Add support for multiple role middleware. #21
+- Fix #20.
+
 ## v3.3.1 - 2017-10-10
 - Compare hasRole using slug. #16
 - Fix #8.

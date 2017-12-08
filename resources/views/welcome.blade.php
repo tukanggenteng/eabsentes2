@@ -3,12 +3,18 @@
 @section('body')
     <body class="hold-transition login-page">
     <div class="login-box">
-        <div class="login-logo">
-            <b>EABSEN</b>
-        </div>
+        
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">Silahkan Login untuk memulai.<br>
+            <div class="login-logo">
+                <img src="/dist/img/logo.png" alt="">
+            </div>
+            <div style="font-size: 35px;text-align: center;max-width: 100%;">
+                <strong>E-ABSEN</strong>
+                <p style="font-size: 15px;text-align: center;max-width: 100%;"><small>Pemerintah Provinsi Kalimantan Selatan</small></p>
+            </div>
+
+            <p class="login-box-msg">
             Tutorial <a href="https://youtu.be/Nemvt9hGkGw">E-Absen</a>
             </p>
 
@@ -42,9 +48,10 @@
                                 <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
                                 {{ session('error') }}
                             </div>
+                        @endif
                     @endif
-                    @endif
-                        </div>
+                        <p><small>Dikembangkan oleh <a href="diskominfo.kalselprov.go.id">Diskominfo Prov. Kalsel</a> &copy; 2017</small></p>
+                    </div>
                     <!-- /.col -->
                 </div>
             </form>

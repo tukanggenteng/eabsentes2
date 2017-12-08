@@ -16,7 +16,11 @@ class Homestead
         config.vm.hostname = settings["hostname"] ||= "homestead"
 
         # Configure A Private Network IP
-        config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+        if settings["ip"] != "autonetwork"
+            config.vm.network :private_network, ip: settings["ip"] ||= "192.168.10.10"
+        else
+            config.vm.network :private_network, :ip => "0.0.0.0", :auto_network => true
+        end
 
         # Configure Additional Networks
         if settings.has_key?("networks")
@@ -36,6 +40,11 @@ class Homestead
             if settings.has_key?("gui") && settings["gui"]
                 vb.gui = true
             end
+        end
+
+        # Override Default SSH port on the host
+        if (settings.has_key?("default_ssh_port"))
+            config.vm.network :forwarded_port, guest: 22, host: settings["default_ssh_port"], auto_correct: false, id: "ssh"
         end
 
         # Configure A Few VMware Settings
@@ -227,6 +236,11 @@ class Homestead
         end
 
         config.vm.provision "shell" do |s|
+            s.name = "Restarting Cron"
+            s.inline = "sudo service cron restart"
+        end
+
+        config.vm.provision "shell" do |s|
             s.name = "Restarting Nginx"
             s.inline = "sudo service nginx restart; sudo service php5.6-fpm restart; sudo service php7.0-fpm restart; sudo service php7.1-fpm restart; sudo service php7.2-fpm restart"
         end
@@ -301,22 +315,22 @@ class Homestead
         if settings.has_key?("variables")
             settings["variables"].each do |var|
                 config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/php-fpm.conf"
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/5.6/fpm/pool.d/www.conf"
                     s.args = [var["key"], var["value"]]
                 end
 
                 config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/php-fpm.conf"
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.0/fpm/pool.d/www.conf"
                     s.args = [var["key"], var["value"]]
                 end
 
                 config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/php-fpm.conf"
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.1/fpm/pool.d/www.conf"
                     s.args = [var["key"], var["value"]]
                 end
 
                 config.vm.provision "shell" do |s|
-                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.2/fpm/php-fpm.conf"
+                    s.inline = "echo \"\nenv[$1] = '$2'\" >> /etc/php/7.2/fpm/pool.d/www.conf"
                     s.args = [var["key"], var["value"]]
                 end
 

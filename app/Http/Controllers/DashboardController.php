@@ -121,13 +121,15 @@ class DashboardController extends Controller
           if ($a=="1")
           {
               for ($i = 1; $i <= 12; $i++) {
-                  $tidakhadir = masterbulanan::where('instansi_id', '=', $request->instansitahun)
-                      ->whereMonth('periode', '=', $i)
-                      ->whereYear('periode', '=', $tahun)
-                      ->avg('persentase_tidakhadir');
-                  $patokan = masterbulanan::where('instansi_id', '=', $request->instansitahun)
-                      ->whereMonth('periode', '=', $i)
-                      ->whereYear('periode', '=', $tahun)
+                  $tidakhadir = masterbulanan::leftJoin('pegawais','masterbulanans.pegawai_id','=','pegawais.id')
+                      ->where('pegawais.instansi_id', '=', $request->instansitahun)
+                      ->whereMonth('masterbulanans.periode', '=', $i)
+                      ->whereYear('masterbulanans.periode', '=', $tahun)
+                      ->avg('masterbulanans.persentase_tidakhadir');
+                  $patokan = masterbulanan::leftJoin('pegawais','masterbulanans.pegawai_id','=','pegawais.id')
+                      ->where('pegawais.instansi_id', '=', $request->instansitahun)
+                      ->whereMonth('masterbulanans.periode', '=', $i)
+                      ->whereYear('masterbulanans.periode', '=', $tahun)
                       ->count();
                   if ($tidakhadir!=null)
                   {
@@ -143,11 +145,13 @@ class DashboardController extends Controller
           elseif ($a=="2")
           {
               for ($i = 1; $i <= 12; $i++) {
-                  $absen = masterbulanan::where('instansi_id', '=', $request->instansitahun)
-                      ->whereMonth('periode', '=', $i)
-                      ->whereYear('periode', '=', $tahun)
-                      ->avg('persentase_apel');
-                  $patokan = masterbulanan::where('instansi_id', '=', $request->instansitahun)
+                  $absen = masterbulanan::leftJoin('pegawais','masterbulanans.pegawai_id','=','pegawais.id')
+                      ->where('pegawais.instansi_id', '=', $request->instansitahun)
+                      ->whereMonth('masterbulanans.periode', '=', $i)
+                      ->whereYear('masterbulanans.periode', '=', $tahun)
+                      ->avg('masterbulanans.persentase_apel');
+                  $patokan = masterbulanan::leftJoin('pegawais','masterbulanans.pegawai_id','=','pegawais.id')
+                  ->where('pegawais.instansi_id', '=', $request->instansitahun)
                       ->whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
                       ->count();
@@ -561,7 +565,7 @@ class DashboardController extends Controller
       (SELECT SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total
       FROM masterbulanans
       WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS total
-      FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY persentaseapel DESC,total DESC');
+      FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY total ASC');
 
 
       $attstrans=atts_tran::join('pegawais','atts_trans.pegawai_id','=','pegawais.id')

@@ -28,7 +28,7 @@ class HariKerjaController extends Controller
 
         $jadwalkerjas=array();
         $isi=array();
-        $tables=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)->get();
+        $tables=jadwalkerja::all();
 
         foreach ($tables as $table){
             $harikerja=harikerja::where('jadwalkerja_id','=',$table->id)->count();

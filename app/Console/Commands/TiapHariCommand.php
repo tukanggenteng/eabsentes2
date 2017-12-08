@@ -707,7 +707,7 @@ class TiapHariCommand extends Command
                     $user->akumulasi_sehari='00:00:00';
                     $user->jenisabsen_id = '2';
                     $user->save();
-                    // dd("jalan");
+                    dd($jadwalpegawai->pegawai_id);
                 }
             }
             else

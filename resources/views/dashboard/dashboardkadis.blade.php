@@ -595,7 +595,7 @@
           <div class="col-md-6">
                 <div class="box">
                   <div class="box-header">
-                    <h3 class="box-title">Pegawai Terbaik (Tahun)</h3>
+                    <h3 class="box-title">Jam Kerja Pegawai</h3>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body  table-responsive">
@@ -604,17 +604,13 @@
                         <th style="width: 10px">#</th>
                         <th>NIP</th>
                         <th>Nama</th>
-                        <th>Absent</th>
-                        <th>Apel</th>
-                        <th>Jam</th>
+                        <th>Akumulasi Jam Kerja</th>
                       </tr>
                       @foreach ($pegawaitahun as $key => $pegawai3)
                         <tr>
                           <td>{{$key+1}}</td>
                           <td><a href="/home/pegawai/tahun/{{$pegawai3->nip}}">{{$pegawai3->nip}}</a></td>
                           <td>{{$pegawai3->nama}}</td>
-                          <td><span class="badge bg-red">{{round($pegawai3->persentasehadir,2)}}%</span></td>
-                          <td><span class="badge bg-green">{{round($pegawai3->persentaseapel,2)}}%</span></td>
                           <td><span class="badge bg-light-blue">{{$pegawai3->total}}</span></td>
                         </tr>
                       @endforeach

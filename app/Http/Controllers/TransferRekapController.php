@@ -312,7 +312,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -321,7 +321,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('ijins.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -329,14 +329,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -354,14 +354,14 @@ class TransferRekapController extends Controller
 //                    ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
 //                    ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
 //                    ,'ijinterlambats.namafile as namafileijinterlambat')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('ijins.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
 //            $table=rekapbulanan::all();
         }
@@ -399,7 +399,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('sakits.mulaitanggal','=',$request->periode)
@@ -408,7 +408,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -417,7 +417,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('sakits.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -425,14 +425,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -450,14 +450,14 @@ class TransferRekapController extends Controller
 //                    ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
 //                    ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
 //                    ,'ijinterlambats.namafile as namafileijinterlambat')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('sakits.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 
@@ -494,7 +494,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('cutis.mulaitanggal','=',$request->periode)
@@ -503,7 +503,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -512,7 +512,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('cutis.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -520,14 +520,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -535,14 +535,14 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('cutis.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 
@@ -579,7 +579,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('tugasluars.mulaitanggal','=',$request->periode)
@@ -588,7 +588,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -597,7 +597,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('tugasluars.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -605,14 +605,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -620,14 +620,14 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('tugasluars.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 
@@ -664,7 +664,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('tugasbelajars.mulaitanggal','=',$request->periode)
@@ -672,8 +672,8 @@ class TransferRekapController extends Controller
         }
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
-                ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->join('pegawais','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -682,7 +682,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('tugasbelajars.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -690,14 +690,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -705,14 +705,14 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('tugasbelajars.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 
@@ -749,7 +749,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('rapatundangans.mulaitanggal','=',$request->periode)
@@ -758,7 +758,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -767,7 +767,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('rapatundangans.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -775,14 +775,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -790,14 +790,14 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('rapatundangans.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 
@@ -834,7 +834,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('ijinterlambats.mulaitanggal','=',$request->periode)
@@ -843,7 +843,7 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip) && isset($request->nama)) {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->where('pegawais.nama','=',$request->nip)
                 ->paginate(50);
@@ -852,7 +852,7 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nama','=',$request->nip)
                 ->where('ijinterlambats.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -860,14 +860,14 @@ class TransferRekapController extends Controller
         elseif (isset($request->nip)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
         }
         elseif (isset($request->nama)){
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where("pegawais.nama",'=',$request->nama)
                 ->paginate(50);
         }
@@ -875,14 +875,14 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('ijinterlambats.mulaitanggal','=',$request->periode)
                 ->paginate(50);
         }
         else{
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-                ->where("rekapbulanans.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
         }
 

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\att;
+use App\atts_tran;
 use Faker\Factory as Faker;
 class AttsSeeder extends Seeder
 {
@@ -13,16 +13,15 @@ class AttsSeeder extends Seeder
     public function run()
     {
         //
-        $faker=Faker::create('App\att');
+        $faker=Faker::create('App\atts_tran');
 
         for ($i=0; $i < 60; $i++) {
-          DB::table('atts')->insert([
+          DB::table('atts_trans')->insert([
               'pegawai_id'=>'2',
-              'tanggal_att'=>'2017-11-21',
-              'terlambat'=>'00:00:00',
-              'akumulasi_sehari'=>'00:00:00',
-              'jenisabsen_id'=>'2',
-              'jadwalkerja_id'=>'1',
+              'tanggal'=>'2017-11-21',
+              'jam'=>'10:00:00',
+              'lokasi_alat'=>'19',
+              'status_kedatangan'=>'0',
           ]);
         }
 

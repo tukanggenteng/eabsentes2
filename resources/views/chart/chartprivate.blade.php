@@ -846,7 +846,7 @@
 //                    loadMoreData(page);
 //                }
 
-                if ($('#app').scrollTop() + $('#app').height() >= $('#app').height()) {
+                if ($('#app').scrollTop() >= $('#app').height() - $('#app').height()-5) {
                     page++;
                     loadMoreData(page);
                 }

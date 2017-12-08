@@ -197,7 +197,7 @@
             absen.push(response['Absen']);
             apel.push(response['Apel']);
 
-            var ctx = document.getElementById("container").getContext("2d");
+            var ctx = document.getElementById("containertahun").getContext("2d");
             var color = Chart.helpers.color;
               window.myBar = new Chart(ctx, {
                   type: 'bar',
@@ -280,7 +280,7 @@
             absen3.push(response['Absen']);
             apel3.push(response['Apel']);
 
-            var ctx = document.getElementById("container").getContext("2d");
+            var ctx = document.getElementById("containertahun").getContext("2d");
             var color = Chart.helpers.color;
               window.myBar = new Chart(ctx, {
                   type: 'bar',
@@ -289,7 +289,7 @@
                           datasets: [
                               {
                                   label: "Persentase Apel",
-                                  data: apel[0],
+                                  data: apel3[0],
                                   backgroundColor: [
                                       'rgba(255, 99, 132, 0.2)',
                                       'rgba(255, 99, 132, 0.2)',
@@ -311,7 +311,7 @@
                               },
                               {
                                   label: "Persentase Tidak Hadir",
-                                  data: absen[0],
+                                  data: absen3[0],
                                   backgroundColor: [
                                       'rgba(54, 162, 235, 0.2)',
                                       'rgba(54, 162, 235, 0.2)',

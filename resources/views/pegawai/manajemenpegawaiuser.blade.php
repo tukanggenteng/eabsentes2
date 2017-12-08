@@ -28,8 +28,8 @@
 
           <!-- Main content -->
           <section class="content">
+
             @include('layouts.inforekap')
-                <div class="row">
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
@@ -65,7 +65,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
                                 {{--modal tambah--}}
                                 <div class="modal fade" id="modal_add">
@@ -261,6 +260,7 @@
           $('#nip').val("");
           $('#nama').val("");
           //$('#instansi').val("");
+          $('#simpanaddpegawai').att('disabled',false);
             $('.input-group-addon').html('<i class="fa fa-search"></i>');
         });
     </script>
@@ -308,6 +308,7 @@
                   $('#instansi').attr('disabled',true);
                   $('#instansi').val(response['instansi_id']);
                   $('#nama').val(response['nama']);
+                  $('#simpanaddpegawai').att('disabled',true);
                   $('.input-group-addon').html('<i class="fa fa-times"></i>');
                 }
                 else if (response['status']=='0') {
