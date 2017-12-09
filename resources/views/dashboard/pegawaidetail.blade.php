@@ -110,8 +110,8 @@
                         <div class="row">
                           <div class="col-sm-4 border-right">
                             <div class="description-block">
-                              <h5 class="description-header">{{$persentasehadir}}%</h5>
-                              <span class="description-text">Absent</span>
+                              <h5 class="description-header">{{$persentasehadir}}</h5>
+                              <span class="description-text">TK</span>
                               <input type="hidden" id="nip" name="nip" value="{{$nip}}">
                             </div>
                             <!-- /.description-block -->
@@ -119,8 +119,8 @@
                           <!-- /.col -->
                           <div class="col-sm-4 border-right">
                             <div class="description-block">
-                              <h5 class="description-header">{{$persentaseapel}}%</h5>
-                              <span class="description-text">Apel</span>
+                              <h5 class="description-header">{{$persentaseapel}}</h5>
+                              <span class="description-text"> Tidak Apel</span>
                             </div>
                             <!-- /.description-block -->
                           </div>
@@ -150,7 +150,7 @@
                         <div class="row">
                           <div class="col-sm-4 border-right">
                             <div class="description-block">
-                              <h5 class="description-header">100%</h5>
+                              <h5 class="description-header">0</h5>
                               <span class="description-text">Absent</span>
                             </div>
                             <!-- /.description-block -->
@@ -158,7 +158,7 @@
                           <!-- /.col -->
                           <div class="col-sm-4 border-right">
                             <div class="description-block">
-                              <h5 class="description-header">100%</h5>
+                              <h5 class="description-header">0</h5>
                               <span class="description-text">Apel</span>
                             </div>
                             <!-- /.description-block -->
@@ -331,7 +331,7 @@
                         labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                         datasets: [
                             {
-                                label: "Persentase Apel",
+                                label: "Tidak Apel",
                                 data: apel3[0],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)'
@@ -342,7 +342,7 @@
                                 borderWidth: 1
                             },
                             {
-                                label: "Persentase Tidak Hadir",
+                                label: "Tanpa Kabar",
                                 data: absen3[0],
                                 backgroundColor: [
                                     'rgba(54, 162, 235, 0.2)'
@@ -373,7 +373,7 @@
                       labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                       datasets: [
                           {
-                              label: "Persentase Apel",
+                              label: "Tidak Apel",
                               data: apel2[0],
                               backgroundColor: [
                                   'rgba(255, 99, 132, 0.2)'
@@ -384,7 +384,7 @@
                               borderWidth: 1
                           },
                           {
-                              label: "Persentase Tidak Hadir",
+                              label: "Tanpa Kabar",
                               data: absen2[0],
                               backgroundColor: [
                                   'rgba(54, 162, 235, 0.2)'

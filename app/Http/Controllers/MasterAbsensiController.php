@@ -23,12 +23,11 @@ class MasterAbsensiController extends Controller
     {
         //
 
-
-
         $date=date('N');
 
         $sekarang=date('Y-m-d');
         $status=false;
+
         if ($date==1){
             $hari='Senin';
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
@@ -167,6 +166,7 @@ class MasterAbsensiController extends Controller
                       ->where('atts.tanggal_att','>=',$awal)
                       ->where('atts.tanggal_att','<=',$akhir)
                       ->where('jenisabsen_id', '=', '1')
+                    //   ->where('jenisabsen_id','=','10')
                       ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
                       ->select('atts.tanggal_att')
                       ->count();
@@ -297,15 +297,15 @@ class MasterAbsensiController extends Controller
                   }
 
 
-                      $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                      ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                      ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                      ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                      ->where('atts.tanggal_att','>=',$awal)
-                      ->where('atts.tanggal_att','<=',$akhir)
-                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                      ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
-                      ->first();
+                $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                ->where('atts.tanggal_att','>=',$awal)
+                ->where('atts.tanggal_att','<=',$akhir)
+                ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
+                ->first();
 
                   $totalterlambat=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                   ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
@@ -324,6 +324,7 @@ class MasterAbsensiController extends Controller
                   $table->hadir=$hadir;
                   $table->tanpa_kabar=$absen;
                   $table->ijin=$ijin;
+                  $table->ijinterlambat=$ijinterlambat;
                   $table->sakit=$sakit;
                   $table->cuti=$cuti;
                   $table->tugas_luar=$tugasluar;
@@ -331,8 +332,8 @@ class MasterAbsensiController extends Controller
                   $table->terlambat=$terlambat;
                   $table->rapatundangan=$rapatundangan;
                   $table->pulang_cepat=$pulangcepat;
-                  $table->persentase_apel=$presentaseapel;
-                  $table->persentase_tidakhadir=$presentasetidakhadir;
+                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                  $table->persentase_tidakhadir=$absen;
                   $table->total_akumulasi=$totalakumulasi->total;
                   $table->total_terlambat=$totalterlambat->total;
                   $table->instansi_id=null;
@@ -347,13 +348,14 @@ class MasterAbsensiController extends Controller
                   $table->ijin=$ijin;
                   $table->sakit=$sakit;
                   $table->cuti=$cuti;
+                  $table->ijinterlambat=$ijinterlambat;
                   $table->tugas_luar=$tugasluar;
                   $table->tugas_belajar=$tugasbelajar;
                   $table->terlambat=$terlambat;
                   $table->rapatundangan=$rapatundangan;
                   $table->pulang_cepat=$pulangcepat;
-                  $table->persentase_apel=$presentaseapel;
-                  $table->persentase_tidakhadir=$presentasetidakhadir;
+                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                  $table->persentase_tidakhadir=$absen;
                   $table->total_akumulasi=$totalakumulasi->total;
                   $table->total_terlambat=$totalterlambat->total;
                   $table->instansi_id=null;

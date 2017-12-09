@@ -32,11 +32,12 @@ class HariKerjaController extends Controller
 
         foreach ($tables as $table){
             $harikerja=harikerja::where('jadwalkerja_id','=',$table->id)->count();
-            if ($harikerja == 0) {
-                $isi['id']=($table->id);
-                $isi['jenis_jadwal']=($table->jenis_jadwal);
-                array_push($jadwalkerjas,$isi);
-            }
+
+            $isi['id']=($table->id);
+            $isi['jenis_jadwal']=($table->jenis_jadwal);
+            $isi['jam_masukjadwal']=$table->jam_masukjadwal;
+            $isi['jam_keluarjadwal']=$table->jam_keluarjadwal;
+            array_push($jadwalkerjas,$isi);
         }
 
         // dd($jadwalkerjas);

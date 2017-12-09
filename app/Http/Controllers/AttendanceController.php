@@ -16,6 +16,11 @@ use App\Events\Timeline;
 class AttendanceController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('throttle:50000,1');
+    }
+
     public function store(Request $request){
 
        $jam=$request->json('jam');

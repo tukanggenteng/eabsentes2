@@ -81,9 +81,10 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('fileijin')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idijin).'+'.$tgl.'.'.$ext;
-            $request->file('fileijin')->storeAs('public/file/ijin',$filename);
+            // $ext=$request->file('fileijin')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idijin).'+'.$tgl.'.'.$ext;
+            // $request->file('fileijin')->storeAs('public/file/ijin',$filename);
+            $filename=$request->statusijin;
             $bleave = new ijin();
             $bleave->rekapbulanan_id=decrypt($request->idijin);
             $bleave->namafile=$filename;
@@ -113,9 +114,10 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('filesakit')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idsakit).'+'.$tgl.'.'.$ext;
-            $request->file('filesakit')->storeAs('public/file/sakit',$filename);
+            // $ext=$request->file('filesakit')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idsakit).'+'.$tgl.'.'.$ext;
+            // $request->file('filesakit')->storeAs('public/file/sakit',$filename);
+            $filename=$request->statussakit;
             $bleave = new sakit();
             $bleave->rekapbulanan_id=decrypt($request->idsakit);
             $bleave->namafile=$filename;
@@ -145,9 +147,11 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('filecuti')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idcuti).'+'.$tgl.'.'.$ext;
-            $request->file('filecuti')->storeAs('public/file/cuti',$filename);
+            // $ext=$request->file('filecuti')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idcuti).'+'.$tgl.'.'.$ext;
+            // $request->file('filecuti')->storeAs('public/file/cuti',$filename);
+
+            $filename=$request->statuscuti;
             $bleave = new cuti();
             $bleave->rekapbulanan_id=decrypt($request->idcuti);
             $bleave->namafile=$filename;
@@ -177,9 +181,10 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('filetb')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtb).'+'.$tgl.'.'.$ext;
-            $request->file('filetb')->storeAs('public/file/tugasbelajar',$filename);
+            // $ext=$request->file('filetb')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtb).'+'.$tgl.'.'.$ext;
+            // $request->file('filetb')->storeAs('public/file/tugasbelajar',$filename);
+            $filename=$request->statustb;
             $bleave = new tugasbelajar();
             $bleave->rekapbulanan_id=decrypt($request->idtb);
             $bleave->namafile=$filename;
@@ -209,9 +214,11 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('filetl')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtl).'+'.$tgl.'.'.$ext;
-            $request->file('filetl')->storeAs('public/file/tugasluar',$filename);
+            // $ext=$request->file('filetl')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idtl).'+'.$tgl.'.'.$ext;
+            // $request->file('filetl')->storeAs('public/file/tugasluar',$filename);
+
+            $filename=$request->statustl;
             $bleave = new tugasluar();
             $bleave->rekapbulanan_id=decrypt($request->idtl);
             $bleave->namafile=$filename;
@@ -241,9 +248,11 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('filerp')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idrp).'+'.$tgl.'.'.$ext;
-            $request->file('filerp')->storeAs('public/file/rapatundangan',$filename);
+            // $ext=$request->file('filerp')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idrp).'+'.$tgl.'.'.$ext;
+            // $request->file('filerp')->storeAs('public/file/rapatundangan',$filename);
+
+            $filename=$request->statusrp;
             $bleave = new rapatundangan();
             $bleave->rekapbulanan_id=decrypt($request->idrp);
             $bleave->namafile=$filename;
@@ -273,9 +282,11 @@ class TransferRekapController extends Controller
             $updatedata->save();
             $t=time();
             $tgl=date('Y-m-d-H-i-s',$t);
-            $ext=$request->file('fileit')->getClientOriginalExtension();
-            $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idit).'+'.$tgl.'.'.$ext;
-            $request->file('fileit')->storeAs('public/file/ijinterlambat',$filename);
+            // $ext=$request->file('fileit')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idit).'+'.$tgl.'.'.$ext;
+            // $request->file('fileit')->storeAs('public/file/ijinterlambat',$filename);
+
+            $filename=$request->statusit;
             $bleave = new ijinterlambat();
             $bleave->rekapbulanan_id=decrypt($request->idit);
             $bleave->namafile=$filename;

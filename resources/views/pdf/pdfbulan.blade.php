@@ -74,9 +74,9 @@
             <th class="header garis">Tugas Belajar</th>
             <th class="header garis">Rapat/Undangan</th>
             <th class="header garis">Pulang Cepat</th>
-            <th class="header garis">Persentase Apel</th>
-            <th class="header garis">Persentase Absent</th>
-            <th class="header garis" style="width:15px">Akumulasi Terlambat</th>
+            <th class="header garis">Tidak Apel</th>
+            <th class="header garis">Tanpa Kabar</th>
+            <th class="header garis">Akumulasi Terlambat</th>
             <th class="header garis">Akumulasi Jam Kerja</th>
           </tr>
 

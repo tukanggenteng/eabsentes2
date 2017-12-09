@@ -275,13 +275,14 @@ class TiapHariCommand extends Command
                     $table->ijin=$ijin;
                     $table->sakit=$sakit;
                     $table->cuti=$cuti;
+                    $table->ijinterlambat=$ijinterlambat;
                     $table->tugas_luar=$tugasluar;
                     $table->tugas_belajar=$tugasbelajar;
                     $table->terlambat=$terlambat;
                     $table->rapatundangan=$rapatundangan;
                     $table->pulang_cepat=$pulangcepat;
-                    $table->persentase_apel=$presentaseapel;
-                    $table->persentase_tidakhadir=$presentasetidakhadir;
+                    $table->persentase_apel=$terlambat+$ijinterlambatt;
+                    $table->persentase_tidakhadir=$absen;
                     $table->total_akumulasi=$totalakumulasi->total;
                     $table->total_terlambat=$totalterlambat->total;
                     $table->instansi_id=null;
@@ -626,6 +627,7 @@ class TiapHariCommand extends Command
                                   $table->hadir=$hadir;
                                   $table->tanpa_kabar=$absen;
                                   $table->ijin=$ijin;
+                                  $table->ijinterlambat=$ijinterlambat;
                                   $table->sakit=$sakit;
                                   $table->cuti=$cuti;
                                   $table->tugas_luar=$tugasluar;
@@ -633,8 +635,8 @@ class TiapHariCommand extends Command
                                   $table->terlambat=$terlambat;
                                   $table->rapatundangan=$rapatundangan;
                                   $table->pulang_cepat=$pulangcepat;
-                                  $table->persentase_apel=$presentaseapel;
-                                  $table->persentase_tidakhadir=$presentasetidakhadir;
+                                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                                  $table->persentase_tidakhadir=$absen;
                                   $table->total_akumulasi=$totalakumulasi;
                                   $table->total_terlambat=$totalterlambat;
                                   $table->instansi_id=null;
@@ -647,6 +649,7 @@ class TiapHariCommand extends Command
                                   $table->hadir=$hadir;
                                   $table->tanpa_kabar=$absen;
                                   $table->ijin=$ijin;
+                                  $table->ijinterlambat=$ijinterlambat;
                                   $table->sakit=$sakit;
                                   $table->cuti=$cuti;
                                   $table->tugas_luar=$tugasluar;
@@ -654,8 +657,8 @@ class TiapHariCommand extends Command
                                   $table->terlambat=$terlambat;
                                   $table->rapatundangan=$rapatundangan;
                                   $table->pulang_cepat=$pulangcepat;
-                                  $table->persentase_apel=$presentaseapel;
-                                  $table->persentase_tidakhadir=$presentasetidakhadir;
+                                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                                  $table->persentase_tidakhadir=$absen;
                                   $table->total_akumulasi=$totalakumulasi;
                                   $table->total_terlambat=$totalterlambat;
                                   $table->instansi_id=null;

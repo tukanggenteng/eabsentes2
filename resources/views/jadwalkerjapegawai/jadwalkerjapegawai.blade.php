@@ -68,7 +68,7 @@
                                 <div class="col-md-12">
 
                                     <div class="form-group">
-                                        <div class="col-md-4">
+                                        <div class="col-md-7">
                                             <label>Jenis Jadwal Kerja</label>
                                             <select class="form-control" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
                                                 @foreach($jadwalkerjas as $jadwalkerja)

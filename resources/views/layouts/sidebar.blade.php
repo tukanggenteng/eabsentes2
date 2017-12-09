@@ -110,6 +110,7 @@
                 <ul class="treeview-menu">
                     <li><a href="/pegawai/show"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
+                    <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Hari Kerja</a></li>
                     <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
                     <li><a href="/transrekap"><i class="fa fa-circle-o"></i> Upload Surat</a></li>
 

@@ -107,9 +107,13 @@
                                                 <input id="sisalamaijin" readonly hidden name="sisalamaijin" type="text">
                                             </div>
                                             <div class="form-group" >
-                                                <label>Upload File</label>
-                                                <input id="fileijin" name="fileijin" class="filestyle" data-btnClass="btn-primary" type="file">
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statusijin">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
                                             </div>
+
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -167,9 +171,16 @@
                                                 <input id="sisalamasakit" readonly hidden name="sisalamasakit" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statussakit">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="filesakit" name="filesakit" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -222,9 +233,16 @@
                                                 <input id="sisalamacuti" readonly hidden name="sisalamacuti" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statuscuti">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="filecuti" name="filecuti" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -277,9 +295,16 @@
                                                 <input id="sisalamatb" readonly hidden name="sisalamatb" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statustb">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="filetb" name="filetb" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -332,9 +357,16 @@
                                                 <input id="sisalamatl" readonly hidden name="sisalamatl" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statustl">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="filetl" name="filetl" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -387,9 +419,16 @@
                                                 <input id="sisalamarp" readonly hidden name="sisalamarp" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statusrp">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="filerp" name="filerp" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -442,9 +481,16 @@
                                                 <input id="sisalamait" readonly hidden name="sisalamait" type="text">
                                             </div>
                                             <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statusit">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            {{--  <div class="form-group" >
                                                 <label>Upload File</label>
                                                 <input id="fileit" name="fileit" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>
+                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>

@@ -690,7 +690,7 @@
                               labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                               datasets: [
                                   {
-                                      label: "Persentase Apel",
+                                      label: "Tidak Apel",
                                       data: apel[0],
                                       backgroundColor: [
                                           'rgba(255, 99, 132, 0.2)',
@@ -712,7 +712,7 @@
                                       borderWidth: 1,
                                   },
                                   {
-                                      label: "Persentase Tidak Hadir",
+                                      label: "Tanpa Kabar",
                                       data: absen[0],
                                       backgroundColor: [
                                           'rgba(54, 162, 235, 0.2)',
@@ -773,7 +773,7 @@
                               labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                               datasets: [
                                   {
-                                      label: "Persentase Apel",
+                                      label: "Tidak Apel",
                                       data: apel[0],
                                       backgroundColor: [
                                           'rgba(255, 99, 132, 0.2)',
@@ -795,7 +795,7 @@
                                       borderWidth: 1,
                                   },
                                   {
-                                      label: "Persentase Tidak Hadir",
+                                      label: "Tanpa Kabar",
                                       data: absen[0],
                                       backgroundColor: [
                                           'rgba(54, 162, 235, 0.2)',
