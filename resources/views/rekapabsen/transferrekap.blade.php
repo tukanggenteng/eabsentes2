@@ -594,16 +594,16 @@
                 serverSide: true,
                 ajax: '{{route('datatransrekap')}}',
                 columns: [
-                    { data: 'nip', name: 'nip' },
-                    { data: 'nama', name: 'nama' },
-                    { data: 'periode', name: 'periode' },
-                    { data: 'ijin', name: 'ijin' },
-                    { data: 'cuti', name: 'cuti' },
-                    { data: 'sakit', name: 'sakit' },
-                    { data: 'tugas_luar', name: 'tugas_luar' },
-                    { data: 'tugas_belajar', name: 'tugas_belajar' },
-                    { data: 'rapatundangan', name: 'rapatundangan' },
-                    { data: 'ijinterlambat', name: 'ijinterlambat' }
+                    { data: 'nip', name: 'pegawais.nip' },
+                    { data: 'nama', name: 'pegawais.nama' },
+                    { data: 'periode', name: 'rekapbulanans.periode' },
+                    { data: 'ijin', name: 'rekapbulanans.ijin' },
+                    { data: 'cuti', name: 'rekapbulanans.cuti' },
+                    { data: 'sakit', name: 'rekapbulanans.sakit' },
+                    { data: 'tugas_luar', name: 'rekapbulanans.tugas_luar' },
+                    { data: 'tugas_belajar', name: 'rekapbulanans.tugas_belajar' },
+                    { data: 'rapatundangan', name: 'rekapbulanans.rapatundangan' },
+                    { data: 'ijinterlambat', name: 'rekapbulanans.ijinterlambat' }
                 ]
             });
         });

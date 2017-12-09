@@ -29,7 +29,7 @@ class TransferRekapController extends Controller
     }
 
     public function datagrid (){
-        $rekaps=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+        $rekaps=rekapbulanan::leftJoin('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
             ->select(['rekapbulanans.id','rekapbulanans.periode','rekapbulanans.hari_kerja',
                 'rekapbulanans.hadir','rekapbulanans.tanpa_kabar','rekapbulanans.ijinterlambat','rekapbulanans.ijin','rekapbulanans.sakit',
                 'rekapbulanans.cuti','rekapbulanans.tugas_luar','rekapbulanans.tugas_belajar','rekapbulanans.terlambat',
@@ -65,8 +65,7 @@ class TransferRekapController extends Controller
     public function postijin(Request $request){
         $rules=array(
             'tanggalijin'=>'required',
-            'lamaijin'=>'required',
-            'fileijin'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamaijin'=>'required'
         );
         // return $request->sisalamaijin;
 
@@ -99,8 +98,7 @@ class TransferRekapController extends Controller
     public function postsakit(Request $request){
         $rules=array(
             'tanggalsakit'=>'required',
-            'lamasakit'=>'required',
-            'filesakit'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamasakit'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);
@@ -132,8 +130,7 @@ class TransferRekapController extends Controller
     public function postcuti(Request $request){
         $rules=array(
             'tanggalcuti'=>'required',
-            'lamacuti'=>'required',
-            'filecuti'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamacuti'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);
@@ -166,8 +163,7 @@ class TransferRekapController extends Controller
     public function posttb(Request $request){
         $rules=array(
             'tanggaltb'=>'required',
-            'lamatb'=>'required',
-            'filetb'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamatb'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);
@@ -199,8 +195,7 @@ class TransferRekapController extends Controller
     public function posttl(Request $request){
         $rules=array(
             'tanggaltl'=>'required',
-            'lamatl'=>'required',
-            'filetl'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamatl'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);
@@ -233,8 +228,7 @@ class TransferRekapController extends Controller
     public function postrp(Request $request){
         $rules=array(
             'tanggalrp'=>'required',
-            'lamarp'=>'required',
-            'filerp'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamarp'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);
@@ -267,8 +261,7 @@ class TransferRekapController extends Controller
     public function postit(Request $request){
         $rules=array(
             'tanggalit'=>'required',
-            'lamait'=>'required',
-            'fileit'=>'mimes:jpeg,jpg,png,pdf|required|max:700'
+            'lamait'=>'required'
         );
 
         $validator=Validator::make(Input::all(),$rules);

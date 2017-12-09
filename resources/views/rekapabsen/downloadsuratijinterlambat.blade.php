@@ -77,7 +77,11 @@
                                     <td>{{$rekap->nama}}</td>
                                     <td>{{$rekap->mulaitanggal}}</td>
                                     <td>{{$rekap->lama}}</td>
-                                    <td><a class="btn-sm btn-success" href="/transrekap/download/it/surat/{{encrypt($rekap->namafile)}}"><i class="fa fa-download"></i></a></td>
+                                    @if ($rekap->namafile=="1")
+                                    <td><span class="badge bg-green">Terlaporkan</span></td>
+                                    @else
+                                    <td><span class="badge bg-red">Tidak Terlaporkan</span></td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </table>
