@@ -682,12 +682,15 @@ class TiapHariCommand extends Command
 
 
         $harikerjas=harikerja::where('hari','=',$hari)
-                    ->distinct('jadwalkerja_id')
-                    ->get();
+                    ->distinct()
+                    ->get(['jadwalkerja_id','hari']);
         $tanggalharini=date("Y-m-d");
         // dd($tanggalharini);
+        // dd($harikerjas);
+
         $instansis=instansi::all();
         foreach ($instansis as $kunci => $instansi){
+
             foreach ($harikerjas as $key =>$jadwalkerja){
                     #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
                     // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
@@ -719,6 +722,8 @@ class TiapHariCommand extends Command
                                 ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
                                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
                                 ->get();
+
+                    // dd($jadwalpegawais);
                     foreach ($jadwalpegawais as $jadwalpegawai)
                     {
                         $user = new att();
