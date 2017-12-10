@@ -87,7 +87,7 @@ class Controller extends BaseController
             $cekrekap=1;
         }   
 
-        dd($hitungatts);
+        // dd($hitungatts);
         if (($cekrekap==0) && ($hitungatts >= 5)){
             return "Segera lakukan rekap absensi pegawai minggu lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap bulanan dengan mengklik ";
         }
