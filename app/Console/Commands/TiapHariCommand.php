@@ -248,14 +248,14 @@ class TiapHariCommand extends Command
                     }
 
 
-                        $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                        ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                        ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                        ->whereMonth('atts.tanggal_att','=',$bulan)
-                        ->whereYear('atts.tanggal_att','=',$tahun)
-                        ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                        ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
-                        ->first();
+                    $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    ->whereMonth('atts.tanggal_att','=',$bulan)
+                    ->whereYear('atts.tanggal_att','=',$tahun)
+                    ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
+                    ->first();
 
                     $totalterlambat=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                     ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
@@ -681,41 +681,61 @@ class TiapHariCommand extends Command
         }
 
 
-        $harikerjas=harikerja::where('hari','=',$hari)->get();
+        $harikerjas=harikerja::where('hari','=',$hari)
+                    ->distinct('jadwalkerja_id')
+                    ->get();
         $tanggalharini=date("Y-m-d");
         // dd($tanggalharini);
-        foreach ($harikerjas as $key =>$jadwalkerja){
+        $instansis=instansi::all();
+        foreach ($instansis as $kunci => $instansi){
+            foreach ($harikerjas as $key =>$jadwalkerja){
+                    #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
+                    // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                    //     //->where('pegawai_id','=','9930')
+                    // ->where('tanggal_awalrule','<=',$tanggalharini)
+                    // ->where('tanggal_akhirrule','>=',$tanggalharini)
+                    // ->count();
 
-            		$hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-            		//->where('pegawai_id','=','9930')
-                ->where('tanggal_awalrule','<=',$tanggalharini)
-                ->where('tanggal_akhirrule','>=',$tanggalharini)
-                ->count();
-              // dd($hitung);
-            if ($hitung>0)
-            {
-              // dd($hitung);
-                $jadwalpegawais=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-            		//->where('pegawai_id','=','9930')
-                            ->where('tanggal_awalrule','<=',$tanggalharini)
-                            ->where('tanggal_akhirrule','>=',$tanggalharini)
-                            ->get();
-                foreach ($jadwalpegawais as $jadwalpegawai)
+                    $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                    ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                    ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+                    ->where('harikerjas.instansi_id','=',$instansi->id)
+                    ->where('harikerjas.hari','=',$hari)
+                    ->where('pegawais.instansi_id','=',$instansi->id)
+                    ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                    //->where('pegawai_id','=','9930')
+                    ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
+                    ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
+                    ->count();
+
+
+                // dd($hitung);
+                if ($hitung>0)
                 {
-                    $user = new att();
-                    $user->pegawai_id = $jadwalpegawai->pegawai_id;
-                    $user->tanggal_att=$tanggalharini;
-                    $user->terlambat='00:00:00';
-                    $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
-                    $user->akumulasi_sehari='00:00:00';
-                    $user->jenisabsen_id = '2';
-                    $user->save();
-                    dd($jadwalpegawai->pegawai_id);
+                // dd($hitung);
+                    $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                                ->where('pegawais.instansi_id','=',$instansi->id)
+                                ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                                ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
+                                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
+                                ->get();
+                    foreach ($jadwalpegawais as $jadwalpegawai)
+                    {
+                        $user = new att();
+                        $user->pegawai_id = $jadwalpegawai->pegawai_id;
+                        $user->tanggal_att=$tanggalharini;
+                        $user->terlambat='00:00:00';
+                        $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
+                        $user->akumulasi_sehari='00:00:00';
+                        $user->jenisabsen_id = '2';
+                        $user->save();
+                        // dd($jadwalpegawai->pegawai_id);
+                    }
                 }
-            }
-            else
-            {
-                // dd("tidak jalan");
+                else
+                {
+                    // dd("tidak jalan");
+                }
             }
         }
 

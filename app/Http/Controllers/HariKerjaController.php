@@ -31,13 +31,16 @@ class HariKerjaController extends Controller
         $tables=jadwalkerja::all();
 
         foreach ($tables as $table){
-            $harikerja=harikerja::where('jadwalkerja_id','=',$table->id)->count();
 
-            $isi['id']=($table->id);
-            $isi['jenis_jadwal']=($table->jenis_jadwal);
-            $isi['jam_masukjadwal']=$table->jam_masukjadwal;
-            $isi['jam_keluarjadwal']=$table->jam_keluarjadwal;
-            array_push($jadwalkerjas,$isi);
+            $harikerja=harikerja::where('instansi_id','=',Auth::user()->instansi_id)
+            ->where('jadwalkerja_id','=',$table->id)->count();
+            if ($harikerja == 0) {
+                $isi['id']=($table->id);
+                $isi['jenis_jadwal']=($table->jenis_jadwal);
+                $isi['jam_masukjadwal']=$table->jam_masukjadwal;
+                $isi['jam_keluarjadwal']=$table->jam_keluarjadwal;
+                array_push($jadwalkerjas,$isi);
+            }
         }
 
         // dd($jadwalkerjas);
@@ -53,7 +56,8 @@ class HariKerjaController extends Controller
         $jadwalkerjadata=array();
         $kata="";
         foreach ($harikerja as $hasil){
-            $harikerjas=harikerja::where('jadwalkerja_id','=',$hasil->jadwalkerja_id)->get();
+            $harikerjas=harikerja::where('jadwalkerja_id','=',$hasil->jadwalkerja_id)
+            ->where('instansi_id','=',Auth::user()->instansi_id)->get();
             foreach ($harikerjas as $key => $value){
                 $data['hari']=($value->hari);
                 array_push($hasildata,$data);
