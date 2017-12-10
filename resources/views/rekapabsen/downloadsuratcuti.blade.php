@@ -37,7 +37,7 @@
             @include('layouts.inforekap')
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Download Surat Cuti</h3>
+                        <h3 class="box-title">Status Surat Cuti</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
