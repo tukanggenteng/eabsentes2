@@ -503,6 +503,7 @@ class RekapAbsensiController extends Controller
     }
 
     public function indexrekap(){
+        
       return view('rekapabsen.rekapabsenmingguan');
     }
 

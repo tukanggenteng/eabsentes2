@@ -254,7 +254,16 @@ class PegawaiController extends Controller
     {
         //
         $instansis=instansi::all();
-        return view('pegawai.manajemenpegawaiuser',['instansis'=>$instansis]);
+        if ($this->notifrekap()=="")
+        {
+
+            $inforekap="";
+        }
+        else
+        {
+            $inforekap=$this->notifrekap();
+        }
+        return view('pegawai.manajemenpegawaiuser',['instansis'=>$instansis,'inforekap'=>$inforekap]);
     }
 
     /**

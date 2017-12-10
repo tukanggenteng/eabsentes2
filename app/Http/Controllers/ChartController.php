@@ -277,6 +277,16 @@ class ChartController extends Controller
 
         // dd($tidakhadirbulan);
 
+        if ($this->notifrekap()=="")
+        {
+
+            $inforekap="";
+        }
+        else
+        {
+            $inforekap=$this->notifrekap();
+        }
+
         return view('chart.chartprivate',
             ['event'=>$event,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,
                 'sakit'=>$sakit,'ijin'=>$ijin,'cuti'=>$cuti,'tb'=>$tb,'tl'=>$tl,'terlambat'=>$terlambat,
@@ -284,7 +294,7 @@ class ChartController extends Controller
                   'sakitbulan'=>$sakit,'ijinbulan'=>$ijinbulan,'cutibulan'=>$cutibulan,'tbbulan'=>$tbbulan,'tlbulan'=>$tlbulan,'terlambatbulan'=>$terlambatbulan,
                   'eventtahun'=>$eventtahun,'tahun'=>$tahun,'tidakhadirtahun'=>$tidakhadirtahun,
                       'sakittahun'=>$sakittahun,'ijintahun'=>$ijintahun,'cutitahun'=>$cutitahun,'tbtahun'=>$tbtahun,'tltahun'=>$tltahun,'terlambattahun'=>$terlambattahun,
-                'kehadirans'=>$kehadiran
+                'kehadirans'=>$kehadiran,'inforekap'=>$inforekap
               ],
             compact('chats'));
     }

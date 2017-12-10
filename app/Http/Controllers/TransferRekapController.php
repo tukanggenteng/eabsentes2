@@ -25,7 +25,16 @@ class TransferRekapController extends Controller
 {
     //
     public function index(){
-        return view('rekapabsen.transferrekap');
+        if ($this->notifrekap()=="")
+        {
+
+            $inforekap="";
+        }
+        else
+        {
+            $inforekap=$this->notifrekap();
+        }
+        return view('rekapabsen.transferrekap',['inforekap'=>$inforekap]);
     }
 
     public function datagrid (){
