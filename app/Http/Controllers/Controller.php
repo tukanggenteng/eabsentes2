@@ -73,6 +73,7 @@ class Controller extends BaseController
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('rekapbulanans.periode','=',$awal)
             ->count();
+        
         }
         else
         {
