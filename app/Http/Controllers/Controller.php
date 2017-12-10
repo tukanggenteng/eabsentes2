@@ -79,8 +79,7 @@ class Controller extends BaseController
                     ->where('atts.tanggal_att','>=',$awal)
                     ->where('atts.tanggal_att','<=',$akhir)
                     ->distinct()
-                    ->select('atts.tanggal_att')
-                    ->count();
+                    ->count('atts.tanggal_att');
         }
         else
         {
