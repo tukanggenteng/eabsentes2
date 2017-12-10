@@ -151,8 +151,8 @@
                                   <th>Tugas Belajar</th>
                                   <th>Rapat/Undangan</th>
                                   <th>Pulang Cepat</th>
-                                  <th>Persentase Apel</th>
-                                  <th>Persentase Absent</th>
+                                  <th>Tidak Apel</th>
+                                  <th>Tanpa Kabar</th>
                                   <th>Akumulasi Terlambat</th>
                                   <th>Akumulasi Jam Kerja</th>
                                 </tr>
