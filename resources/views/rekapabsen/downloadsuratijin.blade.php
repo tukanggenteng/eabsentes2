@@ -69,7 +69,7 @@
                                 <th>Nama</th>
                                 <th>Tanggal</th>
                                 <th>Lama</th>
-                                <th width="100px">Download</th>
+                                <th width="100px">Status</th>
                             </tr>
                             @foreach($rekaps as $rekap)
                                 <tr>
