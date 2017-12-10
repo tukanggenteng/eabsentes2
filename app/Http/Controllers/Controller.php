@@ -73,7 +73,13 @@ class Controller extends BaseController
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('rekapbulanans.periode','=',$awal)
             ->count();
-        
+        $hitungatts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                    ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                    ->where('atts.tanggal_att','>=',$awal)
+                    ->where('atts.tanggal_att','<=',$akhir)
+                    ->distinct()
+                    ->select('atts.tanggal_att')
+                    ->count();
         }
         else
         {
@@ -81,7 +87,7 @@ class Controller extends BaseController
         }   
 
 
-        if ($cekrekap==0){
+        if (($cekrekap==0) && ($hitungatts >= 5)){
             return "Segera lakukan rekap absensi pegawai minggu lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap bulanan dengan mengklik ";
         }
         else
