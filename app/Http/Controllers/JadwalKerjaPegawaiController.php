@@ -56,7 +56,7 @@ class JadwalKerjaPegawaiController extends Controller
             $cari2=$request->table_search2;
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
         }
-        if ((isset($request->table_search2)) && (!isset($request->table_search)) )
+        elseif ((isset($request->table_search2)) && (!isset($request->table_search)) )
         {
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
@@ -76,7 +76,7 @@ class JadwalKerjaPegawaiController extends Controller
             $cari=$request->table_search;
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
         }
-        if (isset($request->table_search)){
+        elseif (isset($request->table_search)){
             $rulejadwal=pegawai::where('nip','like','%'.$request->table_search.'%')
                 ->orWhere('nama','like','%'.$request->table_search.'%')
                 ->where('instansi_id','=',Auth::user()->instansi_id)
