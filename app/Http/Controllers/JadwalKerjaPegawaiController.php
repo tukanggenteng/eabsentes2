@@ -65,6 +65,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->orWhere('jadwalkerjas.jenis_jadwal','like','%'.$request->table_search2.'%')
                 ->orWhere('pegawais.nip','like','%'.$request->table_search2.'%')
+                
                 // ->orWhere('pegawais.nama','like','%'.$request->table_search2.'%')
                 // ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
                 // ->where('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
