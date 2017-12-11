@@ -104,7 +104,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                 ->orderBy('rulejadwalpegawais.id','ASC')
                 ->paginate(30);
-        //    dd($rulejadwal2);
+           dd($rulejadwal2);
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
             $jadwalkerja=jadwalkerja::all();
 //            dd($rulejadwal);
