@@ -136,11 +136,6 @@ class AttendanceController extends Controller
                               }
 
                           } else {
-<<<<<<< HEAD
-=======
-                            // dd("jam datang ".$jamfingerprint." ")
-                            // dd(($jamfingerprint <= $cek[0]['jamsebelum_pulangkerja']));
->>>>>>> aca8c3248cf8d3ff7172a68c863ce5510a097ab9
                               return ("Failed");
                               //tidakbisadatang
                           }
