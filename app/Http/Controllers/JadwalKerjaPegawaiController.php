@@ -58,7 +58,7 @@ class JadwalKerjaPegawaiController extends Controller
         }
         elseif ((isset($request->table_search2)) && (!isset($request->table_search)) )
         {
-            dd("sss");
+            // dd("sss");
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
                 //->where('tanggal_awalrule','<=',$tanggalsekarang)
