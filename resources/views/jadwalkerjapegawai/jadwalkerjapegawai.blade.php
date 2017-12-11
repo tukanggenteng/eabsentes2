@@ -133,7 +133,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Manajemen Jadwal Kerja Pegawai</h3>
 
-                        <div class="box-tools">
+                        {{--  <div class="box-tools">
                             <form action="/jadwalkerjapegawai" method="post">
                                 <div class="input-group input-group-sm" style="width: 150px;">
 
@@ -144,7 +144,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div>  --}}
 
                     </div>
                     <!-- /.box-header -->
