@@ -79,6 +79,7 @@ class JadwalKerjaPegawaiController extends Controller
         }
         elseif ((!isset($request->table_search2)) && (isset($request->table_search))){
             $rulejadwal=pegawai::where('nip','like','%'.$request->table_search.'%')
+                ->orWhere('nama','like','%'.$request->table_search.'%')
                 ->where('instansi_id','=',Auth::user()->instansi_id)
                 ->paginate(30);
 
