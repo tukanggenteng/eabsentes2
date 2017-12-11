@@ -47,7 +47,7 @@ class TiapHariCommand extends Command
     public function handle()
     {
         //
-
+        dd("jalan");
         $tanggal=date('d');
         if ($tanggal==8){
           $sekarang=date("Y-m-d");
