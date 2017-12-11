@@ -27,6 +27,12 @@ class PegawaiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('throttle:50000,1');
+    }
+
+
     public function index(Request $request)
     {
         //

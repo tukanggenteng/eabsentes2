@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 class TrigerController extends Controller
 {
     //
+    
+    public function __construct()
+    {
+        $this->middleware('throttle:50000,1');
+    }
+
     public function index(){
         $table=triger::all();
         return $table;
