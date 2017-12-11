@@ -36,7 +36,6 @@ class JadwalKerjaPegawaiController extends Controller
         {
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 //->where('tanggal_awalrule','<=',$tanggalsekarang)
                 //->where('tanggal_akhirrule','>=',$tanggalsekarang)
                 ->where('jadwalkerjas.jenis_jadwal','like','%'.$request->table_search2.'%')
@@ -44,6 +43,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->orWhere('pegawais.nama','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
+                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                 ->orderBy('rulejadwalpegawais.id','ASC')
                 ->paginate(30);
@@ -60,7 +60,6 @@ class JadwalKerjaPegawaiController extends Controller
         {
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 //->where('tanggal_awalrule','<=',$tanggalsekarang)
                 //->where('tanggal_akhirrule','>=',$tanggalsekarang)
                 ->where('jadwalkerjas.jenis_jadwal','like','%'.$request->table_search2.'%')
@@ -68,6 +67,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->orWhere('pegawais.nama','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
                 ->orWhere('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
+                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                 ->orderBy('rulejadwalpegawais.id','ASC')
                 ->paginate(30);
@@ -77,9 +77,9 @@ class JadwalKerjaPegawaiController extends Controller
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
         }
         if (isset($request->table_search)){
-            $rulejadwal=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
-                ->where('nip','like','%'.$request->table_search.'%')
+            $rulejadwal=pegawai::where('nip','like','%'.$request->table_search.'%')
                 ->orWhere('nama','like','%'.$request->table_search.'%')
+                ->where('instansi_id','=',Auth::user()->instansi_id)
                 ->paginate(30);
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
