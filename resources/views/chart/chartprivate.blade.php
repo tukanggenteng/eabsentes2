@@ -886,7 +886,7 @@
 
                 socket.on('chats:App\\Events\\ChatEvent', function(data) {
                     this.chats.unshift({user_id:data.user_id,name:data.name,created_at:data.created_at,text:data.text})
-//                    alert(data.text)
+                    alert(data.text)
                     console.log(data)
                 }.bind(this))
             }
