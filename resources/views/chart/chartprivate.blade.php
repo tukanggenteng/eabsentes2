@@ -875,7 +875,7 @@
         });
     </script>
     <script type="text/javascript">
-        var socket = io('http://eabsen.kalselprov.go.id:3000');
+        var socket = io('eabsen.kalselprov.go.id:3000');
         new Vue({
             el: '#app',
             data: {
