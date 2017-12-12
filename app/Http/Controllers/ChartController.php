@@ -352,11 +352,14 @@ class ChartController extends Controller
     }
 
     public function storechat(Request $request){
+
         $table= new chat();
         $table->user_id=$request->user_id;
         $table->text=$request->text;
         $table->save();
-
+        $pegawai=User::where('id','=',$request->user_id)->first();
+        $jamsekarang=date("Y-m-d H:i:s");
+        event(new ChatEvent($request->user_id,$pegawai->nama,$request->text, $jamsekarang));
     }
 
 

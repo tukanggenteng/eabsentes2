@@ -839,13 +839,6 @@
             var page = 1;
 
             $('#app').on('scroll', function () {
-
-//                alert($('#app').scrollTop());
-//                if ($('#app').scrollTop() + $('#app').height() >= $('#app').height()) {
-//                    page++;
-//                    loadMoreData(page);
-//                }
-
                 if ($('#app').scrollTop() >= $('#app').height() - $('#app').height()-5) {
                     page++;
                     loadMoreData(page);
