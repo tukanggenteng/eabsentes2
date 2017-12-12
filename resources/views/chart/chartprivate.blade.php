@@ -883,7 +883,6 @@
             },
             mounted: function() {
                 // 'test-channel:UserSignedUp'
-                alert("sas")
                 socket.on('chats:App\\Events\\ChatEvent', function(data) {
                     this.chats.unshift({user_id:data.user_id,name:data.name,created_at:data.created_at,text:data.text})
                     alert(data.text)
