@@ -900,7 +900,7 @@
                 url:'{{route('chatpost')}}',
                 data: new FormData($('#formchat')[0]),
                 dataType:'json',
-                async:false,
+                async:true,
                 processData: false,
                 contentType: false,
                 success:function(response){
