@@ -46,6 +46,7 @@ class ChartController extends Controller
             $name=$request->name;
             $text=$request->text;
             event(new ChatEvent($user_id,$name,$request->text,$tanggal));
+            return "Succes";
         }
 
 
