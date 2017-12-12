@@ -12,7 +12,7 @@ class FingerPegawaiController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('throttle:3000,1');
+        $this->middleware('throttle:300000,1');
     }
 
     public function index(Request $request){
