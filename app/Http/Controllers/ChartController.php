@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\chat;
 use App\att;
 use App\jenisabsen;
+use App\User;
 use App\masterbulanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
