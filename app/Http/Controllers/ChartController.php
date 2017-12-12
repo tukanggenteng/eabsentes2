@@ -360,7 +360,9 @@ class ChartController extends Controller
         $table->save();
         $pegawai=User::where('id','=',$request->user_id)->first();
         $jamsekarang=date("Y-m-d H:i:s");
+
         event(new ChatEvent($request->user_id,$pegawai->nama,$request->text, $jamsekarang));
+        return $request->user_id.$pegawai->nama.$request->text. $jamsekarang;
     }
 
 
