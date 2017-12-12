@@ -663,7 +663,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.2/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
-    <script type="text/javascript">
+    <script>
         var apel = new Array();
         var absen = new Array();
 
@@ -832,7 +832,7 @@
             });
         });
     </script>
-    <script type="text/javascript">
+    <script>
 
         $(document).ready(function() {
 
@@ -874,7 +874,7 @@
             });
         });
     </script>
-    <script type="text/javascript">
+    <script>
         var socket = io('http://eabsen.kalselprov.go.id:3000');
         new Vue({
             el: '#app',
@@ -892,7 +892,7 @@
         })
     </script>
 
-    <script type="text/javascript">
+    <script>
         $(document).on('click','#kirim',function (){
             var text=$('#text').val();
             $.ajax({
