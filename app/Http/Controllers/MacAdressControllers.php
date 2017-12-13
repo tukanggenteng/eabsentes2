@@ -43,9 +43,9 @@ class MacAdressControllers extends Controller
     {
         //
         $this->validate($request, [
-            'mac'=>'required|min:17',
+            'macaddress'=>'required | min:17 | unique:macaddresses',
         ]);
-
+        
         $user = new macaddresse;
         $user->macaddress = $request->mac;
         $user->save();
@@ -79,7 +79,7 @@ class MacAdressControllers extends Controller
     {
         //
         $this->validate($request, [
-            'mac'=>'required|min:17',
+            'macaddress'=>'required | min:17 | unique:macaddresses',
         ]);
         $table=macaddresse::where('id','=',$request->id)->first();
         $table->macaddress=$request->mac;

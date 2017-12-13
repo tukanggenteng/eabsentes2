@@ -48,7 +48,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-thumbs-o-up"></i>
                                         </div>
-                                        <input id="mac" name="mac" class="form-control pull-right" type="text" value="{{$tables->macaddress}}">
+                                        <input id="macaddress" name="macaddress" class="form-control pull-right" type="text" value="{{$tables->macaddress}}">
                                         <input id="id" name="id" readonly hidden type="text" value="{{$id}}">
                                     </div>
                                 </div>
