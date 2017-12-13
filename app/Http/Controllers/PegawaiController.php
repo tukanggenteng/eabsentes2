@@ -417,7 +417,7 @@ class PegawaiController extends Controller
 
     public function addfinger(Request $request){
 
-        $hitung=fingerpegawai::where('','',$request->json('pegawai_id'))
+        $hitung=fingerpegawai::where('pegawai_id','=',$request->json('pegawai_id'))
                 ->count();
         if ($hitung == 2)
         {
