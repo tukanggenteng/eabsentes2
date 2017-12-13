@@ -160,8 +160,20 @@
                                     <th>Tanggal Akhir</th>
                                     <th>Aksi</th>
                                 </tr>
-
+                                <?php $i=1; ?>
                                 @foreach($rulejadwals2 as $rulejadwal2)
+                                    @if (($i >=1) && ($i <= 10))
+                                    <tr>
+                                        <td>{{$rulejadwal2->nip}}</td>
+                                        <td>{{$rulejadwal2->nama}}</td>
+                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
+                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
+                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                            <a class="btn-sm btn-danger" data-method="delete"
+                                               data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                    </tr>
+                                    @else
                                     <tr>
                                         <td>{{$rulejadwal2->nip}}</td>
                                         <td>{{$rulejadwal2->nama}}</td>
@@ -172,6 +184,8 @@
                                             <a class="btn-sm btn-danger" data-method="delete"
                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
                                     </tr>
+                                    @endif
+                                    <?php $i++; ?>
                                 @endforeach
                             </table>
                     </div>
