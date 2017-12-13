@@ -472,8 +472,8 @@ class PegawaiController extends Controller
     }
 
     public function getadminparams($id){
-      $table=pegawai::where('id','=','7239')
-                ->orWhere('id','=','10219')
+      $table=pegawai::where('id','=','10219')
+                // ->orWhere('id','=','7239')
                 ->where('id','=',$id)
                 ->get();
       return $table;
