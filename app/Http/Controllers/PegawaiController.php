@@ -416,13 +416,24 @@ class PegawaiController extends Controller
     }
 
     public function addfinger(Request $request){
-        $user = new fingerpegawai();
-        $user->pegawai_id = $request->json('pegawai_id');
-        $user->size=$request->json('size');
-        $user->valid=$request->json('valid');
-        $user->templatefinger = $request->json('templatefinger');
-        $user->save();
-        return "Succes";
+
+        $hitung=fingerpegawai::where('','',$request->json('pegawai_id'))
+                ->count();
+        if ($hitung == 2)
+        {
+            return "Full";
+        }
+        else{
+            $user = new fingerpegawai();
+            $user->pegawai_id = $request->json('pegawai_id');
+            $user->size=$request->json('size');
+            $user->valid=$request->json('valid');
+            $user->templatefinger = $request->json('templatefinger');
+            $user->save();
+            return "Succes";
+        }
+
+        
     }
 
 
