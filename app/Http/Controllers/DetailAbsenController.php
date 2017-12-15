@@ -15,11 +15,14 @@ class DetailAbsenController extends Controller
       $tanggal=date("Y-m-d");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','2')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -36,11 +39,14 @@ class DetailAbsenController extends Controller
       $tanggal=date("Y-m-d");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','5')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -58,10 +64,13 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','3')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+      'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->where('atts.tanggal_att','=',$tanggal)
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
@@ -81,11 +90,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','4')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -103,11 +115,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','6')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -125,11 +140,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','7')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -147,11 +165,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.terlambat','!=','00:00:00')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -169,11 +190,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','8')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->where('atts.tanggal_att','=',$tanggal)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -195,12 +219,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','2')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -219,12 +246,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','5')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -243,12 +273,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','3')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -267,12 +300,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','4')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -291,12 +327,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','6')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -316,12 +355,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','7')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -340,12 +382,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.terlambat','!=','00:00:00')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -364,12 +409,15 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','8')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereMonth('atts.tanggal_att','=',$bulan)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -388,12 +436,15 @@ class DetailAbsenController extends Controller
       $tahun=date("Y");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','2')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -413,11 +464,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','5')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -434,12 +488,15 @@ class DetailAbsenController extends Controller
       $tahun=date("Y");
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','3')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -460,11 +517,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','4')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -483,11 +543,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','6')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -507,11 +570,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.jenisabsen_id','=','7')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -530,11 +596,14 @@ class DetailAbsenController extends Controller
       $tables=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
       ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('jenisabsens','jenisabsens.id','=','atts.jenisabsen_id')
+      ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
       ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
       ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
       ->where('atts.terlambat','!=','00:00:00')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
@@ -559,6 +628,8 @@ class DetailAbsenController extends Controller
       ->where('atts.jenisabsen_id','=','8')
       ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
       ->whereYear('atts.tanggal_att','=',$tahun)
+      ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
       ->orderBy('atts.tanggal_att','desc')
       ->paginate(30);
 
