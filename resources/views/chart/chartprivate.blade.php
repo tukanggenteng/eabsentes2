@@ -639,11 +639,7 @@
                             </div>
                             <!-- /.box-body -->
 
-                            <div class="box-footer clearfix">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    {{$rulejadwals2->links()}}
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>

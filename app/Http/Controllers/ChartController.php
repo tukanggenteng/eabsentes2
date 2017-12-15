@@ -297,7 +297,7 @@ class ChartController extends Controller
         ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
         ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
         ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
-        ->paginate(30);
+        ->get();
 
         return view('chart.chartprivate',
             ['event'=>$event,'rulejadwals2'=>$rulejadwal2,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,
