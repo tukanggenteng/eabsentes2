@@ -293,7 +293,6 @@ class ChartController extends Controller
         $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
         ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        // ->where('tanggal_awalrule','<=',$tanggalsekarang)
         ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
         ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
         ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')

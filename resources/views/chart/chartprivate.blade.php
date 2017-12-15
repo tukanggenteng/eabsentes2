@@ -574,7 +574,9 @@
                                             <th>Tanggal Akhir</th>
                                             <th>Aksi</th>
                                         </tr>
-                                        <?php $i=1; ?>
+                                        <?php $i=1;
+                                              $baris=0;
+                                         ?>
                                         @foreach($rulejadwals2 as $rulejadwal2)
                                             <?php 
                                             $tanggalsekarang=date("Y-m-d");
@@ -582,16 +584,15 @@
                                             $minimal=strtotime($minimal);
                                             $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
                                             @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
-                                                    {{--  <tr>
-                                                        <td>{{$rulejadwal2->nip}}</td>
-                                                        <td>{{$rulejadwal2->nama}}</td>
-                                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                        <td>{{$rulejadwal2->tanggal_awalrule}}</td>
-                                                        <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                            <a class="btn-sm btn-danger" data-method="delete"
-                                                            data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                                    </tr>  --}}
+                                                    
+                                                    @if ($baris==0)
+                                                    <tr>
+                                                        <td colspan="6" ><center>Tidak ada data.</center></td>
+                                                    </tr>
+                                                    @endif
+
+                                                    <?php $baris++; ?>
+                                                    
                                                     {{--  @if (($i >=1) && ($i <= 10))
                                                     
                                                     @else
@@ -632,6 +633,8 @@
                                                             <a class="btn-sm btn-danger" data-method="delete"
                                                             data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
                                                     </tr>
+
+                                                    <?php $baris++; ?>
                                             @endif
                                             <?php $i++; ?>
                                         @endforeach
