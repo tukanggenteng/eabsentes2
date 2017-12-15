@@ -31,10 +31,10 @@
                         <ul class="timeline">
                             <!-- timeline item -->
                             <li v-for="att in atts">
-                              <i class="fa fa-map-marker bg-blue" v-if="att.statusmasuk== 'hadir'"></i>
-                              <i class="fa fa-map-marker bg-orange" v-if="att.statusmasuk== 'hadir terlambat'"></i>
-                              <i class="fa fa-map-marker bg-yellow" v-if="att.statusmasuk== 'pulang lebih cepat'"></i>
-                              <i class="fa fa-map-marker bg-green" v-if="att.statusmasuk== 'pulang'"></i>
+                              <i class="fa fa-bank bg-blue" v-if="att.statusmasuk== 'hadir'"></i>
+                              <i class="fa fa-bank bg-orange" v-if="att.statusmasuk== 'hadir terlambat'"></i>
+                              <i class="fa fa-bank bg-yellow" v-if="att.statusmasuk== 'pulang lebih cepat'"></i>
+                              <i class="fa fa-bank bg-green" v-if="att.statusmasuk== 'pulang'"></i>
                                 <div class="timeline-item">
                                     <span class="time"><i class="fa fa-clock-o"></i> @{{ att.tanggal }}</span>
 
