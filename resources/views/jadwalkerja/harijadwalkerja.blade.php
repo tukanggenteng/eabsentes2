@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">
+<!-- Select2 -->
+<link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.css')}}">
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
 <!-- Bootstrap time Picker -->
@@ -49,7 +51,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Jadwal</label>
-                                        <select class="form-control" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
+                                        <select class="form-control select2" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
                                             @foreach($jadwalkerjas as $jadwalkerja)
                                                 <option value="{{$jadwalkerja['id']}}">{{$jadwalkerja['jenis_jadwal']}} ({{$jadwalkerja['jam_masukjadwal']}} - {{$jadwalkerja['jam_keluarjadwal']}})</option>
                                             @endforeach
@@ -176,6 +178,9 @@
         $('#pulang').timepicker({
             showMeridian:false
         });
+
+
+        $('.select2').select2();
 
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',

@@ -554,7 +554,99 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <h3 class="box-title">Jadwal Kerja Pegawai <small>yang hampir habis masa berlakunya</small></h3>
 
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body table-responsive no-padding">
+                                    <h4></h4>
+                                    <table class="table table-hover">
+                                        <tr>
+
+                                            <th>NIP</th>
+                                            <th>Nama</th>
+                                            <th>Jenis Jadwal</th>
+                                            <th>Tanggal Mulai</th>
+                                            <th>Tanggal Akhir</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                        <?php $i=1; ?>
+                                        @foreach($rulejadwals2 as $rulejadwal2)
+                                            <?php 
+                                            $tanggalsekarang=date("Y-m-d");
+                                            $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule)));
+                                            $minimal=strtotime($minimal);
+                                            $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
+                                            @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
+                                                    {{--  <tr>
+                                                        <td>{{$rulejadwal2->nip}}</td>
+                                                        <td>{{$rulejadwal2->nama}}</td>
+                                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                        <td>{{$rulejadwal2->tanggal_awalrule}}</td>
+                                                        <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
+                                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                            <a class="btn-sm btn-danger" data-method="delete"
+                                                            data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                    </tr>  --}}
+                                                    {{--  @if (($i >=1) && ($i <= 10))
+                                                    
+                                                    @else
+                                                    <tr>
+                                                        <td>{{$rulejadwal2->nip}}</td>
+                                                        <td>{{$rulejadwal2->nama}}</td>
+                                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                        <td>{{$rulejadwal2->tanggal_awalrule}}</td>
+                                                        <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
+                                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                            <a class="btn-sm btn-danger" data-method="delete"
+                                                            data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                    </tr>
+                                                    @endif  --}}
+                                            @else
+                                                    {{--  @if (($i >=1) && ($i <= 10))
+                                                    <tr>
+                                                        <td>{{$rulejadwal2->nip}}</td>
+                                                        <td>{{$rulejadwal2->nama}}</td>
+                                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
+                                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
+                                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                            <a class="btn-sm btn-danger" data-method="delete"
+                                                            data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                    </tr>
+                                                    @else
+                                                    
+                                                    @endif  --}}
+
+                                                    <tr>
+                                                        <td>{{$rulejadwal2->nip}} </td>
+                                                        <td>{{$rulejadwal2->nama}}</td>
+                                                        <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
+                                                        <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
+                                                        <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                            <a class="btn-sm btn-danger" data-method="delete"
+                                                            data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                    </tr>
+                                            @endif
+                                            <?php $i++; ?>
+                                        @endforeach
+                                    </table>
+                            </div>
+                            <!-- /.box-body -->
+
+                            <div class="box-footer clearfix">
+                                <ul class="pagination pagination-sm no-margin pull-right">
+                                    {{$rulejadwals2->links()}}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-12">
                       <div class="box">

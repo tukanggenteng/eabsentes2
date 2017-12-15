@@ -42,7 +42,7 @@
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Upload Surat Pendukung</h3>
+                                <h3 class="box-title">Laporan Surat Pendukung</h3>
                             </div>
                             <div class="box-body">
                                 <hr>

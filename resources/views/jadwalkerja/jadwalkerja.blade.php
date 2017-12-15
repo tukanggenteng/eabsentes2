@@ -167,7 +167,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Jadwal</label>
-                                            <select class="form-control" name="jadwalkerjamasuk">
+                                            <select class="form-control select2" name="jadwalkerjamasuk">
                                                 @foreach($jadwalkerjas as $jadwalkerja)
                                                     <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}}</option>
                                                 @endforeach

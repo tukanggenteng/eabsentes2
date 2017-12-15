@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">
+<!-- Select2 -->
+<link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.css')}}">
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
 <!-- Bootstrap time Picker -->
@@ -133,6 +135,8 @@
         $('#pulang').timepicker({
             showMeridian:false
         });
+
+        $('.select2').select2();
     </script>
 
     </body>

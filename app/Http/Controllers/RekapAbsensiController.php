@@ -109,7 +109,7 @@ class RekapAbsensiController extends Controller
             ->where('atts.tanggal_att','<=',$akhir)
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->distinct()
-            ->select('atts.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
+            ->select('atts.jadwalkerja_id','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
             ->get();
         // dd($jadwalkerjas);
         $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir');

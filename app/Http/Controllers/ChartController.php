@@ -7,6 +7,7 @@ use App\att;
 use App\jenisabsen;
 use App\User;
 use App\masterbulanan;
+use App\rulejadwalpegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Auth;
@@ -289,8 +290,17 @@ class ChartController extends Controller
             $inforekap=$this->notifrekap();
         }
 
+        $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+        ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+        ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+        // ->where('tanggal_awalrule','<=',$tanggalsekarang)
+        ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
+        ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+        ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
+        ->paginate(30);
+
         return view('chart.chartprivate',
-            ['event'=>$event,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,
+            ['event'=>$event,'rulejadwals2'=>$rulejadwal2,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,
                 'sakit'=>$sakit,'ijin'=>$ijin,'cuti'=>$cuti,'tb'=>$tb,'tl'=>$tl,'terlambat'=>$terlambat,
               'eventbulan'=>$eventbulan,'bulan'=>$bulan,'tidakhadirbulan'=>$tidakhadirbulan,
                   'sakitbulan'=>$sakit,'ijinbulan'=>$ijinbulan,'cutibulan'=>$cutibulan,'tbbulan'=>$tbbulan,'tlbulan'=>$tlbulan,'terlambatbulan'=>$terlambatbulan,
