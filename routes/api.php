@@ -28,4 +28,6 @@ Route::group(['middleware'=>['api']], function () {
     Route::get('/version','VersionController@index');
 
     Route::post('/logerror','LogFingerErrorController@create');
+
+    Route::post('/raspberry','RaspberryStatusController@update');
 });

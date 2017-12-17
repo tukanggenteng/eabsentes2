@@ -192,6 +192,9 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/user/register','UserController@register');
 
 Route::group(['middleware' => ['rule:admin']],function(){
+      #raspberry
+      Route::get('/raspberry','RaspberryStatusController@index');
+      Route::get('/raspberry/data','RaspberryStatusController@data')->name('dataraspberry');
 
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');

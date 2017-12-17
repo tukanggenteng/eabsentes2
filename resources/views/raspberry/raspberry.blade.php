@@ -28,76 +28,49 @@
 
           <!-- Main content -->
           <section class="content">
+                
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-md-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Manajemen Finger</h3>
+                                <h3 class="box-title">Status Raspberry</h3>
                             </div>
                             <div class="box-body">
-
                                 <div class="row">
-                                  <div class="col-md-12">
-                                    <div class="col-md-8">
+                                    <div class="col-md-2">
+                                        <button id="refresh" class="btn btn-primary btn-block btn-flat"> Refresh</button>
                                     </div>
-                                    <div class="col-md-4">
-                                        <form action="/finger" method="post">
-                                          {{csrf_field()}}
-                                          <input type="text" name="cari" placeholder="NIP/Nama/Instansi">
-                                          <button type="submit" name="button"><i class="fa fa-search"></i></button>
-                                        </form>
-                                    </div>
-                                  </div>
                                 </div>
+                                <hr>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
                                             <table id="tableaja" class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>NIP</th>
-                                                    <th>Nama</th>
-                                                    <th>Instansi</th>
-                                                    <th>Finger</th>
-                                                    <th>Aksi</th>
+                                                    <th>Nama Instansi</th>
+                                                    <th>Status</th>
                                                 </tr>
                                                 </thead>
-                                                <tbody>
-                                                  @foreach($pegawais as $pegawai)
-                                                      <tr>
-                                                          <td>{{$pegawai->id}}</td>
-                                                          <td>{{$pegawai->nip}}</td>
-                                                          <td>{{$pegawai->nama}}</td>
-                                                          <td>{{$pegawai->namaInstansi}}</td>
-                                                          <td>{{$pegawai->finger}}</td>
-                                                          <td><a href="/finger/{{encrypt($pegawai->nip)}}" class="btn-sm btn-success">Edit</a></td>
-                                                      </tr>
-                                                  @endforeach
-                                                </tbody>
                                             </table>
                                         </div>
-
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="box-footer clearfix">
-                                <ul class="pagination pagination-sm no-margin pull-right">
-                                    {{$pegawais->appends(['cari'=>($cari)])->links()}}
-                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
+
+                <!-- /.modal -->
             </section>
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
 
-
                 @include('layouts.footer')
+
     </div>
     <!-- ./wrapper -->
 
@@ -113,18 +86,33 @@
     <!-- FastClick -->
     <script src="{{asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
-
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
     {{--<script src="{{asset('dist/js/demo.js')}}"></script>--}}
     <!-- Page script -->
-    <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2').select2()
+    <script type="text/javascript">
+        var oTable;
+        $(function() {
+            oTable = $('#tableaja').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('dataraspberry')}}',
+                columns: [
+                    { data: 'namaInstansi', name: 'namaInstansi' },
+                    { data: 'status', name: 'status' }
+                ]
+            });
+        });
 
-        })
+
+        $('#refresh').click(function(){
+            oTable.ajax.reload();
+        });
     </script>
+
+
+
+    </body>
 @endsection

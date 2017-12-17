@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(InstansiSeeder::class);
 	    $this->call(RoleSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(RaspberryStatusSeeder::class);
 	      // $this->call(AttsSeeder::class);
 
     }

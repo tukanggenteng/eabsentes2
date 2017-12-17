@@ -39,4 +39,8 @@ class instansi extends Model
     public function rulejadwalpegawai(){
         return $this->hasMany(rulejadwalpegawai::class);
     }
+
+    public function raspberrystatus(){
+        return $this->hasMany(raspberrystatu::class);
+    }
 }

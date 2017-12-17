@@ -22,7 +22,9 @@ class FingerPegawaiController extends Controller
           $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
                 $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                       ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
-                      //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
+                      // ->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
+
+                      ->select('pegawais.*','instansis.namaInstansi','fingerpegawais.*')
                       ->orderBy('fingerpegawais.finger','desc')
                       ->paginate(30);
       }
@@ -31,10 +33,14 @@ class FingerPegawaiController extends Controller
           $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
                 $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                       ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
-                      //->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
+                      // ->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
                       ->orWhere('pegawais.nip','like','%'.$request->cari.'%')
                       ->orWhere('pegawais.nama','like','%'.$request->cari.'%')
                       ->orWhere('instansis.namaInstansi','like','%'.$request->cari.'%')
+                      ->orWhere('pegawais.id','like','%'.$request->cari.'%')
+                      // ->select('pegawais.*','instansis.namaInstansi')
+
+                      ->select('pegawais.*','instansis.namaInstansi','fingerpegawais.*')
                       ->orderBy('fingerpegawais.finger','desc')
                       ->paginate(30);
       }

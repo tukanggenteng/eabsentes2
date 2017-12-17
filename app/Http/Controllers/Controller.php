@@ -32,6 +32,24 @@ class Controller extends BaseController
         return ($hasilhash);
     }
 
+    protected function encryptOTPRaspi($data){
+        $hitungchar=strlen($data);
+        $pecahstring=str_split($data);
+        $kunci="p4y03n9t3d03hw4k4c4ub0l0b0l0w4k4c4u";
+        $pecahkunci=str_split($kunci);
+        $hasilhash="";
+        foreach ($pecahstring as $key => $value) {
+            $hasilstring=ord($value);
+            $hasilkunci=ord($pecahkunci[$key]);
+            $hasilstringkunci=$hasilkunci+$hasilstring;
+            $modhasilstringkunci=fmod($hasilstringkunci, 26);
+            $hasilmod=$modhasilstringkunci+41;
+            $hurufmod=chr($hasilmod);
+            $hasilhash=$hasilhash.$hurufmod;
+        }
+        return ($hasilhash);
+    }
+
 
     protected function kurangwaktu($base, $toadd) {
         date_default_timezone_set('Asia/Makassar');

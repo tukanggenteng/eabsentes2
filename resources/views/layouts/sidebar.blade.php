@@ -52,6 +52,7 @@
                 <ul class="treeview-menu">
                     <li><a href="/macaddress"><i class="fa fa-circle-o"></i> Manajemen Mac Addr</a></li>
                     <li><a href="/trigger"><i class="fa fa-circle-o"></i> Atur Trigger</a></li>
+                    <li><a href="/raspberry"><i class="fa fa-circle-o"></i> Status Raspberry</a></li>
                 </ul>
             </li>
             <li class="treeview">
