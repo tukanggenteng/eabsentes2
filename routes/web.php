@@ -188,8 +188,8 @@ Route::group(['middleware' => ['rule:user']],function(){
 });
 
 
-      Route::post('/user/registerpost','UserController@registerstore');
-      Route::get('/user/register','UserController@register');
+      // Route::post('/user/registerpost','UserController@registerstore');
+      // Route::get('/user/register','UserController@register');
 
 Route::group(['middleware' => ['rule:admin']],function(){
       #raspberry
