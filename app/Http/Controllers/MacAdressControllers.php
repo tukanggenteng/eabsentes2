@@ -47,7 +47,7 @@ class MacAdressControllers extends Controller
         ]);
         
         $user = new macaddresse;
-        $user->macaddress = $request->mac;
+        $user->macaddress = $request->macaddress;
         $user->save();
         return redirect('/macaddress');
     }
@@ -82,7 +82,7 @@ class MacAdressControllers extends Controller
             'macaddress'=>'required | min:17 | unique:macaddresses',
         ]);
         $table=macaddresse::where('id','=',$request->id)->first();
-        $table->macaddress=$request->mac;
+        $table->macaddress=$request->macaddress;
         $table->save();
         return redirect('/macaddress');
     }
