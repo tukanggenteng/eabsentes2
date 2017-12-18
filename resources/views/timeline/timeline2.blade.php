@@ -104,7 +104,7 @@
     <script type="text/javascript">
         var page = 1;
         $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - $(window).height()-7) {
+            if($(window).scrollTop() >= $(document).height() - $(window).height()-30) {
                 
                 page++;
                 loadMoreData(page);

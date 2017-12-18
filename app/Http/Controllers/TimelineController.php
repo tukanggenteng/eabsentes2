@@ -21,7 +21,7 @@ class TimelineController extends Controller
             ->orderBy('atts_trans.id','atts_trans.tanggal', 'desc')
             ->orderBy('atts_trans.jam','atts_trans.tanggal', 'desc')
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-            ->paginate(7, array('pegawaiinstansis.namaInstansi as instansiPegawai','pegawais.nama','atts_trans.jam','atts_trans.tanggal','atts_trans.status_kedatangan','instansis.namaInstansi'));
+            ->paginate(30, array('pegawaiinstansis.namaInstansi as instansiPegawai','pegawais.nama','atts_trans.jam','atts_trans.tanggal','atts_trans.status_kedatangan','instansis.namaInstansi'));
 
 
         if ($request->ajax()) {
