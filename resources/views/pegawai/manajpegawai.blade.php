@@ -174,7 +174,7 @@
                 columns: [
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
-                    { data: 'instansi.namaInstansi', name: 'namaInstansi' },
+                    { data: 'namaInstansi', name: 'namaInstansi' },
                     { data: 'action', name: 'action' },
                 ]
             });
