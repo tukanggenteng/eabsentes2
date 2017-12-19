@@ -26,6 +26,7 @@ Route::group(['middleware' => ['rule:user,admin']],function(){
   Route::get('/home/data','ChartController@data');
   Route::get('/home/datacari','ChartController@datacari');
   Route::post('/home','ChartController@store')->name('chatpost');
+  Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
 });
 
 Route::group(['middleware'=>['rule:user,admin,kadis']],function(){
@@ -183,7 +184,6 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/pegawai/show','PegawaiController@show');
       Route::get('/pegawai/show/data','PegawaiController@datauser')->name('datapegawaiuser');
       Route::post('/pegawai/add','PegawaiController@update')->name('editpegawai');
-      Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
       Route::get('/pegawai/cek/{id}','PegawaiController@validasipegawai')->name('validasipegawai');
 });
 
