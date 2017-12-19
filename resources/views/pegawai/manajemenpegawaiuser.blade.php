@@ -310,15 +310,16 @@
                   $('#nama').val(response['nama']);
                   $('#simpanaddpegawai').attr('disabled',true);
                   $('.input-group-addon').html('<i class="fa fa-times"></i>');
+
+
+                    swal("Pegawai terdaftar di instansi lain.", "", "error");
+                    $('#modal_add').modal('hide');
                 }
                 else if (response['status']=='0') {
                   $('#nip').attr('disabled',true);
                   $('#instansi').attr('disabled',false);
                   $('#nama').val(response['nama']);
                   $('.input-group-addon').html('<i class="fa fa-check"></i>');
-
-                    swal("Pegawai terdaftar di instansi lain.", "", "error");
-                    $('#modal_add').modal('hide');
                 }
                 else {
                   $('#nip').attr('disabled',true);
