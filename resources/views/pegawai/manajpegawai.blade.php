@@ -96,6 +96,34 @@
                                 </ul>
                             </div> -->
                         </div>
+                        <div class="modal modal-danger fade" id="modal_delete">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title">Peringatan</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="formdeletepegawai" action="" method="post" role="form" enctype="multipart/form-data">
+                                                    <h4>
+                                                        <i class="icon fa fa-ban"></i>
+                                                        Peringatan
+                                                    </h4>
+                                                    {{csrf_field()}}
+                                                    Yakin ingin menghapus pegawai <span class="labelpegawai"></span> dari instansi anda ?
+                                                    <input id="delidpegawai" name="delidpegawai" type="hidden">
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Keluar</button>
+                                                <button type="button" id="simpandelpegawai" class="btn btn-outline">Simpan</button>
+                                            </div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                                </div>
                     </div>
                 </div>
 
@@ -146,6 +174,7 @@
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'instansi.namaInstansi', name: 'namaInstansi' },
+                    { data: 'action', name: 'action' },
                 ]
             });
         });
@@ -182,6 +211,40 @@
             }
 
         });
+
+        
         </script>
+
+        <script type="text/javascript">
+            $(document).on('click','.modal_delete',function () {
+                $('#delidpegawai').val($(this).data('nip'));
+                $('.labelpegawai').text($(this).data('nama'));
+            });
+        </script>
+
+        <script type="text/javascript">
+        $(document).on('click','#simpandelpegawai',function (){
+          var nip=$('#delidpegawai').val();
+          var _token=$("input[name=_token]").val();
+            $.ajax({
+                type:'post',
+                url:'{{route('deletepegawai')}}',
+                data : {
+                        delidpegawai:nip,
+                        _token:_token
+                        },
+                // data: new FormData($('#formdeletepegawai')[0]),
+                // dataType:'json',
+                // async:false,
+                // processData: false,
+                // contentType: false,
+                success:function(response){
+                    $('.error').addClass('hidden');
+                    $('#modal_delete').modal('hide');
+                    oTable.ajax.reload();
+                },
+            });
+        });
+    </script>
     </body>
 @endsection
