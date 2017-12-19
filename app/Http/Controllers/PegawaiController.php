@@ -73,7 +73,7 @@ class PegawaiController extends Controller
      */
 
     public function data(){
-        $users=pegawai::with('instansi')->get();
+        $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')->get();
         return Datatables::of($users)
         ->addColumn('action', function ($users) {
             return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
