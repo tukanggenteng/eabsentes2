@@ -72,6 +72,7 @@
                                                     <th>NIP</th>
                                                     <th>Nama</th>
                                                     <th>Instansi</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <!-- <tbody>
