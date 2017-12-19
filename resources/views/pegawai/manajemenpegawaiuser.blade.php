@@ -316,6 +316,9 @@
                   $('#instansi').attr('disabled',false);
                   $('#nama').val(response['nama']);
                   $('.input-group-addon').html('<i class="fa fa-check"></i>');
+
+                    swal("Pegawai terdaftar di instansi lain.", "", "error");
+                    $('#modal_add').modal('hide');
                 }
                 else {
                   $('#nip').attr('disabled',true);
