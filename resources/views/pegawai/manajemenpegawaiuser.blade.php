@@ -260,7 +260,7 @@
           $('#nip').val("");
           $('#nama').val("");
           //$('#instansi').val("");
-          $('#simpanaddpegawai').att('disabled',false);
+          $('#simpanaddpegawai').attr('disabled',false);
             $('.input-group-addon').html('<i class="fa fa-search"></i>');
         });
     </script>
@@ -308,7 +308,7 @@
                   $('#instansi').attr('disabled',true);
                   $('#instansi').val(response['instansi_id']);
                   $('#nama').val(response['nama']);
-                  $('#simpanaddpegawai').att('disabled',true);
+                  $('#simpanaddpegawai').attr('disabled',true);
                   $('.input-group-addon').html('<i class="fa fa-times"></i>');
                 }
                 else if (response['status']=='0') {
