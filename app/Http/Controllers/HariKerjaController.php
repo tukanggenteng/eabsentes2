@@ -158,7 +158,9 @@ class HariKerjaController extends Controller
         //
        //dd($id);
         $id=decrypt($id);
-        $table=harikerja::where('jadwalkerja_id',$id);
+        $table=harikerja::where('jadwalkerja_id',$id)
+        ->where('instansi_id','=',Auth::user()->instansi_id)
+        ;
         //dd($table);
         $table->delete();
         return redirect('/harikerja');
