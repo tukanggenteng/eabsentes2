@@ -332,7 +332,7 @@ class MasterAbsensiController extends Controller
                   $table->terlambat=$terlambat;
                   $table->rapatundangan=$rapatundangan;
                   $table->pulang_cepat=$pulangcepat;
-                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                  $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
                   $table->persentase_tidakhadir=$absen;
                   $table->total_akumulasi=$totalakumulasi->total;
                   $table->total_terlambat=$totalterlambat->total;
@@ -354,7 +354,7 @@ class MasterAbsensiController extends Controller
                   $table->terlambat=$terlambat;
                   $table->rapatundangan=$rapatundangan;
                   $table->pulang_cepat=$pulangcepat;
-                  $table->persentase_apel=$terlambat+$ijinterlambat;
+                  $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
                   $table->persentase_tidakhadir=$absen;
                   $table->total_akumulasi=$totalakumulasi->total;
                   $table->total_terlambat=$totalterlambat->total;

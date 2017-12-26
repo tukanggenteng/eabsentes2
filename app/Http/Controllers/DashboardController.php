@@ -555,18 +555,25 @@ class DashboardController extends Controller
           ->count();
 
 
-      $pegawaitahun = DB::select('SELECT nip,instansi_id,nama,@pegawai:=id,
-      (SELECT AVG(persentase_tidakhadir)
-      FROM masterbulanans
-      WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS persentasehadir,
-      (SELECT AVG(persentase_apel)
-      FROM masterbulanans
-      WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS persentaseapel,
-      (SELECT SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total
-      FROM masterbulanans
-      WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS total
-      FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY total ASC');
-
+    //   $pegawaitahun = DB::select('SELECT nip,instansi_id,nama,@pegawai:=id,
+    //   (SELECT AVG(persentase_tidakhadir)
+    //   FROM masterbulanans
+    //   WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS persentasehadir,
+    //   (SELECT AVG(persentase_apel)
+    //   FROM masterbulanans
+    //   WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS persentaseapel,
+    //   (SELECT SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total
+    //   FROM masterbulanans
+    //   WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS total
+    //   FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY total ASC');
+    $totalnonapel=DB::raw("(SELECT pegawai_id,periode,SUM(persentase_apel) as apel from masterbulanans GROUP BY pegawai_id) as masterbulanans");
+    // dd($totalnonapel);
+    $pegawaitahun = pegawai::leftJoin($totalnonapel,'pegawais.id','=','masterbulanans.pegawai_id')
+                    ->whereMonth('masterbulanans.periode','=',$bulan)
+                    ->whereYear('masterbulanans.periode','=',$tahun)
+                    ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                    ->get();
+    // dd($pegawaitahun);
 
       $attstrans=atts_tran::join('pegawais','atts_trans.pegawai_id','=','pegawais.id')
           ->join('instansis','atts_trans.lokasi_alat', '=', 'instansis.id')

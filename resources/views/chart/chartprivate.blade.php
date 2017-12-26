@@ -46,397 +46,448 @@
 
                 <!-- hari ini -->
                 <div class="row">
-                  <div class="col-md-12">
-                    <p><strong>Hari</strong></p>
-                  </div>
+                        <div class="col-md-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                <h3 class="box-title">Hari</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                                <a href="/detail/harian/absent">
+                                                    <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
+                                                </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tanpa Kabar</span>
+                                                    <span class="info-box-number">{{$tidakhadir}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/harian/sakit">
+                                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Sakit</a></span>
+                                                    <span class="info-box-number">{{$sakit}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+
+                                        <!-- fix for small devices only -->
+                                        <div class="clearfix visible-sm-block"></div>
+
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/harian/ijin">
+                                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Izin</span>
+                                                    <span class="info-box-number">{{$ijin}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/harian/sakit">
+                                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Cuti</span>
+                                                    <span class="info-box-number">{{$cuti}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="info-box">
+                                                <a href="/detail/harian/tugasluar">
+                                                    <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
+                                                </a>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text">Tugas Luar</span>
+                                                        <span class="info-box-number">{{$tl}}</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                                <!-- /.info-box -->
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="info-box">
+                                                <a href="/detail/harian/tugasbelajar">
+                                                    <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
+                                                </a>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text">Tugas Belajar</span>
+                                                        <span class="info-box-number">{{$tb}}</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                                <!-- /.info-box -->
+                                            </div>
+                                            <!-- /.col -->
+
+                                            <!-- fix for small devices only -->
+                                            <div class="clearfix visible-sm-block"></div>
+
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="info-box">
+                                                <a href="/detail/harian/terlambat">
+                                                    <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                                                </a>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text">Terlambat</span>
+                                                        <span class="info-box-number">{{$terlambat}}</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                                <!-- /.info-box -->
+                                            </div>
+                                            <!-- /.col -->
+                                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                                <div class="info-box">
+                                                <a href="/detail/harian/rapatundangan">
+                                                    <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
+                                                </a>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-text">Event</span>
+                                                        <span class="info-box-number">{{$event}}</span>
+                                                    </div>
+                                                    <!-- /.info-box-content -->
+                                                </div>
+                                                <!-- /.info-box -->
+                                            </div>
+                                            <!-- /.col -->
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+
                 </div>
+                 <!-- hari ini -->                   
+
+                <!-- bulan baru ini -->
                 <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/absent">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tanpa Kabar</span>
-                                    <span class="info-box-number">{{$tidakhadir}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/sakit">
-                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Sakit</a></span>
-                                    <span class="info-box-number">{{$sakit}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
+                    
+                        <div class="col-md-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                <h3 class="box-title">Bulan</h3>
 
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
 
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/ijin">
-                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Izin</span>
-                                    <span class="info-box-number">{{$ijin}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/sakit">
-                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Cuti</span>
-                                    <span class="info-box-number">{{$cuti}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/tugasluar">
-                                <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tugas Luar</span>
-                                    <span class="info-box-number">{{$tl}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/tugasbelajar">
-                                <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tugas Belajar</span>
-                                    <span class="info-box-number">{{$tb}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
+                                            <a href="/detail/bulan/absent">
+                                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tanpa Kabar</span>
+                                                    <span class="info-box-number">{{$tidakhadirbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                        <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/sakit">
+                                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Sakit</span>
+                                                    <span class="info-box-number">{{$sakitbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
 
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
+                                        <!-- fix for small devices only -->
+                                        <div class="clearfix visible-sm-block"></div>
 
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/terlambat">
-                                <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Terlambat</span>
-                                    <span class="info-box-number">{{$terlambat}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/harian/rapatundangan">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Event</span>
-                                    <span class="info-box-number">{{$event}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/ijin">
+                                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Izin</span>
+                                                    <span class="info-box-number">{{$ijinbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/cuti">
+                                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Cuti</span>
+                                                    <span class="info-box-number">{{$cutibulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                    </div>
 
-                <!-- bulan     -->
-                <div class="row">
-                  <div class="col-md-12">
-                    <p><strong>Bulan</strong></p>
-                  </div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/tugasluar">
+                                                <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tugas Luar</span>
+                                                    <span class="info-box-number">{{$tlbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/tugasbelajar">
+                                                <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tugas Belajar</span>
+                                                    <span class="info-box-number">{{$tbbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+            
+                                        <!-- fix for small devices only -->
+                                        <div class="clearfix visible-sm-block"></div>
+            
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/terlambat">
+                                                <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Terlambat</span>
+                                                    <span class="info-box-number">{{$terlambatbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/bulan/rapatundangan">
+                                                <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Event</span>
+                                                    <span class="info-box-number">{{$eventbulan}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                            <!-- /.col -->
+                                    </div>
+                                </div>
+                                <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                        </div>
+
                 </div>
+
+                <!-- tahun baru -->
                 <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
+                    
+                        <div class="col-md-12">
+                            <div class="box box-default collapsed-box">
+                                <div class="box-header with-border">
+                                <h3 class="box-title">Bulan</h3>
 
-                              <a href="/detail/bulan/absent">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tanpa Kabar</span>
-                                    <span class="info-box-number">{{$tidakhadirbulan}}</span>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/bulan/sakit">
-                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Sakit</span>
-                                    <span class="info-box-number">{{$sakitbulan}}</span>
+                                <!-- /.box-tools -->
                                 </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
+                                <!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/absent">
+                                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tanpa Kabar</span>
+                                                    <span class="info-box-number">{{$tidakhadirtahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/sakit">
+                                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Sakit</span>
+                                                    <span class="info-box-number">{{$sakittahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
 
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
+                                        <!-- fix for small devices only -->
+                                        <div class="clearfix visible-sm-block"></div>
 
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/bulan/ijin">
-                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Izin</span>
-                                    <span class="info-box-number">{{$ijinbulan}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/bulan/cuti">
-                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Cuti</span>
-                                    <span class="info-box-number">{{$cutibulan}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                  <a href="/detail/bulan/tugasluar">
-                                    <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
-                                  </a>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tugas Luar</span>
-                                        <span class="info-box-number">{{$tlbulan}}</span>
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/ijin">
+                                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Izin</span>
+                                                    <span class="info-box-number">{{$ijintahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/cuti">
+                                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Cuti</span>
+                                                    <span class="info-box-number">{{$cutitahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
                                     </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                  <a href="/detail/bulan/tugasbelajar">
-                                    <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
-                                  </a>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tugas Belajar</span>
-                                        <span class="info-box-number">{{$tbbulan}}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
 
-                            <!-- fix for small devices only -->
-                            <div class="clearfix visible-sm-block"></div>
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/tugasluar">
+                                                <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tugas Luar</span>
+                                                    <span class="info-box-number">{{$tltahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/tugasbelajar">
+                                                <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Tugas Belajar</span>
+                                                    <span class="info-box-number">{{$tbtahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
 
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                  <a href="/detail/bulan/terlambat">
-                                    <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
-                                  </a>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Terlambat</span>
-                                        <span class="info-box-number">{{$terlambatbulan}}</span>
+                                        <!-- fix for small devices only -->
+                                        <div class="clearfix visible-sm-block"></div>
+
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/terlambat">
+                                                <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Terlambat</span>
+                                                    <span class="info-box-number">{{$terlambattahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-3 col-sm-6 col-xs-12">
+                                            <div class="info-box">
+                                            <a href="/detail/tahun/rapatundangan">
+                                                <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
+                                            </a>
+                                                <div class="info-box-content">
+                                                    <span class="info-box-text">Event</span>
+                                                    <span class="info-box-number">{{$eventtahun}}</span>
+                                                </div>
+                                                <!-- /.info-box-content -->
+                                            </div>
+                                            <!-- /.info-box -->
+                                        </div>
                                     </div>
-                                    <!-- /.info-box-content -->
                                 </div>
-                                <!-- /.info-box -->
+                                <!-- /.box-body -->
                             </div>
-                            <!-- /.col -->
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box">
-                                  <a href="/detail/bulan/rapatundangan">
-                                    <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
-                                  </a>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Event</span>
-                                        <span class="info-box-number">{{$eventbulan}}</span>
-                                    </div>
-                                    <!-- /.info-box-content -->
-                                </div>
-                                <!-- /.info-box -->
-                            </div>
-                            <!-- /.col -->
+                            <!-- /.box -->
                         </div>
 
-                <!-- tahun -->
-                <div class="row">
-                  <div class="col-md-12">
-                    <p><strong>Tahun</strong></p>
-                  </div>
                 </div>
-                <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/absent">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-user-times"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tanpa Kabar</span>
-                                    <span class="info-box-number">{{$tidakhadirtahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/sakit">
-                                <span class="info-box-icon bg-red"><i class="fa fa-plus-square"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Sakit</span>
-                                    <span class="info-box-number">{{$sakittahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
-
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/ijin">
-                                <span class="info-box-icon bg-green"><i class="fa fa-info"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Izin</span>
-                                    <span class="info-box-number">{{$ijintahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/cuti">
-                                <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Cuti</span>
-                                    <span class="info-box-number">{{$cutitahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                <div class="row">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/tugasluar">
-                                <span class="info-box-icon bg-green"><i class="fa fa-paper-plane"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tugas Luar</span>
-                                    <span class="info-box-number">{{$tltahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/tugasbelajar">
-                                <span class="info-box-icon bg-yellow "><i class="fa fa-graduation-cap"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Tugas Belajar</span>
-                                    <span class="info-box-number">{{$tbtahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-
-                        <!-- fix for small devices only -->
-                        <div class="clearfix visible-sm-block"></div>
-
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/terlambat">
-                                <span class="info-box-icon bg-red"><i class="fa fa-bell-slash"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Terlambat</span>
-                                    <span class="info-box-number">{{$terlambattahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box">
-                              <a href="/detail/tahun/rapatundangan">
-                                <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
-                              </a>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Event</span>
-                                    <span class="info-box-number">{{$eventtahun}}</span>
-                                </div>
-                                <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                    </div>
+                <!-- tahun baru tutup -->
 
 
                 <div class="row">
