@@ -278,6 +278,42 @@ class ChartController extends Controller
         ->orderBy('pegawais.nama','desc')
         ->paginate(30);
 
+        if (isset($request->periodeabsen)){
+            $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+            ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+            ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            ->where('atts.tanggal_att','=',$request->periodeabsen)
+            // ->whereMonth('atts.tanggal_att','=',$bulan)
+            // ->whereDay('atts.tanggal_att','=',$tanggal)
+            // ->whereYear('atts.tanggal_att','=',$tahun)
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->orderBy('atts.tanggal_att','desc')
+            ->paginate(30);
+        }
+        else
+        {
+            $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+            ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+            ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            // ->where('atts.tanggal_att','=',$now)
+            // ->whereMonth('atts.tanggal_att','=',$bulan)
+            // ->whereDay('atts.tanggal_att','=',$tanggal)
+            // ->whereYear('atts.tanggal_att','=',$tahun)
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->orderBy('atts.tanggal_att','desc')
+            ->paginate(30);
+        }
+
+        
+
         // dd($tidakhadirbulan);
 
         if ($this->notifrekap()=="")
@@ -305,7 +341,7 @@ class ChartController extends Controller
                   'sakitbulan'=>$sakit,'ijinbulan'=>$ijinbulan,'cutibulan'=>$cutibulan,'tbbulan'=>$tbbulan,'tlbulan'=>$tlbulan,'terlambatbulan'=>$terlambatbulan,
                   'eventtahun'=>$eventtahun,'tahun'=>$tahun,'tidakhadirtahun'=>$tidakhadirtahun,
                       'sakittahun'=>$sakittahun,'ijintahun'=>$ijintahun,'cutitahun'=>$cutitahun,'tbtahun'=>$tbtahun,'tltahun'=>$tltahun,'terlambattahun'=>$terlambattahun,
-                'kehadirans'=>$kehadiran,'inforekap'=>$inforekap
+                'kehadirans'=>$kehadiran,'kehadiranlalus'=>$kehadiranlalu,'inforekap'=>$inforekap,'periodeabsen'=>$request->periodeabsen
               ],
             compact('chats'));
     }

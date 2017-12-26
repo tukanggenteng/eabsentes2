@@ -347,7 +347,7 @@
                         <div class="col-md-12">
                             <div class="box box-default collapsed-box">
                                 <div class="box-header with-border">
-                                <h3 class="box-title">Bulan</h3>
+                                <h3 class="box-title">Tahun</h3>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -605,6 +605,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box">
@@ -697,11 +698,12 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                       <div class="box">
                         <div class="box-header">
-                          <h3 class="box-title">Detail Absen</h3>
+                          <h3 class="box-title">Detail Absen <small>Hari Ini</small></h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
@@ -754,6 +756,87 @@
                       </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                      <div class="box">
+                        <div class="box-header">
+                          <h3 class="box-title">Data Kehadiran</h3>
+                        </div>
+                        <!-- /.box-header -->
+
+                        <div class="box-body table-responsive">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form action="/home" method="post">
+                                            {{csrf_field()}}
+                                            <div class="form-group">
+                                                <label>Tanggal</label>
+                                                <div class="input-group input-group-sm" style="width: 120px;">
+                                                    <input type="text" id="periodeabsen" readonly name="periodeabsen" class="form-control pull-right" placeholder="Tanggal">
+                                                    <div class="input-group-btn">
+                                                        <button type="submit" id="cariabsen" name="cariabsen" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <hr>
+                                    <table class="table table-striped">
+                                        <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>NIP</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam Masuk</th>
+                                        <th>Lokasi Absen Masuk</th>
+                                        <th>Absen Terlambat</th>
+                                        <th>Jam Keluar</th>
+                                        <th>Lokasi Absen Keluar</th>
+                                        <th>Akumulasi</th>
+                                        <th>Keterangan</th>
+                                        <th>Jadwal Kerja</th>
+                                        </tr>
+                                        @foreach ($kehadiranlalus as $key => $kehadiranlalu)
+
+                                        <tr>
+                                            <td>{{$key+1}}</td>
+                                            <td>{{$kehadiranlalu->nip}}</td>
+                                            <td>{{$kehadiranlalu->nama}}</td>
+                                            <td>{{$kehadiranlalu->tanggal_att}}</td>
+                                            <td>{{$kehadiranlalu->jam_masuk}}</td>
+                                            <td>{{$kehadiranlalu->namainstansimasuk}}</td>
+                                            @if ($kehadiranlalu->terlambat=="00:00:00")
+                                            <td>{{$kehadiranlalu->terlambat}}</td>
+                                            @else
+                                            <td><span class="badge bg-red">{{$kehadiranlalu->terlambat}}</span></td>
+                                            @endif
+                                            <td>{{$kehadiranlalu->jam_keluar}}</td>
+                                            <td>{{$kehadiranlalu->namainstansikeluar}}</td>
+                                            <td>{{$kehadiranlalu->akumulasi_sehari}}</td>
+                                            @if ($kehadiranlalu->jenis_absen=="Absent")
+                                            <td><span class="badge bg-red">{{$kehadiranlalu->jenis_absen}}</span></td>
+                                            @else
+                                            <td>{{$kehadiranlalu->jenis_absen}}</td>
+                                            @endif
+                                            <td>{{$kehadiranlalu->jenis_jadwal}}</td>
+                                        </tr>
+                                        @endforeach
+                                    </table>
+                                
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer clearfix">
+                            <ul class="pagination pagination-sm no-margin pull-right">
+                                {{$kehadiranlalus->appends(['periodeabsen'=>($periodeabsen)])->links()}}
+                            </ul>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+
             </section>
             <!-- /.content -->
         </div>
@@ -814,7 +897,12 @@
                 format: "yyyy",
                 autoclose: true,
                 minViewMode: "years"
-        });
+            });
+
+            $('input[name="periodeabsen"]').datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true
+            });
 
             var url = "{{url('/home/data')}}";
 

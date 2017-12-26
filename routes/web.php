@@ -25,7 +25,8 @@ Route::group(['middleware' => ['rule:user,admin']],function(){
   Route::get('/home','ChartController@index');
   Route::get('/home/data','ChartController@data');
   Route::get('/home/datacari','ChartController@datacari');
-  Route::post('/home','ChartController@store')->name('chatpost');
+  Route::post('/home','ChartController@index');
+  Route::post('/home/chat','ChartController@store')->name('chatpost');
   Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
 });
 
