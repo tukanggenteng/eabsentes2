@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+
 use App\att;
 use App\harikerja;
 use App\instansi;
@@ -9,6 +10,8 @@ use App\finalrekapbulanan;
 use App\rekapbulanan;
 use App\masterbulanan;
 use App\rulejadwalpegawai;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Console\Command;
 
 class UpdatePegawai extends Command
@@ -75,11 +78,12 @@ class UpdatePegawai extends Command
         $pegawai=pegawai::where('nip','=',$json['nip'])
         ->count();
 
-        if ($pegawai > 0){
-            // dd($json['nip']);
+        if ($pegawai > 0)
+        {
             array_push($yg2,$json['nip']);
         }
-        else{
+        else
+        {
            $user = new pegawai();
            $user->nip = $json['nip'];
            $user->nama = $json['nama'];
