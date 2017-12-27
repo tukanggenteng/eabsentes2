@@ -1,7 +1,14 @@
 <?php
 
 namespace App\Console\Commands;
-
+use App\att;
+use App\harikerja;
+use App\instansi;
+use App\pegawai;
+use App\finalrekapbulanan;
+use App\rekapbulanan;
+use App\masterbulanan;
+use App\rulejadwalpegawai;
 use Illuminate\Console\Command;
 
 class UpdatePegawai extends Command
