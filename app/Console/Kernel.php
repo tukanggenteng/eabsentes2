@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         //
         \App\Console\Commands\TiapHariCommand::class,
         \App\Console\Commands\CheckRaspberry::class,
+        \App\Console\Commands\UpdatePegawai::class,
     ];
 
     /**
