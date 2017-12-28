@@ -75,7 +75,7 @@ class FingerPegawaiController extends Controller
       foreach ($pegawais as $key => $pegawai) {
         $fingerpegawais=fingerpegawai::where('pegawai_id','=',$pegawai->id)->get();
         foreach ($fingerpegawais as $key => $fingerpegawai) {
-          $$hapus=fingerpegawai::where('id','=',$fingerpegawai->id)->first();
+          $hapus=fingerpegawai::where('id','=',$fingerpegawai->id)->first();
           $hapus->delete();
         }
       }
