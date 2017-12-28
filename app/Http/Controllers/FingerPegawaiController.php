@@ -68,4 +68,18 @@ class FingerPegawaiController extends Controller
       $hapus->delete();
       return redirect()->back();
     }
+
+    public function hapussidikjariinstansi($id){
+      $pegawais=pegawai::where('instansi_id','=',$id)->get();
+
+      foreach ($pegawais as $key => $pegawai) {
+        $fingerpegawais=fingerpegawai::where('pegawai_id','=',$pegawai->id)->get();
+        foreach ($fingerpegawais as $key => $fingerpegawai) {
+          $$hapus=fingerpegawai::where('id','=',$fingerpegawai->id)->first();
+          $hapus->delete();
+        }
+      }
+      return "Selesai";
+
+    }
 }
