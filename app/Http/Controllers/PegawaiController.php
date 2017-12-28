@@ -402,7 +402,7 @@ class PegawaiController extends Controller
        $table=pegawai::
        leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
        ->where('instansi_id','!=',null)
-       ->where('finger','>',0)
+       ->where('finger','=',2)
        ->get();
 
     	return $table;
