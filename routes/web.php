@@ -198,7 +198,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/raspberry/data','RaspberryStatusController@data')->name('dataraspberry');
 
       #hapussidikjariinstansi
-      Route::get('/hapussidikjari/{id}','FingerPegawaiController@hapussidikjariinstansi');
+      #Route::get('/hapussidikjari/{id}','FingerPegawaiController@hapussidikjariinstansi');
 
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');
