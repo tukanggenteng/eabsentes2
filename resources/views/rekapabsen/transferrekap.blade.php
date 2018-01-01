@@ -629,6 +629,7 @@
                     $('#simpanijin').attr('disabled','true');
                 }
                 else {
+                    $('#lamaijin').html('');
                     var select=select+1;
                     for (i = 1; i < select; i++) {
                         $('#lamaijin').append('<option value="'+i+'">'+i+'</option>');
@@ -660,6 +661,7 @@
                 $('#simpansakit').attr('disabled','true');
             }
             else {
+                $('#lamasakit').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamasakit').append('<option value="'+i+'">'+i+'</option>');
@@ -691,6 +693,7 @@
                 $('#simpancuti').attr('disabled','true');
             }
             else {
+                $('#lamacuti').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamacuti').append('<option value="'+i+'">'+i+'</option>');
@@ -722,6 +725,7 @@
                 $('#simpantb').attr('disabled','true');
             }
             else {
+                $('#lamatb').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamatb').append('<option value="'+i+'">'+i+'</option>');
@@ -753,6 +757,7 @@
                 $('#simpantl').attr('disabled','true');
             }
             else {
+                $('#lamatl').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamatl').append('<option value="'+i+'">'+i+'</option>');
@@ -784,6 +789,7 @@
                 $('#simpanrp').attr('disabled','true');
             }
             else {
+                $('#lamarp').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamarp').append('<option value="'+i+'">'+i+'</option>');
@@ -815,6 +821,7 @@
                 $('#simpanit').attr('disabled','true');
             }
             else {
+                $('#lamait').html('');
                 var select=select+1;
                 for (i = 1; i < select; i++) {
                     $('#lamait').append('<option value="'+i+'">'+i+'</option>');
