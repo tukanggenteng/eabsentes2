@@ -113,7 +113,7 @@
                                 @foreach($rulejadwals as $rulejadwal)
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="checkbox[]" value="{{$rulejadwal->id}}" class="flat-red checkbox">
+                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($rulejadwal->id)}}" class="flat-red checkbox">
                                     </td>
                                     <td>{{$rulejadwal->nip}}</td>
                                     <td>{{$rulejadwal->nama}}</td>
@@ -135,95 +135,106 @@
                     <div class="box-header">
                         <h3 class="box-title">Manajemen Jadwal Kerja Pegawai</h3>
 
-                        {{--  <div class="box-tools">
-                            <form action="/jadwalkerjapegawai" method="post">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-
-                                    <input type="text" name="table_search2" class="form-control pull-right" placeholder="Search" value="{{$cari2}}">
-                                    {{csrf_field()}}
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>  --}}
+                        
 
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
+                            <form action="/hapusjadwalkerjapegawai" method="post">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-danger btn-flat">Hapus Jadwal</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{csrf_field()}}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <tr>
+                                                <th>
+                                                    <input type="checkbox" id="select_all2" name="select_all2" class="flat-red select_all">
+                                                </th>
+                                                <th>NIP</th>
+                                                <th>Nama</th>
+                                                <th>Jenis Jadwal</th>
+                                                <th>Tanggal Mulai</th>
+                                                <th>Tanggal Akhir</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                            <?php $i=1; ?>
+                                            @foreach($rulejadwals2 as $rulejadwal2)
+                                                <?php 
+                                                $tanggalsekarang=date("Y-m-d");
+                                                $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule)));
+                                                $minimal=strtotime($minimal);
+                                                $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
+                                                @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
+                                                        <tr>
+                                                            <td>
+                                                                <input type="checkbox" name="checkbox2[]" value="{{encrypt($rulejadwal2->id)}}" class="flat-red checkbox cekbox2">
+                                                            </td>
+                                                            <td>{{$rulejadwal2->nip}}</td>
+                                                            <td>{{$rulejadwal2->nama}}</td>
+                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                            <td>{{$rulejadwal2->tanggal_awalrule}}</td>
+                                                            <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
+                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                                <a class="btn-sm btn-danger" data-method="delete"
+                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                        </tr>
+                                                        {{--  @if (($i >=1) && ($i <= 10))
+                                                        
+                                                        @else
+                                                        <tr>
+                                                            <td>{{$rulejadwal2->nip}}</td>
+                                                            <td>{{$rulejadwal2->nama}}</td>
+                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                            <td>{{$rulejadwal2->tanggal_awalrule}}</td>
+                                                            <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
+                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                                <a class="btn-sm btn-danger" data-method="delete"
+                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                        </tr>
+                                                        @endif  --}}
+                                                @else
+                                                        {{--  @if (($i >=1) && ($i <= 10))
+                                                        <tr>
+                                                            <td>{{$rulejadwal2->nip}}</td>
+                                                            <td>{{$rulejadwal2->nama}}</td>
+                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
+                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
+                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                                <a class="btn-sm btn-danger" data-method="delete"
+                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                        </tr>
+                                                        @else
+                                                        
+                                                        @endif  --}}
 
-                            <table class="table table-hover">
-                                <tr>
-
-                                    <th>NIP</th>
-                                    <th>Nama</th>
-                                    <th>Jenis Jadwal</th>
-                                    <th>Tanggal Mulai</th>
-                                    <th>Tanggal Akhir</th>
-                                    <th>Aksi</th>
-                                </tr>
-                                <?php $i=1; ?>
-                                @foreach($rulejadwals2 as $rulejadwal2)
-                                    <?php 
-                                    $tanggalsekarang=date("Y-m-d");
-                                    $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule)));
-                                    $minimal=strtotime($minimal);
-                                    $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
-                                    @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
-                                            <tr>
-                                                <td>{{$rulejadwal2->nip}}</td>
-                                                <td>{{$rulejadwal2->nama}}</td>
-                                                <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                <td>{{$rulejadwal2->tanggal_awalrule}}</td>
-                                                <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                                <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                    <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                            </tr>
-                                            {{--  @if (($i >=1) && ($i <= 10))
-                                            
-                                            @else
-                                            <tr>
-                                                <td>{{$rulejadwal2->nip}}</td>
-                                                <td>{{$rulejadwal2->nama}}</td>
-                                                <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                <td>{{$rulejadwal2->tanggal_awalrule}}</td>
-                                                <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                                <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                    <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                            </tr>
-                                            @endif  --}}
-                                    @else
-                                            {{--  @if (($i >=1) && ($i <= 10))
-                                            <tr>
-                                                <td>{{$rulejadwal2->nip}}</td>
-                                                <td>{{$rulejadwal2->nama}}</td>
-                                                <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
-                                                <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
-                                                <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                    <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                            </tr>
-                                            @else
-                                            
-                                            @endif  --}}
-
-                                            <tr>
-                                                <td>{{$rulejadwal2->nip}} </td>
-                                                <td>{{$rulejadwal2->nama}}</td>
-                                                <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
-                                                <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
-                                                <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                    <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                            </tr>
-                                    @endif
-                                    <?php $i++; ?>
-                                @endforeach
-                            </table>
+                                                        <tr>
+                                                            <td>{{$rulejadwal2->nip}} </td>
+                                                            <td>{{$rulejadwal2->nama}}</td>
+                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
+                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
+                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
+                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
+                                                                <a class="btn-sm btn-danger" data-method="delete"
+                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
+                                                        </tr>
+                                                @endif
+                                                <?php $i++; ?>
+                                            @endforeach
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                            
                     </div>
                     <!-- /.box-body -->
 
@@ -295,6 +306,17 @@
                         $('.checkbox').iCheck('uncheck');
                     }
                     $('.checkbox').iCheck('update');
+                });
+
+                $('#select_all2').on('ifChanged', function(event){
+                    if(!this.changed) {
+                        this.changed=true;
+                        $('.cekbox2').iCheck('check');
+                    } else {
+                        this.changed=false;
+                        $('.cekbox2').iCheck('uncheck');
+                    }
+                    $('.cekbox2').iCheck('update');
                 });
 
             });

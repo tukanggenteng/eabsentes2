@@ -142,6 +142,7 @@ class JadwalKerjaPegawaiController extends Controller
 
 
         foreach ($request->checkbox as $data){
+            $data=decrypt($data);
             $hapusspasi=str_replace(" ","",$request->daterange);
             $tanggal=explode("-",$hapusspasi);
 
@@ -281,4 +282,21 @@ class JadwalKerjaPegawaiController extends Controller
         $table->delete();
         return redirect('/jadwalkerjapegawai');
     }
+
+
+    public function destroyall(Request $request)
+    {
+        $this->validate($request, [
+            'checkbox2'=>'required',
+        ]);
+
+        foreach ($request->checkbox2 as $data){
+            $data=decrypt($data);
+            $table=rulejadwalpegawai::find($data);
+            $table->delete();
+        }
+        
+        return redirect('/jadwalkerjapegawai');
+    }
+
 }

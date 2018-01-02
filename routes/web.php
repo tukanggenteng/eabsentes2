@@ -124,6 +124,7 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/jadwalkerjapegawai/{id}/edit','JadwalKerjaPegawaiController@show');
       Route::post('/jadwalkerjapegawai/edit','JadwalKerjaPegawaiController@update');
       Route::get('/jadwalkerjapegawai/{id}/hapus','JadwalKerjaPegawaiController@destroy');
+      Route::post('/hapusjadwalkerjapegawai','JadwalKerjaPegawaiController@destroyall');
 
       #atur hari kerja
       Route::get('/harikerja','HariKerjaController@index');
