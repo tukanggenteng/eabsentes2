@@ -65,12 +65,8 @@
                                     {{csrf_field()}}
                                 </div>
                                 <div class="form-group">
-                                    <label>Jenis Jadwal</label>
-                                    <select class="form-control select2" name="jadwalkerjamasuk" value="{{$rule->jadwalkerja_id}}">
-                                    @foreach($jadwalkerjas as $jadwalkerja)
-                                        <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}}</option>
-                                    @endforeach
-                                    </select><input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}">
+                                    <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="hidden" value="{{$rule->jadwalkerja_id}}">
+                                    <input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}">
                                 </div>
                                 <!-- /.form-group -->
                             </div>

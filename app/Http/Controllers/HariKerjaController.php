@@ -28,7 +28,10 @@ class HariKerjaController extends Controller
 
         $jadwalkerjas=array();
         $isi=array();
-        $tables=jadwalkerja::all();
+        $tables=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
+                ->orWhere('jenis_jadwal','=','PAGI UMUM')
+                ->get();
+        // dd($tables);
 
         foreach ($tables as $table){
 

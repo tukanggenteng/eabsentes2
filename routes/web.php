@@ -201,12 +201,16 @@ Route::group(['middleware' => ['rule:admin']],function(){
       #hapussidikjariinstansi
       #Route::get('/hapussidikjari/{id}','FingerPegawaiController@hapussidikjariinstansi');
 
+
+
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');
-      Route::post('/jadwalkerja','JadwalKerjaController@store');
+      Route::post('/jadwalkerja','JadwalKerjaController@index');
+      Route::post('/jadwalkerja/add','JadwalKerjaController@store');
       Route::get('/jadwalkerja/{id}/edit','JadwalKerjaController@editshow');
       Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
       Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
+      Route::get('/jadwalkerja/cari','JadwalKerjaController@cari')->name('carijadwal');
 
       #rulejadwalkerja
       Route::post('/rulejadwalkerja','RuleJadwalKerja@store');
@@ -285,6 +289,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/instansi','InstansiController@index');
       Route::post('/instansi/sinkron','InstansiController@store')->name('sinkroninstansi');
       Route::get('/instansi/data','InstansiController@data')->name('datainstansi');
+      Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
 
       #rekap bulanan
       Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');

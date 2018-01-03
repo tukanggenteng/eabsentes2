@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class JadwalKerjaController extends Controller
 {
     //
-    public function index(){
+    public function index(Request $request){
         if ($this->notifrekap()=="")
         {
 
@@ -23,7 +23,9 @@ class JadwalKerjaController extends Controller
 
         $jadwalkerja=array();
         $isi=array();
-        $tables=jadwalkerja::all();
+        $tables=jadwalkerja::leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+                ->select('jadwalkerjas.*','instansis.namaInstansi')
+                ->get();
         // dd($tables);
         // foreach ($tables as $table){
         //     $harikerja=rulejammasuk::where('jadwalkerja_id','=',$table->id)->count();
@@ -36,11 +38,24 @@ class JadwalKerjaController extends Controller
         //
         // dd($jadwalkerja);
 
-
-        $rule=rulejammasuk::join('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal')->where('rulejammasuks.instansi_id',Auth::user()->instansi_id)->get();
+        if ($request->cari==""){
+            $rule=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            ->leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+            ->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal','instansis.namaInstansi')
+            ->paginate(40);
+        }
+        else
+        {
+            $rule=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            ->leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+            ->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal','instansis.namaInstansi')
+            ->where('jadwalkerjas.jenis_jadwal','LIKE','%'.$request->cari.'%')
+            ->orWhere('instansis.namaInstansi','LIKE','%'.$request->cari.'%')
+            ->paginate(40);
+        }
        //dd($rule);
         // $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
-        return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'rules'=>$rule]);
+        return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'cari'=>$request->cari,'rules'=>$rule]);
     }
 
     public function store(Request $request){
@@ -54,7 +69,7 @@ class JadwalKerjaController extends Controller
         $user->jenis_jadwal = $request->jenisjadwal;
         $user->jam_masukjadwal = $request->awal;
         $user->jam_keluarjadwal = $request->pulang;
-        $user->instansi_id = $request->instansi_id;
+        $user->instansi_id = $request->instansi_id[0];
         $user->save();
         // dd("tes");
         return redirect('/jadwalkerja');
@@ -75,7 +90,7 @@ class JadwalKerjaController extends Controller
         // dd($id);
         $jadwal=jadwalkerja::where('id','=',$id)->first();
 
-       // dd($jadwal);
+    //    dd($jadwal);
         return view('jadwalkerja.editjadwalkerja',['inforekap'=>$inforekap,'jadwals'=>$jadwal]);
     }
 
@@ -98,6 +113,24 @@ class JadwalKerjaController extends Controller
         $table=jadwalkerja::find($id);
         $table->delete();
         return redirect('/jadwalkerja');
+    }
+
+    public function cari(Request $request){
+        $term = trim($request->q);
+        if (empty($term)) {
+            return response()->json([]);
+        }
+        $tags = jadwalkerja::
+                leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+                ->where('jenis_jadwal','LIKE','%'.$term.'%')
+                ->orWhere('namaInstansi','LIKE','%'.$term.'%')
+                ->select('jadwalkerjas.*','instansis.namaInstansi')
+                ->limit(5)->get();
+        $formatted_tags = [];
+        foreach ($tags as $tag) {
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->jenis_jadwal."( ".$tag->jam_masukjadwal." - ".$tag->jam_keluarjadwal." )"." - ".$tag->namaInstansi];
+        }
+        return response()->json($formatted_tags);
     }
 
 

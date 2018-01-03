@@ -148,4 +148,18 @@ class InstansiController extends Controller
     {
         //
     }
+
+
+    public function cari(Request $request){
+        $term = trim($request->q);
+        if (empty($term)) {
+            return response()->json([]);
+        }
+        $tags = instansi::where('namaInstansi','LIKE','%'.$term.'%')->limit(5)->get();
+        $formatted_tags = [];
+        foreach ($tags as $tag) {
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->namaInstansi];
+        }
+        return response()->json($formatted_tags);
+    }
 }
