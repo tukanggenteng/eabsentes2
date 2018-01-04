@@ -6,8 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\Console\\Commands\\RekapBulanan' => $baseDir . '/app/Console/Commands/RekapBulanan.php',
+    'App\\Console\\Commands\\CheckRaspberry' => $baseDir . '/app/Console/Commands/CheckRaspberry.php',
     'App\\Console\\Commands\\TiapHariCommand' => $baseDir . '/app/Console/Commands/TiapHariCommand.php',
+    'App\\Console\\Commands\\UpdatePegawai' => $baseDir . '/app/Console/Commands/UpdatePegawai.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\DataTables\\ManajUserDataTable' => $baseDir . '/app/DataTables/ManajUserDataTable.php',
     'App\\DataTables\\PegawaiManajemenDataTable' => $baseDir . '/app/DataTables/PegawaiManajemenDataTable.php',
@@ -37,6 +38,7 @@ return array(
     'App\\Http\\Controllers\\MasterAbsensiController' => $baseDir . '/app/Http/Controllers/MasterAbsensiController.php',
     'App\\Http\\Controllers\\PDFController' => $baseDir . '/app/Http/Controllers/PDFController.php',
     'App\\Http\\Controllers\\PegawaiController' => $baseDir . '/app/Http/Controllers/PegawaiController.php',
+    'App\\Http\\Controllers\\RaspberryStatusController' => $baseDir . '/app/Http/Controllers/RaspberryStatusController.php',
     'App\\Http\\Controllers\\RekapAbsensiController' => $baseDir . '/app/Http/Controllers/RekapAbsensiController.php',
     'App\\Http\\Controllers\\RpAdminController' => $baseDir . '/app/Http/Controllers/RpAdminController.php',
     'App\\Http\\Controllers\\RuleJadwalKerja' => $baseDir . '/app/Http/Controllers/RuleJadwalKerja.php',
@@ -107,6 +109,7 @@ return array(
     'Collective\\Html\\HtmlServiceProvider' => $vendorDir . '/laravelcollective/html/src/HtmlServiceProvider.php',
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
     'CreateLogErrorfinger' => $baseDir . '/database/migrations/2017_12_04_042431_create_log_errorfinger.php',
+    'CreatePegawaiHapusFinger' => $baseDir . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateVersionSoftware' => $baseDir . '/database/migrations/2017_12_03_211121_create_version_software.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',

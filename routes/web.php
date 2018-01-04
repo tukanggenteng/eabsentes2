@@ -280,6 +280,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/pegawai','PegawaiController@index');
       Route::get('/pegawai/datapegawai','PegawaiController@data')->name('datapegawai');
       Route::post('/pegawai/sinkron','PegawaiController@store')->name('sinkronpegawai');
+      Route::get('/pegawai/cari','PegawaiController@cari');
       // Route::get('/pegawai/manajemen','PegawaiController@pagepegawaiadmin');
       // Route::get('/pegawai/show/data/admin','PegawaiController@datauser')->name('datapegawaiadmin');
       // Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');
@@ -305,4 +306,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       #trigger
       Route::get('/trigger','TrigerController@form');
       Route::post('/trigger','TrigerController@edit');
+      Route::post('/trigger/hapus','TrigerController@hapus');
+      Route::post('/trigger/hapusdata','TrigerController@posthapus');
+
 });

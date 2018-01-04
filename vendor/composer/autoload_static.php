@@ -366,8 +366,9 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
     );
 
     public static $classMap = array (
-        'App\\Console\\Commands\\RekapBulanan' => __DIR__ . '/../..' . '/app/Console/Commands/RekapBulanan.php',
+        'App\\Console\\Commands\\CheckRaspberry' => __DIR__ . '/../..' . '/app/Console/Commands/CheckRaspberry.php',
         'App\\Console\\Commands\\TiapHariCommand' => __DIR__ . '/../..' . '/app/Console/Commands/TiapHariCommand.php',
+        'App\\Console\\Commands\\UpdatePegawai' => __DIR__ . '/../..' . '/app/Console/Commands/UpdatePegawai.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\DataTables\\ManajUserDataTable' => __DIR__ . '/../..' . '/app/DataTables/ManajUserDataTable.php',
         'App\\DataTables\\PegawaiManajemenDataTable' => __DIR__ . '/../..' . '/app/DataTables/PegawaiManajemenDataTable.php',
@@ -397,6 +398,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'App\\Http\\Controllers\\MasterAbsensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/MasterAbsensiController.php',
         'App\\Http\\Controllers\\PDFController' => __DIR__ . '/../..' . '/app/Http/Controllers/PDFController.php',
         'App\\Http\\Controllers\\PegawaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/PegawaiController.php',
+        'App\\Http\\Controllers\\RaspberryStatusController' => __DIR__ . '/../..' . '/app/Http/Controllers/RaspberryStatusController.php',
         'App\\Http\\Controllers\\RekapAbsensiController' => __DIR__ . '/../..' . '/app/Http/Controllers/RekapAbsensiController.php',
         'App\\Http\\Controllers\\RpAdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/RpAdminController.php',
         'App\\Http\\Controllers\\RuleJadwalKerja' => __DIR__ . '/../..' . '/app/Http/Controllers/RuleJadwalKerja.php',
@@ -467,6 +469,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'Collective\\Html\\HtmlServiceProvider' => __DIR__ . '/..' . '/laravelcollective/html/src/HtmlServiceProvider.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'CreateLogErrorfinger' => __DIR__ . '/../..' . '/database/migrations/2017_12_04_042431_create_log_errorfinger.php',
+        'CreatePegawaiHapusFinger' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateVersionSoftware' => __DIR__ . '/../..' . '/database/migrations/2017_12_03_211121_create_version_software.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',

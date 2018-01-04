@@ -7,6 +7,7 @@ use App\pegawai;
 use App\instansi;
 use App\atts_tran;
 use App\att;
+use App\hapusfingerpegawai;
 use App\rulejadwalpegawai;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
@@ -397,12 +398,14 @@ class PegawaiController extends Controller
 
     public function cekpegawai(){
       $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+      $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
 
 
        $table=pegawai::
        leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
        ->where('instansi_id','!=',null)
        ->where('finger','=',2)
+       ->whereNotIn('id',$tanpapegawai)
        ->get();
 
     	return $table;
@@ -480,6 +483,22 @@ class PegawaiController extends Controller
                 ->orWhere('id','=',$id)
                 ->get();
       return $table;
+    }
+
+    public function cari(Request $request){
+        $term = trim($request->q);
+        if (empty($term)) {
+            return response()->json([]);
+        }
+        $tags = pegawai::
+                where('nip','LIKE','%'.$term.'%')
+                ->orWhere('nama','LIKE','%'.$term.'%')
+                ->limit(5)->get();
+        $formatted_tags = [];
+        foreach ($tags as $tag) {
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->nip." - ".$tag->nama];
+        }
+        return response()->json($formatted_tags);
     }
 
 }
