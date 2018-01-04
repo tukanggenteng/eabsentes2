@@ -30,4 +30,6 @@ Route::group(['middleware'=>['api']], function () {
     Route::post('/logerror','LogFingerErrorController@create');
 
     Route::post('/raspberry','RaspberryStatusController@update');
+
+    Route::get('/hapusfingerpegawai','TrigerController@pegawaihapus');
 });

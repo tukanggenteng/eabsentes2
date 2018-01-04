@@ -74,4 +74,9 @@ class TrigerController extends Controller
         return redirect('/trigger');
 
     }
+
+    public function pegawaihapus(){
+        $table=hapusfingerpegawai::all();
+        return $table;
+    }
 }
