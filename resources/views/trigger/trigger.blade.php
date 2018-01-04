@@ -54,7 +54,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Trigger</label>
-                                                <select id="triger" name="triger" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                                <select id="triger" name="triger" class="form-control select2" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                                     @if ($status=='0')
                                                         <option selected="selected" value="0">None</option>
                                                     @else
