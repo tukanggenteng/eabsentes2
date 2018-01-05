@@ -35,5 +35,5 @@ Route::group(['middleware'=>['api']], function () {
 
 
 
-    Route::get('/atts/hapus/{id}','AttendanceController@hapusatt');
+    // Route::get('/atts/hapus/{id}','AttendanceController@hapusatt');
 });
