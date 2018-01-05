@@ -684,4 +684,18 @@ class AttendanceController extends Controller
 
         return $hasil;
     }
+
+    public function hapusatt($id){
+        $table=att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
+                ->where('pegawais.instansi_id','=',$id)
+                ->select('atts.*','pegawais.nip','pegawais.nama','pegawais.instansi_id')
+                ->get();
+
+        foreach ($table as $key =>$data){
+            $hapus=att::find($data->id);
+            // dd($data);
+            $hapus->delete();
+        }
+        // dd($table);
+    }
 }
