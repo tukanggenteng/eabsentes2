@@ -697,5 +697,6 @@ class AttendanceController extends Controller
             $hapus->delete();
         }
         // dd($table);
+        return "selesai";
     }
 }
