@@ -72,7 +72,7 @@ class Controller extends BaseController
 
         $sekarang=date('Y-m-d');
         $status=false;
-
+        // $date=1;
         if ($date==1){
             $hari='Senin';
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
@@ -107,7 +107,7 @@ class Controller extends BaseController
 
         // dd($hitungatts);
         if (($cekrekap==0) && ($hitungatts >= 5)){
-            return "Segera lakukan rekap absensi pegawai minggu lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap bulanan dengan mengklik ";
+            return "Segera lakukan rekap absensi pegawai minggu lalu. Jika rekap absensi pegawai rampung silahkan lakukan rekap mingguan dengan mengklik ";
         }
         else
         {

@@ -546,44 +546,44 @@
             $('input[name="tanggalijin"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggalsakit"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggalcuti"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggaltb"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggaltl"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggalrp"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
             $('input[name="tanggalit"]').datepicker({
                 firstDay: 1,
                 format: "yyyy-mm-dd",
-                startDate:"-1w",
-                endDate:"-1d",
+                startDate:"-7d",
+                endDate:"1d",
             });
         });
 

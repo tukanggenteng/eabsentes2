@@ -107,7 +107,9 @@ class JadwalKerjaPegawaiController extends Controller
                 ->paginate(30);
         //    dd($rulejadwal2);
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
-            $jadwalkerja=jadwalkerja::all();
+            $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
+                        ->orWhere('instansi_id','=','1')
+                        ->get();
 //            dd($rulejadwal);
             
             // dd(strtotime($minimal)." < > ".strtotime($tanggalsekarang));
@@ -153,18 +155,19 @@ class JadwalKerjaPegawaiController extends Controller
             $tanggalawal=date("Y-m-d",strtotime($tanggal[0]));
             $tanggalakhir=date("Y-m-d",strtotime($tanggal[1]));
 
-//            dd($tanggalakhir."+".$tanggalawal);
+        //    dd($tanggalakhir."+".$tanggalawal);
 
             $verifikasi=rulejadwalpegawai::
                 where('pegawai_id','=',$data)
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
-                ->where('tanggal_awalrule',',>=',$tanggalawal)
-                ->where('tanggal_akhirrule','<=',$tanggalakhir)
+                // ->where('tanggal_awalrule',',>=',$tanggalawal)
+                // ->where('tanggal_akhirrule','<=',$tanggalakhir)
+                ->where('tanggal_akhirrule','>=',$tanggalawal)
                 // ->orWhere('tanggal_awalrule',',<=',$tanggalawal)
                 // ->orWhere('tanggal_akhirrule','>=',$tanggalakhir)
                 ->count();
 
-        //    dd($tanggalawal);
+        //    dd($data);
 
             if ($verifikasi>0) {
                 return redirect('/jadwalkerjapegawai')->with('err','Terdapat data jadwal pegawai lebih dari 2 kali pada hari yang sama.');
@@ -194,6 +197,7 @@ class JadwalKerjaPegawaiController extends Controller
                 $table->tanggal_akhirrule = $tanggal[1];
                 $table->jadwalkerja_id = $request->jadwalkerjamasuk;
                 $table->save();
+
             }
         }
         return redirect('/jadwalkerjapegawai');
@@ -205,6 +209,7 @@ class JadwalKerjaPegawaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function show($id)
     {
         //

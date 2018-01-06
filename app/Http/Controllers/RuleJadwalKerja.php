@@ -53,7 +53,7 @@ class RuleJadwalKerja extends Controller
         }
         else{
             $user = new rulejammasuk();
-            $user->jadwalkerja_id = $request->jadwalkerjamasuk;
+            $user->jadwalkerja_id = $request->jadwalkerjamasuk[0];
             $user->jamsebelum_masukkerja = $request->awalmasuk;
             $user->jamsebelum_pulangkerja = $request->bataspulang;
             $user->instansi_id = $request->instansi_id;

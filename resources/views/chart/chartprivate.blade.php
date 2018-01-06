@@ -920,7 +920,7 @@
                               labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                               datasets: [
                                   {
-                                      label: "Tidak Apel",
+                                      label: "Apel",
                                       data: apel[0],
                                       backgroundColor: [
                                           'rgba(255, 99, 132, 0.2)',
@@ -1003,7 +1003,7 @@
                               labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
                               datasets: [
                                   {
-                                      label: "Tidak Apel",
+                                      label: "Apel",
                                       data: apel[0],
                                       backgroundColor: [
                                           'rgba(255, 99, 132, 0.2)',

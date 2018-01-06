@@ -134,9 +134,11 @@ Route::group(['middleware' => ['rule:user']],function(){
 
       #rekap absensi pegawai (menentukan jenis absen)
       Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
+      Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
       // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
       // Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
-      Route::post('/rekapabsensipegawai','RekapAbsensiController@edit');
+      Route::post('/rekapabsensipegawai/edit','RekapAbsensiController@edit');
+      Route::get('/rekapabsensipegawai/data','RekapAbsensiController@attsdata')->name('dataatts');
 
       #table rekap mingguan
       Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');

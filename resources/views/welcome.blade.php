@@ -15,7 +15,9 @@
             </div>
 
             <p class="login-box-msg">
-            Tutorial <a href="https://www.dropbox.com/s/mll1adop1b02rrv/Tutorial%20Eabsen.zip?dl=0">E-Absen</a>
+                    Buku Panduan <a href="https://www.dropbox.com/s/mll1adop1b02rrv/Tutorial%20Eabsen.zip?dl=0">E-Absen</a>
+                <br>
+                    Panduan Video <a href="#">E-Absen</a>
             </p>
 
             <form action="/" method="post">

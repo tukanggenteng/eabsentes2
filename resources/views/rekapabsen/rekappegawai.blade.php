@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
 
+<link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+
 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
@@ -48,7 +50,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <form action="/rekapabsensipegawai" method="post">
+                    <form action="/rekapabsensipegawai/edit" method="post">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-3">
@@ -91,52 +93,76 @@
                                 </div>
                             </div>
                         </div>
+
                         {{csrf_field()}}
                     <hr>
-                        <table class="table table-hover table-responsive">
-                            <tr>
-                                <th>
-                                    <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
-                                </th>
-                                <th>NIP</th>
-                                <th>Nama</th>
-                                <th>Tanggal</th>
-                                <th>Jam Masuk</th>
-                                <th>Lokasi Masuk</th>
-                                <th>Jam Keluar</th>
-                                <th>Lokasi Keluar</th>
-                                <th>Jadwal Kerja</th>
-                                <th>Akumulasi</th>
-                                <th>Status</th>
-                            </tr>
+                        <!-- <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <form action="/rekapabsensipegawai" method="post">
+                                        {{csrf_field()}}
+                                        <input type="text" id="caridata" name="caridata" placeholder="NIP/Nama" value="{{$cari}}">
+                                        <button type="submit" name="button"><i class="fa fa-search"></i></button>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">  
+                                    <table id="tableaja" class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>#
+                                                    <!-- <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all"> -->
+                                                </th>
+                                                <th>NIP</th>
+                                                <th>Nama</th>
+                                                <th>Tanggal</th>
+                                                <th>Jam Masuk</th>
+                                                <th>Lokasi Masuk</th>
+                                                <th>Jam Keluar</th>
+                                                <th>Lokasi Keluar</th>
+                                                <th>Jadwal Kerja</th>
+                                                <th>Akumulasi</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
 
-                            @foreach($atts as $att)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="checkboxnip[]" value="{{$att->id}}" class="flat-red checkbox">
-                                    </td>
-                                    <td>{{$att->nip}}</td>
-                                    <td>{{$att->nama}}</td>
-                                    <td>{{$att->tanggal_att}}</td>
-                                    <td>{{$att->jam_masuk}}</td>
-                                    <td>{{$att->namainstansimasuk}}</td>
-                                    <td>{{$att->jam_keluar}}</td>
-                                    <td>{{$att->namainstansikeluar}}</td>
-                                    <td>{{$att->jenis_jadwal}}</td>
-                                    <td>{{$att->akumulasi_sehari}}</td>
-                                    <td>{{$att->jenis_absen}}</td>
-                                </tr>
-                            @endforeach
-                        </table>
+                                        <!-- @foreach($atts as $att)
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" name="checkboxnip[]" value="{{$att->id}}" class="flat-red checkbox">
+                                                </td>
+                                                <td>{{$att->nip}}</td>
+                                                <td>{{$att->nama}}</td>
+                                                <td>{{$att->tanggal_att}}</td>
+                                                <td>{{$att->jam_masuk}}</td>
+                                                <td>{{$att->namainstansimasuk}}</td>
+                                                <td>{{$att->jam_keluar}}</td>
+                                                <td>{{$att->namainstansikeluar}}</td>
+                                                <td>{{$att->jenis_jadwal}}</td>
+                                                <td>{{$att->akumulasi_sehari}}</td>
+                                                <td>{{$att->jenis_absen}}</td>
+                                            </tr>
+                                        @endforeach -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </form>
                 </div>
                 <!-- /.box-body -->
 
-                <div class="box-footer clearfix">
+                <!-- <div class="box-footer clearfix">
                     <ul class="pagination pagination-sm no-margin pull-right">
                         {{$atts->links()}}
                     </ul>
-                </div>
+                </div> -->
             </div>
           </section>
             <!-- /.content -->
@@ -160,6 +186,12 @@
     <script src="{{asset('plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script src="{{asset('plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
     <script src="{{asset('plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
+
+
+    <!-- DataTables -->
+    <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+
     <!-- date-range-picker -->
     <script src="{{asset('bower_components/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
@@ -230,6 +262,31 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass   : 'iradio_flat-green'
         })
+
+        
+    </script>
+    <script type="text/javascript">
+        var oTable;
+        $(function() {
+            oTable = $('#tableaja').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('dataatts')}}',
+                columns: [
+                    { data: 'action', name: 'action',orderable: false },
+                    { data: 'nip', name: 'nip' },
+                    { data: 'nama', name: 'nama' },
+                    { data: 'tanggal_att', name: 'tanggal_att' },
+                    { data: 'jam_masuk', name: 'jam_masuk' },
+                    { data: 'namainstansimasuk', name: 'namainstansimasuk' },
+                    { data: 'jam_keluar', name: 'jam_keluar' },
+                    { data: 'namainstansikeluar', name: 'namainstansikeluar' },
+                    { data: 'jenis_jadwal', name: 'jenis_jadwal' },
+                    { data: 'akumulasi_sehari', name: 'akumulasi_sehari' },
+                    { data: 'jenis_absen', name: 'jenis_absen' },
+                ]
+            });
+        });
     </script>
 
     </body>

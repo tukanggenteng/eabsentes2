@@ -19,7 +19,7 @@ class RekapAbsensiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
         if ($this->notifrekap()=="")
@@ -32,11 +32,6 @@ class RekapAbsensiController extends Controller
             $inforekap=$this->notifrekap();
         }
 
-//        dd($bulan2);
-
-        // $pegawai=pegawai::where('instansi_id','=',Auth::user()->instansi_id)->paginate(40);
-        // return view('rekapabsen.rekappegawai',['inforekap'=>$inforekap,'pegawais'=>$pegawai,'bulan'=>$bulan2]);
-
         $date=date('N');
 
         $sekarang=date('Y-m-d');
@@ -44,63 +39,89 @@ class RekapAbsensiController extends Controller
         if ($date==1){
             $hari='Senin';
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+            $akhir=$sekarang;
             $status=true;
         }
         elseif ($date==2){
             $hari='Selasa';
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-            $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+            $akhir=$sekarang;
             $status=true;
         }
         elseif ($date==3) {
           // dd("asda");
           $hari='Rabu';
           $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+          $akhir=$sekarang;
           $status=false;
         }
         elseif ($date==4) {
           // dd("asda");
           $hari='Kamis';
           $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+          $akhir=$sekarang;
           $status=false;
         }
         elseif ($date==5) {
           // dd("asda");
           $hari='Jumat';
           $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+          $akhir=$sekarang;
           $status=false;
         }
         elseif ($date==6) {
           // dd("asda");
           $hari='Sabtu';
           $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+          $akhir=$sekarang;
           $status=false;
         }
         elseif ($date==7) {
           // dd("asda");
           $hari='Minggu';
           $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
-          $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
+          $akhir=$sekarang;
           $status=false;
         }
+        $cari=$request->caridata;
+        // dd($cari);
+        if (!isset($cari))
+        {
+            // dd("as");
+            $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+            ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+            ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+            ->where('atts.tanggal_att','>=',$awal)
+            ->where('atts.tanggal_att','<=',$akhir)
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->orderBy('atts.tanggal_att','desc')
+            ->paginate(30);
 
-        $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
-        ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
-        ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
-        ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
-        ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-        ->where('atts.tanggal_att','>=',$awal)
-        ->where('atts.tanggal_att','<=',$akhir)
-        ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
-        ->orderBy('atts.tanggal_att','desc')
-        ->paginate(30);
+        }
+        else
+        {
+            $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+            ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+            ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+            ->where('atts.tanggal_att','>=',$awal)
+            ->where('atts.tanggal_att','<=',$akhir)
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            ->where('pegawais.nip','LIKE','%'.$cari."%")
+            ->orWhere('pegawais.nama','LIKE','%'.$cari."%")
+            // ->orWhere('atts.tanggal_att','LIKE','%'.$cari."%")
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->orderBy('atts.tanggal_att','desc')
+            ->paginate(30);
+            // dd(($cari));
+            // dd($atts);
+        }
 
 
         $jadwalkerjas=att::join('pegawais','atts.pegawai_id','=','pegawais.id')
@@ -113,7 +134,7 @@ class RekapAbsensiController extends Controller
             ->get();
         // dd($jadwalkerjas);
         $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir');
-        return view('rekapabsen.rekappegawai',['awal'=>$awal,'akhir'=>$akhir,'jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen]);
+        return view('rekapabsen.rekappegawai',['cari'=>$cari,'awal'=>$awal,'akhir'=>$akhir,'jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen]);
     }
 
     /**
@@ -218,7 +239,7 @@ class RekapAbsensiController extends Controller
         // dd($request->checkboxnip);
         foreach ($request->checkboxnip as $key => $pegawai) {
 
-          $id=$pegawai;
+          $id=decrypt($pegawai);
 
           $i=0;
           $tanggalbaru =$tanggal[0];
@@ -254,7 +275,7 @@ class RekapAbsensiController extends Controller
                               $search = att::where('tanggal_att', '=', $tanggalbaru)
                                   ->where('id', '=', $id)
                                   ->count();
-                              // dd($search);
+                            //   dd($search);
                               if ($search > 0) {
                                   // dd('aasdas');
                                   if ($request->jenisabsen == "2") {
@@ -435,12 +456,12 @@ class RekapAbsensiController extends Controller
                                       $table->save();
 
                                   }
-
+                                
                               } else {
-
+                                dd("as");
                               }
                           } else {
-
+                            dd("asu");
                           }
                         }
 
@@ -509,6 +530,82 @@ class RekapAbsensiController extends Controller
 
     public function indexrekapadmin(){
       return view('admin.rekapabsen.rekapabsenmingguan');
+    }
+
+    public function attsdata(){
+        // $users=pegawai::join('instansis','pegawais.instansi_id','=','instansis.id')
+        //     ->get();
+        $date=date('N');
+
+        $sekarang=date('Y-m-d');
+        $status=false;
+        if ($date==1){
+            $hari='Senin';
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=$sekarang;
+            $status=true;
+        }
+        elseif ($date==2){
+            $hari='Selasa';
+            $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+            $akhir=$sekarang;
+            $status=true;
+        }
+        elseif ($date==3) {
+          // dd("asda");
+          $hari='Rabu';
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=$sekarang;
+          $status=false;
+        }
+        elseif ($date==4) {
+          // dd("asda");
+          $hari='Kamis';
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=$sekarang;
+          $status=false;
+        }
+        elseif ($date==5) {
+          // dd("asda");
+          $hari='Jumat';
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=$sekarang;
+          $status=false;
+        }
+        elseif ($date==6) {
+          // dd("asda");
+          $hari='Sabtu';
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=$sekarang;
+          $status=false;
+        }
+        elseif ($date==7) {
+          // dd("asda");
+          $hari='Minggu';
+          $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
+          $akhir=$sekarang;
+          $status=false;
+        }
+
+            $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+            ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+            ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+            ->where('atts.tanggal_att','>=',$awal)
+            ->where('atts.tanggal_att','<=',$akhir)
+            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->orderBy('atts.tanggal_att','desc')
+            ->get();
+
+            return Datatables::of($atts)
+                    ->editColumn('action', function ($atts) {
+                        return '<input type="checkbox" name="checkboxnip[]" value="'.encrypt($atts->id).'" class="flat-red checkbox">';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
     }
 
 }
