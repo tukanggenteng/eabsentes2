@@ -59,7 +59,7 @@
       <h3>LAPORAN ABSENSI HARIAN</h3>
     </div>
     <div class="subtitle">
-      <h4>Oleh <br>{{$instansi}}</h4>
+      <h4>Oleh <br>{{$instansi}} PROV. KALSEL</h4>
     </div>
     <div>
       <table class="tabel">
@@ -95,7 +95,7 @@
     if ( isset($pdf) ) {
         $x = 72;
         $y = 580;
-        $text = "Halaman {PAGE_NUM} dari {PAGE_COUNT} - "."{{$instansi}}";
+        $text = "Halaman {PAGE_NUM} dari {PAGE_COUNT} - "."{{$instansi}} PROV. KALSEL";
         $font = $fontMetrics->get_font("helvetica", "bold");
         $size = 6;
         $color = array(0 ,0,0);
