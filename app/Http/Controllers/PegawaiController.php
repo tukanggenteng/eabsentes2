@@ -8,6 +8,7 @@ use App\instansi;
 use App\atts_tran;
 use App\att;
 use App\hapusfingerpegawai;
+use App\adminpegawai;
 use App\rulejadwalpegawai;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
@@ -397,15 +398,16 @@ class PegawaiController extends Controller
     }
 
     public function cekpegawai(){
-      $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
-      $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
-
+        $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+        $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
+        $adminsidikjari=adminpegawai::pluck('pegawai_id')->all();
 
        $table=pegawai::
        leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
        ->where('instansi_id','!=',null)
        ->where('finger','=',2)
        ->whereNotIn('id',$tanpapegawai)
+       ->whereNotIn('id',$adminsidikjari)
        ->get();
 
     	return $table;
@@ -459,8 +461,7 @@ class PegawaiController extends Controller
     }
 
     public function getadmin(){
-      $table=pegawai::where('id','=','10219')
-                ->orWhere('id','=','7239')
+      $table=adminpegawai::leftJoin('pegawais','adminpegawais.pegawai_id','=','pegawais.id')
                 ->get();
       return $table;
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\adminpegawai;
 use App\triger;
 use App\hapusfingerpegawai;
 use Illuminate\Http\Request;
@@ -29,8 +30,12 @@ class TrigerController extends Controller
                 ->select('hapusfingerpegawais.*','pegawais.nip','pegawais.nama','instansis.namaInstansi')
                 ->get();
 
+        $dataadmin=adminpegawai::leftJoin('pegawais','adminpegawais.pegawai_id','=','pegawais.id')
+                ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                ->select('adminpegawais.*','pegawais.nip','pegawais.nama','instansis.namaInstansi')
+                ->get();
         // dd($datas);
-        return view('trigger.trigger',['status'=>$trigger,'datas'=>$datas]);
+        return view('trigger.trigger',['status'=>$trigger,'datas'=>$datas,'admins'=>$dataadmin]);
     }
 
     public function edit(Request $request) {
@@ -42,6 +47,10 @@ class TrigerController extends Controller
     }
 
     public function hapus(Request $request){
+        $this->validate($request, [
+            'pegawai'=>'required'
+        ]);
+
         $validasi=hapusfingerpegawai::where('pegawai_id','=',$request->pegawai[0])
                 ->count();
         
@@ -78,5 +87,41 @@ class TrigerController extends Controller
     public function pegawaihapus(){
         $table=hapusfingerpegawai::all();
         return $table;
+    }
+
+    public function postadmindata(Request $request){
+        $this->validate($request, [
+            'pegawai2'=>'required'
+        ]);
+
+        $validasi=adminpegawai::where('pegawai_id','=',$request->pegawai2[0])
+                ->count();
+        
+        if ($validasi>0){
+
+        }
+        else{
+            $table=new adminpegawai;
+            $table->pegawai_id=$request->pegawai2[0];
+            $table->save();
+        }
+
+        return redirect('/trigger');
+    }
+
+    public function hapusadmindata(Request $request){
+        $this->validate($request, [
+            'checkbox3'=>'required'
+        ]);
+
+        foreach ($request->checkbox3 as $key=> $data){
+            $data=decrypt($data);
+            // dd($data);
+            $table=adminpegawai::where('id','=',$data);
+            // dd($table);
+            $table->delete();
+        }
+
+        return redirect('/trigger');
     }
 }

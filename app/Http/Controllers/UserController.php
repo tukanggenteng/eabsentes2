@@ -44,7 +44,7 @@ class UserController extends Controller
         {
             $inforekap=$this->notifrekap();
         }
-        $instansi=instansi::all();
+        $instansi=instansi::where('namaInstansi','!=','Admin')->get();
         $role=role::all();
 //        dd($role);
         return view('user.manajuser',['inforekap'=>$inforekap,'instansis'=>$instansi,'roles'=>$role]);

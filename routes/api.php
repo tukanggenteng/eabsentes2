@@ -33,7 +33,5 @@ Route::group(['middleware'=>['api']], function () {
 
     Route::get('/hapusfingerpegawai','TrigerController@pegawaihapus');
 
-
-
     // Route::get('/atts/hapus/{id}','AttendanceController@hapusatt');
 });

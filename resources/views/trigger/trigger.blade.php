@@ -200,7 +200,103 @@
                 </div>
                 <!-- /.box -->
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Tambah Admin Fingerprint</h3>
 
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <form action="/trigger/tambahadmin" method="post">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Pegawai</label>
+                                                <select id="pegawai2" name="pegawai2[]" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                                </select>
+                                            </div>
+                                            {{csrf_field()}}
+                                            <!-- /.form-group -->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                    <!-- /.col -->
+                                <!-- /.row -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-default">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Daftar Admin Fingerprint</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body">
+                                <form action="/trigger/hapusadmin" method="post">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="col-md-3">
+                                                    <button type="submit" class="btn btn-danger btn-flat">Hapus</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{csrf_field()}}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table class="table table-hover">
+                                                <tr>
+                                                    <th>
+                                                        <input type="checkbox" id="select_all3" name="select_all3" class="flat-red select_all3">
+                                                    </th>
+                                                    <th>NIP</th>
+                                                    <th>Nama</th>
+                                                    <th>Instansi</th>
+                                                </tr>
+                                                <?php $i=1; ?>
+                                                @foreach($admins as $admin)
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" name="checkbox3[]" value="{{encrypt($admin->id)}}" class="flat-red checkbox cekbox3">
+                                                    </td>
+                                                    <td>{{$admin->nip}}</td>
+                                                    <td>{{$admin->nama}}</td>
+                                                    <td>{{$admin->namaInstansi}}</td>
+                                                </tr>
+                                                @endforeach
+                                            </table>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- /.box -->
 
@@ -258,7 +354,40 @@
             $('.cekbox2').iCheck('update');
         });
 
+        $('#select_all3').on('ifChanged', function(event){
+            if(!this.changed) {
+                this.changed=true;
+                $('.cekbox3').iCheck('check');
+            } else {
+                this.changed=false;
+                $('.cekbox3').iCheck('uncheck');
+            }
+            $('.cekbox3').iCheck('update');
+        });
+
         $('#pegawai').select2(
+            {
+                placeholder: "Pilih Pegawai",
+                minimumInputLength: 1,
+                ajax: {
+                    url: '/pegawai/cari',
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            q: $.trim(params.term)
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                }
+            }
+        );
+
+        $('#pegawai2').select2(
             {
                 placeholder: "Pilih Pegawai",
                 minimumInputLength: 1,

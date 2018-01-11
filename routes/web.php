@@ -310,5 +310,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/trigger','TrigerController@edit');
       Route::post('/trigger/hapus','TrigerController@hapus');
       Route::post('/trigger/hapusdata','TrigerController@posthapus');
+      Route::post('/trigger/tambahadmin','TrigerController@postadmindata');
+      Route::post('/trigger/hapusadmin','TrigerController@hapusadmindata');
 
 });
