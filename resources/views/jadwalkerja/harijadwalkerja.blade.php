@@ -91,7 +91,6 @@
                                                 <th>Jadwal Kerja</th>
                                                 <th>Aksi</th>
                                             </tr>
-                                            {{--{{var_dump($hasildatas)}}--}}
                                             @foreach($hasildatas as $key =>$hasildata)
                                                 <tr>
                                                     <td>{{$key+1}}</td>
@@ -136,14 +135,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="checkbox" name="checkbox2[]" value="1" class="flat-red"> Senin
-                                        <input type="checkbox" name="checkbox2[]" value="2" class="flat-red"> Selasa
-                                        <input type="checkbox" name="checkbox2[]" value="3" class="flat-red"> Rabu
-                                        <input type="checkbox" name="checkbox2[]" value="4" class="flat-red"> Kamis
+                                        <input type="checkbox" name="checkbox2[]" value="1" class="flat-red"> Minggu Ke-1
+                                        <input type="checkbox" name="checkbox2[]" value="2" class="flat-red"> Minggu Ke-2
+                                        <input type="checkbox" name="checkbox2[]" value="3" class="flat-red"> Minggu Ke-3
+                                        <input type="checkbox" name="checkbox2[]" value="4" class="flat-red"> Minggu Ke-4
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Jadwal</label>
-                                        <select class="form-control select2" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
+                                        <select class="form-control select2" name="jadwalkerjaminggu" data-placeholder="Jenis Jadwal Kerja">
                                             @foreach($jadwalminggus as $jadwalminggu)
                                                 <option value="{{$jadwalminggu['id']}}">{{$jadwalminggu['jenis_jadwal']}} ({{$jadwalminggu['jam_masukjadwal']}} - {{$jadwalkerja['jam_keluarjadwal']}})</option>
                                             @endforeach
@@ -183,20 +182,19 @@
                                                 <th>Jadwal Kerja</th>
                                                 <th>Aksi</th>
                                             </tr>
-                                            {{--{{var_dump($hasildatas)}}--}}
-                                            @foreach($hasildatas as $key =>$hasildata)
+                                            @foreach($jadwalminggudatas as $key =>$jadwalminggudata)
                                                 <tr>
                                                     <td>{{$key+1}}</td>
-                                                    <td>{{$hasildata['jenis_jadwal']}}</td>
+                                                    <td>{{$jadwalminggudata['jenis_jadwal']}}</td>
                                                     <td>
                                                     <a class="btn-sm btn-danger" data-method="delete"
-                                                    data-token="{{csrf_token()}}" href="/harikerja/hapus/{{ encrypt($hasildata['jadwalkerja_id']) }}">Hapus</a></td>
+                                                    data-token="{{csrf_token()}}" href="/minggukerja/{{ encrypt($jadwalminggudata['jadwalkerja_id']) }}">Hapus</a></td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td colspan="2">
-                                                @foreach($hasildata[0] as $key)
-                                                        {{($key['hari']).","}}
+                                                @foreach($jadwalminggudata[0] as $key)
+                                                        {{"Minggu Ke-".($key['minggu']).","}}
                                                 @endforeach
                                                 </td>
                                                 </tr>

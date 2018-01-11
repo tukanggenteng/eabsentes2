@@ -131,6 +131,8 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::post('/harikerja','HariKerjaController@store');
       Route::get('/harikerja/{id}','HariKerjaController@show');
       Route::get('/harikerja/hapus/{id}','HariKerjaController@destroy');
+      Route::post('/minggukerja','JadwalKerjaController@minggukerja');
+      Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
 
       #rekap absensi pegawai (menentukan jenis absen)
       Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
@@ -213,7 +215,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
       Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
       Route::get('/jadwalkerja/cari','JadwalKerjaController@cari')->name('carijadwal');
-      Route::get('/carbon','JadwalKerjaController@minggukerja');
+      // Route::get('/carbon','JadwalKerjaController@minggukerja');
 
       #rulejadwalkerja
       Route::post('/rulejadwalkerja','RuleJadwalKerja@store');

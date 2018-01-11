@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use App\att;
 use App\harikerja;
 use App\instansi;
+use App\jadwalminggu;
 use App\pegawai;
 use Illuminate\Support\Facades\DB;
 use App\finalrekapbulanan;
@@ -719,9 +720,9 @@ class TiapHariCommand extends Command
         $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
 
         foreach ($minggujadwals as $key => $minggujadwal){
-
+            // dd($minggujadwal->jadwalkerja_id);
             $harikerjas=harikerja::where('hari','=',$hari)
-                        // ->where('jadwalkerja_id','='$minggujadwal->jadwalkerja_id)
+                        ->where('jadwalkerja_id','=',$minggujadwal->jadwalkerja_id)
                         ->distinct()
                         ->get(['jadwalkerja_id','hari']);
             $tanggalharini=date("Y-m-d");

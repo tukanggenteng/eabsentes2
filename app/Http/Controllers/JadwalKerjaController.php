@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\jadwalkerja;
 use App\rulejammasuk;
+use App\jadwalminggu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -135,6 +136,22 @@ class JadwalKerjaController extends Controller
     }
 
     public function minggukerja(Request $request){
+        $this->validate($request, [
+            'jadwalkerjaminggu'=>'required',
+            'checkbox2'=>'required'
+        ]);
+            // dd($request->checkbox2);
+
+        foreach ($request->checkbox2 as $key=> $data){
+        //    dd($data);
+            $user = new jadwalminggu();
+            $user->minggu = $data;
+            $user->jadwalkerja_id = $request->jadwalkerjaminggu;
+            $user->instansi_id = Auth::user()->instansi_id;
+            $user->save();
+        }
+        return redirect('/harikerja');
+
         // $month=Carbon::now()->month;
         // $year = Carbon::now()->year;
         // $date = Carbon::createFromDate($year,$month);
@@ -169,6 +186,16 @@ class JadwalKerjaController extends Controller
         // dd($status);
         // return dd($end['Minggu 1'][0]);
         
+    }
+
+    public function hapusjadwalminggu($id){
+        $id=decrypt($id);
+        $table=jadwalminggu::where('jadwalkerja_id',$id)
+        ->where('instansi_id','=',Auth::user()->instansi_id)
+        ;
+        //dd($table);
+        $table->delete();
+        return redirect('/harikerja');
     }
 
 }
