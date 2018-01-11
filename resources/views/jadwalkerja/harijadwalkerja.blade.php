@@ -122,6 +122,98 @@
                     </div>
                     <!-- /.box-body -->
                 </div>
+
+
+                <!-- minggukerja -->
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Minggu Jadwal Kerja</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form action="/minggukerja" method="post">
+                            {{csrf_field()}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input type="checkbox" name="checkbox2[]" value="1" class="flat-red"> Senin
+                                        <input type="checkbox" name="checkbox2[]" value="2" class="flat-red"> Selasa
+                                        <input type="checkbox" name="checkbox2[]" value="3" class="flat-red"> Rabu
+                                        <input type="checkbox" name="checkbox2[]" value="4" class="flat-red"> Kamis
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis Jadwal</label>
+                                        <select class="form-control select2" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
+                                            @foreach($jadwalkerjas as $jadwalkerja)
+                                                <option value="{{$jadwalkerja['id']}}">{{$jadwalkerja['jenis_jadwal']}} ({{$jadwalkerja['jam_masukjadwal']}} - {{$jadwalkerja['jam_keluarjadwal']}})</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Table Hari kerja -->
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Tabel Hari Jadwal Kerja</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <!-- /.box-header -->
+                                    <div class="box-body no-padding">
+                                        <table class="table table-striped">
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Jadwal Kerja</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                            {{--{{var_dump($hasildatas)}}--}}
+                                            @foreach($hasildatas as $key =>$hasildata)
+                                                <tr>
+                                                    <td>{{$key+1}}</td>
+                                                    <td>{{$hasildata['jenis_jadwal']}}</td>
+                                                    <td>
+                                                    <a class="btn-sm btn-danger" data-method="delete"
+                                                    data-token="{{csrf_token()}}" href="/harikerja/hapus/{{ encrypt($hasildata['jadwalkerja_id']) }}">Hapus</a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td colspan="2">
+                                                @foreach($hasildata[0] as $key)
+                                                        {{($key['hari']).","}}
+                                                @endforeach
+                                                </td>
+                                                </tr>
+
+                                            @endforeach
+
+                                        </table>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.box-body -->
+                </div>
                 <!-- /.box -->
 
             </section>

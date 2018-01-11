@@ -719,7 +719,9 @@ class TiapHariCommand extends Command
         $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
 
         foreach ($minggujadwals as $key => $minggujadwal){
+            
             $harikerjas=harikerja::where('hari','=',$hari)
+                        ->where('jadwalkerja_id','='$minggujadwal->jadwalkerja_id)
                         ->distinct()
                         ->get(['jadwalkerja_id','hari']);
             $tanggalharini=date("Y-m-d");

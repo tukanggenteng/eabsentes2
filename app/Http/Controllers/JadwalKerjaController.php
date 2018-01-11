@@ -134,40 +134,41 @@ class JadwalKerjaController extends Controller
         return response()->json($formatted_tags);
     }
 
-    public function minggukerja(){
-        $month=Carbon::now()->month;
-        $year = Carbon::now()->year;
-        $date = Carbon::createFromDate($year,$month);
-        $numberOfWeeks = floor($date->daysInMonth / Carbon::DAYS_PER_WEEK);
-        $start = [];
-        $end = [];
-        $j=1;
-        for ($i=1; $i <= $date->daysInMonth ; $i++) {
-            Carbon::createFromDate($year,$month,$i); 
-            $start['Week: '.$j.' Start Date']= (array)Carbon::createFromDate($year,$month,$i)->startOfWeek()->toDateString();
-            $end['Minggu '.$j]= (array)Carbon::createFromDate($year,$month,$i)->endOfweek()->toDateString();
-            $i+=7;
-            $j++; 
-        }
-        // $result = array_merge($start,$end);
-        // $result['numberOfWeeks'] = ["$numberOfWeeks"];
-        // $tanggalsekarang=date('Y-m-d');
+    public function minggukerja(Request $request){
+        // $month=Carbon::now()->month;
+        // $year = Carbon::now()->year;
+        // $date = Carbon::createFromDate($year,$month);
+        // $numberOfWeeks = floor($date->daysInMonth / Carbon::DAYS_PER_WEEK);
+        // $start = [];
+        // $end = [];
+        // $j=1;
+        // for ($i=1; $i <= $date->daysInMonth ; $i++) {
+        //     Carbon::createFromDate($year,$month,$i); 
+        //     $start['Week: '.$j.' Start Date']= (array)Carbon::createFromDate($year,$month,$i)->startOfWeek()->toDateString();
+        //     $end['Minggu '.$j]= (array)Carbon::createFromDate($year,$month,$i)->endOfweek()->toDateString();
+        //     $i+=7;
+        //     $j++; 
+        // }
+        // // $result = array_merge($start,$end);
+        // // $result['numberOfWeeks'] = ["$numberOfWeeks"];
+        // // $tanggalsekarang=date('Y-m-d');
 
-        $tanggalsekarang="2018-01-15";
-        if ($tanggalsekarang <= $end['Minggu 1'][0]){
-            $status=$tanggalsekarang." Minggu Pertama";
-        }
-        elseif ($tanggalsekarang <= $end['Minggu 2'][0]){
-            $status=$tanggalsekarang." Minggu Kedua";
-        }
-        elseif ($tanggalsekarang <= $end['Minggu 3'][0]){
-            $status=$tanggalsekarang." Minggu Ketiga";
-        }
-        elseif ($tanggalsekarang <= $end['Minggu 4'][0]){
-            $status=$tanggalsekarang." Minggu Keempat";
-        }
-        dd($status);
-        return dd($end['Minggu 1'][0]);
+        // $tanggalsekarang="2018-01-15";
+        // if ($tanggalsekarang <= $end['Minggu 1'][0]){
+        //     $status=$tanggalsekarang." Minggu Pertama";
+        // }
+        // elseif ($tanggalsekarang <= $end['Minggu 2'][0]){
+        //     $status=$tanggalsekarang." Minggu Kedua";
+        // }
+        // elseif ($tanggalsekarang <= $end['Minggu 3'][0]){
+        //     $status=$tanggalsekarang." Minggu Ketiga";
+        // }
+        // elseif ($tanggalsekarang <= $end['Minggu 4'][0]){
+        //     $status=$tanggalsekarang." Minggu Keempat";
+        // }
+        // dd($status);
+        // return dd($end['Minggu 1'][0]);
+        
     }
 
 }
