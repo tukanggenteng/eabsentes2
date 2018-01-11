@@ -213,6 +213,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
       Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
       Route::get('/jadwalkerja/cari','JadwalKerjaController@cari')->name('carijadwal');
+      Route::get('/carbon','JadwalKerjaController@minggukerja');
 
       #rulejadwalkerja
       Route::post('/rulejadwalkerja','RuleJadwalKerja@store');

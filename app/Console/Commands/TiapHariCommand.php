@@ -11,6 +11,7 @@ use App\rekapbulanan;
 use App\masterbulanan;
 use App\rulejadwalpegawai;
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 class TiapHariCommand extends Command
 {
@@ -681,69 +682,104 @@ class TiapHariCommand extends Command
         }
 
 
-        $harikerjas=harikerja::where('hari','=',$hari)
-                    ->distinct()
-                    ->get(['jadwalkerja_id','hari']);
-        $tanggalharini=date("Y-m-d");
-        // dd($tanggalharini);
-        // dd($harikerjas);
+        $month=Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $date = Carbon::createFromDate($year,$month);
+        $numberOfWeeks = floor($date->daysInMonth / Carbon::DAYS_PER_WEEK);
+        $start = [];
+        $end = [];
+        $j=1;
+        for ($i=1; $i <= $date->daysInMonth ; $i++) {
+            Carbon::createFromDate($year,$month,$i); 
+            $start['Week: '.$j.' Start Date']= (array)Carbon::createFromDate($year,$month,$i)->startOfWeek()->toDateString();
+            $end['Minggu '.$j]= (array)Carbon::createFromDate($year,$month,$i)->endOfweek()->toDateString();
+            $i+=7;
+            $j++; 
+        }
+        // $result = array_merge($start,$end);
+        // $result['numberOfWeeks'] = ["$numberOfWeeks"];
+        $tanggalsekarang=date('Y-m-d');
 
-        $instansis=instansi::all();
-        foreach ($instansis as $kunci => $instansi){
+        // $tanggalsekarang="2018-01-15";
+        if ($tanggalsekarang <= $end['Minggu 1'][0]){
+            $minggu=1;
+        }
+        elseif ($tanggalsekarang <= $end['Minggu 2'][0]){
+            $minggu=2;
+        }
+        elseif ($tanggalsekarang <= $end['Minggu 3'][0]){
+            $minggu=3;
+        }
+        elseif ($tanggalsekarang <= $end['Minggu 4'][0]){
+            $minggu=4;
+        }
+        // dd($status);
+        // return dd($end['Minggu 1'][0]);
 
-            foreach ($harikerjas as $key =>$jadwalkerja){
-                    #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
-                    // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                    //     //->where('pegawai_id','=','9930')
-                    // ->where('tanggal_awalrule','<=',$tanggalharini)
-                    // ->where('tanggal_akhirrule','>=',$tanggalharini)
-                    // ->count();
+        $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
 
-                    $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                    ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                    ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-                    ->where('harikerjas.instansi_id','=',$instansi->id)
-                    ->where('harikerjas.hari','=',$hari)
-                    ->where('pegawais.instansi_id','=',$instansi->id)
-                    ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                    //->where('pegawai_id','=','9930')
-                    ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
-                    ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
-                    ->count();
+        foreach ($minggujadwals as $key => $minggujadwal){
+            $harikerjas=harikerja::where('hari','=',$hari)
+                        ->distinct()
+                        ->get(['jadwalkerja_id','hari']);
+            $tanggalharini=date("Y-m-d");
+
+            $instansis=instansi::all();
+            foreach ($instansis as $kunci => $instansi){
+
+                foreach ($harikerjas as $key =>$jadwalkerja){
+                        #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
+                        // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                        //     //->where('pegawai_id','=','9930')
+                        // ->where('tanggal_awalrule','<=',$tanggalharini)
+                        // ->where('tanggal_akhirrule','>=',$tanggalharini)
+                        // ->count();
+
+                        $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                        ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->where('harikerjas.instansi_id','=',$instansi->id)
+                        ->where('harikerjas.hari','=',$hari)
+                        ->where('pegawais.instansi_id','=',$instansi->id)
+                        ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                        //->where('pegawai_id','=','9930')
+                        ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
+                        ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
+                        ->count();
 
 
-                // dd($hitung);
-                if ($hitung>0)
-                {
-                // dd($hitung);
-                    $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                                ->where('pegawais.instansi_id','=',$instansi->id)
-                                ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
-                                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
-                                ->get();
-
-                    // dd($jadwalpegawais);
-                    foreach ($jadwalpegawais as $jadwalpegawai)
+                    // dd($hitung);
+                    if ($hitung>0)
                     {
-                        $user = new att();
-                        $user->pegawai_id = $jadwalpegawai->pegawai_id;
-                        $user->tanggal_att=$tanggalharini;
-                        $user->terlambat='00:00:00';
-                        $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
-                        $user->akumulasi_sehari='00:00:00';
-                        $user->jenisabsen_id = '2';
-                        $user->save();
-                        // dd($jadwalpegawai->pegawai_id);
+                    // dd($hitung);
+                        $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                                    ->where('pegawais.instansi_id','=',$instansi->id)
+                                    ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                                    ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalharini)
+                                    ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalharini)
+                                    ->get();
+
+                        // dd($jadwalpegawais);
+                        foreach ($jadwalpegawais as $jadwalpegawai)
+                        {
+                            $user = new att();
+                            $user->pegawai_id = $jadwalpegawai->pegawai_id;
+                            $user->tanggal_att=$tanggalharini;
+                            $user->terlambat='00:00:00';
+                            $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
+                            $user->akumulasi_sehari='00:00:00';
+                            $user->jenisabsen_id = '2';
+                            $user->save();
+                            // dd($jadwalpegawai->pegawai_id);
+                        }
                     }
-                }
-                else
-                {
-                    // dd("tidak jalan");
+                    else
+                    {
+                        // dd("tidak jalan");
+                    }
                 }
             }
         }
-
         
     }
 }
