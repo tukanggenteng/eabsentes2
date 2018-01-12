@@ -78,6 +78,12 @@
                                                     @else
                                                         <option value="3">Update Software</option>
                                                     @endif
+
+                                                    @if ($status=='4')
+                                                        <option selected="selected" value="4">Reset Data Mesin</option>
+                                                    @else
+                                                        <option value="4">Reset Data Mesin</option>
+                                                    @endif
                                                     
                                                 </select>
                                             </div>
