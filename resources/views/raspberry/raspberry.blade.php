@@ -49,7 +49,17 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Nama Instansi</th>
-                                                    <th>Status</th>
+                                                    <th>IP</th>
+                                                    <th>Versi</th>
+                                                    <th>Jumlah Mac</th>
+                                                    <th>Jumlah Pegawai F</th>
+                                                    <th>Jumlah Admin F</th>
+                                                    <th>Jumlah Absensi F</th>
+                                                    <th>Jumlah Pegawai L</th>
+                                                    <th>Jumlah Admin L</th>
+                                                    <th>Jumlah Absensi L</th>
+                                                    <th>Ditambah</th>
+                                                    <th>Diedit</th>
                                                 </tr>
                                                 </thead>
                                             </table>
@@ -101,7 +111,17 @@
                 ajax: '{{route('dataraspberry')}}',
                 columns: [
                     { data: 'namaInstansi', name: 'namaInstansi' },
-                    { data: 'status', name: 'status' }
+                    { data: 'alamatip', name: 'alamatip' },
+                    { data: 'versi', name: 'versi' },
+                    { data: 'jumlahmac', name: 'jumlahmac' },
+                    { data: 'jumlahpegawaifinger', name: 'jumlahpegawaifinger' },
+                    { data: 'jumlahadminfinger', name: 'jumlahadminfinger' },
+                    { data: 'jumlahabsensifinger', name: 'jumlahabsensifinger' },
+                    { data: 'jumlahadminlocal', name: 'jumlahadminlocal' },
+                    { data: 'jumlahpegawailocal', name: 'jumlahpegawailocal' },
+                    { data: 'jumlahabsensilocal', name: 'jumlahabsensilocal' },
+                    { data: 'created_at', name: 'created_at' },
+                    { data: 'updated_at', name: 'updated_at' },
                 ]
             });
         });

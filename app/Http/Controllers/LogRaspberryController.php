@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\lograspberry;
+use Yajra\Datatables\Facades\Datatables;
 
 class LogRaspberryController extends Controller
 {
@@ -70,5 +71,17 @@ class LogRaspberryController extends Controller
        else{
            return "token invalid";
        }
+    }
+
+    public function index(){
+        return view('raspberry.raspberry');
+    }
+
+    public function data(){
+        $tables=lograspberry::leftJoin('instansis','lograspberrys.instansi_id','=','instansis.id')
+        ->select(['lograspberrys.*','instansis.namaInstansi'])
+        ->get();
+        return Datatables::of($tables)
+            ->make(true);
     }
 }
