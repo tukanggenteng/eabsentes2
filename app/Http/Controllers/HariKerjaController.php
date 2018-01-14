@@ -47,7 +47,7 @@ class HariKerjaController extends Controller
             }
         }
 
-        // dd($jadwalkerjas);
+        dd($jadwalkerjas);
 
         $harikerja=harikerja::join('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
             ->select('harikerjas.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
