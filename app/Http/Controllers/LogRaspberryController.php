@@ -33,7 +33,26 @@ class LogRaspberryController extends Controller
             ->where('instansi_id','=',$instansi)
             ->count();
             // dd($cari);
-            if ($cari>1){
+            if ($cari==0){
+                
+                $table= new lograspberry();
+                $table->alamatip=$ip;
+                $table->instansi_id=$instansi;
+                $table->jumlahmac=$jumlahmac;
+                $table->jumlahpegawaifinger=$jumlahpegawaifinger;
+                $table->jumlahadminfinger=$jumlahadminfinger;
+                $table->jumlahabsensifinger=$jumlahabsensifinger;
+                $table->jumlahpegawailocal=$jumlahpegawailocal;
+                $table->jumlahadminlocal=$jumlahadminlocal;
+                $table->jumlahabsensilocal=$jumlahabsensilocal;
+                $table->versi=$versi;
+                $table->save();
+
+                return "Success tambah";
+            }
+            else
+            {
+
                 $table=lograspberry::where('alamatip','=',$ip)
                 ->where('instansi_id','=',$instansi)
                 ->first();
@@ -49,23 +68,6 @@ class LogRaspberryController extends Controller
                 $table->save();
 
                 return "Success edit";
-            }
-            else
-            {
-                $table= new lograspberry();
-                $table->alamatip=$ip;
-                $table->instansi_id=$instansi;
-                $table->jumlahmac=$jumlahmac;
-                $table->jumlahpegawaifinger=$jumlahpegawaifinger;
-                $table->jumlahadminfinger=$jumlahadminfinger;
-                $table->jumlahabsensifinger=$jumlahabsensifinger;
-                $table->jumlahpegawailocal=$jumlahpegawailocal;
-                $table->jumlahadminlocal=$jumlahadminlocal;
-                $table->jumlahabsensilocal=$jumlahabsensilocal;
-                $table->versi=$versi;
-                $table->save();
-
-                return "Success tambah";
             }
        }
        else{
