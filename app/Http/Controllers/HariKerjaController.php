@@ -32,7 +32,7 @@ class HariKerjaController extends Controller
         $tables=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                 ->orWhere('instansi_id','=','1')
                 ->get();
-        // dd($tables);
+        dd($tables);
 
         foreach ($tables as $table){
 
@@ -45,6 +45,7 @@ class HariKerjaController extends Controller
                 $isi['jam_keluarjadwal']=$table->jam_keluarjadwal;
                 array_push($jadwalkerjas,$isi);
             }
+
         }
 
         dd($jadwalkerjas);
