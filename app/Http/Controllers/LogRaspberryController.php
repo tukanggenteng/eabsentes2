@@ -52,6 +52,8 @@ class LogRaspberryController extends Controller
             else
             {
                 $table= new lograspberry();
+                $table->alamatip=$ip;
+                $table->instansi_id=$instansi;
                 $table->jumlahmac=$jumlahmac;
                 $table->jumlahpegawaifinger=$jumlahpegawaifinger;
                 $table->jumlahadminfinger=$jumlahadminfinger;
