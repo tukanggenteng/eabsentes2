@@ -66,7 +66,7 @@ class LogRaspberryController extends Controller
             }
        }
        else{
-           return "token valid";
+           return "token invalid".$hasil;
        }
     }
 }
