@@ -17,7 +17,7 @@ class Controller extends BaseController
     protected function encryptOTP($data){
         $hitungchar=strlen($data);
         $pecahstring=str_split($data);
-        $kunci="D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+12%";
+        $kunci="D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+121D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+121D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+121D4v1Nc!j4R4k134rp4K4130ff1c3*72@1}a1-=+121";
         $pecahkunci=str_split($kunci);
         $hasilhash="";
         foreach ($pecahstring as $key => $value) {

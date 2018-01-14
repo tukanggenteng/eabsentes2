@@ -147,8 +147,7 @@ class AttendanceController extends Controller
                   }
               }
               // ########### absen pulang
-              else
-              {
+              else{
                   //cek absen jam masuk yang kosong hari ini
                   $hitungabsen=att::where('pegawai_id','=',$request->json('user_id'))
                       ->where('tanggal_att','=',$request->json('tanggal'))
@@ -173,8 +172,6 @@ class AttendanceController extends Controller
                          // dd($absens);
                           foreach ($absens as $key => $absen) {
                               //cek kecocokan jam masuk berdasarkan jadwalkerja
-
-
                               $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
                                   ->select('jadwalkerjas.id', 'jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_pulangkerja')
                                   ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
@@ -265,6 +262,13 @@ class AttendanceController extends Controller
                                   }
                                   $table->jam_keluar = $request->json('jam');
                                   $table->keluarinstansi_id = $request->json('instansi');
+                                  
+                                  $harike=date('N', strtotime($tanggalkemarin));
+                                  if (($harike==5) && ($absen->jadwalkerja_id==1))
+                                  {
+                                        $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
+                                  }
+
                                   $table->akumulasi_sehari = $akumulasi;
                                   $table->save();
 
@@ -374,6 +378,11 @@ class AttendanceController extends Controller
 
                                   $table->jam_keluar = $request->json('jam');
                                   $table->keluarinstansi_id = $request->json('instansi');
+                                  $harike=date('N', strtotime($tanggalkemarin));
+                                  if (($harike==5) && ($absen->jadwalkerja_id==1))
+                                  {
+                                        $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
+                                  }
                                   $table->akumulasi_sehari = $akumulasi;
                                   $table->save();
 
@@ -506,6 +515,11 @@ class AttendanceController extends Controller
                                       {
                                       $table->jenisabsen_id = "8";
                                       }
+                                  $harike=date('N', strtotime($request->json('tanggal')));
+                                  if (($harike==5) && ($absen->jadwalkerja_id==1))
+                                  {
+                                        $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
+                                  }
 
                                   $table->jam_keluar = $request->json('jam');
                                   $table->keluarinstansi_id = $request->json('instansi');
@@ -623,6 +637,11 @@ class AttendanceController extends Controller
                                       }
                                   $table->jam_keluar = $request->json('jam');
                                   $table->keluarinstansi_id = $request->json('instansi');
+                                  $harike=date('N', strtotime($request->json('tanggal')));
+                                  if (($harike==5) && ($absen->jadwalkerja_id==1))
+                                  {
+                                        $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
+                                  }
                                   $table->akumulasi_sehari = $akumulasi;
                                   $table->save();
 
