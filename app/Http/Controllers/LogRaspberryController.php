@@ -32,7 +32,7 @@ class LogRaspberryController extends Controller
             $cari=lograspberry::where('alamatip','=',$ip)
             ->where('instansi_id','=',$instansi)
             ->count();
-
+            dd($cari);
             if ($cari>1){
                 $table=lograspberry::where('alamatip','=',$ip)
                 ->where('instansi_id','=',$instansi)
@@ -48,7 +48,7 @@ class LogRaspberryController extends Controller
                 $table->versi=$versi;
                 $table->save();
 
-                return "Success";
+                return "Success edit";
             }
             else
             {
@@ -65,7 +65,7 @@ class LogRaspberryController extends Controller
                 $table->versi=$versi;
                 $table->save();
 
-                return "Success";
+                return "Success tambah";
             }
        }
        else{
