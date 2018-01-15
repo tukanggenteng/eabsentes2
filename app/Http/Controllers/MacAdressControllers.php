@@ -47,7 +47,7 @@ class MacAdressControllers extends Controller
         ]);
         
         $user = new macaddresse;
-        $user->macaddress = $request->macaddress;
+        $user->macaddress = strtoupper($request->macaddress);
         $user->save();
         return redirect('/macaddress');
     }
