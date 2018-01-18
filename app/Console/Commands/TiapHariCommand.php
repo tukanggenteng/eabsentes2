@@ -765,15 +765,25 @@ class TiapHariCommand extends Command
                         // dd($jadwalpegawais);
                         foreach ($jadwalpegawais as $jadwalpegawai)
                         {
-                            $user = new att();
-                            $user->pegawai_id = $jadwalpegawai->pegawai_id;
-                            $user->tanggal_att=$tanggalharini;
-                            $user->terlambat='00:00:00';
-                            $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
-                            $user->akumulasi_sehari='00:00:00';
-                            $user->jenisabsen_id = '2';
-                            $user->save();
-                            // dd($jadwalpegawai->pegawai_id);
+                            $cek=att::where('tanggal_att','=',$tanggalharini)
+                                ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
+                                ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                                ->where('jenisabsen_id','=','2')
+                                ->count();
+                            if ($cek > 0){
+
+                            }
+                            else{
+                                $user = new att();
+                                $user->pegawai_id = $jadwalpegawai->pegawai_id;
+                                $user->tanggal_att=$tanggalharini;
+                                $user->terlambat='00:00:00';
+                                $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
+                                $user->akumulasi_sehari='00:00:00';
+                                $user->jenisabsen_id = '2';
+                                $user->save();
+                                // dd($jadwalpegawai->pegawai_id);
+                            }
                         }
                     }
                     else
