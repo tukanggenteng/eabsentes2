@@ -36,4 +36,9 @@ Route::group(['middleware'=>['api']], function () {
     // Route::get('/atts/hapus/{id}','AttendanceController@hapusatt');
 
     Route::post('/lograspberry','LogRaspberryController@postlog');
+
+    Route::get('/historyfinger/{ip}/{pegawai_id}/{instansi_id}','HistoryFingerPegawaiController@getdata');
+    Route::post('/historyfinger','HistoryFingerPegawaiController@edit');
+
+    Route::post('/historycrash','HistoryCrashRaspberryController@post');
 });

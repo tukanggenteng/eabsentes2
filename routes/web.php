@@ -316,4 +316,11 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/trigger/tambahadmin','TrigerController@postadmindata');
       Route::post('/trigger/hapusadmin','TrigerController@hapusadmindata');
 
+      Route::get('/historyfingerpegawai','HistoryFingerPegawaiController@index');
+      Route::get('/historufingerpegawai/data','HistoryFingerPegawaiController@data')->name('datahistory');
+
+
+      Route::get('/historycrashraspberry','HistoryCrashRaspberryController@index');
+      Route::get('/historycrashraspberry/data','HistoryCrashRaspberryController@data')->name('datahistorycrash');
+
 });
