@@ -6,6 +6,7 @@ use App\triger;
 use App\hapusfingerpegawai;
 use App\historyfingerpegawai;
 use Illuminate\Http\Request;
+use App\lograspberry;
 
 class TrigerController extends Controller
 {
@@ -64,10 +65,10 @@ class TrigerController extends Controller
             $table->save();
 
             $loadtables=lograspberry::all();
-
+            // dd($loadtables);
             foreach ($loadtables as $key => $loadtable) {
-                $tablehistory=new  historyfingerpegawai;
-                $tablehistory->pegawai_id=$loadtable->pegawai_id;
+                $tablehistory=new  historyfingerpegawai();
+                $tablehistory->pegawai_id=$request->pegawai[0];
                 $tablehistory->iphapus=$loadtable->alamatip;
                 $tablehistory->statushapus="0";
                 $tablehistory->instansi_id=$loadtable->instansi_id;
