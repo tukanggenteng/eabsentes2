@@ -285,7 +285,7 @@ class Controller extends BaseController
                 $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
                     ->where('tanggal_att', '=', $tanggalkemarin)
                     ->get();
-            dd($absens);
+            // dd($absens);
                 foreach ($absens as $key => $absen) {
                     //cek kecocokan jam masuk berdasarkan jadwalkerja
                     $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
@@ -717,6 +717,9 @@ class Controller extends BaseController
 
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+
+                            dd($table);
+                            
                         if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint)  && ($table->jenisabsen_id=="2"))
                             {
                             $table->jenisabsen_id = "1";
