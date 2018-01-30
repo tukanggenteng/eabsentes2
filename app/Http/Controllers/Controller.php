@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\rekapbulanan;
+use Carbon\Carbon;
 use App\att;
 use App\atts_tran;
 use App\instansi;
@@ -14,7 +15,10 @@ use App\jadwalkerja;
 use App\pegawai;
 use App\rulejadwalpegawai;
 use App\rulejammasuk;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+use Request as Request2;
+use App\Events\Timeline;
 use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
