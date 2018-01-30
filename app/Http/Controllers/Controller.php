@@ -408,13 +408,14 @@ class Controller extends BaseController
 
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) && ($table->masukinstansi_id==$instansi_fingerprint) && ($table->jenisabsen_id=="1"))
-                        {
+                        // if (($pegawai[0]['instansi_id']==$instansi_fingerprint) && ($table->masukinstansi_id==$instansi_fingerprint) && ($table->jenisabsen_id=="1"))
+                        // {
+                        
+                        // }elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
+                        // {
+                        // $table->jenisabsen_id = "8";
+                        // }
                         $table->jenisabsen_id = "1";
-                        }elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
-                        {
-                        $table->jenisabsen_id = "8";
-                        }
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
 
@@ -546,23 +547,20 @@ class Controller extends BaseController
 
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                        if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint)  && ($table->jenisabsen_id=="2"))
-                        {
+                    //     if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint)  && ($table->jenisabsen_id=="2"))
+                    //     {
+                    //     $table->jenisabsen_id = "1";
+                    //     }
+                    //     // elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
+                    //     else
+                    //     {
+                    // //   $table->jenisabsen_id = "8";
+                    //     }
                         $table->jenisabsen_id = "1";
-                        }
-                        // elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
-                        else
-                        {
-                    //   $table->jenisabsen_id = "8";
-                        }
-
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
-                        $harike=date('N', strtotime($tanggalkemarin));
-                        if (($harike==5) && ($absen->jadwalkerja_id==1))
-                        {
-                            $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
-                        }
+                        
+
                         $table->akumulasi_sehari = $akumulasi;
                         $table->save();
 
@@ -720,16 +718,16 @@ class Controller extends BaseController
 
                             // dd($table);
 
-                        if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint)  && ($table->jenisabsen_id=="2"))
+                        if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint))
                             {
-                            $table->jenisabsen_id = "1";
+                            
                             }
                             // elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
                             else
                             {
                             $table->jenisabsen_id = "8";
                             }
-
+                        $table->jenisabsen_id = "1";
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
                         $table->akumulasi_sehari = $akumulasi;
@@ -859,29 +857,25 @@ class Controller extends BaseController
                             }
                         }
 
-                        $table = att::where('tanggal_att', '=', $tanggalkemarin)
+                        $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
                             ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                             ->first();    
                     
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                            if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint) && ($table->jenisabsen_id=="1"))
-                            {
-                            $table->jenisabsen_id = "1";
-                            }
-                            // elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
-                            else
-                            {
-                            $table->jenisabsen_id = "8";
-                            }
+                            // if (($pegawai[0]['instansi_id']==$table->masukinstansi_id) && ($pegawai[0]['instansi_id']==$instansi_fingerprint) && ($table->jenisabsen_id=="1"))
+                            // {
+                            // $table->jenisabsen_id = "1";
+                            // }
+                            // // elseif (($pegawai[0]['instansi_id']!=$instansi_fingerprint) && ($table->masukinstansi_id!=$instansi_fingerprint))
+                            // else
+                            // {
+                            // $table->jenisabsen_id = "8";
+                            // }
+                        $table->jenisabsen_id = "1";
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
-                        $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($absen->jadwalkerja_id==1))
-                        {
-                            $akumulasi=date("Y-m-d H:i:s", strtotime("-1 hour -30 minutes", strtotime($akumulasi)));
-                        }
                         $table->akumulasi_sehari = $akumulasi;
                         $table->save();
 
