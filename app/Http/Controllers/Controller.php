@@ -599,7 +599,7 @@ class Controller extends BaseController
                         ->select('jadwalkerjas.id', 'jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_pulangkerja')
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
-                // dd("as");
+
                     $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
                     $jamakhir = $cek[0]['jam_keluarjadwal'];
                     //menentukan jam toleransi masuk pegawai
@@ -856,7 +856,7 @@ class Controller extends BaseController
                                 }
                             }
                         }
-                        dd($jam_masuk."+".$keluaristirahat."=".$akumulasi1." + ".$masukistirahat."+".$jam_keluar."=".$akumulasi2);
+                        // dd($jam_masuk."+".$keluaristirahat."=".$akumulasi1." + ".$masukistirahat."+".$jam_keluar."=".$akumulasi2);
                         $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
                             ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
