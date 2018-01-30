@@ -825,7 +825,7 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggal_fingerprint));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
