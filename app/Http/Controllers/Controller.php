@@ -841,7 +841,7 @@ class Controller extends BaseController
                             }
                             else
                             {
-
+                                dd("ji");
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                                 {
                                     $jamban=$absen->jam_masuk;
