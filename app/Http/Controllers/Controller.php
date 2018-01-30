@@ -97,7 +97,7 @@ class Controller extends BaseController
         {
         $hours = "0".$hours;
         }
-        dd("{$hours}:{$minutes}:{$seconds}");
+        return "{$hours}:{$minutes}:{$seconds}";
     }
 
     #tidak terpakai
@@ -285,7 +285,7 @@ class Controller extends BaseController
                 $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
                     ->where('tanggal_att', '=', $tanggalkemarin)
                     ->get();
-            // dd($absens);
+            dd($absens);
                 foreach ($absens as $key => $absen) {
                     //cek kecocokan jam masuk berdasarkan jadwalkerja
                     $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
