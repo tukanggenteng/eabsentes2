@@ -792,13 +792,13 @@ class Controller extends BaseController
                             $harike=date('N', strtotime($tanggal_fingerprint));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
-                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                    $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                $jam_masuk=$absen->jam_masuk;
+                                $keluaristirahat=$absen->keluar_istirahat;
+                                $masukistirahat=$absen->masuk_istirahat;
+                                $jam_keluar=$absen->jam_keluar;
+                                $akumulasi1=$this->kurangwaktu($jam_masuk,$keluaristirahat);
+                                $akumulasi2=$this->kurangwaktu($masukistirahat,$jam_keluar);
+                                $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
                             }
                             elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
                             {
