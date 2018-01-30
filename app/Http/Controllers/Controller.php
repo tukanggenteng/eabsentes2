@@ -875,7 +875,7 @@ class Controller extends BaseController
 
     protected function keluaristirahat($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint){
         
-        $date=date('N');
+        $date=date('N',strtotime($tanggal_fingerprint));
 
         if ($date==5){
             $hitungabsen=att::where('pegawai_id','=',$pegawai_id_fingerprint)
@@ -935,7 +935,7 @@ class Controller extends BaseController
 
     protected function masukistirahat($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint){
         
-        $date=date('N');
+        $date=date('N',strtotime($tanggal_fingerprint));
 
         if ($date==5){
             $hitungabsen=att::where('pegawai_id','=',$pegawai_id_fingerprint)
