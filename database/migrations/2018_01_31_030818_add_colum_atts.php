@@ -15,8 +15,8 @@ class AddColumAtts extends Migration
     {
         //
         Schema::table('atts',function(Blueprint $table){
-            $table->time('keluaristirahat');
-            $table->time('masukistirahat');
+            $table->time('keluaristirahat')->nullable();
+            $table->time('masukistirahat')->nullable();
         });
     }
 
