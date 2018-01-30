@@ -97,7 +97,7 @@ class Controller extends BaseController
         {
         $hours = "0".$hours;
         }
-        return "{$hours}:{$minutes}:{$seconds}";
+        dd("{$hours}:{$minutes}:{$seconds}");
     }
 
     #tidak terpakai
