@@ -912,7 +912,7 @@ class Controller extends BaseController
                         //                    dd($table)
                         if ($table->jam_masuk!=null)
                         {
-                            $table->keluar_istirahat = $jam_fingerprint;
+                            $table->keluaristirahat = $jam_fingerprint;
                             $table->save();
                             return "Success";
                         }
@@ -970,9 +970,9 @@ class Controller extends BaseController
                         ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                         ->first();
                         //                    dd($table)
-                        if ($table->keluar_istirahat!=null)
+                        if ($table->keluaristirahat!=null)
                         {
-                            $table->masuk_istirahat = $jam_fingerprint;
+                            $table->masukistirahat = $jam_fingerprint;
                             $table->save();
                             return "Success";
                         }
