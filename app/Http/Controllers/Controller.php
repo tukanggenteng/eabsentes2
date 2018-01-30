@@ -790,7 +790,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggal_fingerprint));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null) && ($absen->masukistirahat!=null))
                             {
                                 $jam_masuk=$absen->jam_masuk;
                                 $keluaristirahat=$absen->keluar_istirahat;
