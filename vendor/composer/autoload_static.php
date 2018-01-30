@@ -366,6 +366,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
     );
 
     public static $classMap = array (
+        'AddColumAtts' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
         'AddColumFinalrekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
         'AddColumRekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
         'App\\Console\\Commands\\CheckRaspberry' => __DIR__ . '/../..' . '/app/Console/Commands/CheckRaspberry.php',

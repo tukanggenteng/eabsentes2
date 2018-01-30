@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddColumAtts' => $baseDir . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
     'AddColumFinalrekapbulanan' => $baseDir . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
     'AddColumRekapbulanan' => $baseDir . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
     'App\\Console\\Commands\\CheckRaspberry' => $baseDir . '/app/Console/Commands/CheckRaspberry.php',
