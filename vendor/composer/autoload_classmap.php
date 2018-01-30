@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddColumFinalrekapbulanan' => $baseDir . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
+    'AddColumRekapbulanan' => $baseDir . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
     'App\\Console\\Commands\\CheckRaspberry' => $baseDir . '/app/Console/Commands/CheckRaspberry.php',
     'App\\Console\\Commands\\TiapHariCommand' => $baseDir . '/app/Console/Commands/TiapHariCommand.php',
     'App\\Console\\Commands\\UpdatePegawai' => $baseDir . '/app/Console/Commands/UpdatePegawai.php',
@@ -28,6 +30,7 @@ return array(
     'App\\Http\\Controllers\\DetailAbsenController' => $baseDir . '/app/Http/Controllers/DetailAbsenController.php',
     'App\\Http\\Controllers\\FingerPegawaiController' => $baseDir . '/app/Http/Controllers/FingerPegawaiController.php',
     'App\\Http\\Controllers\\HariKerjaController' => $baseDir . '/app/Http/Controllers/HariKerjaController.php',
+    'App\\Http\\Controllers\\HistoryCrashRaspberryController' => $baseDir . '/app/Http/Controllers/HistoryCrashRaspberryController.php',
     'App\\Http\\Controllers\\HistoryFingerPegawaiController' => $baseDir . '/app/Http/Controllers/HistoryFingerPegawaiController.php',
     'App\\Http\\Controllers\\IjinAdminController' => $baseDir . '/app/Http/Controllers/IjinAdminController.php',
     'App\\Http\\Controllers\\InstansiController' => $baseDir . '/app/Http/Controllers/InstansiController.php',
@@ -75,8 +78,10 @@ return array(
     'App\\fingerpegawai' => $baseDir . '/app/fingerpegawai.php',
     'App\\hapusfingerpegawai' => $baseDir . '/app/hapusfingerpegawai.php',
     'App\\harikerja' => $baseDir . '/app/harikerja.php',
+    'App\\historycrashraspberry' => $baseDir . '/app/historycrashraspberry.php',
     'App\\historyfingerpegawai' => $baseDir . '/app/historyfingerpegawai.php',
     'App\\ijin' => $baseDir . '/app/ijin.php',
+    'App\\ijinpulangcepat' => $baseDir . '/app/ijinpulangcepat.php',
     'App\\ijinterlambat' => $baseDir . '/app/ijinterlambat.php',
     'App\\instansi' => $baseDir . '/app/instansi.php',
     'App\\jadwalkerja' => $baseDir . '/app/jadwalkerja.php',
@@ -123,6 +128,7 @@ return array(
     'CreateLogErrorfinger' => $baseDir . '/database/migrations/2017_12_04_042431_create_log_errorfinger.php',
     'CreateLograspberryTable' => $baseDir . '/database/migrations/2018_01_14_162151_create_lograspberry_table.php',
     'CreatePegawaiHapusFinger' => $baseDir . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
+    'CreateTableIjinpulangcepat' => $baseDir . '/database/migrations/2018_01_29_004354_create_table_ijinpulangcepat.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateVersionSoftware' => $baseDir . '/database/migrations/2017_12_03_211121_create_version_software.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',

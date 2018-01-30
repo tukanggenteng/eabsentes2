@@ -36,7 +36,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
 
                 @if (!empty(session('err')))
                 <div class="alert alert-danger alert-dismissible">

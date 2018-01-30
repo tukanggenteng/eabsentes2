@@ -28,7 +28,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
                 <!-- Atur Jadwal Kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">

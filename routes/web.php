@@ -147,7 +147,7 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
 
       #backend proses
-      Route::post('/rekapbulanans','MasterAbsensiController@index');
+      #Route::post('/rekapbulanans','MasterAbsensiController@index');
 
       #transfer surat rekap
       Route::get('/transrekap/datarekap','TransferRekapController@datagrid')->name('datatransrekap');
@@ -159,29 +159,33 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::post('/transrekap/posttl','TransferRekapController@posttl')->name('posttl');
       Route::post('/transrekap/postrp','TransferRekapController@postrp')->name('postrp');
       Route::post('/transrekap/postit','TransferRekapController@postit')->name('postit');
+      Route::post('/transrekap/postipc','TransferRekapController@postipc')->name('postipc');
 
       #halaman download surat
       Route::get('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijin');
       Route::post('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijinpost');
-      Route::get('/transrekap/download/ijin/surat/{id}','TransferRekapController@downloadijin')->name('downloadingsuratijin');
+      // Route::get('/transrekap/download/ijin/surat/{id}','TransferRekapController@downloadijin')->name('downloadingsuratijin');
       Route::get('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakit');
       Route::post('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakitpost');
-      Route::get('/transrekap/download/sakit/surat/{id}','TransferRekapController@downloadsakit')->name('downloadingsuratsakit');
+      // Route::get('/transrekap/download/sakit/surat/{id}','TransferRekapController@downloadsakit')->name('downloadingsuratsakit');
       Route::get('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcuti');
       Route::post('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcutipost');
-      Route::get('/transrekap/download/cuti/surat/{id}','TransferRekapController@downloadcuti')->name('downloadingsuratcuti');
+      // Route::get('/transrekap/download/cuti/surat/{id}','TransferRekapController@downloadcuti')->name('downloadingsuratcuti');
       Route::get('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattl');
       Route::post('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattlpost');
-      Route::get('/transrekap/download/tl/surat/{id}','TransferRekapController@downloadtl')->name('downloadingsurattl');
+      // Route::get('/transrekap/download/tl/surat/{id}','TransferRekapController@downloadtl')->name('downloadingsurattl');
       Route::get('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattb');
       Route::post('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattbpost');
-      Route::get('/transrekap/download/tb/surat/{id}','TransferRekapController@downloadtb')->name('downloadingsurattb');
+      // Route::get('/transrekap/download/tb/surat/{id}','TransferRekapController@downloadtb')->name('downloadingsurattb');
       Route::get('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratru');
       Route::post('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratrupost');
-      Route::get('/transrekap/download/ru/surat/{id}','TransferRekapController@downloadru')->name('downloadingsuratru');
+      // Route::get('/transrekap/download/ru/surat/{id}','TransferRekapController@downloadru')->name('downloadingsuratru');
       Route::get('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratit');
       Route::post('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratitpost');
-      Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
+      // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
+      Route::get('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipc');
+      Route::post('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipcpost');
+      // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
 
       #halaman timeline
       Route::get('/timeline','TimelineController@index');

@@ -40,7 +40,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
-                        <form action="/transrekap/download/it" method="post">
+                        <form action="/transrekap/download/ipc" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">

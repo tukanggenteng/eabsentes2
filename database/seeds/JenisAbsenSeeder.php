@@ -69,5 +69,11 @@ class JenisAbsenSeeder extends Seeder
             'jenis_absen' => 'Ganti Shift'
         ]
         );
+        DB::table('jenisabsens')->insert(
+        [
+            'id' => '12',
+            'jenis_absen' => 'Ijin Pulang Cepat'
+        ]
+        );
     }
 }

@@ -42,7 +42,6 @@
 
           <!-- Main content -->
           <section class="content">
-          @include('layouts.inforekap')
 
                 <!-- hari ini -->
                 <div class="row">

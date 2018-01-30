@@ -36,7 +36,6 @@
 
             <!-- Main content -->
             <section class="content">
-              @include('layouts.inforekap')
 
                 <div class="row">
                     <div class="col-xs-12">
@@ -60,6 +59,7 @@
                                             <th>Tugas Belajar</th>
                                             <th>Rapat/ Undangan</th>
                                             <th>Ijin Terlambat</th>
+                                            <th>Ijin Pulang Cepat</th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -70,7 +70,7 @@
                 </div>
 
 
-                {{--modal ijin--}}
+                <!-- modal ijin -->
                 <div class="modal fade" id="modal_ijin">
                         <div class="modal-dialog">
                         <div class="modal-content">
@@ -128,14 +128,8 @@
                     </div>
                     <!-- /.modal-dialog -->
                 </div>
-        {{--<div class="cssload-thecube">--}}
-            {{--<div class="cssload-cube cssload-c1"></div>--}}
-            {{--<div class="cssload-cube cssload-c2"></div>--}}
-            {{--<div class="cssload-cube cssload-c4"></div>--}}
-            {{--<div class="cssload-cube cssload-c3"></div>--}}
-        {{--</div>--}}
                 <!-- /.modal -->
-                {{--modal sakit--}}
+                <!-- modal sakit -->
                 <div class="modal fade" id="modal_sakit">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -197,7 +191,7 @@
                 </div>
                 <!-- /.modal -->
 
-                {{--modal cuti--}}
+                <!-- modal cuti -->
                 <div class="modal fade" id="modal_cuti">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -259,7 +253,7 @@
                 </div>
                 <!-- /.modal -->
 
-                {{--modal tb--}}
+                <!-- modal tb -->
                 <div class="modal fade" id="modal_tb">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -321,7 +315,7 @@
                 </div>
                 <!-- /.modal -->
 
-                {{--modal tl--}}
+                <!-- modal tl-->
                 <div class="modal fade" id="modal_tl">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -383,7 +377,7 @@
                 </div>
                 <!-- /.modal -->
 
-                {{--modal rapatundangan--}}
+                <!-- modal rapatundangan -->
                 <div class="modal fade" id="modal_rp">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -445,7 +439,7 @@
                 </div>
                 <!-- /.modal -->
 
-                {{--modal ijinterlambat--}}
+                <!-- modal ijinterlambat-->
                 <div class="modal fade" id="modal_it">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -487,10 +481,6 @@
                                                     <option value="0">Tidak Terlaporkan</option>
                                                 </select>
                                             </div>
-                                            {{--  <div class="form-group" >
-                                                <label>Upload File</label>
-                                                <input id="fileit" name="fileit" class="filestyle" data-btnClass="btn-primary" type="file">
-                                            </div>  --}}
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -499,6 +489,63 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
                                 <button type="button" id="simpanit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+
+                <!-- modal ijin pulang cepat -->
+                <div class="modal fade" id="modal_ipc">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">Upload Surat Ijin Pulang Cepat</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="error alert-danger alert-dismissible">
+                                </div>
+                                <form id="formipc" method="post" role="form" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>NIP</label>
+                                                <input id="nipipc" name="nipipc" readonly class="form-control pull-right" type="text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Nama</label>
+                                                <input id="namaipc" name="namaipc" readonly class="form-control pull-right" type="text">
+                                                {{csrf_field()}}
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Lama Hari</label>
+                                                <select class="form-control select2" id="lamaipc" name="lamaipc" style="width: 100%;">
+                                                </select>
+                                            </div>
+                                            <div class="form-group" >
+                                                <label>Sejak Tanggal</label>
+                                                <input id="tanggalipc" readonly name="tanggalipc" class="form-control datepicker pull-right" type="text">
+                                                <input id="idipc" readonly hidden name="idipc" type="text">
+                                                <input id="sisalamaipc" readonly hidden name="sisalamaipc" type="text">
+                                            </div>
+                                            <div class="form-group" >
+                                                <label>Laporan Bukti Fisik</label>
+                                                <select class="form-control" name="statusipc">
+                                                    <option value="1">Terlaporkan</option>
+                                                    <option value="0">Tidak Terlaporkan</option>
+                                                </select>
+                                            </div>
+                                            <!-- /.form-group -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                                <button type="button" id="simpanipc" class="btn btn-primary">Save</button>
                             </div>
                         </div>
                         <!-- /.modal-content -->
@@ -544,46 +591,52 @@
 
         $(function() {
             $('input[name="tanggalijin"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggalsakit"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggalcuti"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggaltb"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggaltl"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggalrp"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
             $('input[name="tanggalit"]').datepicker({
-                firstDay: 1,
-                format: "yyyy-mm-dd",
-                startDate:"-7d",
-                endDate:"1d",
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
+            });
+            $('input[name="tanggalipc"]').datepicker({
+                // firstDay: 1,
+                // format: "yyyy-mm-dd",
+                // startDate:"-7d",
+                // endDate:"1d",
             });
         });
 
@@ -603,7 +656,8 @@
                     { data: 'tugas_luar', name: 'rekapbulanans.tugas_luar' },
                     { data: 'tugas_belajar', name: 'rekapbulanans.tugas_belajar' },
                     { data: 'rapatundangan', name: 'rekapbulanans.rapatundangan' },
-                    { data: 'ijinterlambat', name: 'rekapbulanans.ijinterlambat' }
+                    { data: 'ijinterlambat', name: 'rekapbulanans.ijinterlambat' },
+                    { data: 'ijinpulangcepat', name: 'rekapbulanans.ijinpulangcepat' }
                 ]
             });
         });
@@ -833,9 +887,39 @@
             }
         });
 
-//        $(document).ajaxStart(function () {
-//            Pace.restart()
-//        })
+        $(document).on('click','.modal_ipc',function () {
+            $('#lamaipc').attr('disabled',false);
+            $('#tanggalipc').attr('disabled',false);
+            $('#fileipc').attr('disabled',false);
+            $('#simpanipc').attr('disabled',false);
+            $('#simpanipc').html('Save');
+            $('#nipipc').val($(this).data('nip'));
+            $('#namaipc').val($(this).data('nama'));
+            $('#tanggalipc').val('');
+            $('#fileipc').val('');
+            $('#sisalamaipc').val($(this).data('ipc'));
+            $('#idipc').val($(this).data('id'));
+            var select=parseInt($(this).data('ipc'));
+            if(select=="0" && select==""){
+                $('#tanggalipc').attr('disabled','true');
+                $('#fileipc').attr('disabled','true');
+                $('#lamaipc').attr('disabled','true');
+                $('#simpanipc').attr('disabled','true');
+            }
+            else {
+                $('#lamait').html('');
+                var select=select+1;
+                for (i = 1; i < select; i++) {
+                    $('#lamaipc').append('<option value="'+i+'">'+i+'</option>');
+                }
+                $('#tanggalipc').removeAttr('disabled');
+                $('#fileipc').removeAttr('disabled');
+                $('#lamaipc').removeAttr('disabled');
+                $('#simpanipc').removeAttr('disabled');
+            }
+        });
+
+
 
         $(document).on('click','#simpanijin',function (){
             var sisaijin=$('#sisalamaijin').val()-$('#lamaijin').val();
@@ -1069,6 +1153,39 @@
                     {
                         swal("Simpan Sukses !", "", "success");
                         $('#modal_it').modal('hide');
+                        oTable.ajax.reload();
+                    }
+                },
+            });
+        });
+
+        $(document).on('click','#simpanipc',function (){
+            var sisaijin=$('#sisalamaipc').val()-$('#lamaipc').val();
+            $('#sisalamaipc').val(sisaijin);
+            $.ajax({
+                type:'post',
+                url:'{{url('transrekap/postipc')}}',
+                data: new FormData($('#formipc')[0]),
+                dataType:'json',
+                async:false,
+                processData: false,
+                contentType: false,
+                beforeSend:function () {
+                    $('#lamaipc').attr('disabled',true);
+                    $('#tanggalipc').attr('disabled',true);
+                    $('#fileipc').attr('disabled',true);
+                    $('#simpanipc').attr('disabled',true);
+                    $('#simpanipc').html('<i class="fa fa-spin fa-circle-o-notch"></i> Loading');
+                },
+                success:function(response){
+                    if((response.errors)){
+                        swal("Simpan Gagal !", "", "error");
+                        $('#modal_ipc').modal('hide');
+                    }
+                    else
+                    {
+                        swal("Simpan Sukses !", "", "success");
+                        $('#modal_ipc').modal('hide');
                         oTable.ajax.reload();
                     }
                 },

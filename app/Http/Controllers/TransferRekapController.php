@@ -6,6 +6,7 @@ use App\att;
 use App\cuti;
 use App\ijin;
 use App\ijinterlambat;
+use App\ijinpulangcepat;
 use App\masterbulanan;
 use App\pegawai;
 use App\rapatundangan;
@@ -25,23 +26,14 @@ class TransferRekapController extends Controller
 {
     //
     public function index(){
-        if ($this->notifrekap()=="")
-        {
-
-            $inforekap="";
-        }
-        else
-        {
-            $inforekap=$this->notifrekap();
-        }
-        return view('rekapabsen.transferrekap',['inforekap'=>$inforekap]);
+        return view('rekapabsen.transferrekap');
     }
 
     public function datagrid (){
         $rekaps=rekapbulanan::leftJoin('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
             ->select(['rekapbulanans.id','rekapbulanans.periode','rekapbulanans.hari_kerja',
                 'rekapbulanans.hadir','rekapbulanans.tanpa_kabar','rekapbulanans.ijinterlambat','rekapbulanans.ijin','rekapbulanans.sakit',
-                'rekapbulanans.cuti','rekapbulanans.tugas_luar','rekapbulanans.tugas_belajar','rekapbulanans.terlambat',
+                'rekapbulanans.cuti','rekapbulanans.tugas_luar','rekapbulanans.tugas_belajar','rekapbulanans.ijinpulangcepat','rekapbulanans.terlambat',
                 'rekapbulanans.rapatundangan','pegawais.nip','pegawais.nama'])
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('rekapbulanans.ijin','>','0')
@@ -67,7 +59,9 @@ class TransferRekapController extends Controller
                 return '<button type="button" class="btn btn-block btn-primary modal_rp"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-rp="'.$rekaps->rapatundangan.'" data-target="#modal_rp"><i class="fa fa-download"></i> '.$rekaps->rapatundangan.'</button>';})
             ->editColumn('ijinterlambat',function (rekapbulanan $rekaps){
                 return '<button type="button" class="btn btn-block btn-primary modal_it"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-it="'.$rekaps->ijinterlambat.'" data-target="#modal_it"><i class="fa fa-download"></i> '.$rekaps->ijinterlambat.'</button>';})
-            ->rawColumns(['ijin','sakit','cuti','tugas_luar','tugas_belajar','rapatundangan','ijinterlambat'])
+            ->editColumn('ijinpulangcepat',function (rekapbulanan $rekaps){
+                return '<button type="button" class="btn btn-block btn-primary modal_ipc"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ipc="'.$rekaps->ijinpulangcepat.'" data-target="#modal_ipc"><i class="fa fa-download"></i> '.$rekaps->ijinpulangcepat.'</button>';})
+            ->rawColumns(['ijin','sakit','cuti','tugas_luar','tugas_belajar','rapatundangan','ijinterlambat','ijinpulangcepat'])
             ->make(true);
     }
 
@@ -295,6 +289,39 @@ class TransferRekapController extends Controller
             $bleave->lama=$request->lamait;
             $bleave->instansi_id=Auth::user()->instansi_id;
             $bleave->mulaitanggal=date('Y/m/d',strtotime($request->tanggalit));
+            $bleave->save();
+            return response()->json($updatedata);
+        }
+    }
+
+    public function postipc(Request $request){
+        $rules=array(
+            'tanggalipc'=>'required',
+            'lamaipc'=>'required'
+        );
+
+        $validator=Validator::make(Input::all(),$rules);
+        if($validator->fails()){
+            return Response::json(array('errors'=>$validator->getMessageBag()->toArray()));
+        }
+        else
+        {
+            $updatedata=rekapbulanan::where('id','=',decrypt($request->idipc))->first();
+            $updatedata->ijinpulangcepat=$request->sisalamaipc;
+            $updatedata->save();
+            $t=time();
+            $tgl=date('Y-m-d-H-i-s',$t);
+            // $ext=$request->file('fileit')->getClientOriginalExtension();
+            // $filename= Auth::user()->username.'+'.Auth::user()->instansi_id.'+'.decrypt($request->idit).'+'.$tgl.'.'.$ext;
+            // $request->file('fileit')->storeAs('public/file/ijinterlambat',$filename);
+
+            $filename=$request->statusipc;
+            $bleave = new ijinpulangcepat();
+            $bleave->rekapbulanan_id=decrypt($request->idipc);
+            $bleave->namafile=$filename;
+            $bleave->lama=$request->lamaipc;
+            $bleave->instansi_id=Auth::user()->instansi_id;
+            $bleave->mulaitanggal=date('Y/m/d',strtotime($request->tanggalipc));
             $bleave->save();
             return response()->json($updatedata);
         }
@@ -914,5 +941,76 @@ class TransferRekapController extends Controller
         );
 
         return Response::download($file, $id, $headers);
+    }
+
+    public function downloadsuratipc(Request $request){
+        if ($this->notifrekap()=="")
+        {
+
+            $inforekap="";
+        }
+        else
+        {
+            $inforekap=$this->notifrekap();
+        }
+
+
+        if (isset($request->nip) && isset($request->nama) && isset($request->periode))
+        {
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where('pegawais.nip','=',$request->nip)
+                ->where('pegawais.nama','=',$request->nip)
+                ->where('ijinterlambats.mulaitanggal','=',$request->periode)
+                ->paginate(50);
+        }
+        elseif (isset($request->nip) && isset($request->nama)) {
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where('pegawais.nip','=',$request->nip)
+                ->where('pegawais.nama','=',$request->nip)
+                ->paginate(50);
+        }
+        elseif (isset($request->nama) && isset($request->periode))
+        {
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where('pegawais.nama','=',$request->nip)
+                ->where('ijinterlambats.mulaitanggal','=',$request->periode)
+                ->paginate(50);
+        }
+        elseif (isset($request->nip)){
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where('pegawais.nip','=',$request->nip)
+                ->paginate(50);
+        }
+        elseif (isset($request->nama)){
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where("pegawais.nama",'=',$request->nama)
+                ->paginate(50);
+        }
+        elseif (isset($request->periode))
+        {
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->where('ijinterlambats.mulaitanggal','=',$request->periode)
+                ->paginate(50);
+        }
+        else{
+            $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+                ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
+                ->paginate(50);
+        }
+
+        return view('rekapabsen.downloadsuratijinterlambat',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 }

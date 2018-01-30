@@ -36,7 +36,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
 
                 <div class="box">
                     <div class="box-header">

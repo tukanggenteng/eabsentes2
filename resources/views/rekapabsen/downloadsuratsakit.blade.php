@@ -34,7 +34,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Status Surat Sakit</h3>

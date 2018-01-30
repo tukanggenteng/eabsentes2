@@ -34,8 +34,6 @@
 
           <!-- Main content -->
           <section class="content">
-          @include('layouts.inforekap')
-
 
                 <div class="row">
                     <div class="col-md-12">

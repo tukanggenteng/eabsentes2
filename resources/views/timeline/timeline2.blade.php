@@ -17,7 +17,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
 
             <!-- Main content -->
             <section class="content">

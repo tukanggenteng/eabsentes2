@@ -366,6 +366,8 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
     );
 
     public static $classMap = array (
+        'AddColumFinalrekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
+        'AddColumRekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
         'App\\Console\\Commands\\CheckRaspberry' => __DIR__ . '/../..' . '/app/Console/Commands/CheckRaspberry.php',
         'App\\Console\\Commands\\TiapHariCommand' => __DIR__ . '/../..' . '/app/Console/Commands/TiapHariCommand.php',
         'App\\Console\\Commands\\UpdatePegawai' => __DIR__ . '/../..' . '/app/Console/Commands/UpdatePegawai.php',
@@ -388,6 +390,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'App\\Http\\Controllers\\DetailAbsenController' => __DIR__ . '/../..' . '/app/Http/Controllers/DetailAbsenController.php',
         'App\\Http\\Controllers\\FingerPegawaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/FingerPegawaiController.php',
         'App\\Http\\Controllers\\HariKerjaController' => __DIR__ . '/../..' . '/app/Http/Controllers/HariKerjaController.php',
+        'App\\Http\\Controllers\\HistoryCrashRaspberryController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoryCrashRaspberryController.php',
         'App\\Http\\Controllers\\HistoryFingerPegawaiController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoryFingerPegawaiController.php',
         'App\\Http\\Controllers\\IjinAdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/IjinAdminController.php',
         'App\\Http\\Controllers\\InstansiController' => __DIR__ . '/../..' . '/app/Http/Controllers/InstansiController.php',
@@ -435,8 +438,10 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'App\\fingerpegawai' => __DIR__ . '/../..' . '/app/fingerpegawai.php',
         'App\\hapusfingerpegawai' => __DIR__ . '/../..' . '/app/hapusfingerpegawai.php',
         'App\\harikerja' => __DIR__ . '/../..' . '/app/harikerja.php',
+        'App\\historycrashraspberry' => __DIR__ . '/../..' . '/app/historycrashraspberry.php',
         'App\\historyfingerpegawai' => __DIR__ . '/../..' . '/app/historyfingerpegawai.php',
         'App\\ijin' => __DIR__ . '/../..' . '/app/ijin.php',
+        'App\\ijinpulangcepat' => __DIR__ . '/../..' . '/app/ijinpulangcepat.php',
         'App\\ijinterlambat' => __DIR__ . '/../..' . '/app/ijinterlambat.php',
         'App\\instansi' => __DIR__ . '/../..' . '/app/instansi.php',
         'App\\jadwalkerja' => __DIR__ . '/../..' . '/app/jadwalkerja.php',
@@ -483,6 +488,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'CreateLogErrorfinger' => __DIR__ . '/../..' . '/database/migrations/2017_12_04_042431_create_log_errorfinger.php',
         'CreateLograspberryTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_14_162151_create_lograspberry_table.php',
         'CreatePegawaiHapusFinger' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
+        'CreateTableIjinpulangcepat' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_004354_create_table_ijinpulangcepat.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateVersionSoftware' => __DIR__ . '/../..' . '/database/migrations/2017_12_03_211121_create_version_software.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',

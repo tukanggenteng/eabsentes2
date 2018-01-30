@@ -28,8 +28,6 @@
 
           <!-- Main content -->
           <section class="content">
-
-            @include('layouts.inforekap')
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">

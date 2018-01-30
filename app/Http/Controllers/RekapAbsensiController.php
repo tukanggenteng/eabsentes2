@@ -292,97 +292,239 @@ class RekapAbsensiController extends Controller
                                       $table->akumulasi_sehari = "00:00:00";
                                       $table->save();
                                   } elseif  ($request->jenisabsen=="3"){
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
+
+                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
+
+
+                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
                                           ->where('id', '=', $id)
                                           ->first();
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
-                                      $table->terlambat = "00:00:00";
-                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
-                                      $table->save();
+
+                                        $table->jenisabsen_id = $request->jenisabsen;
+                                        $table->jam_masuk = $awal;
+                                        $table->masukinstansi_id=Auth::user()->instansi_id;
+                                        $table->jam_keluar = $akhir;
+                                        $table->terlambat = "00:00:00";
+                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                        $table->akumulasi_sehari = $akumulasi;
+                                        $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="4"){
+
+                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }
+
+
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
                                           ->where('id', '=', $id)
                                           ->first();
 
                                       $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
+                                      $table->jam_masuk = $awal;
                                       $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
+                                      $table->jam_keluar = $akhir;
                                       $table->terlambat = "00:00:00";
                                       $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
+                                      $table->akumulasi_sehari = $akumulasi;
                                       $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="5"){
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
 
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
-                                      $table->terlambat = "00:00:00";
-                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
-                                      $table->save();
+                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
+
+                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                            ->where('jadwalkerja_id','=',$data)
+                                            ->where('id', '=', $id)
+                                            ->first();
+
+                                        $table->jenisabsen_id = $request->jenisabsen;
+                                        $table->jam_masuk = $awal;
+                                        $table->masukinstansi_id=Auth::user()->instansi_id;
+                                        $table->jam_keluar = $akhir;
+                                        $table->terlambat = "00:00:00";
+                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                        $table->akumulasi_sehari = $akumulasi;
+                                        $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="6"){
-                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
 
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
                                           ->where('id', '=', $id)
                                           ->first();
 
-                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masuk'],$jadwalkerja[0]['jam_keluar']);
-
                                       $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
+                                      $table->jam_masuk = $awal;
                                       $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
+                                      $table->jam_keluar = $akhir;
                                       $table->terlambat = "00:00:00";
                                       $table->keluarinstansi_id=Auth::user()->instansi_id;
                                       $table->akumulasi_sehari = $akumulasi;
                                       $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="7"){
-                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
 
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
                                           ->where('id', '=', $id)
                                           ->first();
 
-                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-
                                       $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
+                                      $table->jam_masuk = $awal;
                                       $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
+                                      $table->jam_keluar = $akhir;
                                       $table->terlambat = "00:00:00";
                                       $table->keluarinstansi_id=Auth::user()->instansi_id;
                                       $table->akumulasi_sehari = $akumulasi;
                                       $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="8"){
-                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }
 
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
                                           ->where('id', '=', $id)
                                           ->first();
-
-                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-
+                                      
+                                      $table->jam_masuk = $awal;
+                                      $table->jam_keluar = $akhir;
                                       $table->jenisabsen_id = $request->jenisabsen;
                                       $table->masukinstansi_id=Auth::user()->instansi_id;
                                       $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -408,14 +550,29 @@ class RekapAbsensiController extends Controller
 
                                   elseif  ($request->jenisabsen=="10"){
 
-                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                      $table2 = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->get();
-
-                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$table2[0]['jam_keluar']);
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
 
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
@@ -423,23 +580,13 @@ class RekapAbsensiController extends Controller
                                           ->first();
 
                                       $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = $jadwalkerja[0]['jam_masukjadwal'];
+                                      $table->jam_masuk = $awal;
                                       $table->masukinstansi_id=Auth::user()->instansi_id;
                                       $table->keluarinstansi_id=Auth::user()->instansi_id;
                                       $table->terlambat = "00:00:00";
-                                      $table->akumulasi_sehari = $akumulasi;
                                       $table->save();
                                   }
                                   elseif  ($request->jenisabsen=="11"){
-
-                                      $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                      $table2 = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->get();
-
-                                      $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$table2[0]['jam_keluar']);
 
                                       $table = att::where('tanggal_att', '=', $tanggalbaru)
                                           ->where('jadwalkerja_id','=',$data)
@@ -456,6 +603,50 @@ class RekapAbsensiController extends Controller
                                       $table->save();
 
                                   }
+                                  elseif  ($request->jenisabsen=="12"){
+
+                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                        ->where('jadwalkerja_id','=',$data)
+                                        ->where('id', '=', $id)
+                                        ->first();
+
+                                    if ($table->jam_masuk==null){
+                                        return redirect()->back()->with('status','Atur ijin tidak berhasil');
+                                    }
+                                        
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=$table->jam_masuk;
+                                        }
+                                        else{
+                                            $awal=$table->jam_masuk;
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            $awal=$table->jam_masuk;
+                                        }
+                                        else{
+                                            $awal=$table->jam_masuk;
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        $akumulasi=$this->kurangwaktu($table->jam_masuk,$akhir);
+                                    }  
+                                
+
+                                    $table->jenisabsen_id = $request->jenisabsen;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = $akhir;
+                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->save();
+
+                                }
                                 
                               } else {
                                 dd("as");

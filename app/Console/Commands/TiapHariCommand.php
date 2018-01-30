@@ -11,6 +11,7 @@ use App\finalrekapbulanan;
 use App\rekapbulanan;
 use App\masterbulanan;
 use App\rulejadwalpegawai;
+use App\jenisabsen;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 
@@ -54,19 +55,18 @@ class TiapHariCommand extends Command
         if ($tanggal==1){
           $sekarang=date("Y-m-d");
           $bulan=date("Y-m",strtotime("-1 month",strtotime($sekarang)));
-          // $bulan=date("m");
+        //   $bulan=date("Y-m");
           $pecah=explode("-",$bulan);
           $bulan=$pecah[1];
           $tahun=$pecah[0];
 
           $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-              ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
               ->whereMonth('atts.tanggal_att','=',$bulan)
               ->whereYear('atts.tanggal_att','=',$tahun)
               ->select('atts.pegawai_id')
               ->distinct()
               ->get();
-              // dd("asdasd");
+            //   dd($idpegawais);
           foreach ($idpegawais as $key => $idpegawai) {
 
                     $harikerja = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -78,6 +78,7 @@ class TiapHariCommand extends Command
                         ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
                         ->select('atts.tanggal_att')
                         ->count();
+
 
                     $perbaikanakumulasi=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                         ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
@@ -211,6 +212,12 @@ class TiapHariCommand extends Command
                         ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
                         ->count();
 
+                    // $tanpaabsen=jenisabsen::where('id','!=',2)
+                    //                 ->where('id','!=',9)
+                    //                 ->where('id','!=',11)
+                    //                 ->pluck('id')
+                    //                 ->get();
+
                     $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                         ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
                         ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
@@ -219,7 +226,15 @@ class TiapHariCommand extends Command
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->whereNotNull('atts.jam_masuk')
                         ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                        ->count();
+                        // ->where('atts.jenisabsen_id','=',1)
+                        ->where('atts.jenisabsen_id','!=',2)
+                        ->where('atts.jenisabsen_id','!=',9)
+                        ->where('atts.jenisabsen_id','!=',11)
+                        // ->where('atts.jenisabsen_id',$tanpaabsen)
+                        ->get();
+                    
+                    
+                    // dd($tidakterlambat);
 
                     $pulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                         ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
@@ -231,6 +246,15 @@ class TiapHariCommand extends Command
                         ->where('atts.jenisabsen_id', '=', '1')
                         ->whereNotNull('atts.jam_masuk')
                         ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                        ->count();
+
+                    $ijinpulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                        // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                        ->whereMonth('atts.tanggal_att','=',$bulan)
+                        ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('jenisabsen_id', '=', '12')
+                        ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                        ->select('atts.tanggal_att')
                         ->count();
 
                     if (($tidakterlambat==0) && ($harikerja==0) || ($tidakterlambat==0))
@@ -251,8 +275,6 @@ class TiapHariCommand extends Command
 
 
                     $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                     ->whereMonth('atts.tanggal_att','=',$bulan)
                     ->whereYear('atts.tanggal_att','=',$tahun)
                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
@@ -260,8 +282,6 @@ class TiapHariCommand extends Command
                     ->first();
 
                     $totalterlambat=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                     ->whereMonth('atts.tanggal_att','=',$bulan)
                     ->whereYear('atts.tanggal_att','=',$tahun)
                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
@@ -283,11 +303,35 @@ class TiapHariCommand extends Command
                     $table->terlambat=$terlambat;
                     $table->rapatundangan=$rapatundangan;
                     $table->pulang_cepat=$pulangcepat;
-                    $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
+                    $table->persentase_apel=$tidakterlambat;
                     $table->persentase_tidakhadir=$absen;
                     $table->total_akumulasi=$totalakumulasi->total;
                     $table->total_terlambat=$totalterlambat->total;
                     $table->instansi_id=null;
+                    $table->ijinpulangcepat=$ijinpulangcepat;
+                    $table->save();
+
+                    $table=new rekapbulanan();
+                    $table->periode=$sekarang;
+                    $table->pegawai_id=$idpegawai->pegawai_id;
+                    $table->hari_kerja=$harikerja;
+                    $table->hadir=$hadir;
+                    $table->tanpa_kabar=$absen;
+                    $table->ijin=$ijin;
+                    $table->sakit=$sakit;
+                    $table->cuti=$cuti;
+                    $table->ijinterlambat=$ijinterlambat;
+                    $table->tugas_luar=$tugasluar;
+                    $table->tugas_belajar=$tugasbelajar;
+                    $table->terlambat=$terlambat;
+                    $table->rapatundangan=$rapatundangan;
+                    $table->pulang_cepat=$pulangcepat;
+                    $table->persentase_apel=$tidakterlambat;
+                    $table->persentase_tidakhadir=$absen;
+                    $table->total_akumulasi=$totalakumulasi->total;
+                    $table->total_terlambat=$totalterlambat->total;
+                    $table->instansi_id=null;
+                    $table->ijinpulangcepat=$ijinpulangcepat;
                     $table->save();
           }
         }
@@ -302,372 +346,372 @@ class TiapHariCommand extends Command
         elseif ($date==3){
             $hari='Rabu';
 
-                    $date=date('N');
+                    // $date=date('N');
 
-                    $sekarang=date('Y-m-d');
-
-
-                    $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
-                    $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
-
-                    $instansis=pegawai::where('instansi_id','!=',null)->get();
-                    // dd($instansis);
-                    foreach ($instansis as $key => $instansi) {
-                      $cekrekap=rekapbulanan::leftJoin('pegawais','pegawais.id','=','rekapbulanans.pegawai_id')
-                          ->where('rekapbulanans.pegawai_id','=',$instansi->id)
-                          ->where('rekapbulanans.periode','=',$awal)
-                          ->count();
-                      // dd($cekrekap);
-
-                      $cekatt = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                          ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                          ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                          ->where('atts.tanggal_att','>=',$awal)
-                          ->where('atts.tanggal_att','<=',$akhir)
-                          ->where('atts.pegawai_id','=',$instansi->id)
-                          ->count();
-                      // dd($cekatt);
-                      if (($cekrekap > 0) || ($cekatt==0))
-                      {
-
-                      }else {
-                        // $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                        //     ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
-                        //     ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                        //     ->where('atts.tanggal_att','>=',$awal)
-                        //     ->where('atts.tanggal_att','<=',$akhir)
-                        //     ->select('atts.pegawai_id')
-                        //     ->distinct()
-                        //     ->get();
-
-                            $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
-                                // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                ->where('atts.tanggal_att','>=',$awal)
-                                ->where('atts.tanggal_att','<=',$akhir)
-                                ->select('atts.pegawai_id')
-                                ->distinct()
-                                ->get();
-                              // dd($idpegawais);
-                            foreach ($idpegawais as $key => $idpegawai) {
-
-                              $harikerja = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                  // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                  ->where('atts.tanggal_att','>=',$awal)
-                                  ->where('atts.tanggal_att','<=',$akhir)
-                                  ->where('atts.jenisabsen_id','!=','11')
-                                  ->where('atts.jenisabsen_id','!=','9')
-                                  ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                  ->select('atts.tanggal_att')
-                                  ->count();
-                                  // dd($harikerja);
-                                  $perbaikanakumulasi=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('atts.jenisabsen_id','=','1')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->where('atts.jam_keluar','=',null)
-                                      ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
-                                      ->get();
-
-                                  foreach ($perbaikanakumulasi as $key => $value) {
-
-                                    if ($value->jam_masukjadwal > $value->jam_keluarjadwal)
-                                    {
-
-                                        if ($value->jam_masuk > $value->jam_masukjadwal)
-                                        {
-                                          $start = date_create($value->jam_masuk);
-                                          $end = date_create($value->jam_keluarjadwal);
-                                          $end=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($end)));
-                                          $selisih=date_diff($end,$start);
-
-                                            // $jamban=$value->jam_masuk;
-                                            // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
-                                            // $selisih=$this->kurangwaktu($jamban,$jamban2);
-                                        }
-                                        else
-                                        {
-                                          $start = date_create($value->jam_masukjadwal);
-                                          $end = date_create($value->jam_keluarjadwal);
-                                          $end=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($end)));
-                                          $selisih=date_diff($end,$start);
-                                            // $jamban=($value->jam_masukjadwal);
-                                            // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
-                                            // $selisih=$this->kurangwaktu($jamban,$jamban2);
-                                        }
-
-                                    }
-                                    else{
-                                        if ($value->jam_masuk > $value->jam_masukjadwal)
-                                        {
-                                          $start = date_create($value->jam_masuk);
-                                          $end = date_create($value->jam_keluarjadwal);
-                                          //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
-                                          $selisih=date_diff($end,$start);
-                                            // $jamban=$value->jam_masuk;
-                                            // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
-                                            // $selisih=$this->kurangwaktu($jamban2,$jamban);
-                                        }
-                                        else
-                                        {
-                                          $start = date_create($value->jam_masukjadwal);
-                                          $end = date_create($value->jam_keluarjadwal);
-                                          //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
-                                          $selisih=date_diff($end,$start);
-                                            // $jamban=($value->jam_masukjadwal);
-                                            // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
-                                            // $selisih=$this->kurangwaktu($jamban2,$jamban);
-                                        }
-
-                                    }
-
-                                      $selisih=$selisih->format("%H:%i:%s");
-                                      $time_array = explode(':', $selisih);
-                                      $hours = (int)$time_array[0];
-                                      $minutes = (int)$time_array[1];
-                                      $seconds = (int)$time_array[2];
-
-                                      $total_seconds = ($hours * 3600) + ($minutes * 60) + $seconds;
-
-                                      $average = floor($total_seconds / 2);
+                    // $sekarang=date('Y-m-d');
 
 
-                                      $init = 685;
-                                      $hours2 = floor($average / 3600);
-                                      $minutes2 = floor(($average / 60) % 60);
-                                      $seconds2 = $average % 60;
+                    // $awal=date("Y-m-d",strtotime("-9 days",strtotime($sekarang)));
+                    // $akhir=date("Y-m-d",strtotime("-3 days",strtotime($sekarang)));
 
-                                      $average=$hours2.":".$minutes2.":".$seconds2;
+                    // $instansis=pegawai::where('instansi_id','!=',null)->get();
+                    // // dd($instansis);
+                    // foreach ($instansis as $key => $instansi) {
+                    //   $cekrekap=rekapbulanan::leftJoin('pegawais','pegawais.id','=','rekapbulanans.pegawai_id')
+                    //       ->where('rekapbulanans.pegawai_id','=',$instansi->id)
+                    //       ->where('rekapbulanans.periode','=',$awal)
+                    //       ->count();
+                    //   // dd($cekrekap);
 
+                    //   $cekatt = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //       ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //       ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //       ->where('atts.tanggal_att','>=',$awal)
+                    //       ->where('atts.tanggal_att','<=',$akhir)
+                    //       ->where('atts.pegawai_id','=',$instansi->id)
+                    //       ->count();
+                    //   // dd($cekatt);
+                    //   if (($cekrekap > 0) || ($cekatt==0))
+                    //   {
 
-                                      $perbaikanakumulasi2=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                          ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
-                                          // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                          ->where('atts.tanggal_att','=',$value->tanggal_att)
-                                          ->where('atts.jenisabsen_id','=','1')
-                                          ->where('atts.id','=',$value->id)
-                                          ->where('atts.jam_keluar','=',null)
-                                          ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
-                                          ->first();
+                    //   }else {
+                    //     // $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //     //     ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                    //     //     ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //     //     ->where('atts.tanggal_att','>=',$awal)
+                    //     //     ->where('atts.tanggal_att','<=',$akhir)
+                    //     //     ->select('atts.pegawai_id')
+                    //     //     ->distinct()
+                    //     //     ->get();
 
-                                      $perbaikanakumulasi2->akumulasi_sehari=$selisih;
-                                      $perbaikanakumulasi2->save();
-                                  }
+                    //         $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //             ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //             ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                    //             // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //             ->where('atts.tanggal_att','>=',$awal)
+                    //             ->where('atts.tanggal_att','<=',$akhir)
+                    //             ->select('atts.pegawai_id')
+                    //             ->distinct()
+                    //             ->get();
+                    //           // dd($idpegawais);
+                    //         foreach ($idpegawais as $key => $idpegawai) {
 
+                    //           $harikerja = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //               // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //               ->where('atts.tanggal_att','>=',$awal)
+                    //               ->where('atts.tanggal_att','<=',$akhir)
+                    //               ->where('atts.jenisabsen_id','!=','11')
+                    //               ->where('atts.jenisabsen_id','!=','9')
+                    //               ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //               ->select('atts.tanggal_att')
+                    //               ->count();
+                    //               // dd($harikerja);
+                    //               $perbaikanakumulasi=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('atts.jenisabsen_id','=','1')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->where('atts.jam_keluar','=',null)
+                    //                   ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
+                    //                   ->get();
 
-                                  $hadir = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //               foreach ($perbaikanakumulasi as $key => $value) {
 
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '1')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->select('atts.tanggal_att')
-                                      ->count();
+                    //                 if ($value->jam_masukjadwal > $value->jam_keluarjadwal)
+                    //                 {
 
-                                  $ijinterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                     if ($value->jam_masuk > $value->jam_masukjadwal)
+                    //                     {
+                    //                       $start = date_create($value->jam_masuk);
+                    //                       $end = date_create($value->jam_keluarjadwal);
+                    //                       $end=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($end)));
+                    //                       $selisih=date_diff($end,$start);
 
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '10')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
+                    //                         // $jamban=$value->jam_masuk;
+                    //                         // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                    //                         // $selisih=$this->kurangwaktu($jamban,$jamban2);
+                    //                     }
+                    //                     else
+                    //                     {
+                    //                       $start = date_create($value->jam_masukjadwal);
+                    //                       $end = date_create($value->jam_keluarjadwal);
+                    //                       $end=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($end)));
+                    //                       $selisih=date_diff($end,$start);
+                    //                         // $jamban=($value->jam_masukjadwal);
+                    //                         // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                    //                         // $selisih=$this->kurangwaktu($jamban,$jamban2);
+                    //                     }
 
-                                  $absen = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                 }
+                    //                 else{
+                    //                     if ($value->jam_masuk > $value->jam_masukjadwal)
+                    //                     {
+                    //                       $start = date_create($value->jam_masuk);
+                    //                       $end = date_create($value->jam_keluarjadwal);
+                    //                       //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
+                    //                       $selisih=date_diff($end,$start);
+                    //                         // $jamban=$value->jam_masuk;
+                    //                         // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                    //                         // $selisih=$this->kurangwaktu($jamban2,$jamban);
+                    //                     }
+                    //                     else
+                    //                     {
+                    //                       $start = date_create($value->jam_masukjadwal);
+                    //                       $end = date_create($value->jam_keluarjadwal);
+                    //                       //$end=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($end)));
+                    //                       $selisih=date_diff($end,$start);
+                    //                         // $jamban=($value->jam_masukjadwal);
+                    //                         // $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($value->jam_keluarjadwal)));
+                    //                         // $selisih=$this->kurangwaktu($jamban2,$jamban);
+                    //                     }
 
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '2')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
+                    //                 }
 
-                                  $ijin = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   $selisih=$selisih->format("%H:%i:%s");
+                    //                   $time_array = explode(':', $selisih);
+                    //                   $hours = (int)$time_array[0];
+                    //                   $minutes = (int)$time_array[1];
+                    //                   $seconds = (int)$time_array[2];
 
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '3')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
+                    //                   $total_seconds = ($hours * 3600) + ($minutes * 60) + $seconds;
 
-                                  $sakit = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '5')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $cuti = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '4')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $tugasluar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '7')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $tugasbelajar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '6')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $rapatundangan = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('jenisabsen_id', '=', '8')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $terlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                      ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                      ->where('atts.jam_masuk', '>','jadwalkerjas.jam_masukjadwal')
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->whereNotNull('atts.jam_masuk')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                      ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                      ->where('atts.jam_masuk', '<=', 'jadwalkerjas.jam_masukjadwal')
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->whereNotNull('atts.jam_masuk')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  $pulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                      ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                      ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
-                                      ->where('atts.jam_keluar', '=', null)
-
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('atts.jenisabsen_id', '=', '1')
-                                      ->whereNotNull('atts.jam_masuk')
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->count();
-
-                                  if (($tidakterlambat==0) && ($harikerja==0) || ($tidakterlambat==0))
-                                  {
-                                      $presentaseapel=0;
-                                  }
-                                  else {
-                                      $presentaseapel=$tidakterlambat/$harikerja*100;
-                                  }
-
-                                  if (($absen==0) && ($harikerja==0) || ($absen==0))
-                                  {
-                                      $presentasetidakhadir=0;
-                                  }
-                                  else {
-                                              $presentasetidakhadir=$absen/$harikerja*100;
-                                  }
+                    //                   $average = floor($total_seconds / 2);
 
 
-                                      $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                      ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                      ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                      // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                      ->where('atts.tanggal_att','>=',$awal)
-                                      ->where('atts.tanggal_att','<=',$akhir)
-                                      ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                      ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
-                                      ->first();
+                    //                   $init = 685;
+                    //                   $hours2 = floor($average / 3600);
+                    //                   $minutes2 = floor(($average / 60) % 60);
+                    //                   $seconds2 = $average % 60;
 
-                                  // dd($totalakumulasi->total);
+                    //                   $average=$hours2.":".$minutes2.":".$seconds2;
 
-                                  $totalterlambat=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                  ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                  ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                  // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
-                                  ->where('atts.tanggal_att','>=',$awal)
-                                  ->where('atts.tanggal_att','<=',$akhir)
-                                  ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                  ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.terlambat))) as total'))
-                                  ->first();
 
-                                  // dd($totalterlambat->total);
-                                  $totalakumulasi=$totalakumulasi->total;
-                                  $totalterlambat=$totalterlambat->total;
-                                  // dd($awal." = ".$akhir);
+                    //                   $perbaikanakumulasi2=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                       ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                    //                       // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                       ->where('atts.tanggal_att','=',$value->tanggal_att)
+                    //                       ->where('atts.jenisabsen_id','=','1')
+                    //                       ->where('atts.id','=',$value->id)
+                    //                       ->where('atts.jam_keluar','=',null)
+                    //                       ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
+                    //                       ->first();
 
-                                  $table=new rekapbulanan();
-                                  $table->periode=$awal;
-                                  $table->pegawai_id=$idpegawai->pegawai_id;
-                                  $table->hari_kerja=$harikerja;
-                                  $table->hadir=$hadir;
-                                  $table->tanpa_kabar=$absen;
-                                  $table->ijin=$ijin;
-                                  $table->ijinterlambat=$ijinterlambat;
-                                  $table->sakit=$sakit;
-                                  $table->cuti=$cuti;
-                                  $table->tugas_luar=$tugasluar;
-                                  $table->tugas_belajar=$tugasbelajar;
-                                  $table->terlambat=$terlambat;
-                                  $table->rapatundangan=$rapatundangan;
-                                  $table->pulang_cepat=$pulangcepat;
-                                  $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
-                                  $table->persentase_tidakhadir=$absen;
-                                  $table->total_akumulasi=$totalakumulasi;
-                                  $table->total_terlambat=$totalterlambat;
-                                  $table->instansi_id=null;
-                                  $table->save();
+                    //                   $perbaikanakumulasi2->akumulasi_sehari=$selisih;
+                    //                   $perbaikanakumulasi2->save();
+                    //               }
 
-                                  $table=new masterbulanan();
-                                  $table->periode=$awal;
-                                  $table->pegawai_id=$idpegawai->pegawai_id;
-                                  $table->hari_kerja=$harikerja;
-                                  $table->hadir=$hadir;
-                                  $table->tanpa_kabar=$absen;
-                                  $table->ijin=$ijin;
-                                  $table->ijinterlambat=$ijinterlambat;
-                                  $table->sakit=$sakit;
-                                  $table->cuti=$cuti;
-                                  $table->tugas_luar=$tugasluar;
-                                  $table->tugas_belajar=$tugasbelajar;
-                                  $table->terlambat=$terlambat;
-                                  $table->rapatundangan=$rapatundangan;
-                                  $table->pulang_cepat=$pulangcepat;
-                                  $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
-                                  $table->persentase_tidakhadir=$absen;
-                                  $table->total_akumulasi=$totalakumulasi;
-                                  $table->total_terlambat=$totalterlambat;
-                                  $table->instansi_id=null;
-                                  $table->save();
-                            }
-                      }
-                    }
+
+                    //               $hadir = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '1')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->select('atts.tanggal_att')
+                    //                   ->count();
+
+                    //               $ijinterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '10')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $absen = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '2')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $ijin = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '3')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $sakit = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '5')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $cuti = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '4')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $tugasluar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '7')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $tugasbelajar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '6')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $rapatundangan = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('jenisabsen_id', '=', '8')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $terlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //                   ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   ->where('atts.jam_masuk', '>','jadwalkerjas.jam_masukjadwal')
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->whereNotNull('atts.jam_masuk')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //                   ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   ->where('atts.jam_masuk', '<=', 'jadwalkerjas.jam_masukjadwal')
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->whereNotNull('atts.jam_masuk')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               $pulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //                   ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
+                    //                   ->where('atts.jam_keluar', '=', null)
+
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('atts.jenisabsen_id', '=', '1')
+                    //                   ->whereNotNull('atts.jam_masuk')
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->count();
+
+                    //               if (($tidakterlambat==0) && ($harikerja==0) || ($tidakterlambat==0))
+                    //               {
+                    //                   $presentaseapel=0;
+                    //               }
+                    //               else {
+                    //                   $presentaseapel=$tidakterlambat/$harikerja*100;
+                    //               }
+
+                    //               if (($absen==0) && ($harikerja==0) || ($absen==0))
+                    //               {
+                    //                   $presentasetidakhadir=0;
+                    //               }
+                    //               else {
+                    //                           $presentasetidakhadir=$absen/$harikerja*100;
+                    //               }
+
+
+                    //                   $totalakumulasi = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //                   ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //                   ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //                   // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //                   ->where('atts.tanggal_att','>=',$awal)
+                    //                   ->where('atts.tanggal_att','<=',$akhir)
+                    //                   ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //                   ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
+                    //                   ->first();
+
+                    //               // dd($totalakumulasi->total);
+
+                    //               $totalterlambat=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    //               ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    //               ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    //               // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    //               ->where('atts.tanggal_att','>=',$awal)
+                    //               ->where('atts.tanggal_att','<=',$akhir)
+                    //               ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
+                    //               ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.terlambat))) as total'))
+                    //               ->first();
+
+                    //               // dd($totalterlambat->total);
+                    //               $totalakumulasi=$totalakumulasi->total;
+                    //               $totalterlambat=$totalterlambat->total;
+                    //               // dd($awal." = ".$akhir);
+
+                    //               $table=new rekapbulanan();
+                    //               $table->periode=$awal;
+                    //               $table->pegawai_id=$idpegawai->pegawai_id;
+                    //               $table->hari_kerja=$harikerja;
+                    //               $table->hadir=$hadir;
+                    //               $table->tanpa_kabar=$absen;
+                    //               $table->ijin=$ijin;
+                    //               $table->ijinterlambat=$ijinterlambat;
+                    //               $table->sakit=$sakit;
+                    //               $table->cuti=$cuti;
+                    //               $table->tugas_luar=$tugasluar;
+                    //               $table->tugas_belajar=$tugasbelajar;
+                    //               $table->terlambat=$terlambat;
+                    //               $table->rapatundangan=$rapatundangan;
+                    //               $table->pulang_cepat=$pulangcepat;
+                    //               $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
+                    //               $table->persentase_tidakhadir=$absen;
+                    //               $table->total_akumulasi=$totalakumulasi;
+                    //               $table->total_terlambat=$totalterlambat;
+                    //               $table->instansi_id=null;
+                    //               $table->save();
+
+                    //               $table=new masterbulanan();
+                    //               $table->periode=$awal;
+                    //               $table->pegawai_id=$idpegawai->pegawai_id;
+                    //               $table->hari_kerja=$harikerja;
+                    //               $table->hadir=$hadir;
+                    //               $table->tanpa_kabar=$absen;
+                    //               $table->ijin=$ijin;
+                    //               $table->ijinterlambat=$ijinterlambat;
+                    //               $table->sakit=$sakit;
+                    //               $table->cuti=$cuti;
+                    //               $table->tugas_luar=$tugasluar;
+                    //               $table->tugas_belajar=$tugasbelajar;
+                    //               $table->terlambat=$terlambat;
+                    //               $table->rapatundangan=$rapatundangan;
+                    //               $table->pulang_cepat=$pulangcepat;
+                    //               $table->persentase_apel=$terlambat+$ijinterlambat+$absen;
+                    //               $table->persentase_tidakhadir=$absen;
+                    //               $table->total_akumulasi=$totalakumulasi;
+                    //               $table->total_terlambat=$totalterlambat;
+                    //               $table->instansi_id=null;
+                    //               $table->save();
+                    //         }
+                    //   }
+                    // }
         }
         elseif ($date==4){
             $hari='Kamis';
@@ -714,7 +758,11 @@ class TiapHariCommand extends Command
         elseif ($tanggalsekarang <= $end['Minggu 4'][0]){
             $minggu=4;
         }
-        // dd($status);
+        elseif ($tanggalsekarang >= $end['Minggu 4'][0]){
+            $minggu=1;
+        }
+        // dd($minggu);
+
         // return dd($end['Minggu 1'][0]);
 
         $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();

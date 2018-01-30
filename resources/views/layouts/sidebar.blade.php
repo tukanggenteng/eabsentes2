@@ -99,7 +99,6 @@
             <li>
                 <a href="/timeline">
                     <i class="fa fa-calendar"></i> <span>Timeline</span>
-                    
                 </a>
             </li>
             <li class="treeview">
@@ -134,6 +133,7 @@
                   <li><a href="/transrekap/download/tb"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
                   <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
                   <li><a href="/transrekap/download/it"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
+                  <li><a href="/transrekap/download/ipc"><i class="fa fa-circle-o"></i> Ijin Pulang Cepat</a></li>
                 </ul>
             </li>
             <li class="treeview">

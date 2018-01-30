@@ -36,7 +36,6 @@
 
           <!-- Main content -->
           <section class="content">
-            @include('layouts.inforekap')
             @if ((session('status')))
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -224,7 +223,7 @@
         $(function() {
 
 
-            var minDate="{{$awal}}";
+            var minDate="{{$akhir}}";
             var maxDate="{{$akhir}}";
 
             $('input[name="periode"]').daterangepicker({
