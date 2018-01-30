@@ -14,6 +14,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    
     protected function encryptOTP($data){
         $hitungchar=strlen($data);
         $pecahstring=str_split($data);
