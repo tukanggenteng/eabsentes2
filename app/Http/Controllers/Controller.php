@@ -334,7 +334,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -343,6 +343,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -365,7 +369,7 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -374,6 +378,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -409,8 +417,6 @@ class Controller extends BaseController
                         }
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
-                        
-                        
 
                         $table->akumulasi_sehari = $akumulasi;
                         $table->save();
@@ -466,7 +472,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -475,6 +481,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -497,7 +507,7 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -506,6 +516,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -629,7 +643,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -638,6 +652,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -660,7 +678,7 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -669,6 +687,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -767,7 +789,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -776,6 +798,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
@@ -798,7 +824,7 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
-                            if (($harike==5) && ($absen->jadwalkerja_id==1))
+                            if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     $jam_masuk=$absen->jam_masuk;
                                     $keluaristirahat=$absen->keluar_istirahat;
@@ -807,6 +833,10 @@ class Controller extends BaseController
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
                                     $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                            }
+                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            {
+                                    return "Fail";
                             }
                             else
                             {
