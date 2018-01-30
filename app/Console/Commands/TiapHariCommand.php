@@ -55,7 +55,7 @@ class TiapHariCommand extends Command
         if ($tanggal==1){
           $sekarang=date("Y-m-d");
           $bulan=date("Y-m",strtotime("-1 month",strtotime($sekarang)));
-        //   $bulan=date("Y-m");
+            //$bulan=date("Y-m");
           $pecah=explode("-",$bulan);
           $bulan=$pecah[1];
           $tahun=$pecah[0];

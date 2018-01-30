@@ -297,7 +297,7 @@ class RekapAbsensiController extends Controller
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -307,7 +307,7 @@ class RekapAbsensiController extends Controller
                                             $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                         }
                                         else{
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -338,7 +338,7 @@ class RekapAbsensiController extends Controller
 
                                     if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                     {
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
@@ -348,7 +348,7 @@ class RekapAbsensiController extends Controller
                                         $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                     }
                                     else{
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
@@ -379,7 +379,7 @@ class RekapAbsensiController extends Controller
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -389,7 +389,7 @@ class RekapAbsensiController extends Controller
                                             $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                         }
                                         else{
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -418,7 +418,7 @@ class RekapAbsensiController extends Controller
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -428,7 +428,7 @@ class RekapAbsensiController extends Controller
                                             $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                         }
                                         else{
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -458,7 +458,7 @@ class RekapAbsensiController extends Controller
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -468,7 +468,7 @@ class RekapAbsensiController extends Controller
                                             $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                         }
                                         else{
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -498,7 +498,7 @@ class RekapAbsensiController extends Controller
 
                                     if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                     {
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
@@ -508,7 +508,7 @@ class RekapAbsensiController extends Controller
                                         $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                     }
                                     else{
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
@@ -554,7 +554,7 @@ class RekapAbsensiController extends Controller
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -564,7 +564,7 @@ class RekapAbsensiController extends Controller
                                             $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                         }
                                         else{
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                             }
                                             else{
@@ -618,7 +618,7 @@ class RekapAbsensiController extends Controller
                                         
                                     if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                     {
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=$table->jam_masuk;
                                         }
                                         else{
@@ -628,7 +628,7 @@ class RekapAbsensiController extends Controller
                                         $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                     }
                                     else{
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI"){
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
                                             $awal=$table->jam_masuk;
                                         }
                                         else{

@@ -46,6 +46,12 @@ class AttendanceController extends Controller
               {
                 return $this->jam_keluar($user_id,$tanggal,$jam,$status,$instansi);
               }
+              elseif ($request->json('status')=='2'){
+                return $this->keluar_istirahat($user_id,$tanggal,$jam,$status,$instansi);
+              }
+              elseif ($request->json('status')=='3'){
+                return $this->masuk_istirahat($user_id,$tanggal,$jam,$status,$instansi);
+              }
         }
         else{
             $statusauth=false;
