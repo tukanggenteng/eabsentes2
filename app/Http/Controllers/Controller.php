@@ -856,7 +856,7 @@ class Controller extends BaseController
                                 }
                             }
                         }
-
+                        dd($akumulasi1);
                         $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
                             ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
