@@ -39,37 +39,37 @@ class CheckRaspberry extends Command
     public function handle()
     {
         //
-        $datas=raspberrystatu::all();
-        foreach ($datas as $key => $data){
-            if($data->jamstatus_raspberry=='00:00:00'){
+        // $datas=raspberrystatu::all();
+        // foreach ($datas as $key => $data){
+        //     if($data->jamstatus_raspberry=='00:00:00'){
 
-            }
-            else
-            {
-                // dd("as");
-                $waktudata=date("H:i:s",strtotime($data->jamstatus_raspberry));
-                $waktudata = date_create($waktudata);
+        //     }
+        //     else
+        //     {
+        //         // dd("as");
+        //         $waktudata=date("H:i:s",strtotime($data->jamstatus_raspberry));
+        //         $waktudata = date_create($waktudata);
                 
-                $waktusekarang=date("H:i:s");
-                $waktusekarang=date_create($waktusekarang);
+        //         $waktusekarang=date("H:i:s");
+        //         $waktusekarang=date_create($waktusekarang);
     
-                $hasil=date_diff($waktusekarang,$waktudata);
+        //         $hasil=date_diff($waktusekarang,$waktudata);
                 
-                if ($hasil >= "00:15:00")
-                {
-                    $update=raspberrystatu::where('instansi_id','=',$data->instansi_id)->first();
-                    $update->status="Offline";
-                    $update->save();
+        //         if ($hasil >= "00:15:00")
+        //         {
+        //             $update=raspberrystatu::where('instansi_id','=',$data->instansi_id)->first();
+        //             $update->status="Offline";
+        //             $update->save();
 
-                }
-                else
-                {
+        //         }
+        //         else
+        //         {
 
-                }
-            }
+        //         }
+        //     }
 
 
-        }
+        // }
         
 
     }

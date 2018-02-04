@@ -658,7 +658,8 @@
                     { data: 'rapatundangan', name: 'rekapbulanans.rapatundangan' },
                     { data: 'ijinterlambat', name: 'rekapbulanans.ijinterlambat' },
                     { data: 'ijinpulangcepat', name: 'rekapbulanans.ijinpulangcepat' }
-                ]
+                ],
+                order:[[ 3, 'desc' ], [ 4, 'desc' ],[ 5, 'desc' ], [ 6, 'desc' ],[ 7, 'desc' ], [ 8, 'desc' ],[ 9, 'desc' ], [ 10, 'desc' ]]
             });
         });
     </script>
