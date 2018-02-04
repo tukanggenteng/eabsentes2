@@ -587,7 +587,7 @@ class Controller extends BaseController
                 }
             }
             else{
-                return "Tidak ada data kehadiran"
+                return "Tidak ada data kehadiran";
             }
             
         }
