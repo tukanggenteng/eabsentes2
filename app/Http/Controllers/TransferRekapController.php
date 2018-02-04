@@ -41,6 +41,7 @@ class TransferRekapController extends Controller
             ->orWhere('rekapbulanans.cuti','>','0')
             ->orWhere('rekapbulanans.tugas_luar','>','0')
             ->orWhere('rekapbulanans.ijinterlambat','>','0')
+            ->orWhere('rekapbulanans.ijinpulangcepat','>','0')
             ->orWhere('rekapbulanans.tugas_belajar','>','0')
             ->orWhere('rekapbulanans.rapatundangan','>','0');
 

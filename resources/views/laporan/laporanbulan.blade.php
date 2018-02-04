@@ -142,8 +142,9 @@
                                   <th>Hari Kerja</th>
                                   <th>Hadir</th>
                                   <th>Absent</th>
-                                  <th>Izin</th>
-                                  <th>Izin Terlambat</th>
+                                  <th>Ijin</th>
+                                  <th>Ijin Terlambat</th>
+                                  <th>Ijin Pulang Cepat</th>
                                   <th>Sakit</th>
                                   <th>Cuti</th>
                                   <th>Tugas Luar</th>
@@ -166,6 +167,7 @@
                                         <td>{{$att->tanpa_kabar}}</td>
                                         <td>{{$att->ijin}}</td>
                                         <td>{{$att->ijinterlambat}}</td>
+                                        <td>{{$att->ijinpulangcepat}}</td>
                                         <td>{{$att->sakit}}</td>
                                         <td>{{$att->cuti}}</td>
                                         <td>{{$att->tugas_luar}}</td>

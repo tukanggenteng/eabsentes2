@@ -288,6 +288,9 @@ class TiapHariCommand extends Command
                     ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.terlambat))) as total'))
                     ->first();
 
+                    $pegawai=pegawai::where('id','=',$idpegawai->pegawai_id)
+                                ->first();
+
                     $table=new finalrekapbulanan();
                     $table->periode=$sekarang;
                     $table->pegawai_id=$idpegawai->pegawai_id;
@@ -307,7 +310,7 @@ class TiapHariCommand extends Command
                     $table->persentase_tidakhadir=$absen;
                     $table->total_akumulasi=$totalakumulasi->total;
                     $table->total_terlambat=$totalterlambat->total;
-                    $table->instansi_id=null;
+                    $table->instansi_id=$pegawai->instansi_id;
                     $table->ijinpulangcepat=$ijinpulangcepat;
                     $table->save();
 
@@ -330,7 +333,7 @@ class TiapHariCommand extends Command
                     $table->persentase_tidakhadir=$absen;
                     $table->total_akumulasi=$totalakumulasi->total;
                     $table->total_terlambat=$totalterlambat->total;
-                    $table->instansi_id=null;
+                    $table->instansi_id=$pegawai->instansi_id;
                     $table->ijinpulangcepat=$ijinpulangcepat;
                     $table->save();
           }
