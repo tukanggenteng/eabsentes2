@@ -130,6 +130,7 @@ return array(
     'CreateLograspberryTable' => $baseDir . '/database/migrations/2018_01_14_162151_create_lograspberry_table.php',
     'CreatePegawaiHapusFinger' => $baseDir . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
     'CreateTableIjinpulangcepat' => $baseDir . '/database/migrations/2018_01_29_004354_create_table_ijinpulangcepat.php',
+    'CreateTableIstirahat' => $baseDir . '/database/migrations/2018_02_01_085557_create_table_istirahat.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_users_table.php',
     'CreateVersionSoftware' => $baseDir . '/database/migrations/2017_12_03_211121_create_version_software.php',
     'Cron\\AbstractField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/AbstractField.php',

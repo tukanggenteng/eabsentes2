@@ -186,7 +186,7 @@ class Controller extends BaseController
                         ->count();
                     //jika hasil nya lebih dari 0 maka
                     if ($cari > 0) {
-                        
+                        return "kosong";
                     } else {
                         //menambah data absen trans yang baru
                         $save = new atts_tran();
@@ -267,9 +267,10 @@ class Controller extends BaseController
         //cek absen jam masuk yang kosong hari ini
         $hitungabsen=att::where('pegawai_id','=',$pegawai_id_fingerprint)
         ->where('tanggal_att','=',$tanggal_fingerprint)
-        // ->whereNull('jam_masuk')
+        ->whereNull('jam_masuk')
         ->count();
 
+        //ini hanya proses hari kemarin
         if ($hitungabsen>0) {
             $tanggalkemarin=date("Y-m-d",strtotime("-1 day",strtotime($tanggal_fingerprint)));
 
@@ -333,21 +334,22 @@ class Controller extends BaseController
 
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
+                            // dd("tes1");
                             $harike=date('N', strtotime($tanggalkemarin));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail1";
+                            // }
                             else
                             {
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
@@ -369,20 +371,21 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
+                            // dd("tes2");
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail2";
+                            // }
                             else
                             {
 
@@ -418,7 +421,6 @@ class Controller extends BaseController
                         $table->jenisabsen_id = "1";
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
-
                         $table->akumulasi_sehari = $akumulasi;
                         $table->save();
 
@@ -473,19 +475,21 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
+                            dd("tes3");
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
                             elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
                             {
-                                    return "Fail";
+                                    return "Fail3";
                             }
                             else
                             {
@@ -507,21 +511,23 @@ class Controller extends BaseController
 
                         }
                         else{
+                            // dd("tes4");
                             $harike=date('N', strtotime($tanggalkemarin));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail4";
+                            // }
                             else
                             {
 
@@ -585,7 +591,6 @@ class Controller extends BaseController
             //jika hari kemarin jam pulang nya sudah terisi
             else
             {
-
             //pencarian absen hari ini yang jam masuk nya terisi
                 $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
                     ->where('tanggal_att', '=', $tanggal_fingerprint)
@@ -594,7 +599,7 @@ class Controller extends BaseController
 
                 foreach ($absens as $key => $absen) {
                     //cek kecocokan jam masuk berdasarkan jadwalkerja
-
+                    // dd($absen);
                     $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
                         ->select('jadwalkerjas.id', 'jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_pulangkerja')
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
@@ -640,23 +645,26 @@ class Controller extends BaseController
 
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
+                            // dd("tes5");
                             $harike=date('N', strtotime($tanggal_fingerprint));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail5";
+                            // }
                             else
                             {
+
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                                 {
                                     $jamban=$absen->jam_masuk;
@@ -670,26 +678,28 @@ class Controller extends BaseController
                                     $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                                 }
                             }
-
-                            
-
                         }
                         else{
+                            // dd("tes6");
                             $harike=date('N', strtotime($tanggal_fingerprint));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
                                     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+
+                                    // dd($jam_masuk." + ".$keluaristirahat." = ".$akumulasi1);
+                                    // dd($akumulasi1." + ".$akumulasi2." = ".$akumulasi);
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail6";
+                            // }
                             else
                             {
 
@@ -789,74 +799,85 @@ class Controller extends BaseController
 
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
+
+                            // dd("tes7");
                             $harike=date('N', strtotime($tanggal_fingerprint));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null) && ($absen->masukistirahat!=null))
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluar_istirahat;
-                                $masukistirahat=$absen->masuk_istirahat;
-                                $jam_keluar=$absen->jam_keluar;
+                                
+                                $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                $keluaristirahat=$absen->keluaristirahat;
+                                $masukistirahat=$absen->masukistirahat;
+                                $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                 $akumulasi1=$this->kurangwaktu($jam_masuk,$keluaristirahat);
                                 $akumulasi2=$this->kurangwaktu($masukistirahat,$jam_keluar);
-                                $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail";
+                            // }
                             else
                             {
+
+                                // dd("tes7");
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                                 {
                                     $jamban=$absen->jam_masuk;
-                                    $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($pegawai_id_fingerprint)));
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($jam_fingerprint)));
                                     $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                                 }
                                 else
                                 {
                                     $jamban=($table2[0]['jam_masukjadwal']);
-                                    $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($pegawai_id_fingerprint)));
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("+1 day", strtotime($jam_fingerprint)));
                                     $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                                 }
                             }
-
-                            
-
                         }
                         else{
                             $harike=date('N', strtotime($tanggal_fingerprint));
+
+                            // dd("tes8");
+                            // dd($harike);
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
                             {
-                                    $jam_masuk=$absen->jam_masuk;
-                                    $keluaristirahat=$absen->keluar_istirahat;
-                                    $masukistirahat=$absen->masuk_istirahat;
-                                    $jam_keluar=$absen->jam_keluar;
+                                    
+                                    $jam_masuk=$table2[0]['jam_masukjadwal'];
+                                    $keluaristirahat=$absen->keluaristirahat;
+                                    $masukistirahat=$absen->masukistirahat;
+                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
                                     $akumulasi1=$this->kurangwaktu($jam_masuk,$keluaristirahat);
                                     $akumulasi2=$this->kurangwaktu($masukistirahat,$jam_keluar);
-                                    $akumulasi=$this->tambahwaktu($akumulasi1,$akumulasi2);
+                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                    // dd($jam_masuk." + ".$keluaristirahat." = ".$akumulasi1);
+                                    // dd($jam_keluar." + ".$masukistirahat." = ".$akumulasi2);
+                                    // dd($akumulasi1." + ".$akumulasi2." = ".$akumulasi);
                             }
-                            elseif (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
-                            {
-                                    return "Fail";
-                            }
+                            // elseif (($harike!=5) && ($absen->jadwalkerja_id!=1) && ($absen->keluaristirahat==null) || ($absen->masukistirahat==null))
+                            // {
+                            //         return "Fail7";
+                            // }
                             else
                             {
                                 // dd("ji");
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                                 {
                                     $jamban=$absen->jam_masuk;
-                                    $jamban2=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($pegawai_id_fingerprint)));
-                                    $akumulasi=$this->kurangwaktu($jamban2,$jamban);
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($jam_fingerprint)));
+                                    $akumulasi=date("H:i:s",strtotime($this->kurangwaktu($jamban2,$jamban)));
                                 }
                                 else
                                 {
                                     $jamban=($table2[0]['jam_masukjadwal']);
-                                    $jamban2=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($pegawai_id_fingerprint)));
-                                    $akumulasi=$this->kurangwaktu($jamban2,$jamban);
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("+0 day", strtotime($jam_fingerprint)));
+                                    $akumulasi=date("H:i:s",strtotime($this->kurangwaktu($jamban2,$jamban)));
                                 }
                             }
                         }
-                        // dd($jam_masuk."+".$keluaristirahat."=".$akumulasi1." + ".$masukistirahat."+".$jam_keluar."=".$akumulasi2);
+                        // dd($akumulasi);
+                        // dd($jam_masuk."+".$keluaristirahat."=".$akumulasi1." + ".$masukistirahat."+".$jam_keluar."=".$akumulasi);
+                        // dd($jamban."+".$jamban2."=".$akumulasi);
                         $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
                             ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
@@ -898,6 +919,11 @@ class Controller extends BaseController
                 }
             }
         }
+        else
+        //ini proses hari ini
+        {
+            return "asd";
+        }
     }
 
     protected function keluaristirahat($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint){
@@ -909,6 +935,8 @@ class Controller extends BaseController
             ->where('tanggal_att','=',$tanggal_fingerprint)
             ->count();
             
+            // dd($hitungabsen);
+
             if ($hitungabsen>0) {
 
                 $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
@@ -928,7 +956,7 @@ class Controller extends BaseController
                     // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                     $jamakhir2=$jamakhir;
                     $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
-
+                    // dd($absen->jadwalkerja_id);
                     if ($absen->jadwalkerja_id=="1")
                     {
                         //meubah data masuk
@@ -936,7 +964,7 @@ class Controller extends BaseController
                         ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                         ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                         ->first();
-                        //                    dd($table)
+                                        //    dd($table);
                         if ($table->jam_masuk!=null)
                         {
                             $table->keluaristirahat = $jam_fingerprint;

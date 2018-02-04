@@ -24,4 +24,8 @@ class jadwalkerja extends Model
     public function rulejammasuk(){
         return $this->hasMany(rulejammasuk::class);
     }
+
+    public function istirahat(){
+        return $this->hasOne(istirahat::class);
+    }
 }

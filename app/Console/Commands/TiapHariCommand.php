@@ -231,7 +231,7 @@ class TiapHariCommand extends Command
                         ->where('atts.jenisabsen_id','!=',9)
                         ->where('atts.jenisabsen_id','!=',11)
                         // ->where('atts.jenisabsen_id',$tanpaabsen)
-                        ->get();
+                        ->count();
                     
                     
                     // dd($tidakterlambat);

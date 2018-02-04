@@ -33,6 +33,7 @@ class AttendanceController extends Controller
        $hasil=$this->encryptOTP($hasilbasic);
        $statusauth=false;
 
+    //    dd($hasil);
 
        if ($hasil==$auth){
 

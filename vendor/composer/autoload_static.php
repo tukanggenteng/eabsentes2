@@ -490,6 +490,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'CreateLograspberryTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_14_162151_create_lograspberry_table.php',
         'CreatePegawaiHapusFinger' => __DIR__ . '/../..' . '/database/migrations/2018_01_04_204859_create_pegawai_hapus_finger.php',
         'CreateTableIjinpulangcepat' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_004354_create_table_ijinpulangcepat.php',
+        'CreateTableIstirahat' => __DIR__ . '/../..' . '/database/migrations/2018_02_01_085557_create_table_istirahat.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'CreateVersionSoftware' => __DIR__ . '/../..' . '/database/migrations/2017_12_03_211121_create_version_software.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
