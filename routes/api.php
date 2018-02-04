@@ -8,11 +8,11 @@ Route::group(['middleware'=>['api']], function () {
     //Gasan trigger
     Route::get('/triger','TrigerController@index');
     //gasan pegawai
-    // Route::get('/cekpegawai/{id}','PegawaiController@cekpegawai');
+    Route::get('/cekpegawai/{id}','PegawaiController@cekpegawai');
 
     Route::get('/cekpegawaidata/{id}','PegawaiController@cekpegawaiparams');
 
-    Route::get('/cekpegawai/{id}','PegawaiController@cekpegawaiinstansi');
+    // Route::get('/cekpegawai/{id}','PegawaiController@cekpegawaiinstansi');
 
     Route::get('/ambilfinger/{id}','PegawaiController@ambilfinger');
     //addfingerpegawai
