@@ -93,27 +93,27 @@ class TiapHariCommand extends Command
 
                     foreach ($perbaikanakumulasi as $key => $value) {
 
-                        $start = date_create($value->jam_keluarjadwal);
-                        $end = date_create($value->jam_masukjadwal);
-                        $selisih=date_diff($start,$end);
+                        // $start = date_create($value->jam_keluarjadwal);
+                        // $end = date_create($value->jam_masukjadwal);
+                        // $selisih=date_diff($start,$end);
 
-                        $selisih=$selisih->format("%H:%i:%s");
-                        $time_array = explode(':', $selisih);
-                        $hours = (int)$time_array[0];
-                        $minutes = (int)$time_array[1];
-                        $seconds = (int)$time_array[2];
+                        // $selisih=$selisih->format("%H:%i:%s");
+                        // $time_array = explode(':', $selisih);
+                        // $hours = (int)$time_array[0];
+                        // $minutes = (int)$time_array[1];
+                        // $seconds = (int)$time_array[2];
 
-                        $total_seconds = ($hours * 3600) + ($minutes * 60) + $seconds;
+                        // $total_seconds = ($hours * 3600) + ($minutes * 60) + $seconds;
 
-                        $average = floor($total_seconds / 2);
+                        // $average = floor($total_seconds / 2);
 
 
-                        $init = 685;
-                        $hours2 = floor($average / 3600);
-                        $minutes2 = floor(($average / 60) % 60);
-                        $seconds2 = $average % 60;
+                        // $init = 685;
+                        // $hours2 = floor($average / 3600);
+                        // $minutes2 = floor(($average / 60) % 60);
+                        // $seconds2 = $average % 60;
 
-                        $average=$hours2.":".$minutes2.":".$seconds2;
+                        // $average=$hours2.":".$minutes2.":".$seconds2;
 
 
                         $perbaikanakumulasi2=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -126,7 +126,7 @@ class TiapHariCommand extends Command
                             ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
                             ->first();
 
-                        $perbaikanakumulasi2->akumulasi_sehari=$selisih;
+                        $perbaikanakumulasi2->jenisabsen_id=2;
                         $perbaikanakumulasi2->save();
                     }
 
