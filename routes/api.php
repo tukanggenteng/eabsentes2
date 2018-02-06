@@ -8,6 +8,9 @@ Route::group(['middleware'=>['api']], function () {
     //Gasan trigger
     Route::get('/triger','TrigerController@index');
     //gasan pegawai
+
+    Route::get('/cekpegawai','PegawaiController@cekpegawai2');
+
     Route::get('/cekpegawai/{id}','PegawaiController@cekpegawai');
 
     Route::get('/cekpegawaidata/{id}','PegawaiController@cekpegawaiparams');

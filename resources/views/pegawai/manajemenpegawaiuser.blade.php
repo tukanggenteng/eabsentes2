@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                                {{--modal tambah--}}
+                                <!-- modal tambah-->
                                 <div class="modal fade" id="modal_add">
                                     <div class="modal-dialog">
                                         <div class="modal-content">

@@ -415,6 +415,25 @@ class PegawaiController extends Controller
             return $table;
 
         
+       }
+       
+       public function cekpegawai2(){
+
+        $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+            $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
+            $adminsidikjari=adminpegawai::pluck('pegawai_id')->all();
+
+            $table=pegawai::
+            leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+            ->where('instansi_id','!=',null)
+            ->where('finger','=',2)
+            ->whereNotIn('id',$tanpapegawai)
+            ->whereNotIn('id',$adminsidikjari)
+            ->get();
+
+            return $table;
+
+        
 	   }
 
      public function cekpegawaiinstansi($id){
