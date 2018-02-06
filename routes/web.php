@@ -209,8 +209,6 @@ Route::group(['middleware' => ['rule:admin']],function(){
       #hapussidikjariinstansi
       #Route::get('/hapussidikjari/{id}','FingerPegawaiController@hapussidikjariinstansi');
 
-
-
       #jadwalkerja
       Route::get('/jadwalkerja','JadwalKerjaController@index');
       Route::post('/jadwalkerja','JadwalKerjaController@index');
@@ -235,27 +233,27 @@ Route::group(['middleware' => ['rule:admin']],function(){
 
       #halaman data untuk download surat
       Route::get('/ijin/admin','IjinAdminController@index');
-      Route::get('/ijin/admin/show/{id}','IjinAdminController@show');
-      Route::get('/ijin/admin/download/{id}','TransferRekapController@downloadijin');
-      Route::post('/ijin/admin/update/{id}','IjinAdminController@update');
+      // Route::get('/ijin/admin/show/{id}','IjinAdminController@show');
+      // Route::get('/ijin/admin/download/{id}','TransferRekapController@downloadijin');
+      // Route::post('/ijin/admin/update/{id}','IjinAdminController@update');
       Route::get('ijin/admin/data','IjinAdminController@dataijin')->name('dataijinadmin');
 
       Route::get('/sakit/admin','SakitAdminController@index');
-      Route::get('/sakit/admin/show/{id}','SakitAdminController@show');
-      Route::get('/sakit/admin/download/{id}','TransferRekapController@downloadsakit');
-      Route::post('/sakit/admin/update/{id}','SakitAdminController@update');
+      // Route::get('/sakit/admin/show/{id}','SakitAdminController@show');
+      // Route::get('/sakit/admin/download/{id}','TransferRekapController@downloadsakit');
+      // Route::post('/sakit/admin/update/{id}','SakitAdminController@update');
       Route::get('/sakit/admin/data','SakitAdminController@datasakit')->name('datasakitadmin');
 
       Route::get('/cuti/admin','CutiAdminController@index');
-      Route::get('/cuti/admin/show/{id}','CutiAdminController@show');
-      Route::get('/cuti/admin/download/{id}','TransferRekapController@downloadcuti');
-      Route::post('/cuti/admin/update/{id}','CutiAdminController@update');
+      // Route::get('/cuti/admin/show/{id}','CutiAdminController@show');
+      // Route::get('/cuti/admin/download/{id}','TransferRekapController@downloadcuti');
+      // Route::post('/cuti/admin/update/{id}','CutiAdminController@update');
       Route::get('/cuti/admin/data','CutiAdminController@datasakit')->name('datacutiadmin');
 
       Route::get('/tugasbelajar/admin','TbAdminController@index');
-      Route::get('/tugasbelajar/admin/show/{id}','TbAdminController@show');
-      Route::get('/tugasbelajar/admin/download/{id}','TransferRekapController@downloadtb');
-      Route::post('/tugasbelajar/admin/update/{id}','TbAdminController@update');
+      // Route::get('/tugasbelajar/admin/show/{id}','TbAdminController@show');
+      // Route::get('/tugasbelajar/admin/download/{id}','TransferRekapController@downloadtb');
+      // Route::post('/tugasbelajar/admin/update/{id}','TbAdminController@update');
       Route::get('/tugasbelajar/admin/data','TbAdminController@datatb')->name('datatugasbelajaradmin');
 
       Route::get('/macaddress','MacAdressControllers@index');
@@ -265,24 +263,24 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/macaddress/delete/{id}','MacAdressControllers@destroy');
 
       Route::get('/tugasluar/admin','TlAdminController@index');
-      Route::get('/tugasluar/admin/show/{id}','TlAdminController@show');
-      Route::get('/tugasluar/admin/download/{id}','TransferRekapController@downloadtl');
-      Route::post('/tugasluar/admin/update/{id}','TlAdminController@update');
+      // Route::get('/tugasluar/admin/show/{id}','TlAdminController@show');
+      // Route::get('/tugasluar/admin/download/{id}','TransferRekapController@downloadtl');
+      // Route::post('/tugasluar/admin/update/{id}','TlAdminController@update');
       Route::get('/tugasluar/admin/data','TlAdminController@datatl')->name('datatugasluaradmin');
 
 
       Route::get('/rapatundangan/admin','RpAdminController@index');
-      Route::get('/rapatundangan/admin/show/{id}','RpAdminController@show');
-      Route::get('/rapatundangan/admin/download/{id}','TransferRekapController@downloadrp');
-      Route::post('/rapatundangan/admin/update/{id}','RpAdminController@update');
+      // Route::get('/rapatundangan/admin/show/{id}','RpAdminController@show');
+      // Route::get('/rapatundangan/admin/download/{id}','TransferRekapController@downloadrp');
+      // Route::post('/rapatundangan/admin/update/{id}','RpAdminController@update');
       Route::get('/rapatundangan/admin/data','RpAdminController@datarp')->name('datarapatundanganadmin');
 
 
       Route::get('/ijinterlambat/admin','ItAdminController@index');
-      Route::get('/ijinterlambat/admin/show/{id}','ItAdminController@show');
-      Route::get('/ijinterlambat/admin/download/{id}','TransferRekapController@downloadit');
-      Route::post('/ijinterlambat/admin/update/{id}','ItAdminController@update');
-      Route::get('/ijinterlambat/admin/data','ItAdminController@datarp')->name('dataijinterlambatadmin');
+      // Route::get('/ijinterlambat/admin/show/{id}','ItAdminController@show');
+      // Route::get('/ijinterlambat/admin/download/{id}','TransferRekapController@downloadit');
+      // Route::post('/ijinterlambat/admin/update/{id}','ItAdminController@update');
+      Route::get('/ijinterlambat/admin/data','ItAdminController@datait')->name('dataijinterlambatadmin');
 
       #manajemen pegawai()
       Route::get('/pegawai','PegawaiController@index');

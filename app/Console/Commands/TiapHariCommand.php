@@ -52,7 +52,7 @@ class TiapHariCommand extends Command
         //
         // dd("jalan");
         $tanggal=date('d');
-        if ($tanggal==1){
+        if ($tanggal==2){
           $sekarang=date("Y-m-d");
           $bulan=date("Y-m",strtotime("-1 month",strtotime($sekarang)));
             //$bulan=date("Y-m");

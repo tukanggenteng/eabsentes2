@@ -396,16 +396,16 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-//                ->select('rekapbulanans.periode','pegawais.nip','pegawais.nama','ijins.namafile as namafileijin'
-//                    ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
-//                    ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
-//                    ,'ijinterlambats.namafile as namafileijinterlambat')
+            //    ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->select('rekapbulanans.periode','pegawais.nip','pegawais.nama','ijins.namafile as namafileijin'
+            //        ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
+            //        ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
+            //        ,'ijinterlambats.namafile as namafileijinterlambat')
                 ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('ijins.mulaitanggal','=',$request->periode)
                 ->paginate(50);
@@ -415,9 +415,8 @@ class TransferRekapController extends Controller
                 ->join('ijins','ijins.rekapbulanan_id','=','rekapbulanans.id')
                 ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->paginate(50);
-//            $table=rekapbulanan::all();
-        }
-//        dd($table);
+        //    $table=rekapbulanan::all();
+        };
         return view('rekapabsen.downloadsuratijin',['rekaps'=>$table,'inforekap'=>$inforekap,'nip'=>$request->nip,'nama'=>$request->nama,'periode'=>$request->periode]);
     }
 
@@ -492,16 +491,16 @@ class TransferRekapController extends Controller
         {
             $table=rekapbulanan::join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
                 ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
-//                ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
-//                ->select('rekapbulanans.periode','pegawais.nip','pegawais.nama','ijins.namafile as namafileijin'
-//                    ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
-//                    ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
-//                    ,'ijinterlambats.namafile as namafileijinterlambat')
+            //    ->join('sakits','sakits.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('cutis','cutis.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('tugasluars','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('tugasbelajars','tugasbelajars.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('rapatundangans','rapatundangans.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->join('ijinterlambats','ijinterlambats.rekapbulanan_id','=','rekapbulanans.id')
+            //    ->select('rekapbulanans.periode','pegawais.nip','pegawais.nama','ijins.namafile as namafileijin'
+            //        ,'sakits.namafile as namafilesakit','cutis.namafile as namafilecuti','tugasluars.namafile as namafiletugasluar'
+            //        ,'tugasbelajars.namafile as namafiletugasbelajar','rapatundangans.namafile as namafilerapatundangan'
+            //        ,'ijinterlambats.namafile as namafileijinterlambat')
                 ->where("pegawais.instansi_id",'=',Auth::user()->instansi_id)
                 ->where('sakits.mulaitanggal','=',$request->periode)
                 ->paginate(50);

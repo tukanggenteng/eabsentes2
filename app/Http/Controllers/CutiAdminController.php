@@ -68,8 +68,14 @@ class CutiAdminController extends Controller
        ->get();
        return Datatables::of($sakit)
        ->addColumn('action',function($sakit){
-           return '<a href="/cuti/admin/show/'.$sakit->id.'" class="btn-sm btn-success"><i class="fa fa-edit"></i></a>
-           <a href="/cuti/admin/download/'.$sakit->namafile.'" class="btn-sm btn-danger"><i class="fa fa-download"></i></a>';
+            if ($sakit->namafile==1){
+                $status='<span class="badge bg-green">Terlaporkan</span>';
+            }
+            else
+            {
+            $status='<span class="badge bg-red">Tidak Terlaporkan</span>';
+            }
+            return $status;
          })
        ->make(true);
 

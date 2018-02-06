@@ -71,8 +71,14 @@ class IjinAdminController extends Controller
       // dd($ijin);
       return Datatables::of($ijin)
       ->addColumn('action',function($ijin){
-          return '<a href="/ijin/admin/show/'.$ijin->id.'" class="btn-sm btn-success"><i class="fa fa-edit"></i></a>
-          <a href="/ijin/admin/download/'.$ijin->namafile.'" class="btn-sm btn-danger"><i class="fa fa-download"></i></a>';
+            if ($ijin->namafile==1){
+                $status='<span class="badge bg-green">Terlaporkan</span>';
+            }
+            else
+            {
+            $status='<span class="badge bg-red">Tidak Terlaporkan</span>';
+            }
+            return $status;
         })
       ->make(true);
 
