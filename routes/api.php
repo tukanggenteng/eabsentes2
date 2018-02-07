@@ -15,7 +15,7 @@ Route::group(['middleware'=>['api']], function () {
 
     Route::get('/cekpegawaidata/{id}','PegawaiController@cekpegawaiparams');
 
-    // Route::get('/cekpegawai/{id}','PegawaiController@cekpegawaiinstansi');
+    Route::get('/cekpegawai/data/{id}','PegawaiController@cekpegawaiinstansi');
 
     Route::get('/ambilfinger/{id}','PegawaiController@ambilfinger');
     //addfingerpegawai
