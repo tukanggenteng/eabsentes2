@@ -32,25 +32,35 @@ class HistoryCrashRaspberryController extends Controller
             $cek=historycrashraspberry::where('instansi_id','=',$instansi)
                 ->where('ip','=',$ip)
                 ->count();
-            if ($cek > 0){
-                $table=new historycrashraspberry;
-                $table->ip=$ip;
-                $table->instansi_id=$instansi;
-                $table->keterangan=$keterangan;
-                $table->save();
 
-                return "Success";
-            }
-            else{
-                $table=historycrashraspberry::where('ip','=',$ip)
-                        ->where('instansi_id','=',$instansi)
-                        ->first();
-                $table->keterangan=$keterangan;
-                $table->save();
+            $table=new historycrashraspberry;
+            $table->ip=$ip;
+            $table->instansi_id=$instansi;
+            $table->keterangan=$keterangan;
+            $table->save();
+
+            return "Success";
+
+            // if ($cek > 0){
+            //     $table=new historycrashraspberry;
+            //     $table->ip=$ip;
+            //     $table->instansi_id=$instansi;
+            //     $table->keterangan=$keterangan;
+            //     $table->save();
+
+            //     return "Success";
+            // }
+            // else{
+
+            //     $table=historycrashraspberry::where('ip','=',$ip)
+            //             ->where('instansi_id','=',$instansi)
+            //             ->first();
+            //     $table->keterangan=$keterangan;
+            //     $table->save();
 
 
-                return "Success";
-            }
+            //     return "Success";
+            // }
         }
         else
         {
