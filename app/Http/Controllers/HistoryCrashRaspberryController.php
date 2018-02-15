@@ -21,7 +21,6 @@ class HistoryCrashRaspberryController extends Controller
     }
 
     public function post(Request $request){
-        $ip=$request->json('ip');
         $instansi=$request->json('instansi_id');
         $keterangan=$request->json('keterangan');
         $token=$request->json('token');
@@ -34,7 +33,6 @@ class HistoryCrashRaspberryController extends Controller
                 ->count();
 
             $table=new historycrashraspberry;
-            $table->ip=$ip;
             $table->instansi_id=$instansi;
             $table->keterangan=$keterangan;
             $table->save();

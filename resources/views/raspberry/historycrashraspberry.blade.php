@@ -104,7 +104,6 @@
                 ajax: '{{route('datahistorycrash')}}',
                 columns: [
                     { data: 'namaInstansi', name: 'namaInstansi' },
-                    { data: 'iphapus', name: 'iphapus' },
                     { data: 'keterangan', name: 'keterangan' },
                     { data: 'created_at', name: 'created_at' },
                     { data: 'updated_at', name: 'updated_at' },
