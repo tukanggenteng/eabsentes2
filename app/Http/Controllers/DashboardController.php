@@ -47,7 +47,7 @@ class DashboardController extends Controller
                     ->whereMonth('atts.tanggal_att','=',$bulan)
                     ->whereYear('atts.tanggal_att','=',$tahun)
                     ->whereNotNull('atts.jam_masuk')
-                    ->where('atts.pegawai_id','=',$id)
+                    ->where('pegawais.nip','=',$id)
                     // ->where('atts.jenisabsen_id','=',1)
                     ->where('atts.jenisabsen_id','!=',2)
                     ->where('atts.jenisabsen_id','!=',9)
@@ -55,7 +55,7 @@ class DashboardController extends Controller
                     // ->where('atts.jenisabsen_id',$tanpaabsen)
                     ->count();
 
-                          // dd($tidakhadir);
+                          dd($apel);
                   $totalakumulasi = att::
                   whereMonth('tanggal_att','=',$bulan)
                   ->whereYear('tanggal_att','=',$tahun)
