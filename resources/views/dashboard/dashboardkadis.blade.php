@@ -572,7 +572,7 @@
                       @foreach ($kehadirans as $key => $kehadiran)
                           <tr>
                             <td>{{$key+1}}</td>
-                            <td>{{$kehadiran->nip}}</td>
+                            <td><a href="/home/pegawai/detail/{{$kehadiran->nip}}">{{$kehadiran->nip}}</a></td>
                             <td>{{$kehadiran->nama}}</td>
                             <td>{{$kehadiran->jam_masuk}}</td>
                             <td>{{$kehadiran->namainstansimasuk}}</td>

@@ -21,9 +21,7 @@ class DashboardController extends Controller
      */
     public function index($id)
     {
-        if (isset($id))
-        {
-
+        // dd($id);
           $bulan=date("m");
           $tahun=date("Y");
           $tahun2=date("Y");
@@ -36,22 +34,33 @@ class DashboardController extends Controller
                   $nip=$pegawais->nip;
                   $nama=$pegawais->nama;
 
-                  $tidakhadir = masterbulanan::whereMonth('periode', '=', $bulan)
-                      ->whereYear('periode', '=', $tahun)
+                  $tidakhadir = att::whereMonth('tanggal_att', '=', $bulan)
+                      ->whereYear('tanggal_att', '=', $tahun)
                       ->where('pegawai_id','=',$pegawais->id)
-                      ->avg('persentase_tidakhadir');
+                      ->where('jenisabsen_id','=','1')
+                      ->count();
 
-                      $apel = masterbulanan::whereMonth('periode', '=', $bulan)
-                          ->whereYear('periode', '=', $tahun)
-                          ->where('pegawai_id','=',$pegawais->id)
-                          ->avg('persentase_apel');
+                    $apel = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                    ->where('atts.jam_masuk', '<=', 'jadwalkerjas.jam_masukjadwal')
+                    ->whereMonth('atts.tanggal_att','=',$bulan)
+                    ->whereYear('atts.tanggal_att','=',$tahun)
+                    ->whereNotNull('atts.jam_masuk')
+                    ->where('atts.pegawai_id','=',$id)
+                    // ->where('atts.jenisabsen_id','=',1)
+                    ->where('atts.jenisabsen_id','!=',2)
+                    ->where('atts.jenisabsen_id','!=',9)
+                    ->where('atts.jenisabsen_id','!=',11)
+                    // ->where('atts.jenisabsen_id',$tanpaabsen)
+                    ->count();
 
                           // dd($tidakhadir);
-                  $totalakumulasi = masterbulanan::
-                  whereMonth('periode','=',$bulan)
-                  ->whereYear('periode','=',$tahun)
+                  $totalakumulasi = att::
+                  whereMonth('tanggal_att','=',$bulan)
+                  ->whereYear('tanggal_att','=',$tahun)
                   ->where('pegawai_id','=',$pegawais->id)
-                  ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(total_akumulasi))) as total'))
+                  ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(akumulasi_sehari))) as total'))
                   ->first();
                   $total=$totalakumulasi->total;
 
@@ -67,17 +76,12 @@ class DashboardController extends Controller
                   ->orderBy('atts.tanggal_att','desc')
                   ->paginate(30);
                   // dd($totalakumulasi);
+            
                   return view('dashboard.pegawaidetail',['kehadirans'=>$kehadiran,'statuscari'=>null,'nip'=>$nip,'persentaseapel'=>round($apel,2),'tahun'=>$tahun2,'nama'=>$nama,'persentasehadir'=>round($tidakhadir,2),'totalakumulasi'=>$total]);
               }
               else {
                 return view('dashboard.pegawaidetail',['statuscari'=>'Data pegawai tidak ditemukan.','tahun'=>$tahun2]);
               }
-
-        }
-        else
-        {
-          return view('dashboard.pegawaidetail',['statuscari'=>'','tahun'=>$tahun2]);
-        }
     }
 
     /**

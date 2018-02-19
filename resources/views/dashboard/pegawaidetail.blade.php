@@ -98,8 +98,7 @@
               <div class="col-md-4">
                 <div class="box box-widget widget-user">
                   <!-- Add the bg color to the header using any of the bg-* classes -->
-                  @if (isset($nama))
-                      <div class="widget-user-header bg-red-active">
+                  <div class="widget-user-header bg-red-active">
                         <h3 class="widget-user-username">{{$nama}}</h3>
                         <h5 class="widget-user-desc">{{$nip}}</h5>
                       </div>
@@ -137,45 +136,6 @@
 
                         <!-- /.row -->
                       </div>
-                  @else
-                      <div class="widget-user-header bg-red-active">
-                        <h3 class="widget-user-username">Pegawai</h3>
-                        <h5 class="widget-user-desc">NIP</h5>
-                        <input type="hidden" id="nip" name="nip">
-                      </div>
-                      <div class="widget-user-image">
-                        <img class="img-circle" src="{{asset('dist/img/avatarumum.png')}}" alt="User Avatar">
-                      </div>
-                      <div class="box-footer">
-                        <div class="row">
-                          <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                              <h5 class="description-header">0</h5>
-                              <span class="description-text">Absent</span>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                          <!-- /.col -->
-                          <div class="col-sm-4 border-right">
-                            <div class="description-block">
-                              <h5 class="description-header">0</h5>
-                              <span class="description-text">Apel</span>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                          <!-- /.col -->
-                          <div class="col-sm-4">
-                            <div class="description-block">
-                              <h5 class="description-header">00:00:00</h5>
-                              <span class="description-text">Jam</span>
-                            </div>
-                            <!-- /.description-block -->
-                          </div>
-                          <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
-                      </div>
-                  @endif
                 </div>
                 <!-- /.widget-user -->
               </div>
