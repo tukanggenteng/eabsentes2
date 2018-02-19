@@ -234,6 +234,63 @@ class DashboardController extends Controller
       return response()->json($seluruh);
     }
 
+    public function datadetailrekappegawai($id){
+        $tahun=date("Y");
+  
+        $persentasetidakhadir=array();
+        $persentaseapel=array();
+        $seluruh=array();
+        $nip=$id;
+        $pegawais=pegawai::where('status_aktif','=','1')
+          ->where('nip','=',$nip)
+          ->first();
+  
+          // dd($pegawais->id);
+  
+        for ($a = 1; $a <= 2; $a++) {
+            if ($a=="1")
+            {
+                for ($i = 1; $i <= 12; $i++) {
+                    $tidakhadir = finalrekapbulanan::whereMonth('periode', '=', $i)
+                        ->whereYear('periode', '=', $tahun)
+                        ->where('pegawai_id','=',$pegawais->id)
+                        ->count('persentase_tidakhadir');
+                    if ($tidakhadir!=null)
+                    {
+                        $total=$tidakhadir;
+                        array_push($persentasetidakhadir,$total);
+                    }
+                    else
+                    {
+                        array_push($persentasetidakhadir,'0');
+                    }
+                }
+            }
+            elseif ($a=="2")
+            {
+                for ($i = 1; $i <= 12; $i++) {
+                    $absen = finalrekapbulanan::whereMonth('periode', '=', $i)
+                        ->whereYear('periode', '=', $tahun)
+                        ->where('pegawai_id','=',$pegawais->id)
+                        ->count('persentase_apel');
+                    if ($absen!=null)
+                    {
+  
+                        $totalabsen=$absen;
+                        array_push($persentaseapel,$totalabsen);
+                    }
+                    else
+                    {
+                        array_push($persentaseapel,'0');
+                    }
+                }
+            }
+        }
+        $seluruh['Absen']=$persentasetidakhadir;
+        $seluruh['Apel']=$persentaseapel;
+        return response()->json($seluruh);
+      }
+
     public function datapegawai(Request $request){
       $tahun=date("Y");
 

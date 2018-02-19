@@ -83,6 +83,7 @@ Route::group(['middleware' => ['rule:kadis']],function(){
   Route::get('/home/pegawai','DashboardController@indexkadis');
   Route::get('/home/pegawai/detail/{id}','DashboardController@index');
   Route::get('/instansi/grafik','DashboardController@datatahun')->name('grafikinstansicari');
+  Route::get('/instansi/grafik/{id}','DashboardController@datadetailrekappegawai')->name('grafikinstansicari');
   Route::get('/pegawai/grafik','DashboardController@datapegawai');
 });
 

@@ -744,7 +744,7 @@
           });
         var nip=($('#nip').val());
 
-        var url = "{{url('/instansi/grafik')}}";
+        var url = "{{url('/instansi/grafik/Auth::user()->instansi_id')}}";
 
         $.get(url, function(response) {
 
