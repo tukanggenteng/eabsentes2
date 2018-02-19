@@ -77,7 +77,7 @@ Route::get('/logout',function (){
 
 Route::group(['middleware' => ['rule:pegawai']],function(){
   Route::get('/user/pegawai','UserController@indexpegawai');
-});
+}); 
 
 Route::group(['middleware' => ['rule:kadis']],function(){
   Route::get('/home/pegawai','DashboardController@indexkadis');

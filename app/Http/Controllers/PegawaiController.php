@@ -349,9 +349,10 @@ class PegawaiController extends Controller
       $pegawai2=pegawai::where('nip','=',$id)
       ->count();
       if (($pegawai>0) && ($pegawai2>0)){
-        $ambilpegawai=pegawai::where('nip','=',$id)->first();
+        $ambilpegawai=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')->where('nip','=',$id)->first();
         $seluruh['status']="1";
         $seluruh['nip']=$id;
+        $seluruh['namaInstansi']=$ambilpegawai->namaInstansi;
         $seluruh['nama']=$ambilpegawai->nama;
         $seluruh['instansi_id']=$ambilpegawai->instansi_id;
         return $seluruh;

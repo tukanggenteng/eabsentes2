@@ -257,7 +257,7 @@
           $('#instansi').attr('disabled',false);
           $('#nip').val("");
           $('#nama').val("");
-          //$('#instansi').val("");
+        //   $('#instansi').val("{{Auth::user()->instansi->id}}");
           $('#simpanaddpegawai').attr('disabled',false);
             $('.input-group-addon').html('<i class="fa fa-search"></i>');
         });
@@ -299,18 +299,18 @@
                 $('.input-group-addon').html('<i class="fa fa-spinner fa-spin"></i>');
               },
               success:function(response){
+                // alert(response['namaInstansi']);                  
                 if (response['status']=='1')
                 {
                   $('#nip').attr('disabled',true);
                   $('#nama').attr('disabled',true);
                   $('#instansi').attr('disabled',true);
+                  $('#instansi').val("");
                   $('#instansi').val(response['instansi_id']);
                   $('#nama').val(response['nama']);
                   $('#simpanaddpegawai').attr('disabled',true);
                   $('.input-group-addon').html('<i class="fa fa-times"></i>');
-
-
-                    swal("Pegawai terdaftar di instansi lain.", "", "error");
+                    swal("Pegawai terdaftar di instansi "+response['namaInstansi']+".", "", "error");
                     $('#modal_add').modal('hide');
                 }
                 else if (response['status']=='0') {
