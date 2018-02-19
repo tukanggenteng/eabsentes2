@@ -37,9 +37,9 @@ class DashboardController extends Controller
                   $tidakhadir = att::whereMonth('tanggal_att', '=', $bulan)
                       ->whereYear('tanggal_att', '=', $tahun)
                       ->where('pegawai_id','=',$pegawais->id)
-                      ->where('jenisabsen_id','=','1')
+                      ->where('jenisabsen_id','=','2')
                       ->count();
-
+                    // dd($tidakhadir);
                     $apel = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                     ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
                     ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
@@ -77,7 +77,7 @@ class DashboardController extends Controller
                   ->paginate(30);
                   // dd($totalakumulasi);
             
-                  return view('dashboard.pegawaidetail',['kehadirans'=>$kehadiran,'statuscari'=>null,'nip'=>$nip,'persentaseapel'=>round($apel,2),'tahun'=>$tahun2,'nama'=>$nama,'persentasehadir'=>round($tidakhadir,2),'totalakumulasi'=>$total]);
+                  return view('dashboard.pegawaidetail',['kehadirans'=>$kehadiran,'statuscari'=>null,'nip'=>$nip,'persentaseapel'=>$apel,'tahun'=>$tahun2,'nama'=>$nama,'persentasehadir'=>$tidakhadir,'totalakumulasi'=>$total]);
               }
               else {
                 return view('dashboard.pegawaidetail',['statuscari'=>'Data pegawai tidak ditemukan.','tahun'=>$tahun2]);
