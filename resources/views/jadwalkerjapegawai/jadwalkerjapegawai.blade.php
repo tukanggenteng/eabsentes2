@@ -56,7 +56,7 @@
 
                     </div>
                     <!-- /.box-header -->
-                        <div class="box-body table-responsive no-padding">
+                        <div class="box-body table-responsive">
                         <form action="/jadwalkerjapegawaiedit" method="post">
                             <div class="row">
                                 <div class="col-md-12">
