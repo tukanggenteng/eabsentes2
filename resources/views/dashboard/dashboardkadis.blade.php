@@ -213,7 +213,7 @@
                                                     <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                                 </a>
                                                     <div class="info-box-content">
-                                                        <span class="info-box-text">Event</span>
+                                                        <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
                                                         <span class="info-box-number">{{$event}}</span>
                                                     </div>
                                                     <!-- /.info-box-content -->
@@ -363,7 +363,7 @@
                                                 <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                             </a>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Event</span>
+                                                    <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
                                                     <span class="info-box-number">{{$eventbulan}}</span>
                                                 </div>
                                                 <!-- /.info-box-content -->
@@ -510,7 +510,7 @@
                                                 <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                             </a>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Event</span>
+                                                    <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
                                                     <span class="info-box-number">{{$eventtahun}}</span>
                                                 </div>
                                                 <!-- /.info-box-content -->
