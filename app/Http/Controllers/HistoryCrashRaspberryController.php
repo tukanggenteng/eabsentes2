@@ -28,9 +28,9 @@ class HistoryCrashRaspberryController extends Controller
     public function post(Request $request){
         $instansi=$request->json('instansi_id');
         $keterangan=$request->json('keterangan');
-        $token=$request->json('token');
+        // $token=$request->json('token');
 
-        $auth=$this->encryptOTP($ip.$instansi.$keterangan);
+        // $auth=$this->encryptOTP($ip.$instansi.$keterangan);
 
 
         $table=new historycrashraspberry;
