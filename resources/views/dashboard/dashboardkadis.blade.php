@@ -871,7 +871,7 @@
                 })
                 .fail(function(jqXHR, ajaxOptions, thrownError)
                 {
-                    alert('server not responding...');
+                    loadMoreData(page);
                 });
     }
 </script>
