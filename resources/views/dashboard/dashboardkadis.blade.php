@@ -660,7 +660,7 @@
                       @foreach ($pegawaitahun as $key => $pegawai3)
                         <tr>
                           <td>{{$key+1}}</td>
-                          <td><a href="/home/pegawai/tahun/{{$pegawai3->nip}}">{{$pegawai3->nip}}</a></td>
+                          <td><a href="/home/pegawai/detail/{{$pegawai3->nip}}">{{$pegawai3->nip}}</a></td>
                           <td>{{$pegawai3->nama}}</td>
                           <td><span class="badge bg-light-blue">{{$pegawai3->terlambat}}</span></td>
                         </tr>

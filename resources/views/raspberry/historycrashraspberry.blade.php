@@ -49,7 +49,6 @@
                                                 <thead>
                                                 <tr>
                                                     <th>Nama Instansi</th>
-                                                    <th>IP</th>
                                                     <th>Keterangan</th>
                                                     <th>Ditambah</th>
                                                     <th>Diedit</th>
