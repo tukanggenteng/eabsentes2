@@ -116,11 +116,6 @@
                         </div>
                         <!-- /.box-body -->
 
-                        <div class="box-footer clearfix">
-                            <ul class="pagination pagination-sm no-margin pull-right">
-                                {{$rulejadwals->links()}}
-                            </ul>
-                        </div>
                 </div>
 
                 <div class="box">
@@ -174,11 +169,6 @@
                     </div>
                     <!-- /.box-body -->
 
-                    <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            {{$rulejadwals2->links()}}
-                        </ul>
-                    </div>
                 </div>
                 <!-- /.row -->
 
