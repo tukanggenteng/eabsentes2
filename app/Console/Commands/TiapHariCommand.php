@@ -55,7 +55,7 @@ class TiapHariCommand extends Command
         if ($tanggal==2){
           $sekarang=date("Y-m-d");
           $bulan=date("Y-m",strtotime("-1 month",strtotime($sekarang)));
-            //$bulan=date("Y-m");
+            // dd($bulan);
           $pecah=explode("-",$bulan);
           $bulan=$pecah[1];
           $tahun=$pecah[0];
@@ -292,7 +292,7 @@ class TiapHariCommand extends Command
                                 ->first();
 
                     $table=new finalrekapbulanan();
-                    $table->periode=$sekarang;
+                    $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
                     $table->pegawai_id=$idpegawai->pegawai_id;
                     $table->hari_kerja=$harikerja;
                     $table->hadir=$hadir;
@@ -315,7 +315,7 @@ class TiapHariCommand extends Command
                     $table->save();
 
                     $table=new rekapbulanan();
-                    $table->periode=$sekarang;
+                    $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
                     $table->pegawai_id=$idpegawai->pegawai_id;
                     $table->hari_kerja=$harikerja;
                     $table->hadir=$hadir;

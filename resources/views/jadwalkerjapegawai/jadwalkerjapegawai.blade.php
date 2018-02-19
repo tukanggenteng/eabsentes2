@@ -14,6 +14,9 @@
 <link rel="stylesheet" href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
 
+
+<link rel="stylesheet" href="{{asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+
 <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
 <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
@@ -49,16 +52,6 @@
                         <h3 class="box-title">Atur Jadwal Kerja Pegawai</h3>
 
                         <div class="box-tools">
-                            <form action="/jadwalkerjapegawai" method="post">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-
-                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search" value="{{$cari}}">
-                                {{csrf_field()}}
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                </div>
-                            </div>
-                            </form>
                         </div>
 
                     </div>
@@ -100,25 +93,25 @@
                                 </div>
                             </div>
                             <hr>
-                            <table class="table table-hover">
-                                <tr>
-                                    <th>
-                                        <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
-                                    </th>
-                                    <th>NIP</th>
-                                    <th>Nama</th>
-                                </tr>
-
-                                @foreach($rulejadwals as $rulejadwal)
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($rulejadwal->id)}}" class="flat-red checkbox">
-                                    </td>
-                                    <td>{{$rulejadwal->nip}}</td>
-                                    <td>{{$rulejadwal->nama}}</td>
-                                </tr>
-                                @endforeach
-                            </table>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="tableaja">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
+                                                    </th>
+                                                    <th>NIP</th>
+                                                    <th>Nama</th>
+                                                </tr>
+                                            </thead> 
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
                         </form>
                         </div>
                         <!-- /.box-body -->
@@ -138,10 +131,10 @@
 
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body table-responsive no-padding">
+                    <div class="box-body table-responsive">
                             <form action="/hapusjadwalkerjapegawai" method="post">
-                                <div class="form-group">
-                                    <div class="row">
+                                <div class="row">
+                                    <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-3">
                                                 <button type="submit" class="btn btn-danger btn-flat">Hapus Jadwal</button>
@@ -152,83 +145,26 @@
                                 {{csrf_field()}}
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <table class="table table-hover">
-                                            <tr>
-                                                <th>
-                                                    <input type="checkbox" id="select_all2" name="select_all2" class="flat-red select_all">
-                                                </th>
-                                                <th>NIP</th>
-                                                <th>Nama</th>
-                                                <th>Jenis Jadwal</th>
-                                                <th>Tanggal Mulai</th>
-                                                <th>Tanggal Akhir</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                            <?php $i=1; ?>
-                                            @foreach($rulejadwals2 as $rulejadwal2)
-                                                <?php 
-                                                $tanggalsekarang=date("Y-m-d");
-                                                $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule)));
-                                                $minimal=strtotime($minimal);
-                                                $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
-                                                @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" name="checkbox2[]" value="{{encrypt($rulejadwal2->id)}}" class="flat-red checkbox cekbox2">
-                                                            </td>
-                                                            <td>{{$rulejadwal2->nip}}</td>
-                                                            <td>{{$rulejadwal2->nama}}</td>
-                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                            <td>{{$rulejadwal2->tanggal_awalrule}}</td>
-                                                            <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                                <a class="btn-sm btn-danger" data-method="delete"
-                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                                        </tr>
-                                                        {{--  @if (($i >=1) && ($i <= 10))
-                                                        
-                                                        @else
-                                                        <tr>
-                                                            <td>{{$rulejadwal2->nip}}</td>
-                                                            <td>{{$rulejadwal2->nama}}</td>
-                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                            <td>{{$rulejadwal2->tanggal_awalrule}}</td>
-                                                            <td>{{$rulejadwal2->tanggal_akhirrule}}</td>
-                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                                <a class="btn-sm btn-danger" data-method="delete"
-                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                                        </tr>
-                                                        @endif  --}}
-                                                @else
-                                                        {{--  @if (($i >=1) && ($i <= 10))
-                                                        <tr>
-                                                            <td>{{$rulejadwal2->nip}}</td>
-                                                            <td>{{$rulejadwal2->nama}}</td>
-                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
-                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
-                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                                <a class="btn-sm btn-danger" data-method="delete"
-                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                                        </tr>
-                                                        @else
-                                                        
-                                                        @endif  --}}
-
-                                                        <tr>
-                                                            <td>{{$rulejadwal2->nip}} </td>
-                                                            <td>{{$rulejadwal2->nama}}</td>
-                                                            <td>{{$rulejadwal2->jenis_jadwal}}</td>
-                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_awalrule}}</span></td>
-                                                            <td><span class="badge bg-red">{{$rulejadwal2->tanggal_akhirrule}}</span></td>
-                                                            <td><a class="btn-sm btn-success" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/edit">Edit</a>
-                                                                <a class="btn-sm btn-danger" data-method="delete"
-                                                                data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
-                                                        </tr>
-                                                @endif
-                                                <?php $i++; ?>
-                                            @endforeach
-                                        </table>
+                                        <div class="table-responsive">
+                                        <table class="table table-hover" id="tablein">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <input type="checkbox" id="select_all2" name="select_all2" class="flat-red select_all">
+                                                        </th>
+                                                        <th>NIP</th>
+                                                        <th>Nama</th>
+                                                        <th>Jenis Jadwal</th>
+                                                        <th>Tanggal Mulai</th>
+                                                        <th>Tanggal Akhir</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                
+                                            </table>
+                                        </div>
+                                            
                                     </div>
                                 </div>
                                 
@@ -261,6 +197,10 @@
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- SlimScroll -->
 
+    <!-- DataTables -->
+    <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+                                                        
     <!-- Select2 -->
     <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
     <!-- InputMask -->
@@ -322,9 +262,6 @@
 
 
         $('.select2').select2();
-
-
-
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
             checkboxClass: 'icheckbox_minimal-blue',
             radioClass   : 'iradio_minimal-blue'
@@ -339,6 +276,42 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass   : 'iradio_flat-green'
         })
+    </script>
+
+    <script type="text/javascript">
+        var oTable;
+        $(function() {
+            oTable = $('#tableaja').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('datapegawaijadwalkerja')}}',
+                columns: [
+                    { data: 'action', name: 'action',orderable: false },
+                    { data: 'nip', name: 'nip' },
+                    { data: 'nama', name: 'nama' }
+                ]
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        var oTable;
+        $(function() {
+            oTable = $('#tablein').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('datapegawairulejadwalkerja')}}',
+                columns: [
+                    { data: 'action', name: 'action',orderable: false },
+                    { data: 'nip', name: 'nip' },
+                    { data: 'nama', name: 'nama' },
+                    { data: 'jenis_jadwal', name: 'jenis_jadwal'},
+                    { data: 'tanggal_awalrule', name: 'tanggal_awalrule'},
+                    { data: 'tanggal_akhirrule', name: 'tanggal_akhirrule'},
+                    { data: 'aksi', name: 'aksi'}
+                ]
+            });
+        });
     </script>
 
     </body>

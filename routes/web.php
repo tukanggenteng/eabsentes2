@@ -119,6 +119,8 @@ Route::group(['middleware' => ['rule:user']],function(){
 
       #atur jadwal kerja pegawai
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
+      Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
+      Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');
       Route::post('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::post('/jadwalkerjapegawaiedit','JadwalKerjaPegawaiController@store');
       Route::get('/jadwalkerjapegawai/{id}/edit','JadwalKerjaPegawaiController@show');

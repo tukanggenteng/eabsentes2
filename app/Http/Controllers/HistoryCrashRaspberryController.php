@@ -8,6 +8,11 @@ use Yajra\Datatables\Facades\Datatables;
 class HistoryCrashRaspberryController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('throttle:400000,1');
+    }
+
     public function index(){
         return view('raspberry.historycrashraspberry');
     }

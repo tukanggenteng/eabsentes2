@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\pegawai;
 use App\atts_tran;
 use App\att;
+use App\finalrekapbulanan;
 use App\masterbulanan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -184,11 +185,11 @@ class DashboardController extends Controller
           if ($a=="1")
           {
               for ($i = 1; $i <= 12; $i++) {
-                  $tidakhadir = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
+                  $tidakhadir = finalrekapbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
                       ->whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
-                      ->avg('persentase_tidakhadir');
-                  $patokan = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
+                      ->sum('persentase_tidakhadir');
+                  $patokan = finalrekapbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
                       ->whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
                       ->count();
@@ -206,11 +207,11 @@ class DashboardController extends Controller
           elseif ($a=="2")
           {
               for ($i = 1; $i <= 12; $i++) {
-                  $absen = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
+                  $absen = finalrekapbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
                       ->whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
-                      ->avg('persentase_apel');
-                  $patokan = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
+                      ->sum('persentase_apel');
+                  $patokan = finalrekapbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
                       ->whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
                       ->count();
@@ -253,7 +254,7 @@ class DashboardController extends Controller
                   $tidakhadir = masterbulanan::whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
                       ->where('pegawai_id','=',$pegawais->id)
-                      ->avg('persentase_tidakhadir');
+                      ->count('persentase_tidakhadir');
                   if ($tidakhadir!=null)
                   {
                       $total=$tidakhadir;
@@ -271,7 +272,7 @@ class DashboardController extends Controller
                   $absen = masterbulanan::whereMonth('periode', '=', $i)
                       ->whereYear('periode', '=', $tahun)
                       ->where('pegawai_id','=',$pegawais->id)
-                      ->avg('persentase_apel');
+                      ->count('persentase_apel');
                   if ($absen!=null)
                   {
 
@@ -568,11 +569,19 @@ class DashboardController extends Controller
     //   FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY total ASC');
     $totalnonapel=DB::raw("(SELECT pegawai_id,periode,SUM(persentase_apel) as apel from masterbulanans GROUP BY pegawai_id) as masterbulanans");
     // dd($totalnonapel);
-    $pegawaitahun = pegawai::leftJoin($totalnonapel,'pegawais.id','=','masterbulanans.pegawai_id')
-                    ->whereMonth('masterbulanans.periode','=',$bulan)
-                    ->whereYear('masterbulanans.periode','=',$tahun)
-                    ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-                    ->get();
+    // $pegawaitahun = pegawai::leftJoin($totalnonapel,'pegawais.id','=','masterbulanans.pegawai_id')
+    //                 ->whereMonth('masterbulanans.periode','=',$bulan)
+    //                 ->whereYear('masterbulanans.periode','=',$tahun)
+    //                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+    //                 ->get();
+
+    $pegawaitahun = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
+                    ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
+                    // ->whereMonth('atts.tanggal_att', '=', $bulan)
+                    // ->whereYear('atts.tanggal_att', '=', $tahun)
+                    ->where('atts.tanggal_att','=',$tanggalsekarang)
+                    ->where('atts.terlambat','!=','00:00:00')
+                    ->paginate(30);
     // dd($pegawaitahun);
 
       $attstrans=atts_tran::join('pegawais','atts_trans.pegawai_id','=','pegawais.id')
@@ -652,7 +661,7 @@ class DashboardController extends Controller
                           'sakittahun'=>$sakittahun,'ijintahun'=>$ijintahun,'cutitahun'=>$cutitahun,'tbtahun'=>$tbtahun,'tltahun'=>$tltahun,'terlambattahun'=>$terlambattahun,
                 'kehadirans'=>$kehadiran,'instansis'=>$instansi2,'pegawaitahun'=>$pegawaitahun,'statuscari'=>'Data pegawai tidak ditemukan.','tahun'=>$tahun2],compact('attstrans'));
             }
-
+ 
       }
       else
       {

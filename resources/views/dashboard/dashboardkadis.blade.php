@@ -655,14 +655,14 @@
                         <th style="width: 10px">#</th>
                         <th>NIP</th>
                         <th>Nama</th>
-                        <th>Tidak Apel</th>
+                        <th>Lama Terlambat</th>
                       </tr>
                       @foreach ($pegawaitahun as $key => $pegawai3)
                         <tr>
                           <td>{{$key+1}}</td>
                           <td><a href="/home/pegawai/tahun/{{$pegawai3->nip}}">{{$pegawai3->nip}}</a></td>
                           <td>{{$pegawai3->nama}}</td>
-                          <td><span class="badge bg-light-blue">{{$pegawai3->apel}}</span></td>
+                          <td><span class="badge bg-light-blue">{{$pegawai3->terlambat}}</span></td>
                         </tr>
                       @endforeach
 
@@ -670,6 +670,11 @@
                     </table>
                   </div>
                   <!-- /.box-body -->
+                  <div class="box-footer clearfix">
+                      <ul class="pagination pagination-sm no-margin pull-right">
+                          {{$pegawaitahun->links()}}
+                      </ul>
+                  </div>
                 </div>
               </div>
         </div>
@@ -738,11 +743,6 @@
             minViewMode: "years"
           });
         var nip=($('#nip').val());
-
-
-
-
-
 
         var url = "{{url('/instansi/grafik')}}";
 

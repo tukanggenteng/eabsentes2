@@ -7,6 +7,7 @@ use App\pegawai;
 use App\rulejadwalpegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\Datatables\Facades\Datatables;
 
 class JadwalKerjaPegawaiController extends Controller
 {
@@ -31,72 +32,7 @@ class JadwalKerjaPegawaiController extends Controller
         }
 //        dd($inforekap);
         $tanggalsekarang=date("Y-m-d");
-//        dd($tanggalsekarang);
-        if ((isset($request->table_search2)) && (isset($request->table_search)) )
-        {
-            $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                //->where('tanggal_awalrule','<=',$tanggalsekarang)
-                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
-                ->orWhere('jadwalkerjas.jenis_jadwal','like','%'.$request->table_search2.'%')
-                ->orWhere('pegawais.nip','like','%'.$request->table_search2.'%')
-                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-                // ->orWhere('pegawais.nama','like','%'.$request->table_search2.'%')
-                // ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
-                // ->orWhere('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
-                ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
-                ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
-                ->paginate(30);
-            $rulejadwal=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
-            ->where('nip','like','%'.$request->table_search.'%')
-            ->orWhere('nama','like','%'.$request->table_search.'%')
-            ->paginate(30);
-            $jadwalkerja=jadwalkerja::all();
-            $cari=$request->table_search;
-            $cari2=$request->table_search2;
-            return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
-        }
-        elseif ((isset($request->table_search2)) && (!isset($request->table_search)) )
-        {
-            $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                //->where('tanggal_awalrule','<=',$tanggalsekarang)
-                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
-                ->where('jadwalkerjas.jenis_jadwal','like','%'.$request->table_search2.'%')
-                ->orWhere('pegawais.nip','like','%'.$request->table_search2.'%')
-                ->orWhere('pegawais.instansi_id','=',Auth::user()->instansi_id)
-                // ->orWhere('pegawais.nama','like','%'.$request->table_search2.'%')
-                // ->orWhere('rulejadwalpegawais.tanggal_awalrule','like','%'.$request->table_search2.'%')
-                // ->where('rulejadwalpegawais.tanggal_akhirrule','like','%'.$request->table_search2.'%')
-                ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
-                ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
-                ->paginate(30);
-
-            $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
-            $jadwalkerja=jadwalkerja::all();
-            $cari=$request->table_search;
-            return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
-        }
-        elseif ((!isset($request->table_search2)) && (isset($request->table_search))){
-            $rulejadwal=pegawai::where('nip','like','%'.$request->table_search.'%')
-                ->orWhere('nama','like','%'.$request->table_search.'%')
-                ->where('instansi_id','=',Auth::user()->instansi_id)
-                ->paginate(30);
-
-            $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                // ->where('tanggal_awalrule','<=',$tanggalsekarang)
-                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
-                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-                ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
-                ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
-                ->paginate(30);
-
-                $jadwalkerja=jadwalkerja::all();
-            $cari=$request->table_search;
-            return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals'=>$rulejadwal,'rulejadwals2'=>$rulejadwal2,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
-        }
-        else{
+        
             $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
@@ -105,17 +41,64 @@ class JadwalKerjaPegawaiController extends Controller
                 ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                 ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
                 ->paginate(30);
-        //    dd($rulejadwal2);
+
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
             $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                         ->orWhere('instansi_id','=','1')
                         ->get();
-//            dd($rulejadwal);
-            
-            // dd(strtotime($minimal)." < > ".strtotime($tanggalsekarang));
-            return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal,'cari'=>$request->table_search,'cari2'=>$request->table_search2]);
-        }
+            return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal]);
+    }
 
+    public function datapegawai(){
+                
+                $tanggalsekarang=date("Y-m-d");
+                $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->get();
+                return Datatables::of($rulejadwal)
+                    ->editColumn('action', function ($rulejadwal) {
+                        return '<input type="checkbox" name="checkbox[]" value="'.encrypt($rulejadwal->id).'" class="flat-red checkbox">';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+    }
+
+    public function datarulejadwalpegawai(){
+        $tanggalsekarang=date("Y-m-d");
+                $rulejadwal=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                // ->where('tanggal_awalrule','<=',$tanggalsekarang)
+                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
+                ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
+                ->get(30);
+                return Datatables::of($rulejadwal)
+                    ->addColumn('action', function ($rulejadwal) {
+                        return '<input type="checkbox" name="checkbox2[]" value="'.encrypt($rulejadwal->id).'" class="flat-red cekbox2">';
+                    })
+                    ->editColumn('tanggal_akhirrule', function ($rulejadwal) {
+
+                        $tanggalsekarang=date("Y-m-d");
+                        $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal->tanggal_akhirrule)));
+                        $minimal=strtotime($minimal);
+                        $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal->tanggal_akhirrule)));
+
+                        if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal->tanggal_akhirrule))){
+                            return $rulejadwal->tanggal_akhirrule;
+                        }
+                        else
+                        {
+                            return '<span class="badge bg-red">'.$rulejadwal->tanggal_akhirrule.'</span>';
+                        }
+
+                        // return '<input type="checkbox" name="checkbox[]" value="'.encrypt($rulejadwal->id).'" class="flat-red checkbox">';
+                    })
+                    ->addColumn('aksi', function ($rulejadwal) {
+                        return '<a class="btn-sm btn-success" href="/jadwalkerjapegawai/'. encrypt($rulejadwal->id) .'/edit">Edit</a>
+                        <a class="btn-sm btn-danger" data-method="delete"
+                        data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/'. encrypt($rulejadwal->id) .'/hapus">Hapus</a>';
+                    })
+                    ->rawColumns(['action','tanggal_akhirrule','aksi'])
+                    ->make(true);
     }
 
     /**

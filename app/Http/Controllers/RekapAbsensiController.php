@@ -783,8 +783,9 @@ class RekapAbsensiController extends Controller
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-            ->where('atts.tanggal_att','>=',$awal)
-            ->where('atts.tanggal_att','<=',$akhir)
+            // ->where('atts.tanggal_att','>=',$awal)
+            // ->where('atts.tanggal_att','<=',$akhir)
+            ->where('atts.tanggal_att','=',$sekarang)
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
                 'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')

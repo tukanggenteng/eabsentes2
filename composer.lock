@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "756d931fa8d340cdb255c9ee015f105d",
+    "content-hash": "47fc77449546658f03016f08003408a9",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -1330,6 +1330,7 @@
                 "xls",
                 "xlsx"
             ],
+            "abandoned": "phpoffice/phpspreadsheet",
             "time": "2015-05-01T07:00:55+00:00"
         },
         {

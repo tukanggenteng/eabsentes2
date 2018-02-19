@@ -8,6 +8,11 @@ use Yajra\Datatables\Facades\Datatables;
 class HistoryFingerPegawaiController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('throttle:4000000,1');
+    }
+
     public function index(){
         // dd("jalan");
         return view('raspberry.historyfingerpegawai');

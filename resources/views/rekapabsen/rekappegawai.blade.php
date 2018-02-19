@@ -115,8 +115,8 @@
                                     <table id="tableaja" class="table">
                                         <thead>
                                             <tr>
-                                                <th>#
-                                                    <!-- <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all"> -->
+                                                <th>
+                                                    <input type="checkbox" id="select_all" name="select_all" class="flat-red select_all">
                                                 </th>
                                                 <th>NIP</th>
                                                 <th>Nama</th>
