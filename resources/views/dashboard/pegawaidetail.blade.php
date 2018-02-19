@@ -119,7 +119,7 @@
                           <div class="col-sm-4 border-right">
                             <div class="description-block">
                               <h5 class="description-header">{{$persentaseapel}}</h5>
-                              <span class="description-text"> Tidak Apel</span>
+                              <span class="description-text"> Apel</span>
                             </div>
                             <!-- /.description-block -->
                           </div>
