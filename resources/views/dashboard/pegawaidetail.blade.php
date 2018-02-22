@@ -170,9 +170,11 @@
                                 <th>NIP</th>
                                 <th>Nama</th>
                                 <th>Tanggal</th>
+                                <th>Absen Terlambat</th>
                                 <th>Jam Masuk</th>
                                 <th>Lokasi Absen Masuk</th>
-                                <th>Absen Terlambat</th>
+                                <th>Mulai Istirahat</th>
+                                <th>Keluar Istirahat</th>
                                 <th>Jam Keluar</th>
                                 <th>Lokasi Absen Keluar</th>
                                 <th>Akumulasi</th>
@@ -185,13 +187,15 @@
                                     <td>{{$kehadiran->nip}}</td>
                                     <td>{{$kehadiran->nama}}</td>
                                     <td>{{$kehadiran->tanggal_att}}</td>
-                                    <td>{{$kehadiran->jam_masuk}}</td>
-                                    <td>{{$kehadiran->namainstansimasuk}}</td>
                                     @if ($kehadiran->terlambat=="00:00:00")
                                     <td>{{$kehadiran->terlambat}}</td>
                                     @else
                                     <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
                                     @endif
+                                    <td>{{$kehadiran->jam_masuk}}</td>
+                                    <td>{{$kehadiran->namainstansimasuk}}</td>
+                                    <td>{{$kehadiran->keluaristirahat}}</td>
+                                    <td>{{$kehadiran->masukistirahat}}</td>
                                     <td>{{$kehadiran->jam_keluar}}</td>
                                     <td>{{$kehadiran->namainstansikeluar}}</td>
                                     <td>{{$kehadiran->akumulasi_sehari}}</td>

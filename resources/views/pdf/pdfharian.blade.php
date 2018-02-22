@@ -67,9 +67,11 @@
           <th class="header garis">NIP</th>
           <th class="header garis">Nama</th>
           <th class="header garis">Tanggal</th>
+          <th class="header garis">Terlambat</th>
           <th class="header garis">Jam Masuk</th>
           <th class="header garis">Instansi Hadir</th>
-          <th class="header garis">Terlambat</th>
+          <th class="header garis">Mulai Istirahat</th>
+          <th class="header garis">Keluar Istirahat</th>
           <th class="header garis">Jam Pulang</th>
           <th class="header garis">Instansi Pulang</th>
           <th class="header garis">Akumulasi Kerja</th>
@@ -80,9 +82,11 @@
             <td class="garis tabledata">{{$att->nip}}</td>
             <td class="garis tabledata">{{$att->nama}}</td>
             <td class="garis tabledata">{{$att->tanggal_att}}</td>
+            <td class="garis tabledata">{{$att->terlambat}}</td>
             <td class="garis tabledata">{{$att->jam_masuk}}</td>
             <td class="garis tabledata">{{$att->namainstansimasuk}}</td>
-            <td class="garis tabledata">{{$att->terlambat}}</td>
+            <td class="garis tabledata">{{$att->keluaristirahat}}</td>
+            <td class="garis tabledata">{{$att->masukistirahat}}</td>
             <td class="garis tabledata">{{$att->jam_keluar}}</td>
             <td class="garis tabledata">{{$att->namainstansikeluar}}</td>
             <td class="garis tabledata">{{$att->akumulasi_sehari}}</td>

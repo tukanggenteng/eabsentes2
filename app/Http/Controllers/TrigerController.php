@@ -64,14 +64,18 @@ class TrigerController extends Controller
             $table->pegawai_id=$request->pegawai[0];
             $table->save();
 
-            $loadtables=lograspberry::all();
+            $instansicari=pegawai::where('id','=',$request->pegawai[0])
+                            ->first();
+
+            $loadtables=lograspberry::where('instansi_id','=',$instansicari->instansi_id)
+                        ->get();
             // dd($loadtables);
             foreach ($loadtables as $key => $loadtable) {
                 $tablehistory=new  historyfingerpegawai();
                 $tablehistory->pegawai_id=$request->pegawai[0];
                 $tablehistory->iphapus=$loadtable->alamatip;
                 $tablehistory->statushapus="0";
-                $tablehistory->instansi_id=$loadtable->instansi_id;
+                $tablehistory->instansi_id=$instansicari->instansi_id;
                 $tablehistory->save();
             }
         }

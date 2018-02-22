@@ -711,9 +711,11 @@
                               <th style="width: 10px">#</th>
                               <th>NIP</th>
                               <th>Nama</th>
+                              <th>Absen Terlambat</th>
                               <th>Jam Masuk</th>
                               <th>Lokasi Absen Masuk</th>
-                              <th>Absen Terlambat</th>
+                              <th>Mulai Istirahat</th>
+                              <th>Selesai Istirahat</th>
                               <th>Jam Keluar</th>
                               <th>Lokasi Absen Keluar</th>
                               <th>Akumulasi</th>
@@ -726,13 +728,15 @@
                                 <td>{{$key+1}}</td>
                                 <td>{{$kehadiran->nip}}</td>
                                 <td>{{$kehadiran->nama}}</td>
-                                <td>{{$kehadiran->jam_masuk}}</td>
-                                <td>{{$kehadiran->namainstansimasuk}}</td>
                                 @if ($kehadiran->terlambat=="00:00:00")
                                 <td>{{$kehadiran->terlambat}}</td>
                                 @else
                                 <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
                                 @endif
+                                <td>{{$kehadiran->jam_masuk}}</td>
+                                <td>{{$kehadiran->namainstansimasuk}}</td>
+                                <td>{{$kehadiran->keluaristirahat}}</td>
+                                <td>{{$kehadiran->masukistirahat}}</td>
                                 <td>{{$kehadiran->jam_keluar}}</td>
                                 <td>{{$kehadiran->namainstansikeluar}}</td>
                                 <td>{{$kehadiran->akumulasi_sehari}}</td>
@@ -788,9 +792,11 @@
                                         <th>NIP</th>
                                         <th>Nama</th>
                                         <th>Tanggal</th>
+                                        <th>Absen Terlambat</th>
                                         <th>Jam Masuk</th>
                                         <th>Lokasi Absen Masuk</th>
-                                        <th>Absen Terlambat</th>
+                                        <th>Mulai Istirahat</th>
+                                        <th>Selesai Istirahat</th>
                                         <th>Jam Keluar</th>
                                         <th>Lokasi Absen Keluar</th>
                                         <th>Akumulasi</th>
@@ -804,13 +810,16 @@
                                             <td>{{$kehadiranlalu->nip}}</td>
                                             <td>{{$kehadiranlalu->nama}}</td>
                                             <td>{{$kehadiranlalu->tanggal_att}}</td>
-                                            <td>{{$kehadiranlalu->jam_masuk}}</td>
-                                            <td>{{$kehadiranlalu->namainstansimasuk}}</td>
                                             @if ($kehadiranlalu->terlambat=="00:00:00")
                                             <td>{{$kehadiranlalu->terlambat}}</td>
                                             @else
                                             <td><span class="badge bg-red">{{$kehadiranlalu->terlambat}}</span></td>
                                             @endif
+                                            <td>{{$kehadiranlalu->jam_masuk}}</td>
+                                            <td>{{$kehadiranlalu->namainstansimasuk}}</td>
+                                            <td>{{$kehadiranlalu->keluaristirahat}}</td>
+                                            <td>{{$kehadiranlalu->masukistirahat}}</td>
+                                            <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->namainstansikeluar}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>

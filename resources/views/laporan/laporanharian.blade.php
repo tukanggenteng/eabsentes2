@@ -139,9 +139,9 @@
                                   <th>NIP</th>
                                   <th>Nama</th>
                                   <th>Tanggal</th>
+                                  <th>Terlambat</th>
                                   <th>Jam Masuk</th>
                                   <th>Instansi Hadir</th>
-                                  <th>Terlambat</th>
                                   <th>Jam Pulang</th>
                                   <th>Instansi Pulang</th>
                                   <th>Akumulasi Kerja</th>
@@ -153,9 +153,11 @@
                                         <td>{{$att->nip}}</td>
                                         <td>{{$att->nama}}</td>
                                         <td>{{$att->tanggal_att}}</td>
+                                        <td>{{$att->terlambat}}</td>
                                         <td>{{$att->jam_masuk}}</td>
                                         <td>{{$att->namainstansimasuk}}</td>
-                                        <td>{{$att->terlambat}}</td>
+                                        <td>{{$att->keluaristirahat}}</td>
+                                        <td>{{$att->masukistirahat}}</td>
                                         <td>{{$att->jam_keluar}}</td>
                                         <td>{{$att->namainstansikeluar}}</td>
                                         <td>{{$att->akumulasi_sehari}}</td>

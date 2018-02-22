@@ -123,6 +123,8 @@
                                                 <th>Tanggal</th>
                                                 <th>Jam Masuk</th>
                                                 <th>Lokasi Masuk</th>
+                                                <th>Mulai Istirahat</th>
+                                                <th>Selesai Istirahat</th>
                                                 <th>Jam Keluar</th>
                                                 <th>Lokasi Keluar</th>
                                                 <th>Jadwal Kerja</th>
@@ -278,6 +280,8 @@
                     { data: 'tanggal_att', name: 'tanggal_att' },
                     { data: 'jam_masuk', name: 'jam_masuk' },
                     { data: 'namainstansimasuk', name: 'namainstansimasuk' },
+                    { data: 'keluaristirahat', name: 'keluaristirahat' },
+                    { data: 'masukistirahat', name: 'masukistirahat' },
                     { data: 'jam_keluar', name: 'jam_keluar' },
                     { data: 'namainstansikeluar', name: 'namainstansikeluar' },
                     { data: 'jenis_jadwal', name: 'jenis_jadwal' },
