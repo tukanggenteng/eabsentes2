@@ -40,7 +40,7 @@ Route::group(['middleware'=>['api']], function () {
 
     Route::post('/lograspberry','LogRaspberryController@postlog');
 
-    Route::get('/historyfinger/{ip}/{pegawai_id}/{instansi_id}','HistoryFingerPegawaiController@getdata');
+    Route::get('/historyfinger/{ip}/{instansi_id}','HistoryFingerPegawaiController@getdata');
     
     Route::post('/historyfinger','HistoryFingerPegawaiController@edit');
 
