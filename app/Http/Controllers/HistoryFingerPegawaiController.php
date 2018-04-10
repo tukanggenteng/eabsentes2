@@ -27,9 +27,8 @@ class HistoryFingerPegawaiController extends Controller
             ->make(true);
     }
 
-    public function getdata($ip,$pegawai_id,$instansi_id){
+    public function getdata($ip,$instansi_id){
         $tableedit=historyfingerpegawai::where('iphapus','=',$ip)
-                    ->where('pegawai_id','=',$pegawai_id)
                     ->where('instansi_id','=',$instansi_id)
                     ->where('statushapus','=','0')
                     ->get();
