@@ -95,6 +95,118 @@
                     <li><a href="/rapatundangan/admin"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
                     <li><a href="/ijinterlambat/admin"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
             </li>
+            @elseif (Auth::user()->role->namaRole=="rs")
+            <li>
+                <a href="/timeline">
+                    <i class="fa fa-calendar"></i> <span>Timeline</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Pegawai</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/manajemenpegawaikhusus"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
+                    <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
+                    <li><a href="/jadwalkerjapegawai24"><i class="fa fa-circle-o"></i> Jadwal Pegawai 24 Jam</a></li>
+                    <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
+                    <li><a href="/transrekap"><i class="fa fa-circle-o"></i> Laporan Surat</a></li>
+
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>User</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/userkhusus"><i class="fa fa-circle-o"></i> Manajemen User</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-file-text"></i> <span>Surat</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/transrekap/download/ijin"><i class="fa fa-circle-o"></i> Ijin</a></li>
+                  <li><a href="/transrekap/download/sakit"><i class="fa fa-circle-o"></i> Sakit</a></li>
+                  <li><a href="/transrekap/download/cuti"><i class="fa fa-circle-o"></i> Cuti</a></li>
+                  <li><a href="/transrekap/download/tl"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
+                  <li><a href="/transrekap/download/tb"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
+                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                  <li><a href="/transrekap/download/it"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
+                  <li><a href="/transrekap/download/ipc"><i class="fa fa-circle-o"></i> Ijin Pulang Cepat</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-calendar"></i> <span>Laporan</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/laporanharian"><i class="fa fa-circle-o"></i> Harian</a></li>
+                    <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-bullseye"></i>
+                            <span>Alat</span>
+                                <span class="pull-right-container">
+                                @if ($notification[0]['pegawaifinger']>0)
+                                    <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
+                                @endif
+                                @if ($notification[1]['updatefinger']>0)
+                                    <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
+                                @endif
+                                </span>
+                            
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/alat/instansi"><i class="fa fa-circle-o"></i> <span> Alat untuk data pegawai</span>
+                            @if ($notification[0]['pegawaifinger']>0)
+                                <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
+                            @endif
+                  </a></li>
+                  <li><a href="/alat/instansi/sidikjari"><i class="fa fa-circle-o"></i> <span>Update sidik jari</span>
+                            @if ($notification[1]['updatefinger']>0)
+                                <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
+                            @endif
+                  </a></li>
+                </ul>
+            </li>
+            @elseif (Auth::user()->role->namaRole=="karu")
+            <li>
+                <a href="/timeline">
+                    <i class="fa fa-calendar"></i> <span>Timeline</span>
+                </a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Pegawai</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/manajemanpegawairuangan"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
+                    <li><a href="/jadwalkerjapegawaiharian"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
+                    <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
+                </ul>
+            </li>
             @else
             <li>
                 <a href="/timeline">
@@ -111,6 +223,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/pegawai/show"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
+                    <li><a href="/pegawai/import"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Hari Kerja</a></li>
                     <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
                     <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
@@ -148,6 +261,34 @@
                     <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-bullseye"></i>
+                            <span>Alat</span>
+                                <span class="pull-right-container">
+                                @if ($notification[0]['pegawaifinger']>0)
+                                    <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
+                                @endif
+                                @if ($notification[1]['updatefinger']>0)
+                                    <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
+                                @endif
+                                </span>
+                            
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="/alat/instansi"><i class="fa fa-circle-o"></i> <span> Alat untuk data pegawai</span>
+                            @if ($notification[0]['pegawaifinger']>0)
+                                <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
+                            @endif
+                  </a></li>
+                  <li><a href="/alat/instansi/sidikjari"><i class="fa fa-circle-o"></i> <span>Update sidik jari</span>
+                            @if ($notification[1]['updatefinger']>0)
+                                <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
+                            @endif
+                  </a></li>
+                </ul>
+            </li>
             @endif
         </ul>
 </aside>
+ 

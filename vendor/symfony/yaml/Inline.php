@@ -286,6 +286,7 @@ class Inline
             } elseif (Parser::preg_match('/^(.*?)('.implode('|', $delimiters).')/', substr($scalar, $i), $match)) {
                 $output = $match[1];
                 $i += strlen($output);
+                $output = trim($output);
             } else {
                 throw new ParseException(sprintf('Malformed inline YAML string: %s.', $scalar), self::$parsedLineNumber + 1, null, self::$parsedFilename);
             }
@@ -583,7 +584,8 @@ class Inline
                         return;
                     case 0 === strpos($scalar, '!php/const'):
                         if (self::$constantSupport) {
-                            if (defined($const = self::parseScalar(substr($scalar, 11)))) {
+                            $i = 0;
+                            if (defined($const = self::parseScalar(substr($scalar, 11), 0, null, $i, false))) {
                                 return constant($const);
                             }
 

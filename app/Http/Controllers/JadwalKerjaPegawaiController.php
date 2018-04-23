@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\att;
 use App\jadwalkerja;
 use App\pegawai;
+use App\dokter;
+use App\perawatruangan;
 use App\rulejadwalpegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,7 +54,14 @@ class JadwalKerjaPegawaiController extends Controller
     public function datapegawai(){
                 
                 $tanggalsekarang=date("Y-m-d");
-                $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->get();
+                
+                $datadokter=dokter::pluck('pegawai_id')->all();
+                $dataperawat=perawatruangan::pluck('pegawai_id')->all();
+                
+                $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)
+                            ->whereNotIn('pegawais.id',$datadokter)
+                            ->whereNotIn('pegawais.id',$dataperawat)
+                            ->get();
                 return Datatables::of($rulejadwal)
                     ->editColumn('action', function ($rulejadwal) {
                         return '<input type="checkbox" name="checkbox[]" value="'.encrypt($rulejadwal->id).'" class="flat-red checkbox">';
@@ -133,7 +142,6 @@ class JadwalKerjaPegawaiController extends Controller
 
             $tanggalhariini=date("Y-m-d");
 
-//            dd($tanggal[0]."+".$tanggal[1]);
 
             $tanggalawal=date("Y-m-d",strtotime($tanggal[0]));
             $tanggalakhir=date("Y-m-d",strtotime($tanggal[1]));
@@ -263,8 +271,6 @@ class JadwalKerjaPegawaiController extends Controller
      */
     public function destroy($id)
     {
-        //
-//        dd($id);
         $id=decrypt($id);
         $table=rulejadwalpegawai::find($id);
         $table->delete();

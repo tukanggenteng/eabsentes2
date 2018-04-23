@@ -54,6 +54,8 @@ class ChartController extends Controller
     }
 
     public function index(Request $request){
+        // dd($this->notification(Auth::user()->instansi_id));
+
         date_default_timezone_set('Asia/Makassar');
 
         $tahun=date("Y");

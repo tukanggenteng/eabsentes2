@@ -86,7 +86,7 @@
                                 </form>
                               </div>
                           </div>
-                        @elseif (isset($nip) && !isset($tanggal))
+                        @elseif (isset($nip) && !isset($tanggal)) 
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanharian" method="post">

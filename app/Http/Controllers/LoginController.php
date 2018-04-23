@@ -14,6 +14,28 @@ class LoginController extends Controller
     }
 
     public function getLogin(){
+            if (Auth::check()) {
+              if (Auth::user()->role->namaRole=="kadis")
+              {
+                return redirect('/home/pegawai');
+              }
+              elseif ((Auth::user()->role->namaRole=="pegawai"))
+              {
+                return redirect('/user/pegawai');
+              }
+              // elseif ((Auth::user()->role->namaRole=="karu"))
+              // {
+              //   return redirect('/home');
+              // }
+              elseif ((Auth::user()->role->namaRole=="user") || (Auth::user()->role->namaRole=="admin") || (Auth::user()->role->namaRole=="rs"))
+              {
+                return redirect('/home');
+              }
+              elseif ((Auth::user()->role->namaRole=="karu")){
+                return redirect('/home/ruangan');
+              }
+                //return redirect('/home');
+            }
 
             return view('welcome');
     }
@@ -36,6 +58,9 @@ class LoginController extends Controller
             elseif (Auth::user()->role->namaRole=="gubernur"){
               return redirect('/dashboard/gub');
             }
+            elseif ((Auth::user()->role->namaRole=="karu")){
+              return redirect('/home/ruangan');
+            }
             else {
               return redirect('/home');
             }
@@ -55,6 +80,9 @@ class LoginController extends Controller
           }
           elseif (Auth::user()->role->namaRole=="gubernur"){
             return redirect('/dashboard/gub');
+          }
+          elseif ((Auth::user()->role->namaRole=="karu")){
+            return redirect('/home/ruangan');
           }
           else {
             // dd(Auth::user()->role->namaRole="pegawai");

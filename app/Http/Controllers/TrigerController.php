@@ -1,12 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\adminpegawai;
 use App\triger;
+
+use App\att;
+use App\atts_tran;
+use App\instansi;
+use App\jadwalkerja;
+use App\pegawai;
+use App\rulejadwalpegawai;
+use App\rulejammasuk;
+use App\adminpegawai;
 use App\hapusfingerpegawai;
+use App\lograspberry;
 use App\historyfingerpegawai;
 use Illuminate\Http\Request;
-use App\lograspberry;
 
 class TrigerController extends Controller
 {
@@ -79,7 +87,6 @@ class TrigerController extends Controller
                 $tablehistory->save();
             }
         }
-
         return redirect('/trigger');
     }
 

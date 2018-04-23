@@ -108,7 +108,7 @@
                                                         <div class="col-md-12">
                                                             <div class="form-group" >
                                                                 <label>Instansi</label>
-                                                                <input id="instansi" value="{{Auth::user()->instansi->id}}" name="instansi" hidden readonly type="hidden">
+                                                                <input id="instansi" value="{{Auth::user()->instansi_id}}" name="instansi" hidden readonly type="hidden">
                                                                 <input readonly class="form-control pull-right" type="text" value="{{Auth::user()->instansi->namaInstansi}}">
 
                                                             </div>

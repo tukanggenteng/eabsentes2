@@ -372,7 +372,7 @@ class Response
 
         if (function_exists('fastcgi_finish_request')) {
             fastcgi_finish_request();
-        } elseif ('cli' !== PHP_SAPI) {
+        } elseif (!\in_array(PHP_SAPI, array('cli', 'phpdbg'), true)) {
             static::closeOutputBuffers(0, true);
         }
 
@@ -952,7 +952,7 @@ class Response
     /**
      * Sets the response's cache headers (validation and/or expiration).
      *
-     * Available options are: etag, last_modified, max_age, s_maxage, private, and public.
+     * Available options are: etag, last_modified, max_age, s_maxage, private, public and immutable.
      *
      * @param array $options An array of cache options
      *

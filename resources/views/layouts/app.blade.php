@@ -9,6 +9,7 @@
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
     <!-- Font Awesome -->
+    @stack('style')
     <link rel="stylesheet" href="{{asset('bower_components/font-awesome/css/font-awesome.min.css')}}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{asset('bower_components/Ionicons/css/ionicons.min.css')}}">
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="{{asset('plugins/iCheck/square/blue.css')}}">
     <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
 
-    @stack('style')
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

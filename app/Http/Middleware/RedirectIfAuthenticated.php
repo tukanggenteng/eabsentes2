@@ -26,13 +26,21 @@ class RedirectIfAuthenticated
           {
             return redirect('/user/pegawai');
           }
-          elseif ((Auth::user()->role->namaRole=="user") && (Auth::user()->role->namaRole=="admin"))
+          // elseif ((Auth::user()->role->namaRole=="karu"))
+          // {
+          //   return redirect('/home');
+          // }
+          elseif ((Auth::user()->role->namaRole=="user") && (Auth::user()->role->namaRole=="admin") )
           {
             return redirect('/home');
+          }
+          elseif ((Auth::user()->role->namaRole=="karu")){
+            return redirect('/home/ruangan');
           }
 
             //return redirect('/home');
         }
+        // dd((Auth::guard($guard)->check()));
 
         return $next($request);
     }

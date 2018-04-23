@@ -43,6 +43,13 @@
                 {{session('status')}}
             </div>
             @endif
+            @if ((session('error')))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-bell"></i> Perhatian!</h4>
+                {{session('error')}}
+            </div>
+            @endif
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Keterangan Absensi Pegawai</h3>
@@ -68,7 +75,7 @@
                                         <label>Jenis Absen</label>
                                         <select id="jenisabsen" name="jenisabsen" class="form-control">
                                             @foreach($jenisabsens as $jenisabsen)
-                                                <option value="{{$jenisabsen->id}}">{{$jenisabsen->jenis_absen}}</option>
+                                                <option value="{{encrypt($jenisabsen->id)}}">{{$jenisabsen->jenis_absen}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -79,7 +86,7 @@
                                     <label>Jadwal Kerja</label>
                                     @foreach($jadwalkerjas as $jadwalkerja)
                                     <div class="form-group">
-                                        <input type="checkbox" name="checkbox[]" value="{{$jadwalkerja->jadwalkerja_id}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}})
+                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($jadwalkerja->jadwalkerja_id)}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}})
                                     </div>
                                     @endforeach
                                 </div>

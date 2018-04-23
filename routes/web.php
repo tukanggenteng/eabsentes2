@@ -12,7 +12,7 @@
 */
 
 use App\Events\ChatEvent;
-
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -21,7 +21,7 @@ use App\Events\ChatEvent;
   Route::get('/','LoginController@getLogin')->name('login');
   Route::post('/','LoginController@postLogin');
 
-Route::group(['middleware' => ['rule:user,admin']],function(){
+Route::group(['middleware' => ['rule:user,admin,rs']],function(){
   Route::get('/home','ChartController@index');
   Route::get('/home/data','ChartController@data');
   Route::get('/home/datacari','ChartController@datacari');
@@ -99,26 +99,80 @@ Route::group(['middleware' => ['rule:sekda']],function(){
     Route::get('/instansi/grafik/semua','DashboardController@datagrafiksekda')->name('grafikinstansi');
 });
 
-Route::group(['middleware' => ['rule:user']],function(){
-      #laporanharian
-      Route::get('/laporanharian','PDFController@index');
-      Route::post('/laporanharian','PDFController@index');
-      Route::get('/laporanharian/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfharianfull');
-      Route::get('/laporanharian/pdf/tanggal/{id}','PDFController@pdfhariantanggal');
-      Route::get('/laporanharian/pdf/nip/{id2}','PDFController@pdfhariannip');
-      Route::get('/laporanharian/pdf','PDFController@pdfharian');
+Route::group(['middleware' => ['rule:karu']],function(){
+    Route::get('/manajemanpegawairuangan','DokterPerawatRuanganController@indexruangan');
+    Route::get('/dataruangan/cariruanganspesifik','DokterPerawatRuanganController@caridokterspesifik')->name('cariruanganspesifik');
+    Route::get('/manajemanpegawairuangan/data','DokterPerawatRuanganController@dataspesifikperawat')->name('dataspesifikruangan');
+    Route::get('/home/ruangan','ChartKhususController@index');
+    Route::post('/home/ruangan','ChartKhususController@index');
 
+    #jadwalkerja pegawai harian
+    Route::get('/jadwalkerjapegawaiharian','JadwalKerjaPegawaiHarianController@index')->name('indexjadwalkerjapegawaiharian');
+    Route::post('/jadwalkerjapegawaiharian','JadwalKerjaPegawaiHarianController@index');
+    
 
-      Route::get('/laporanbulan','PDFController@pdfbulanindex');
-      Route::post('/laporanbulan','PDFController@pdfbulanindex');
-      Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
-      Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
-      Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
-      Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
+    Route::get('/jadwalkerjapegawaiharian/{id}','JadwalKerjaPegawaiHarianController@show');
+    Route::post('/eventcalendar','JadwalKerjaPegawaiHarianController@eventcalendartoday');
+    Route::post('/eventcalendar/delete','JadwalKerjaPegawaiHarianController@eventcalendardelete');
+    Route::post('/eventcalendar/post','JadwalKerjaPegawaiHarianController@eventcalendarstore');
+});
 
-      
+Route::group(['middleware' => ['rule:karu,rs,user']],function(){
+    #halaman timeline
+    Route::get('/timeline','TimelineController@index');
+    #rekap absensi pegawai (menentukan jenis absen)
+    Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
+    Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
+    // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
+    // Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
+    Route::post('/rekapabsensipegawai/edit','RekapAbsensiController@edit');
+    Route::get('/rekapabsensipegawai/data','RekapAbsensiController@attsdata')->name('dataatts');
+});
 
-      #atur jadwal kerja pegawai
+Route::group(['middleware' => ['rule:karu,rs']],function(){
+  Route::get('/manajemenpegawairuangan','DokterPerawatRuanganController@indexruangan');
+  Route::get('/dataruangan/cariruanganspesifik','DokterPerawatRuanganController@caridokterspesifik')->name('cariruanganspesifik');
+  Route::get('/manajemanpegawairuangan/data','DokterPerawatRuanganController@dataspesifikperawat')->name('dataspesifikruangan');
+  // Route::get('/home/ruangan','ChartKhususController@index');
+  // Route::post('/home/ruangan','ChartKhususController@index');
+  Route::get('/datapegawai/caridokter','DokterPerawatRuanganController@caridokter')->name('caridokter');
+  Route::post('/dataruangan/storepegawairuangan','DokterPerawatRuanganController@storeperawat')->name('storeperawat');
+  Route::post('/dataruangan/destroypegawairuangan','DokterPerawatRuanganController@destroyperawat')->name('destroyperawat');
+});
+
+Route::group(['middleware' => ['rule:rs']],function(){
+      Route::get('/manajemenpegawaikhusus','DokterPerawatRuanganController@index');
+      Route::post('/manajemenpegawaikhusus/addruangan','DokterPerawatRuanganController@storeruangan')->name('storeruangan');
+      Route::post('/manajemenpegawaikhusus/updateruangan','DokterPerawatRuanganController@updateruangan')->name('updateruangan');
+      Route::post('/manajemenpegawaikhusus/destroyruangan','DokterPerawatRuanganController@destroyruangan')->name('destroyruangan');
+      Route::get('/datapegawai/pegawai','DokterPerawatRuanganController@datapegawai')->name('datapegawaikhusus');
+      Route::get('/datapegawai/dokter','DokterPerawatRuanganController@datadokter')->name('datadokter');
+      Route::get('/datapegawai/allperawat','DokterPerawatRuanganController@dataallperawat')->name('dataallperawat');
+      Route::get('/datapegawai/ruangan','DokterPerawatRuanganController@dataruangan')->name('dataruangan');
+      Route::get('/dataruangan/cariruangan','DokterPerawatRuanganController@cariruangan')->name('cariruangan');
+      Route::post('/datapegawai/storedokter','DokterPerawatRuanganController@storedokter')->name('storedokter');
+      Route::post('/datapegawai/destroydokter','DokterPerawatRuanganController@destroydokter')->name('destroydokter');
+      #karu dan tata usaha rs
+      Route::get('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
+      Route::get('/jadwalkerjapegawai24/data','RuleJadwalKerja24JamController@datapegawai')->name('datapegawaijadwalkerja24');
+      Route::get('/jadwalkerjapegawai24/data/jadwalkerja','RuleJadwalKerja24JamController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja24');
+      Route::post('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
+      Route::post('/jadwalkerjapegawaiedit24','RuleJadwalKerja24JamController@store');
+      Route::get('/jadwalkerjapegawai24/{id}/edit','RuleJadwalKerja24JamController@show');
+      Route::post('/jadwalkerjapegawai24/edit','RuleJadwalKerja24JamController@update');
+      Route::get('/jadwalkerjapegawai24/{id}/hapus','RuleJadwalKerja24JamController@destroy');
+      Route::post('/hapusjadwalkerjapegawai24','RuleJadwalKerja24JamController@destroyall');
+
+      #user ruangan
+      Route::get('/userkhusus','UserRuanganController@index');
+      Route::post('/userkhusus/add','UserRuanganController@registerstore')->name('adduserkhusus');
+      Route::post('/userkhusus/edit','UserRuanganController@edit')->name('edituserkhusus');
+      Route::post('/userkhusus/delete','UserRuanganController@delete')->name('deleteuserkhusus');
+      Route::get('/userkhusus/data','UserRuanganController@data')->name('datauserkhusus');
+});
+
+Route::group(['middleware' => ['rule:rs,user']],function(){
+  
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
       Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');
@@ -129,30 +183,24 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::get('/jadwalkerjapegawai/{id}/hapus','JadwalKerjaPegawaiController@destroy');
       Route::post('/hapusjadwalkerjapegawai','JadwalKerjaPegawaiController@destroyall');
 
-      #atur hari kerja
-      Route::get('/harikerja','HariKerjaController@index');
-      Route::post('/harikerja','HariKerjaController@store');
-      Route::get('/harikerja/{id}','HariKerjaController@show');
-      Route::get('/harikerja/hapus/{id}','HariKerjaController@destroy');
-      Route::post('/minggukerja','JadwalKerjaController@minggukerja');
-      Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
+      #laporanharian
+      Route::get('/laporanharian','PDFController@index');
+      Route::post('/laporanharian','PDFController@index');
+      Route::get('/laporanharian/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfharianfull');
+      Route::get('/laporanharian/pdf/tanggal/{id}','PDFController@pdfhariantanggal');
+      Route::get('/laporanharian/pdf/nip/{id2}','PDFController@pdfhariannip');
+      Route::get('/laporanharian/pdf','PDFController@pdfharian');
 
-      #rekap absensi pegawai (menentukan jenis absen)
-      Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
-      Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
-      // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
-      // Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
-      Route::post('/rekapabsensipegawai/edit','RekapAbsensiController@edit');
-      Route::get('/rekapabsensipegawai/data','RekapAbsensiController@attsdata')->name('dataatts');
 
-      #table rekap mingguan
-      Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');
-      Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
 
-      #backend proses
-      #Route::post('/rekapbulanans','MasterAbsensiController@index');
+      Route::get('/laporanbulan','PDFController@pdfbulanindex');
+      Route::post('/laporanbulan','PDFController@pdfbulanindex');
+      Route::get('/laporanbulan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfbulanfull');
+      Route::get('/laporanbulan/pdf/tanggal/{id}','PDFController@pdfbulantanggal');
+      Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
+      Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
 
-      #transfer surat rekap
+      #transrekap absensi
       Route::get('/transrekap/datarekap','TransferRekapController@datagrid')->name('datatransrekap');
       Route::get('/transrekap','TransferRekapController@index');
       Route::post('/transrekap/postijin','TransferRekapController@postijin')->name('postijin');
@@ -190,14 +238,90 @@ Route::group(['middleware' => ['rule:user']],function(){
       Route::post('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipcpost');
       // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
 
-      #halaman timeline
-      Route::get('/timeline','TimelineController@index');
+      #raspberry
+      Route::get('/alat/instansi','LogRaspberryController@indexinstansi');
+      Route::get('/alat/instansi/data','LogRaspberryController@datainstansi')->name('dataraspberryinstansi');
+      Route::get('/alat/instansi/sidikjari','LogRaspberryController@indexfinger');
+      Route::get('/alat/instansi/sidikjari/data','LogRaspberryController@datasidikjariinstansi')->name('dataraspberrysidikjariinstansi');
+      
+      #rekap mingguan
+      Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');
+      Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
+
+      #atur hari kerja
+      Route::get('/harikerja','HariKerjaController@index');
+      Route::post('/harikerja','HariKerjaController@store');
+      Route::get('/harikerja/{id}','HariKerjaController@show');
+      Route::get('/harikerja/hapus/{id}','HariKerjaController@destroy');
+      Route::post('/minggukerja','JadwalKerjaController@minggukerja');
+      Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
+});
+
+Route::group(['middleware' => ['rule:user']],function(){
+      
+
+      
+
+      #atur jadwal kerja pegawai
+      
+
+      
+
+      // Route::get('/manajemenpegawaikhusus','DokterPerawatRuanganController@index');
+      // Route::post('/manajemenpegawaikhusus/addruangan','DokterPerawatRuanganController@storeruangan')->name('storeruangan');
+      // Route::post('/manajemenpegawaikhusus/updateruangan','DokterPerawatRuanganController@updateruangan')->name('updateruangan');
+      // Route::post('/manajemenpegawaikhusus/destroyruangan','DokterPerawatRuanganController@destroyruangan')->name('destroyruangan');
+      // Route::get('/datapegawai/pegawai','DokterPerawatRuanganController@datapegawai')->name('datapegawaikhusus');
+      // Route::get('/datapegawai/dokter','DokterPerawatRuanganController@datadokter')->name('datadokter');
+      // Route::get('/datapegawai/allperawat','DokterPerawatRuanganController@dataallperawat')->name('dataallperawat');
+      // Route::get('/datapegawai/ruangan','DokterPerawatRuanganController@dataruangan')->name('dataruangan');
+      // Route::get('/dataruangan/cariruangan','DokterPerawatRuanganController@cariruangan')->name('cariruangan');
+      // Route::post('/datapegawai/storedokter','DokterPerawatRuanganController@storedokter')->name('storedokter');
+      // Route::post('/datapegawai/destroydokter','DokterPerawatRuanganController@destroydokter')->name('destroydokter');
+      // #karu dan tata usaha rs
+      // Route::get('/datapegawai/caridokter','DokterPerawatRuanganController@caridokter')->name('caridokter');
+      // Route::post('/dataruangan/storepegawairuangan','DokterPerawatRuanganController@storeperawat')->name('storeperawat');
+      // Route::post('/dataruangan/destroypegawairuangan','DokterPerawatRuanganController@destroyperawat')->name('destroyperawat');
+      #end
+
+      // Route::get('/manajemanpegawairuangan','DokterPerawatRuanganController@indexruangan');
+      // Route::get('/dataruangan/cariruanganspesifik','DokterPerawatRuanganController@caridokterspesifik')->name('cariruanganspesifik');
+      // Route::get('/manajemanpegawairuangan/data','DokterPerawatRuanganController@dataspesifikperawat')->name('dataspesifikruangan');
+    
+
+      
+      
+
+      
+
+      #rekap absensi pegawai (menentukan jenis absen)
+      // Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
+      // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
+      // // Route::post('/rekapabsensipegawai','RekapAbsensiController@index');
+      // // Route::get('/rekapabsensipegawai/{id}/{id2}','RekapAbsensiController@show');
+      // Route::post('/rekapabsensipegawai/edit','RekapAbsensiController@edit');
+      // Route::get('/rekapabsensipegawai/data','RekapAbsensiController@attsdata')->name('dataatts');
+
+      #table rekap mingguan
+      
+
+      #backend proses
+      #Route::post('/rekapbulanans','MasterAbsensiController@index');
+
+      #transfer surat rekap
+      
+      
+
+      
 
       #manajemen pegawai
       Route::get('/pegawai/show','PegawaiController@show');
       Route::get('/pegawai/show/data','PegawaiController@datauser')->name('datapegawaiuser');
       Route::post('/pegawai/add','PegawaiController@update')->name('editpegawai');
       Route::get('/pegawai/cek/{id}','PegawaiController@validasipegawai')->name('validasipegawai');
+
+
+      
 });
 
 
@@ -220,6 +344,8 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
       Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
       Route::get('/jadwalkerja/cari','JadwalKerjaController@cari')->name('carijadwal');
+      Route::get('/jadwalkerja/datatable/jadwalkerja','JadwalKerjaController@jadwalkerjadatatable')->name('jadwalkerjadatatable');
+      Route::get('/jadwalkerja/datatable/rulejadwalkerja','JadwalKerjaController@rulejadwalkerjadatatable')->name('rulejadwalkerjadatatable');
       // Route::get('/carbon','JadwalKerjaController@minggukerja');
 
       #rulejadwalkerja
@@ -291,6 +417,8 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/pegawai/datapegawai','PegawaiController@data')->name('datapegawai');
       Route::post('/pegawai/sinkron','PegawaiController@store')->name('sinkronpegawai');
       Route::get('/pegawai/cari','PegawaiController@cari');
+      Route::get('/pegawai/import','PegawaiController@indexuploadexcel');
+      Route::post('/pegawai/import','PegawaiController@uploadpegawaiExcel');
       // Route::get('/pegawai/manajemen','PegawaiController@pagepegawaiadmin');
       // Route::get('/pegawai/show/data/admin','PegawaiController@datauser')->name('datapegawaiadmin');
       // Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');

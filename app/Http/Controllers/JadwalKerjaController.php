@@ -8,6 +8,7 @@ use App\jadwalminggu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Yajra\Datatables\Facades\Datatables;
 
 class JadwalKerjaController extends Controller
 {
@@ -60,21 +61,64 @@ class JadwalKerjaController extends Controller
         return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'cari'=>$request->cari,'rules'=>$rule]);
     }
 
+    public function jadwalkerjadatatable(){
+        $tables=jadwalkerja::leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+                ->select('jadwalkerjas.*','instansis.namaInstansi')
+                ->get();
+
+        return Datatables::of($tables)
+                    ->editColumn('action', function ($tables) {
+                        return '<a class="btn-sm btn-success" href="/jadwalkerja/'.encrypt($tables->id).'/edit">Edit</a>
+                        <a class="btn-sm btn-danger" data-method="delete"
+                           data-token="{{csrf_token()}}" href="/jadwalkerja/'.encrypt($tables->id).'/hapus">Hapus</a>';
+                    })
+                    ->editColumn('classdata', function ($tables) {
+                        return '<a class="'.$tables->classcolor.'" ><i class="fa fa-square"></i></a>';
+                    })
+                    ->rawColumns(['action','classdata'])
+                    ->make(true);
+    }
+
+    public function rulejadwalkerjadatatable(){
+        $tables=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            ->leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+            ->select('rulejammasuks.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansis.namaInstansi')
+            ->get();
+
+            return Datatables::of($tables)
+                    ->editColumn('action', function ($tables) {
+                        return '<a class="btn-sm btn-success" href="/rulejadwalkerja/'.encrypt($tables->id).'/edit">Edit</a>
+                        <a class="btn-sm btn-danger" data-method="delete"
+                           data-token="{{csrf_token()}}" href="/rulejadwalkerja/'.encrypt($tables->id).'/hapus">Hapus</a>';
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+    }
+
     public function store(Request $request){
         $this->validate($request, [
             'jenisjadwal'=>'required',
             'awal'=>'required|min:5',
-            'pulang'=>'required|min:5'
+            'pulang'=>'required|min:5',
+            'instansi_id'=>'required',
+            'sifat'=>'required',
+            'color'=>'required',
+            'singkatan'=>'required'
         ]);
 
         $user = new jadwalkerja;
         $user->jenis_jadwal = $request->jenisjadwal;
         $user->jam_masukjadwal = $request->awal;
         $user->jam_keluarjadwal = $request->pulang;
+        $user->sifat = decrypt($request->sifat);
+        $user->color = ($request->color);
+        $user->classcolor = ($request->classcolor);
+        $user->classdata = ($request->classdata);
+        $user->singkatan = $request->singkatan;
         $user->instansi_id = $request->instansi_id[0];
         $user->save();
         // dd("tes");
-        return redirect('/jadwalkerja');
+        return redirect()->back()->with('status','Jadwal kerja berhasil disimpan.');
 
     }
 
@@ -106,6 +150,11 @@ class JadwalKerjaController extends Controller
         $table->jam_masukjadwal=$request->awal;
         $table->jam_keluarjadwal=$request->pulang;
         $table->jenis_jadwal=$request->jenisjadwal;
+        $table->sifat=$request->sifat;
+        $table->color=$request->color;
+        $table->classcolor=$request->classcolor;
+        $table->classdata=$request->classdata;
+        $table->singkatan=$request->singkatan;
         $table->save();
         return redirect('/jadwalkerja');
     }
@@ -122,15 +171,17 @@ class JadwalKerjaController extends Controller
         if (empty($term)) {
             return response()->json([]);
         }
+        $kecuali=$tanpapegawai=rulejammasuk::pluck('jadwalkerja_id')->all();
         $tags = jadwalkerja::
                 leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
                 ->where('jenis_jadwal','LIKE','%'.$term.'%')
+                ->whereNotIn('jadwalkerjas.id',$kecuali)
                 ->orWhere('namaInstansi','LIKE','%'.$term.'%')
                 ->select('jadwalkerjas.*','instansis.namaInstansi')
                 ->limit(5)->get();
         $formatted_tags = [];
         foreach ($tags as $tag) {
-            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->jenis_jadwal."( ".$tag->jam_masukjadwal." - ".$tag->jam_keluarjadwal." )"." - ".$tag->namaInstansi];
+            $formatted_tags[] = ['id' => $tag->id, 'text' => $tag->jenis_jadwal."( ".$tag->jam_masukjadwal." - ".$tag->jam_keluarjadwal." )"." - ".$tag->namaInstansi." >> ".$tag->sifat];
         }
         return response()->json($formatted_tags);
     }

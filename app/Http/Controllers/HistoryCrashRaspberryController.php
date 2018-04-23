@@ -33,7 +33,7 @@ class HistoryCrashRaspberryController extends Controller
         // $auth=$this->encryptOTP($ip.$instansi.$keterangan);
 
 
-        $table=new historycrashraspberry;
+            $table=new historycrashraspberry;
             $table->instansi_id=$instansi;
             $table->keterangan=$keterangan;
             $table->save();

@@ -15,10 +15,15 @@ use App\jadwalkerja;
 use App\pegawai;
 use App\rulejadwalpegawai;
 use App\rulejammasuk;
+use App\adminpegawai;
+use App\hapusfingerpegawai;
+use App\lograspberry;
+use App\historyfingerpegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Request as Request2;
 use App\Events\Timeline;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
@@ -69,6 +74,33 @@ class Controller extends BaseController
         $base = date_create($base);
         $diff=date_diff($toadd,$base);
         return $diff->format("%H:%i:%s");
+    }
+
+    protected function difftanggal($base, $toadd) {
+        date_default_timezone_set('Asia/Makassar');
+        $toadd = date_create($toadd);
+        $base = date_create($base);
+        $diff=date_diff($toadd,$base);
+        // return $diff->format("%d");
+        return $diff->days;
+    }
+
+    protected function fromRGB($R, $G, $B)
+    {
+
+        $R = dechex($R);
+        if (strlen($R)<2)
+        $R = '0'.$R;
+
+        $G = dechex($G);
+        if (strlen($G)<2)
+        $G = '0'.$G;
+
+        $B = dechex($B);
+        if (strlen($B)<2)
+        $B = '0'.$B;
+
+        return '#' . $R . $G . $B;
     }
 
     protected function tambahwaktu($time1,$time2){
@@ -172,12 +204,12 @@ class Controller extends BaseController
                     ->select('jadwalkerjas.id', 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
                     ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                     ->get();
-                $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_masukkerja']));
+                $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
                 $jamakhir = $cek[0]['jam_masukjadwal'];
                 //menentukan jam toleransi masuk pegawai
                 // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                 $jamakhir2=$jamakhir;
-                $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                 if (($jamfingerprint >= $cek[0]['jamsebelum_masukkerja']) && ($jamfingerprint<=$cek[0]['jam_keluarjadwal'])) {
                     //menghitung data absen trans pegawai
                     $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
@@ -202,7 +234,7 @@ class Controller extends BaseController
                             ->where('pegawai_id', '=', $pegawai_id_fingerprint)
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                             ->first();
-                        //                    dd($table);
+                            
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
                         if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
@@ -232,7 +264,6 @@ class Controller extends BaseController
                         if ($jam_fingerprint>$jamakhir2){
 
                         $status = "hadir terlambat";
-                        // dd($status);
                         }
                         else {
 
@@ -280,7 +311,6 @@ class Controller extends BaseController
                 ->whereNull('jam_keluar')
                 ->whereNotNull('jam_masuk')
                 ->count();
-            // dd($cekjamkeluar);
             if ($cekjamkeluar>0) {
 
                 $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
@@ -294,13 +324,12 @@ class Controller extends BaseController
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
 
-                    $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_pulangkerja']));
                     $jamakhir = $cek[0]['jam_keluarjadwal'];
                     //menentukan jam toleransi masuk pegawai
                     // $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
-                    $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                     $jamakhir2=$jamakhir;
-                    // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
                     //if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
                     if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
                         //menghitung data absen trans pegawai
@@ -328,13 +357,11 @@ class Controller extends BaseController
                             $save->save();
                         }
                         //meubah data masuk
-                    // dd($absen->jadwalkerja_id);
                         $table2 = jadwalkerja::find($absen->jadwalkerja_id)
                             ->get();
 
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
-                            // dd("tes1");
                             $harike=date('N', strtotime($tanggalkemarin));
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
@@ -390,7 +417,6 @@ class Controller extends BaseController
                         }
                         else{
                             $harike=date('N', strtotime($tanggalkemarin));
-                            // dd("tes2");
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
@@ -513,7 +539,7 @@ class Controller extends BaseController
                         if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                         {
                             $harike=date('N', strtotime($tanggalkemarin));
-                            dd("tes3");
+                            // dd("tes3");
                             if (($harike==5) && ($absen->jadwalkerja_id==1) && ($absen->masukistirahat!=null))
                             {
                                     
@@ -680,12 +706,12 @@ class Controller extends BaseController
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
 
-                    $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_pulangkerja']));
                     $jamakhir = $cek[0]['jam_keluarjadwal'];
                     //menentukan jam toleransi masuk pegawai
                     // $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
                     $jamakhir2=$jamakhir;
-                    $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                     // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
                     if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
 
@@ -1081,12 +1107,12 @@ class Controller extends BaseController
                     ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                     ->get();
 
-                $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_pulangkerja']));
+                $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_pulangkerja']));
                 $jamakhir = $cek[0]['jam_keluarjadwal'];
                 //menentukan jam toleransi masuk pegawai
                 // $jamakhir2 = date("H:i:s", strtotime("-30 minutes", strtotime($jamakhir)));
                 $jamakhir2=$jamakhir;
-                $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                 // dd($jamawal."    ".$jamfingerprint."    ".$jamakhir2);
                 if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
 
@@ -1489,12 +1515,12 @@ class Controller extends BaseController
                         ->select('jadwalkerjas.id', 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
-                    $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_masukkerja']));
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
                     $jamakhir = $cek[0]['jam_masukjadwal'];
                     //menentukan jam toleransi masuk pegawai
                     // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                     $jamakhir2=$jamakhir;
-                    $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                     // dd($absen->jadwalkerja_id);
                     if ($absen->jadwalkerja_id=="1")
                     {
@@ -1549,12 +1575,12 @@ class Controller extends BaseController
                         ->select('jadwalkerjas.id', 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
                         ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
                         ->get();
-                    $jamawal = date("H:i", strtotime($cek[0]['jamsebelum_masukkerja']));
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
                     $jamakhir = $cek[0]['jam_masukjadwal'];
                     //menentukan jam toleransi masuk pegawai
                     // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                     $jamakhir2=$jamakhir;
-                    $jamfingerprint = date("H:i", strtotime($jam_fingerprint));
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
 
                     if ($absen->jadwalkerja_id=="1")
                     {
@@ -1585,5 +1611,69 @@ class Controller extends BaseController
         else{
             return "Fail";
         }
+    }
+
+    protected function notification($instansi){
+            $tambahpegawai=array();
+            $datatambahpegawai=array();
+            $updatefinger=array();
+            $dataupdatefinger=array();
+            $data=array();
+
+
+            $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+            $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
+            $adminsidikjari=adminpegawai::pluck('pegawai_id')->all();
+
+            $table=pegawai::
+            leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+            ->where('instansi_id','=',$instansi)
+            ->where('finger','=',2)
+            ->whereNotIn('id',$tanpapegawai)
+            ->whereNotIn('id',$adminsidikjari)
+            ->count();
+
+            $countlogpegawai=lograspberry::where('instansi_id','=',$instansi)
+                        ->where('jumlahpegawaifinger','<',$table)
+                        ->count();
+
+            $tambahpegawai['pegawaifinger']=$countlogpegawai;
+
+            array_push($data,$tambahpegawai);
+
+            $countfingerupdate=historyfingerpegawai::where('instansi_id','=',$instansi)
+                                ->where('statushapus','=',0)
+                                ->count();
+            $updatefinger['updatefinger']=$countfingerupdate;
+
+            array_push($data,$updatefinger);
+
+            return $data;
+            // View::share('notification', $data);
+    }
+
+    public function aturanjadwalharian($periodes,$tanggal){
+        // return "jalan";
+        $x="";
+        $tahun=date('Y');
+        $bulan=date('m');
+        $tanggal=date('Y-m-d', strtotime($tahun."-".$bulan."-".$tanggal));
+        foreach ($periodes as $periode){
+            $hitung=count($periode);
+
+            if ($hitung > 0){
+                if (($tanggal >= $periode['tanggal_awalrule']) && ($tanggal<=$periode['tanggal_akhirrule'])){
+
+                    $x=$x.'<span class="badge '.$periode['classdata'].'">'.$periode['singkatan'].'</span>';
+                    
+                    // echo "Benar".$periode['tanggal_awalrule'].">".$tanggal."<".$periode['tanggal_akhirrule'];
+                }
+            }
+            else
+            {
+                $x=$x."-";
+            }
+        }
+        return $x;
     }
 }

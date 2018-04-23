@@ -12,6 +12,12 @@
 <!-- Bootstrap time Picker -->
 <link rel="stylesheet" href="{{asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
+
+
+<!-- fullCalendar -->
+<link rel="stylesheet" href="{{asset('bower_components/fullcalendar/dist/fullcalendar.min.css')}}">
+<link rel="stylesheet" href="{{asset('bower_components/fullcalendar/dist/fullcalendar.print.min.css')}}" media="print">
+
 @endpush
 
 @section('body')
@@ -27,6 +33,20 @@
 
           <!-- Main content -->
           <section class="content">
+            @if ((session('status')))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-bell"></i> Berhasil!</h4>
+                {{session('status')}}
+            </div>
+            @endif
+            @if ($errors->has('jadwalkerja') || $errors->has('singkatan') || $errors->has('instansi_id') || $errors->has('awalmasuk') || $errors->has('bataspulang') || $errors->has('jadwalkerjamasuk'))
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-bell"></i> Gagal!</h4>
+                Gagal menyimpan data!
+            </div>
+            @endif
                 <!-- Atur Jadwal Kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">
@@ -81,11 +101,59 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label>Singkatan Jadwal</label>
+                                        <input id="singkatan" name="singkatan" type="text" class="form-control" placeholder="Singkatan Jadwal">
+                                        <!-- <input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label>Instansi</label>
                                         <select name="instansi_id[]" class="form-control select2" id="instansi_id"></select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Sifat</label>
+                                        <select name="sifat" class="form-control select2" id="sifat">
+                                            <option value="{{encrypt('TWA')}}">Tidak Wajib Absen</option>
+                                            <option value="{{encrypt('WA')}}">Wajib Absen</option>
+                                            <option value="{{encrypt('FD')}}">Full Day</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Color</label>
+                                        <input readonly type="hidden" name="color" id="color">
+                                        <input readonly type="hidden" name="classcolor" id="classcolor">
+                                        <input readonly type="hidden" name="classdata" id="classdata">
+                                        <ul class="fc-color-picker" id="color-chooser">
+                                            <li><a class="text-red" data-color="bg-red" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
+                                            <li><a class="text-aqua" data-color="bg-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-blue" data-color="bg-blue" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-light-blue" data-color="bg-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-teal" data-color="bg-teal" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-yellow" data-color="bg-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-orange" data-color="bg-orange" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-green" data-color="bg-green" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-lime" data-color="bg-lime" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-red" data-color="bg-red" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-purple" data-color="bg-purple" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-fuchsia" data-color="bg-fuchisia" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-muted" data-color="bg-muted" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-navy" data-color="bg-navy" href="#"><i class="fa fa-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="row">
                                 <div class="col-xs-12">
                                     <button type="submit" class="btn btn-primary btn-flat">Submit</button>
@@ -113,32 +181,20 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="box">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <table class="table table-striped">
-                                            <tr>
+                                <div class="table-responsive">
+                                        <table class="table table-striped " id="jadwalkerjadatatable">
+                                            <thead>
                                                 <th>Jam Masuk</th>
                                                 <th>Jam Keluar</th>
                                                 <th>Jadwal Kerja</th>
+                                                <th>Singkatan</th>
                                                 <th>Instansi</th>
+                                                <th>Warna</th>
+                                                <th>Sifat</th>
                                                 <th>Aksi</th>
-                                            </tr>
-                                                @foreach($jadwalkerjas as $jadwalkerja)
-                                                    <tr>
-                                                    <td>{{ $jadwalkerja->jam_masukjadwal }}</td>
-                                                    <td>{{ $jadwalkerja->jam_keluarjadwal }}</td>
-                                                    <td>{{ $jadwalkerja->jenis_jadwal }}</td>
-                                                    <td>{{ $jadwalkerja->namaInstansi }}</td>
-                                                    <td><a class="btn-sm btn-success" href="/jadwalkerja/{{ encrypt($jadwalkerja->id) }}/edit">Edit</a>
-                                                        <a class="btn-sm btn-danger" data-method="delete"
-                                                           data-token="{{csrf_token()}}" href="/jadwalkerja/{{ encrypt($jadwalkerja->id) }}/hapus">Hapus</a></td>
-                                                    </tr>
-                                                @endforeach
-
+                                            </thead>
+                                               
                                         </table>
-                                    </div>
-                                    <!-- /.box-body -->
                                 </div>
                             </div>
                             <!-- /.col -->
@@ -221,62 +277,22 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="col-md-8">
-                                </div>
-                                <div class="col-md-4">
-                                    <form action="/jadwalkerja" method="post">
-                                        {{csrf_field()}}
-                                        @if ($cari=="")
-                                        <input type="text" name="cari" placeholder="Jadwal/Instansi">
-                                        @else
-                                        <input type="text" name="cari" placeholder="Jadwal/Instansi" value="{{$cari}}">
-                                        @endif
-                                        <button type="submit" name="button"><i class="fa fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="box">
-                                    <!-- /.box-header -->
-                                    <div class="box-body no-padding">
-                                        <table class="table table-striped">
-                                            <tr>
-                                                <th>Jam Masuk</th>
-                                                <th>Jam Keluar</th>
-                                                <th>Jenis Jadwal</th>
-                                                <th>Instansi</th>
-                                                <th>Aksi</th>
-                                            </tr>
-
-                                                @foreach($rules as $rule)
-                                                <tr>
-                                                    <td>{{ $rule->jamsebelum_masukkerja }}</td>
-                                                    <td>{{ $rule->jamsebelum_pulangkerja }}</td>
-                                                    <td>{{ $rule->jenis_jadwal }}</td>
-                                                    <td>{{ $rule->namaInstansi }}</td>
-                                                    <td><a class="btn-sm btn-success" href="/rulejadwalkerja/{{ encrypt($rule->id) }}/edit">Edit</a>
-                                                        <a class="btn-sm btn-danger" data-method="delete"
-                                                           data-token="{{csrf_token()}}" href="/rulejadwalkerja/{{ encrypt($rule->id) }}/hapus">Hapus</a></td>
-                                                </tr>
-                                                @endforeach
-
-                                        </table>
-                                    </div>
-                                    <!-- /.box-body -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="rulejadwalkerjadatatable">
+                                        <thead>
+                                            <th>Jam Masuk</th>
+                                            <th>Jam Keluar</th>
+                                            <th>Jenis Jadwal</th>
+                                            <th>Instansi</th>
+                                            <th>Sifat</th>
+                                            <th>Aksi</th>
+                                        </thead>
+                                    </table>
                                 </div>
                             </div>
                             <!-- /.col -->
                         </div>
                         <!-- /.row -->
-                    </div>
-
-                    <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            {{$rules->appends(['cari'=>($cari)])->links()}}
-                        </ul>
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -299,6 +315,10 @@
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- SlimScroll -->
+
+    <!-- DataTables -->
+    <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 
     <!-- Select2 -->
     <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
@@ -382,6 +402,63 @@
             }
         }
         );
+
+        var jadwalkerjadatatable;
+        var rulejadwalkerjadatatable;
+        $(function() {
+            jadwalkerjadatatable = $('#jadwalkerjadatatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('jadwalkerjadatatable')}}',
+                columns: [
+                    { data: 'jam_masukjadwal', name: 'jam_masukjadwal' },
+                    { data: 'jam_keluarjadwal', name: 'jam_keluarjadwal' },
+                    { data: 'jenis_jadwal', name: 'jenis_jadwal' },
+                    { data: 'singkatan', name: 'singkatan' },
+                    { data: 'namaInstansi', name: 'namaInstansi' },
+                    { data: 'classdata', name: 'classdata' },
+                    { data: 'sifat', name: 'sifat' },
+                    { data: 'action', name: 'action',orderable: false }
+                ]
+            });
+            
+            rulejadwalkerjadatatable = $('#rulejadwalkerjadatatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('rulejadwalkerjadatatable')}}',
+                columns: [
+                    { data: 'jamsebelum_masukkerja', name: 'jamsebelum_masukkerja' },
+                    { data: 'jamsebelum_pulangkerja', name: 'jamsebelum_pulangkerja' },
+                    { data: 'jenis_jadwal', name: 'jenis_jadwal' },
+                    { data: 'namaInstansi', name: 'namaInstansi' },
+                    { data: 'sifat', name: 'sifat' },
+                    { data: 'action', name: 'action',orderable: false }
+                ]
+            });
+
+        });
+        var currColor = '#3c8dbc' //Red by default
+        //Color chooser button
+        var colorChooser = $('#color-chooser-btn')
+        $('#color-chooser > li > a').click(function (e) {
+            e.preventDefault()
+            //Save color
+            currColor = $(this).css('color')
+            currClass=$(this).attr('class')
+            currData=$(this).data('color')
+            //Add color effect to button
+            $("#preview").removeAttr('class');
+            $("#preview").attr('class', '');
+            $('#preview')[0].className = currClass;
+
+            $('#color').val('');
+            $('#color').val(currColor);
+            $('#classcolor').val('');
+            $('#classcolor').val(currClass);
+            $('#classdata').val('');
+            $('#classdata').val(currData);
+            // $('#preview').removeClass()
+        })
     </script>
 
     </body>

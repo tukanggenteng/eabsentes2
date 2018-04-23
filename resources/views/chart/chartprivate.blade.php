@@ -615,7 +615,7 @@
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
                                     <h4></h4>
-                                    <table class="table table-hover">
+                                    <table class="table table-hover table-bordered">
                                         <tr>
 
                                             <th>NIP</th>
@@ -644,7 +644,7 @@
 
                                                     <?php $baris++; ?>
                                                     
-                                                    {{--  @if (($i >=1) && ($i <= 10))
+                                                     <!-- @if (($i >=1) && ($i <= 10))
                                                     
                                                     @else
                                                     <tr>
@@ -657,9 +657,9 @@
                                                             <a class="btn-sm btn-danger" data-method="delete"
                                                             data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
                                                     </tr>
-                                                    @endif  --}}
+                                                    @endif   -->
                                             @else
-                                                    {{--  @if (($i >=1) && ($i <= 10))
+                                                    <!-- @if (($i >=1) && ($i <= 10))
                                                     <tr>
                                                         <td>{{$rulejadwal2->nip}}</td>
                                                         <td>{{$rulejadwal2->nama}}</td>
@@ -672,7 +672,7 @@
                                                     </tr>
                                                     @else
                                                     
-                                                    @endif  --}}
+                                                    @endif  -->
 
                                                     <tr>
                                                         <td>{{$rulejadwal2->nip}} </td>
@@ -706,7 +706,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                          <table class="table table-striped">
+                          <table class="table table-striped table-bordered">
                             <tr>
                               <th style="width: 10px">#</th>
                               <th>NIP</th>
@@ -786,7 +786,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                    <table class="table table-striped">
+                                    <table class="table table-striped table-bordered">
                                         <tr>
                                         <th style="width: 10px">#</th>
                                         <th>NIP</th>
@@ -819,7 +819,6 @@
                                             <td>{{$kehadiranlalu->namainstansimasuk}}</td>
                                             <td>{{$kehadiranlalu->keluaristirahat}}</td>
                                             <td>{{$kehadiranlalu->masukistirahat}}</td>
-                                            <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->namainstansikeluar}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>

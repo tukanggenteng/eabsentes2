@@ -6,6 +6,8 @@ use App\fingerpegawai;
 use App\pegawai;
 use App\instansi;
 use App\atts_tran;
+use App\dokter;
+use App\perawatruangan;
 use App\att;
 use App\hapusfingerpegawai;
 use App\adminpegawai;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Redis;
 use Ixudra\Curl\Facades\Curl;
 use App\Events\Timeline;
+use Excel;
 
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -336,7 +339,7 @@ class PegawaiController extends Controller
               ->get();
         return Datatables::of($users)
               ->addColumn('action', function ($users) {
-                  return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
+                  return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.encrypt($users->nip).'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
               })
             ->make(true);
     }
@@ -377,30 +380,54 @@ class PegawaiController extends Controller
     public function destroy(Request $request)
     {
         //
-        $deletepegawai=($request->delidpegawai);
+        $deletepegawai=decrypt($request->delidpegawai);
+        // dd($deletepegawai);
         $updatedata = pegawai::where('nip','=',$deletepegawai)->first();
+        $idpeg=$updatedata->id;
         // dd($updatedata->id);
+
         $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
         $deleterulepegawai->delete();
-        $tanggalnow=date("Y-m-d");
-        $hapusattstrans=atts_tran::where('pegawai_id','=',$updatedata->id)
-        ->where('tanggal','=',$tanggalnow);
-        $hapusattstrans->delete();
 
-        $hapusatts=att::where('pegawai_id','=',$updatedata->id)
-        ->where('tanggal_att','=',$tanggalnow);
-        $hapusatts->delete();
+        $tanggalnow=date("Y-m-d");
+
+        $countperawat=perawatruangan::where('pegawai_id','=',$idpeg)->count();
+
+        if ($countperawat>0){
+            $hapusperawat=perawatruangan::where('pegawai_id','=',$idpeg)->first();
+            $hapusperawat->delete();
+        }
+        
+        $countdokter=dokter::where('pegawai_id','=',$idpeg)->count();
+        if ($countdokter>0){
+            $hapusdokter=dokter::where('pegawai_id','=',$idpeg)->first();
+            $hapusdokter->delete();
+        }
+        
+
+        // $hapusattstrans=atts_tran::where('pegawai_id','=',$updatedata->id)
+        // ->where('tanggal','=',$tanggalnow);
+        // $hapusattstrans->delete();
+
+        // $hapusatts=att::where('pegawai_id','=',$updatedata->id)
+        // ->where('tanggal_att','=',$tanggalnow);
+        // $hapusatts->delete();
 
         $updatedata->instansi_id = null;
         $updatedata->save();
+        
+        if ($updatedata->save()){
+            return response()->json("Success");
+        }else{
+            return response()->json("Failed");
+        }
 
-
-        return response()->json($updatedata);
+        // return response()->json($updatedata);
     }
 
     public function cekpegawai($id){
 
-        $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+            $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
             $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
             $adminsidikjari=adminpegawai::pluck('pegawai_id')->all();
 
@@ -537,5 +564,63 @@ class PegawaiController extends Controller
         }
         return response()->json($formatted_tags);
     }
+
+    public function indexuploadexcel(){
+        $datas=instansi::all();
+        return view('pegawai.importpegawai',['datas'=>$datas]);
+    }
+
+    public function uploadpegawaiExcel(Request $request){
+        $this->validate($request,[
+            'file'=>'required',
+            'instansi_id'=>'required'
+        ]);
+
+        $input=$request->all();
+        $file=$request->file;
+        // dd($input);
+        $path=Input::file('file');
+        // dd($path);
+        $data=Excel::load($file,function ($reader){
+        })->get();
+
+        if (!empty($data) && $data->count()){
+            $datap="";
+            foreach ($data as $key){
+                $nip=(string)$key->nip;
+                
+                $nip=str_replace(" ","",$nip);
+                // dd($nip);
+                if (!empty($key->nip))
+                {
+                    $table=pegawai::where('nip','=',$nip);
+                    if ($table->count()>0)
+                    {
+                        $table=pegawai::where('nip','=',$nip)->first();
+                        $table->instansi_id=$request->instansi_id;
+                        $table->save();
+
+                        
+                    }
+                    else{
+                        // $data=$datap.$nip."<br>";
+                        // return redirect()->back()->with('error','NIP Pegawai tidak ada ! NIP '.$nip.'.');
+                    }
+                }
+                else
+                {
+                    return redirect()->back()->with('error','NIP Pegawai tidak ada ! NIP '.$nip.'.');
+                }
+
+
+            }
+            return redirect()->back()->with('berhasil','Pegawai berhasil di import !');
+        }
+        else{
+            return redirect()->back()->with('error','Pegawai tidak berhasil di import !');
+        }
+
+    }
+    
 
 }

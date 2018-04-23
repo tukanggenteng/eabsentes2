@@ -103,12 +103,14 @@ class PDFController extends Controller
         ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
+        
         ->get();
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanharian.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -134,9 +136,10 @@ class PDFController extends Controller
         ->get();
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanharian.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -159,7 +162,8 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
         // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
@@ -183,9 +187,10 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanharian.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -266,9 +271,10 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfbulan',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanbulanan.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -291,9 +297,10 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfbulan',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanbulanan.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -313,9 +320,10 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfbulan',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanbulanan.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 
@@ -333,9 +341,10 @@ class PDFController extends Controller
 
 
         $instansi=Auth::user()->instansi->namaInstansi;
-
+        // ini_set('memory_limit', '30MB');
+        set_time_limit(600);
         $pdf=PDF::loadView('pdf.pdfbulan',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // return $pdf->setPaper('F4', 'landscape')->download('laporanbulanan.pdf');
         return $pdf->setPaper('F4', 'landscape')->stream();
     }
 

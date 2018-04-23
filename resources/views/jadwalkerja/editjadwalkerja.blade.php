@@ -66,8 +66,62 @@
                                 <div class="form-group">
                                     <label>Jenis Jadwal</label>
                                     <input id="jenisjadwal" name="jenisjadwal" type="text" class="form-control" value="{{$jadwals->jenis_jadwal}}" placeholder="Shift1/Shift2">
-                                    <input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}">
                                 </div>
+                                <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Singkatan Jadwal</label>
+                                        <input id="singkatan" name="singkatan" type="text" class="form-control" value="{{$jadwals->singkatan}}" placeholder="Singkatan Jadwal">
+                                        <!-- <input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}"> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Sifat</label>
+                                        <select name="sifat" value="{{($jadwals->sifat)}}" class="form-control select2" id="sifat">
+                                            @if ($jadwals->sifat == "TWA")
+                                            <option value="{{('TWA')}}" selected>Tidak Wajib Absen</option>
+                                            @else
+                                            <option value="{{('TWA')}}">Tidak Wajib Absen</option>
+                                            @endif
+                                            @if ($jadwals->sifat == "WA")
+                                            <option value="{{('WA')}}" selected>Wajib Absen</option>
+                                            @else
+                                            <option value="{{('WA')}}">Wajib Absen</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Color</label>
+                                        <input readonly type="hidden" name="color" id="color" value="{{$jadwals->color}}">
+                                        <input readonly type="hidden" name="classcolor" id="classcolor" value="{{$jadwals->classcolor}}">
+                                        <input readonly type="hidden" name="classdata" id="classdata" value="{{$jadwals->classdata}}">
+                                        <ul class="fc-color-picker" id="color-chooser">
+                                            <li><a class="{{$jadwals->classcolor}}" data-color="{{$jadwals->classdata}}" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
+                                            <li><a class="text-aqua" data-color="bg-aqua" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-blue" data-color="bg-blue" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-light-blue" data-color="bg-light-blue" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-teal" data-color="bg-teal" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-yellow" data-color="bg-yellow" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-orange" data-color="bg-orange" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-green" data-color="bg-green" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-lime" data-color="bg-lime" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-red" data-color="bg-red" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-purple" data-color="bg-purple" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-fuchsia" data-color="bg-fuchisia" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-muted" data-color="bg-muted" href="#"><i class="fa fa-square"></i></a></li>
+                                            <li><a class="text-navy" data-color="bg-navy" href="#"><i class="fa fa-square"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
                                 <!-- /.form-group -->
                             </div>
                             </div>
@@ -135,7 +189,28 @@
             showMeridian:false
         });
 
-        $('.select2').select2();
+        var currColor = '#3c8dbc' //Red by default
+        //Color chooser button
+        var colorChooser = $('#color-chooser-btn')
+        $('#color-chooser > li > a').click(function (e) {
+            e.preventDefault()
+            //Save color
+            currColor = $(this).css('color')
+            currClass=$(this).attr('class')
+            currData=$(this).data('color')
+            //Add color effect to button
+            $("#preview").removeAttr('class');
+            $("#preview").attr('class', '');
+            $('#preview')[0].className = currClass;
+
+            $('#color').val('');
+            $('#color').val(currColor);
+            $('#classcolor').val('');
+            $('#classcolor').val(currClass);
+            $('#classdata').val('');
+            $('#classdata').val(currData);
+            // $('#preview').removeClass()
+        })
     </script>
 
     </body>
