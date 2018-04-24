@@ -240,10 +240,12 @@ class Controller extends BaseController
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
                         if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
                         {
-                        $table->jenisabsen_id = "1";
+                            $table->jenisabsen_id = "1";
                         }else {
                             // $table->jenisabsen_id = "8";
+                            $table->jenisabsen_id = "1";
                         }
+                        
                         if ($jam_fingerprint>$jamakhir)
                         {
                         $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
@@ -251,6 +253,15 @@ class Controller extends BaseController
                         else {
                         $terlambatnya="00:00:00";
                         }
+
+                        if ($cek[0]['sifat']=="WA"){
+                            $table->apel="1";
+                        }
+                        else
+                        {
+                            $table->apel="0";
+                        }
+
                         $table->terlambat=$terlambatnya;
                         $table->jam_masuk = $jam_fingerprint;
                         $table->tanggal_att = $tanggal_fingerprint;

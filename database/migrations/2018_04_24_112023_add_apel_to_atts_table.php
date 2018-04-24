@@ -14,6 +14,9 @@ class AddApelToAttsTable extends Migration
     public function up()
     {
         //
+        Schema::table('atts',function(Blueprint $table){
+            $table->string('apel')->nullable();
+        });
     }
 
     /**
