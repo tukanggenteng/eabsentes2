@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddApelToAttsTable' => $baseDir . '/database/migrations/2018_04_24_112023_add_apel_to_atts_table.php',
     'AddColorJadwalkerjatable' => $baseDir . '/database/migrations/2018_04_04_223957_add_color_jadwalkerjatable.php',
     'AddColumAtts' => $baseDir . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
     'AddColumFinalrekapbulanan' => $baseDir . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
@@ -80,6 +81,7 @@ return array(
     'App\\User' => $baseDir . '/app/User.php',
     'App\\adminpegawai' => $baseDir . '/app/adminpegawai.php',
     'App\\att' => $baseDir . '/app/att.php',
+    'App\\attendancecheck' => $baseDir . '/app/attendancecheck.php',
     'App\\atts_tran' => $baseDir . '/app/atts_tran.php',
     'App\\chat' => $baseDir . '/app/chat.php',
     'App\\cuti' => $baseDir . '/app/cuti.php',
@@ -107,6 +109,8 @@ return array(
     'App\\rapatundangan' => $baseDir . '/app/rapatundangan.php',
     'App\\raspberrystatu' => $baseDir . '/app/raspberrystatu.php',
     'App\\rekapbulanan' => $baseDir . '/app/rekapbulanan.php',
+    'App\\rekapbulancheck' => $baseDir . '/app/rekapbulancheck.php',
+    'App\\rekapminggucheck' => $baseDir . '/app/rekapminggucheck.php',
     'App\\role' => $baseDir . '/app/role.php',
     'App\\ruangan' => $baseDir . '/app/ruangan.php',
     'App\\ruanganuser' => $baseDir . '/app/ruanganuser.php',

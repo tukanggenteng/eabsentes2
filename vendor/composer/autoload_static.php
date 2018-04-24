@@ -369,6 +369,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
     );
 
     public static $classMap = array (
+        'AddApelToAttsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_24_112023_add_apel_to_atts_table.php',
         'AddColorJadwalkerjatable' => __DIR__ . '/../..' . '/database/migrations/2018_04_04_223957_add_color_jadwalkerjatable.php',
         'AddColumAtts' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
         'AddColumFinalrekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
@@ -443,6 +444,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\adminpegawai' => __DIR__ . '/../..' . '/app/adminpegawai.php',
         'App\\att' => __DIR__ . '/../..' . '/app/att.php',
+        'App\\attendancecheck' => __DIR__ . '/../..' . '/app/attendancecheck.php',
         'App\\atts_tran' => __DIR__ . '/../..' . '/app/atts_tran.php',
         'App\\chat' => __DIR__ . '/../..' . '/app/chat.php',
         'App\\cuti' => __DIR__ . '/../..' . '/app/cuti.php',
@@ -470,6 +472,8 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'App\\rapatundangan' => __DIR__ . '/../..' . '/app/rapatundangan.php',
         'App\\raspberrystatu' => __DIR__ . '/../..' . '/app/raspberrystatu.php',
         'App\\rekapbulanan' => __DIR__ . '/../..' . '/app/rekapbulanan.php',
+        'App\\rekapbulancheck' => __DIR__ . '/../..' . '/app/rekapbulancheck.php',
+        'App\\rekapminggucheck' => __DIR__ . '/../..' . '/app/rekapminggucheck.php',
         'App\\role' => __DIR__ . '/../..' . '/app/role.php',
         'App\\ruangan' => __DIR__ . '/../..' . '/app/ruangan.php',
         'App\\ruanganuser' => __DIR__ . '/../..' . '/app/ruanganuser.php',

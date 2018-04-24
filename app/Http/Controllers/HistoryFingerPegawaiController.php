@@ -26,11 +26,13 @@ class HistoryFingerPegawaiController extends Controller
         return Datatables::of($tables)
             ->make(true);
     } 
-
+ 
     public function getdata($ip,$instansi_id){
-        $tableedit=historyfingerpegawai::where('iphapus','=',$ip)
+        $tableedit=historyfingerpegawai::leftJoin('pegawais','historyfingerpegawais.pegawai_id','=','pegawais.id')
+                    ->where('iphapus','=',$ip)
                     ->where('instansi_id','=',$instansi_id)
                     ->where('statushapus','=','0')
+                    ->select('historyfingerpegawais.*','pegawais.nama')
                     ->get();
         // $tableedit->statushapus="1";
         // $tableedit->save();

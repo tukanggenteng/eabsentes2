@@ -29,6 +29,7 @@
                     <li><a href="/pegawai"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/finger"><i class="fa fa-circle-o"></i> Manajemen Finger</a></li>
                     <li><a href="/jadwalkerja"><i class="fa fa-circle-o"></i> Jadwal Kerja</a></li>
+                    <li><a href="/pegawai/import"><i class="fa fa-circle-o"></i> Import Pegawai</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -223,7 +224,6 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/pegawai/show"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
-                    <li><a href="/pegawai/import"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                     <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Hari Kerja</a></li>
                     <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
                     <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>

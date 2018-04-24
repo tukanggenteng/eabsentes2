@@ -210,6 +210,7 @@ class Controller extends BaseController
                 // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
                 $jamakhir2=$jamakhir;
                 $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
+                // cek bisa masuk atau tidak
                 if (($jamfingerprint >= $cek[0]['jamsebelum_masukkerja']) && ($jamfingerprint<=$cek[0]['jam_keluarjadwal'])) {
                     //menghitung data absen trans pegawai
                     $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
@@ -218,7 +219,7 @@ class Controller extends BaseController
                         ->count();
                     //jika hasil nya lebih dari 0 maka
                     if ($cari > 0) {
-                        return "kosong";
+                        // return "Success";
                     } else {
                         //menambah data absen trans yang baru
                         $save = new atts_tran();

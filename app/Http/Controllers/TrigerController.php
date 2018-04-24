@@ -79,12 +79,14 @@ class TrigerController extends Controller
                         ->get();
             // dd($loadtables);
             foreach ($loadtables as $key => $loadtable) {
+
                 $tablehistory=new  historyfingerpegawai();
                 $tablehistory->pegawai_id=$request->pegawai[0];
                 $tablehistory->iphapus=$loadtable->alamatip;
                 $tablehistory->statushapus="0";
                 $tablehistory->instansi_id=$instansicari->instansi_id;
                 $tablehistory->save();
+                // dd($tablehistory);
             }
         }
         return redirect('/trigger');
