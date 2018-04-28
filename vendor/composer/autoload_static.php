@@ -370,11 +370,13 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
 
     public static $classMap = array (
         'AddApelToAttsTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_24_112023_add_apel_to_atts_table.php',
+        'AddAttsColumn' => __DIR__ . '/../..' . '/database/migrations/2018_04_26_081209_add_atts_column.php',
         'AddColorJadwalkerjatable' => __DIR__ . '/../..' . '/database/migrations/2018_04_04_223957_add_color_jadwalkerjatable.php',
         'AddColumAtts' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
         'AddColumFinalrekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
         'AddColumRekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
         'AddSifatUsersColumn' => __DIR__ . '/../..' . '/database/migrations/2018_03_14_093212_add_sifat_users_column.php',
+        'AddcolumApelRekapanTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_26_094826_addcolum_apel_rekapan_table.php',
         'App\\Console\\Commands\\CheckRaspberry' => __DIR__ . '/../..' . '/app/Console/Commands/CheckRaspberry.php',
         'App\\Console\\Commands\\TiapHariCommand' => __DIR__ . '/../..' . '/app/Console/Commands/TiapHariCommand.php',
         'App\\Console\\Commands\\UpdatePegawai' => __DIR__ . '/../..' . '/app/Console/Commands/UpdatePegawai.php',

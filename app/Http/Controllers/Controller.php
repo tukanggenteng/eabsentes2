@@ -262,19 +262,22 @@ class Controller extends BaseController
 
                                     if ($jam_fingerprint>$jamakhir)
                                     {
-                                    $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                                        $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                                        $table->apel="0";
+
                                     }
                                     else {
-                                    $terlambatnya="00:00:00";
+                                        if ($cek[0]['sifat']=="WA"){
+                                            $table->apel="1";
+                                        }
+                                        else
+                                        {
+                                            $table->apel="0";
+                                        }
+                                        $terlambatnya="00:00:00";
                                     }
 
-                                    if ($cek[0]['sifat']=="WA"){
-                                        $table->apel="1";
-                                    }
-                                    else
-                                    {
-                                        $table->apel="0";
-                                    }
+                                    
 
                                     $table->terlambat=$terlambatnya;
                                     $table->jam_masuk = $jam_fingerprint;
@@ -337,18 +340,19 @@ class Controller extends BaseController
 
                         if ($jam_fingerprint>$jamakhir)
                         {
-                        $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                            $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                            $table->apel="0";
+
                         }
                         else {
-                        $terlambatnya="00:00:00";
-                        }
-
-                        if ($cek[0]['sifat']=="WA"){
-                            $table->apel="1";
-                        }
-                        else
-                        {
-                            $table->apel="0";
+                            if ($cek[0]['sifat']=="WA"){
+                                $table->apel="1";
+                            }
+                            else
+                            {
+                                $table->apel="0";
+                            }
+                            $terlambatnya="00:00:00";
                         }
 
                         $table->terlambat=$terlambatnya;

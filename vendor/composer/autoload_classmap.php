@@ -7,11 +7,13 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddApelToAttsTable' => $baseDir . '/database/migrations/2018_04_24_112023_add_apel_to_atts_table.php',
+    'AddAttsColumn' => $baseDir . '/database/migrations/2018_04_26_081209_add_atts_column.php',
     'AddColorJadwalkerjatable' => $baseDir . '/database/migrations/2018_04_04_223957_add_color_jadwalkerjatable.php',
     'AddColumAtts' => $baseDir . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
     'AddColumFinalrekapbulanan' => $baseDir . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
     'AddColumRekapbulanan' => $baseDir . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
     'AddSifatUsersColumn' => $baseDir . '/database/migrations/2018_03_14_093212_add_sifat_users_column.php',
+    'AddcolumApelRekapanTable' => $baseDir . '/database/migrations/2018_04_26_094826_addcolum_apel_rekapan_table.php',
     'App\\Console\\Commands\\CheckRaspberry' => $baseDir . '/app/Console/Commands/CheckRaspberry.php',
     'App\\Console\\Commands\\TiapHariCommand' => $baseDir . '/app/Console/Commands/TiapHariCommand.php',
     'App\\Console\\Commands\\UpdatePegawai' => $baseDir . '/app/Console/Commands/UpdatePegawai.php',

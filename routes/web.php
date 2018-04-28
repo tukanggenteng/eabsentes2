@@ -183,6 +183,10 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/jadwalkerjapegawai/{id}/hapus','JadwalKerjaPegawaiController@destroy');
       Route::post('/hapusjadwalkerjapegawai','JadwalKerjaPegawaiController@destroyall');
 
+      #rekap mingguan
+      // Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');
+      // Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
+
       #laporanharian
       Route::get('/laporanharian','PDFController@index');
       Route::post('/laporanharian','PDFController@index');
@@ -191,7 +195,15 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/laporanharian/pdf/nip/{id2}','PDFController@pdfhariannip');
       Route::get('/laporanharian/pdf','PDFController@pdfharian');
 
+      #laporanminggu
+      Route::get('/laporanmingguan','PDFController@pdfmingguanindex');
+      Route::post('/laporanmingguan','PDFController@pdfmingguanindex');
+      Route::get('/laporanmingguan/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfminggufull');
+      Route::get('/laporanmingguan/pdf/tanggal/{id}','PDFController@pdfminggutanggal');
+      Route::get('/laporanmingguan/pdf/nip/{id2}','PDFController@pdfminggunip');
+      Route::get('/laporanmingguan/pdf','PDFController@pdfminggu');
 
+      #laporanbulan
 
       Route::get('/laporanbulan','PDFController@pdfbulanindex');
       Route::post('/laporanbulan','PDFController@pdfbulanindex');
@@ -244,9 +256,7 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/alat/instansi/sidikjari','LogRaspberryController@indexfinger');
       Route::get('/alat/instansi/sidikjari/data','LogRaspberryController@datasidikjariinstansi')->name('dataraspberrysidikjariinstansi');
       
-      #rekap mingguan
-      Route::get('/rekapbulanan','RekapAbsensiController@indexrekap');
-      Route::get('/rekapbulanan/rekapbulanan/data','RekapAbsensiController@datarekapuser')->name('datarekapusermingguan');
+      
 
       #atur hari kerja
       Route::get('/harikerja','HariKerjaController@index');

@@ -37,7 +37,7 @@
 
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Rekap Absensi Pegawai Harian</h3>
+                        <h3 class="box-title">Rekap Absensi Pegawai Mingguan</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
@@ -45,7 +45,7 @@
                         @if (isset($nip) && isset($tanggal))
                           <div class="row">
                               <div class="col-md-12">
-                                <form action="/laporanharian" method="post">
+                                <form action="/laporanmingguan" method="post">
                                   <div class="form-group">
                                       <div class="col-md-4">
                                           <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP" value="{{$nip}}">
@@ -57,7 +57,7 @@
                                           <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
                                       </div>
                                       <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanharian/pdf/tanggal/{{encrypt($tanggal)}}/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-block btn-success" href="/laporanmingguan/pdf/tanggal/{{encrypt($tanggal)}}/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
                                       </div>
                                   </div>
                                   {{csrf_field()}}
@@ -67,7 +67,7 @@
                         @elseif (isset($tanggal) && !isset($nip))
                           <div class="row">
                               <div class="col-md-12">
-                                <form action="/laporanharian" method="post">
+                                <form action="/laporanmingguan" method="post">
                                   <div class="form-group">
                                       <div class="col-md-4">
                                           <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP">
@@ -79,17 +79,17 @@
                                           <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
                                       </div>
                                       <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanharian/pdf/tanggal/{{encrypt($tanggal)}}"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-block btn-success" href="/laporanmingguan/pdf/tanggal/{{encrypt($tanggal)}}"><i class="fa fa-print"></i></a>
                                       </div>
                                   </div>
                                   {{csrf_field()}}
                                 </form>
                               </div>
                           </div>
-                        @elseif (isset($nip) && !isset($tanggal)) 
+                        @elseif (isset($nip) && !isset($tanggal))
                           <div class="row">
                               <div class="col-md-12">
-                                <form action="/laporanharian" method="post">
+                                <form action="/laporanmingguan" method="post">
                                   <div class="form-group">
                                       <div class="col-md-4">
                                           <input type="text" id="nip" name="nip" class="form-control pull-right" value="{{$nip}}"  placeholder="NIP">
@@ -101,7 +101,7 @@
                                           <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
                                       </div>
                                       <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanharian/pdf/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-block btn-success" href="/laporanmingguan/pdf/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
                                       </div>
                                   </div>
                                   {{csrf_field()}}
@@ -111,7 +111,7 @@
                         @else
                           <div class="row">
                               <div class="col-md-12">
-                                <form action="/laporanharian" method="post">
+                                <form action="/laporanmingguan" method="post">
                                   <div class="form-group">
                                       <div class="col-md-4">
                                           <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP">
@@ -123,7 +123,7 @@
                                           <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
                                       </div>
                                       <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanharian/pdf"><i class="fa fa-print"></i></a>
+                                          <a class="btn btn-block btn-success" href="/laporanmingguan/pdf"><i class="fa fa-print"></i></a>
                                       </div>
                                   </div>
                                   {{csrf_field()}}
@@ -138,48 +138,46 @@
                                 <tr>
                                   <th>NIP</th>
                                   <th>Nama</th>
-                                  <th>Tanggal</th>
-                                  <th>Apel</th>
-                                  <th>Terlambat</th>
-                                  <th>Jam Masuk</th>
-                                  <th>Instansi Hadir</th>
-                                  <th>Mulai Istirahat</th>
-                                  <th>Selesai Istirahat</th>
-                                  <th>Jam Pulang</th>
-                                  <th>Instansi Pulang</th>
-                                  <th>Akumulasi Kerja</th>
-                                  <th>Keterangan</th>
-                                  <th>Jenis Jadwal</th>
-                                  <th>Sifat Jadwal</th>
+                                  <th>Periode</th>
+                                  <th>Hari Kerja</th>
+                                  <th>Hadir</th>
+                                  <th>Absent</th>
+                                  <th>Ijin</th>
+                                  <th>Ijin Terlambat</th>
+                                  <th>Ijin Pulang Cepat</th>
+                                  <th>Sakit</th>
+                                  <th>Cuti</th>
+                                  <th>Tugas Luar</th>
+                                  <th>Tugas Belajar</th>
+                                  <th>Rapat/Undangan</th>
+                                  <th>Pulang Cepat</th>
+                                  <th>Tidak Apel</th>
+                                  <th>Tanpa Kabar</th>
+                                  <th>Akumulasi Terlambat</th>
+                                  <th>Akumulasi Jam Kerja</th>
                                 </tr>
 
                                 @foreach($atts as $att)
                                     <tr>
                                         <td>{{$att->nip}}</td>
                                         <td>{{$att->nama}}</td>
-                                        <td>{{$att->tanggal_att}}</td>
-                                        @if ($att->apel=="0")
-                                        <td>Tidak Apel</td>
-                                        @else
-                                        <td>Apel</td>
-                                        @endif
-                                        <td>{{$att->terlambat}}</td>
-                                        <td>{{$att->jam_masuk}}</td>
-                                        <td>{{$att->namainstansimasuk}}</td>
-                                        <td>{{$att->keluaristirahat}}</td>
-                                        <td>{{$att->masukistirahat}}</td>
-                                        <td>{{$att->jam_keluar}}</td>
-                                        <td>{{$att->namainstansikeluar}}</td>
-                                        <td>{{$att->akumulasi_sehari}}</td>
-                                        <td>{{$att->jenis_absen}}</td>
-                                        <td>{{$att->jenis_jadwal}}</td>
-                                        @if ($att->sifat=="WA")
-                                        <td>Wajib Apel</td>
-                                        @elseif ($att->sifat=="TWA")
-                                        <td>Tidak Wajib Apel</td>
-                                        @elseif ($att->sifat=="FD")
-                                        <td>Full Day</td>
-                                        @endif
+                                        <td>{{$att->periode}}</td>
+                                        <td>{{$att->hari_kerja}}</td>
+                                        <td>{{$att->hadir}}</td>
+                                        <td>{{$att->tanpa_kabar}}</td>
+                                        <td>{{$att->ijin}}</td>
+                                        <td>{{$att->ijinterlambat}}</td>
+                                        <td>{{$att->ijinpulangcepat}}</td>
+                                        <td>{{$att->sakit}}</td>
+                                        <td>{{$att->cuti}}</td>
+                                        <td>{{$att->tugas_luar}}</td>
+                                        <td>{{$att->tugas_belajar}}</td>
+                                        <td>{{$att->rapatundangan}}</td>
+                                        <td>{{$att->pulang_cepat}}</td>
+                                        <td>{{$att->persentase_apel}}</td>
+                                        <td>{{$att->persentase_tidakhadir}}</td>
+                                        <td>{{$att->total_terlambat}}</td>
+                                        <td>{{$att->total_akumulasi}}</td>
                                     </tr>
                                 @endforeach
                             </table>
