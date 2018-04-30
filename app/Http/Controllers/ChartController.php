@@ -62,6 +62,7 @@ class ChartController extends Controller
 
         $bulan=date("m");
 
+        
         $tidakhadirbulan = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
@@ -142,7 +143,7 @@ class ChartController extends Controller
         //     ->whereMonth('periode','=',$bulan)
         //     ->whereYear('periode', '=', $tahun)
         //     ->sum('rapatundangan');
-
+        
         $tidakhadirtahun = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
@@ -209,6 +210,8 @@ class ChartController extends Controller
         //     ->whereYear('periode', '=', $tahun)
         //     ->sum('rapatundangan');
 
+        
+
         $tanggalsekarang=date("Y-m-d");
 
         $tidakhadir = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
@@ -261,6 +264,8 @@ class ChartController extends Controller
             return response()->json(['html'=>$view]);
         }
 
+        
+
         $tanggal=date("d");
         $bulan=date("m");
         $tahun=date("Y");
@@ -275,10 +280,12 @@ class ChartController extends Controller
         // ->whereMonth('atts.tanggal_att','=',$bulan)
         // ->whereDay('atts.tanggal_att','=',$tanggal)
         // ->whereYear('atts.tanggal_att','=',$tahun)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+        ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('pegawais.nama','desc')
         ->paginate(30);
+
+        
 
         if (isset($request->periodeabsen)){
             $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
@@ -291,7 +298,7 @@ class ChartController extends Controller
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
-            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
                 'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
@@ -308,11 +315,12 @@ class ChartController extends Controller
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
-            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
                 'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
         }
+            
 
         
 
@@ -335,6 +343,7 @@ class ChartController extends Controller
         ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
         ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
         ->get();
+        
 
         return view('chart.chartprivate',
             ['event'=>$event,'rulejadwals2'=>$rulejadwal2,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,

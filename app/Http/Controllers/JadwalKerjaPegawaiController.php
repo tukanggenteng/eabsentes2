@@ -171,13 +171,22 @@ class JadwalKerjaPegawaiController extends Controller
                         ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
                         ->count();
                     if ($cek == 0) {
+
+                        $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+
                         $table = new att();
                         $table->pegawai_id = $data;
                         $table->jadwalkerja_id = $request->jadwalkerjamasuk;
                         $table->tanggal_att = $tanggalhariini;
                         $table->terlambat="00:00:00";
                         $table->akumulasi_sehari="00:00:00";
-                        $table->jenisabsen_id = '2';
+                        $table->apel="0";  
+                        if ($jadwalkerja->sifat=="FD"){
+                            $table->jenisabsen_id = '13';
+                        }
+                        else{
+                            $table->jenisabsen_id = '2';
+                        }
                         $table->save();
                     }
                 }

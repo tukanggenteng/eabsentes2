@@ -712,6 +712,7 @@
                               <th>NIP</th>
                               <th>Nama</th>
                               <th>Absen Terlambat</th>
+                              <th>Apel</th>
                               <th>Jam Masuk</th>
                               <th>Lokasi Absen Masuk</th>
                               <th>Mulai Istirahat</th>
@@ -721,6 +722,7 @@
                               <th>Akumulasi</th>
                               <th>Keterangan</th>
                               <th>Jadwal Kerja</th>
+                              <th>Sifat</th>
                             </tr>
                             @foreach ($kehadirans as $key => $kehadiran)
 
@@ -731,7 +733,20 @@
                                 @if ($kehadiran->terlambat=="00:00:00")
                                 <td>{{$kehadiran->terlambat}}</td>
                                 @else
-                                <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
+                                    @if ($kehadiran->sifat=="WA")
+                                    <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
+                                    @else
+                                    <td>{{$kehadiran->terlambat}}</td>
+                                    @endif                                    
+                                @endif
+                                @if (($kehadiran->apel=="1") )
+                                <td>A</td>
+                                @else
+                                    @if ($kehadiran->sifat=="WA") 
+                                        <td><span class="badge bg-red">TA</span></td>
+                                    @else
+                                        <td>TA</td>
+                                    @endif
                                 @endif
                                 <td>{{$kehadiran->jam_masuk}}</td>
                                 <td>{{$kehadiran->namainstansimasuk}}</td>
@@ -746,6 +761,13 @@
                                 <td>{{$kehadiran->jenis_absen}}</td>
                                 @endif
                                 <td>{{$kehadiran->jenis_jadwal}}</td>
+                                @if ($kehadiran->sifat=="WA")
+                                    <td>Wajib Apel</td>
+                                @elseif ($kehadiran->sifat=="TWA")
+                                    <td>Wajib Apel</td>
+                                @elseif ($kehadiran->sifat=="FD")
+                                    <td>Full Day</td></td>
+                                @endif
                               </tr>
                             @endforeach
                           </table>
@@ -793,6 +815,7 @@
                                         <th>Nama</th>
                                         <th>Tanggal</th>
                                         <th>Absen Terlambat</th>
+                                        <th>Apel</th>
                                         <th>Jam Masuk</th>
                                         <th>Lokasi Absen Masuk</th>
                                         <th>Mulai Istirahat</th>
@@ -802,6 +825,7 @@
                                         <th>Akumulasi</th>
                                         <th>Keterangan</th>
                                         <th>Jadwal Kerja</th>
+                                        <th>Sifat</th>
                                         </tr>
                                         @foreach ($kehadiranlalus as $key => $kehadiranlalu)
 
@@ -810,10 +834,23 @@
                                             <td>{{$kehadiranlalu->nip}}</td>
                                             <td>{{$kehadiranlalu->nama}}</td>
                                             <td>{{$kehadiranlalu->tanggal_att}}</td>
-                                            @if ($kehadiranlalu->terlambat=="00:00:00")
+                                            @if (($kehadiranlalu->terlambat=="00:00:00"))
                                             <td>{{$kehadiranlalu->terlambat}}</td>
                                             @else
-                                            <td><span class="badge bg-red">{{$kehadiranlalu->terlambat}}</span></td>
+                                                @if ($kehadiranlalu->sifat=="WA")
+                                                <td><span class="badge bg-red">{{$kehadiranlalu->terlambat}}</span></td>
+                                                @else
+                                                <td>{{$kehadiranlalu->terlambat}}</td>
+                                                @endif
+                                            @endif
+                                            @if ($kehadiranlalu->apel=="1")
+                                            <td>A</td>
+                                            @else
+                                                @if ($kehadiranlalu->sifat=="WA") 
+                                                    <td><span class="badge bg-red">TA</span></td>
+                                                @else
+                                                    <td>TA</td>
+                                                @endif
                                             @endif
                                             <td>{{$kehadiranlalu->jam_masuk}}</td>
                                             <td>{{$kehadiranlalu->namainstansimasuk}}</td>
@@ -828,6 +865,13 @@
                                             <td>{{$kehadiranlalu->jenis_absen}}</td>
                                             @endif
                                             <td>{{$kehadiranlalu->jenis_jadwal}}</td>
+                                            @if ($kehadiranlalu->sifat=="WA")
+                                                <td>Wajib Apel</td>
+                                            @elseif ($kehadiranlalu->sifat=="TWA")
+                                                <td>Wajib Apel</td>
+                                            @elseif ($kehadiranlalu->sifat=="FD")
+                                                <td>Full Day</td></td>
+                                            @endif
                                         </tr>
                                         @endforeach
                                     </table>

@@ -56,7 +56,7 @@ class JadwalKerjaController extends Controller
             ->orWhere('instansis.namaInstansi','LIKE','%'.$request->cari.'%')
             ->paginate(40);
         }
-       //dd($rule);
+    //    dd($rule);
         // $jadwalkerja=jadwalkerja::where('instansi_id',Auth::user()->instansi_id)->get();
         return view('jadwalkerja.jadwalkerja',['inforekap'=>$inforekap,'jadwalkerjas'=>$tables,'cari'=>$request->cari,'rules'=>$rule]);
     }
