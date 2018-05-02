@@ -28,6 +28,7 @@ class HistoryFingerPegawaiController extends Controller
     } 
  
     public function getdata($ip,$instansi_id){
+        // dd("sd");
         $tableedit=historyfingerpegawai::leftJoin('pegawais','historyfingerpegawais.pegawai_id','=','pegawais.id')
                     ->where('historyfingerpegawais.iphapus','=',$ip)
                     ->where('historyfingerpegawais.instansi_id','=',$instansi_id)

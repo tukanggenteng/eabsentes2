@@ -44,18 +44,27 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($e instanceof \Illuminate\Session\TokenMismatchException){
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException){
             
-            if (view()->exists('errors.'.$exception->getStatusCode()))
+            // if (view()->exists('errors.'.$exception->getStatusCode()))
 
-            {
+            // {
 
-                return response()->view('errors.'.$exception->getStatusCode(), [], $exception->getStatusCode());
+            //     return response()->view('errors.'.$exception->getStatusCode(), [], $exception->getStatusCode());
 
-            }
+            // }
+            // dd("as");  
+            return redirect('/')
+              ->withInput($request->except(['password', 'password_confirmation']))
+              ->with('error', 'Session telah kedaluwarsa karena tidak ada aktivitas. Silakan coba lagi');
         }
 
+        if ($exception instanceof \Illuminate\Contracts\Encryption\DecryptException){
+            // dd("asd");
+            return response()->view('errors.'.$exception->getCode());
+        }
 
+        
         if($this->isHttpException($exception)){
 
             if (view()->exists('errors.'.$exception->getStatusCode()))

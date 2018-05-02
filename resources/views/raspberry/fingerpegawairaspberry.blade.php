@@ -33,7 +33,7 @@
                     <div class="col-md-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Data Pegawai Belum Tertambah
+                                <h3 class="box-title">Data Pegawai Belum Terupdate
                                     @if ($notification[1]['updatefinger']>0)
                                         <span class="badge bg-red">{{$notification[1]['updatefinger']}}</span>
                                     @else

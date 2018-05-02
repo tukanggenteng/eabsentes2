@@ -344,7 +344,7 @@ class ChartController extends Controller
         ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
         ->get();
         
-
+        // dd("sad");
         return view('chart.chartprivate',
             ['event'=>$event,'rulejadwals2'=>$rulejadwal2,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,
                 'sakit'=>$sakit,'ijin'=>$ijin,'cuti'=>$cuti,'tb'=>$tb,'tl'=>$tl,'terlambat'=>$terlambat,

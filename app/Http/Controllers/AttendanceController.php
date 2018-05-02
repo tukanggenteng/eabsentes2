@@ -56,7 +56,7 @@ class AttendanceController extends Controller
         }
         else{
             $statusauth=false;
-            return "Failed Token";
+            return "Failed";
             //Token Salah 
         }
 

@@ -61,33 +61,34 @@ class TrigerController extends Controller
             'pegawai'=>'required'
         ]);
 
-        $validasi=hapusfingerpegawai::where('pegawai_id','=',$request->pegawai[0])
-                ->count();
+        // $validasi=hapusfingerpegawai::where('pegawai_id','=',$request->pegawai[0])
+        //         ->count();
         
-        if ($validasi>0){
+        // if ($validasi>0){
 
-        }
-        else{
-            $table=new hapusfingerpegawai;
-            $table->pegawai_id=$request->pegawai[0];
-            $table->save();
+        // }
+        // else{
+            
+        // }
+        $table=new hapusfingerpegawai;
+        $table->pegawai_id=$request->pegawai[0];
+        $table->save();
 
-            $instansicari=pegawai::where('id','=',$request->pegawai[0])
-                            ->first();
+        $instansicari=pegawai::where('id','=',$request->pegawai[0])
+                        ->first();
+        // dd($instansicari->instansi_id);
+        $loadtables=lograspberry::where('instansi_id','=',$instansicari->instansi_id)
+                    ->get();
+        // dd($loadtables);
+        foreach ($loadtables as $key => $loadtable) {
 
-            $loadtables=lograspberry::where('instansi_id','=',$instansicari->instansi_id)
-                        ->get();
-            // dd($loadtables);
-            foreach ($loadtables as $key => $loadtable) {
-
-                $tablehistory=new  historyfingerpegawai();
-                $tablehistory->pegawai_id=$request->pegawai[0];
-                $tablehistory->iphapus=$loadtable->alamatip;
-                $tablehistory->statushapus="0";
-                $tablehistory->instansi_id=$instansicari->instansi_id;
-                $tablehistory->save();
-                // dd($tablehistory);
-            }
+            $tablehistory=new  historyfingerpegawai();
+            $tablehistory->pegawai_id=$request->pegawai[0];
+            $tablehistory->iphapus=$loadtable->alamatip;
+            $tablehistory->statushapus="0";
+            $tablehistory->instansi_id=$instansicari->instansi_id;
+            $tablehistory->save();
+            // dd($tablehistory);
         }
         return redirect('/trigger');
     }
