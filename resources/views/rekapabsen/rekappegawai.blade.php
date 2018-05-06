@@ -86,7 +86,7 @@
                                     <label>Jadwal Kerja</label>
                                     @foreach($jadwalkerjas as $jadwalkerja)
                                     <div class="form-group">
-                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($jadwalkerja->jadwalkerja_id)}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}})
+                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($jadwalkerja->id)}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]
                                     </div>
                                     @endforeach
                                 </div>

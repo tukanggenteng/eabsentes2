@@ -107,7 +107,7 @@
                                         <!-- /.col -->
                                         <div class="col-md-3 col-sm-6 col-xs-12">
                                             <div class="info-box">
-                                            <a href="/detail/harian/sakit">
+                                            <a href="/detail/harian/cuti">
                                                 <span class="info-box-icon bg-yellow"><i class="fa fa-home"></i></span>
                                             </a>
                                                 <div class="info-box-content">

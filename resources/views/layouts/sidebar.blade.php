@@ -158,6 +158,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/laporanharian"><i class="fa fa-circle-o"></i> Harian</a></li>
+                  <li><a href="/laporanmingguan"><i class="fa fa-circle-o"></i> Mingguan</a></li>
                     <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
                 </ul>
             </li>
@@ -258,7 +259,8 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/laporanharian"><i class="fa fa-circle-o"></i> Harian</a></li>
-                    <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
+                  <li><a href="/laporanmingguan"><i class="fa fa-circle-o"></i> Mingguan</a></li>
+                  <li><a href="/laporanbulan"><i class="fa fa-circle-o"></i> Bulanan</a></li>
                 </ul>
             </li>
             <li class="treeview">

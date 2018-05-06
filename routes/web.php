@@ -30,7 +30,7 @@ Route::group(['middleware' => ['rule:user,admin,rs']],function(){
   Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
 });
 
-Route::group(['middleware'=>['rule:user,admin,kadis']],function(){
+Route::group(['middleware'=>['rule:user,admin,kadis,rs,karu']],function(){
   Route::get('/detail/harian/absent','DetailAbsenController@absentharian');
   Route::get('/detail/harian/sakit','DetailAbsenController@sakitharian');
   Route::get('/detail/harian/ijin','DetailAbsenController@ijinharian');
@@ -67,7 +67,6 @@ Route::group(['middleware'=>['rule:user,admin,kadis']],function(){
 Route::group(['middleware' => ['rule:kadis,sekda,user,admin,pegawai,gubernur']],function(){
   Route::get('/changepassword','UserController@indexchange');
   Route::post('/changepassword','UserController@changepassword');
-
 });
 
 Route::get('/logout',function (){

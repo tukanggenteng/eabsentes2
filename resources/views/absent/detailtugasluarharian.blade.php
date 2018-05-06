@@ -40,7 +40,7 @@
                     <div class="col-md-12">
                       <div class="box">
                         <div class="box-header">
-                          <h3 class="box-title">Detail Tugas Belajar</h3>
+                          <h3 class="box-title">Detail Tugas Luar</h3>
                         </div>
                         <!-- /.box-header -->
 

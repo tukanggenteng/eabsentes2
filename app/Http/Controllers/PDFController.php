@@ -71,7 +71,7 @@ class PDFController extends Controller
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(30);
-        $request->tanggal=date('Y-m-d');
+        $request->tanggal=null;
         return view('laporan.laporanharian',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
       elseif (!isset($request->nip) && !isset($request->tanggal))
@@ -238,7 +238,7 @@ class PDFController extends Controller
         ->select('finalrekapbulanans.*','instansis.namaInstansi','pegawais.nip','pegawais.nama')
         ->orderBy('finalrekapbulanans.periode','desc')
         ->paginate(30);
-
+        $request->nip=null;
         return view('laporan.laporanbulan',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
       elseif (isset($request->nip) && !isset($request->tanggal))
@@ -252,7 +252,7 @@ class PDFController extends Controller
         ->select('finalrekapbulanans.*','instansis.namaInstansi','pegawais.nip','pegawais.nama')
         ->orderBy('finalrekapbulanans.periode','desc')
         ->paginate(30);
-
+        $tanggal=null;
         return view('laporan.laporanbulan',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
       elseif (!isset($request->nip) && !isset($request->tanggal))
@@ -393,6 +393,7 @@ class PDFController extends Controller
         ->orderBy('masterbulanans.periode','desc')
         ->paginate(30);
         // dd("asd");
+        $request->nip=null;
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
       elseif (isset($request->nip) && !isset($request->tanggal))
@@ -406,7 +407,7 @@ class PDFController extends Controller
         ->select('masterbulanans.*','instansis.namaInstansi','pegawais.nip','pegawais.nama')
         ->orderBy('masterbulanans.periode','desc')
         ->paginate(30);
-        $tanggal=date('Y-m-d');
+        $tanggal=null;
         // dd("as");
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
@@ -420,7 +421,7 @@ class PDFController extends Controller
         ->orderBy('masterbulanans.periode','desc')
         ->paginate(30);
         $nip=null;
-        $tanggal=date('Y-m-d');
+        $tanggal=null;
         // dd("asdvd");
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$nip,'tanggal'=>$tanggal]);
       }

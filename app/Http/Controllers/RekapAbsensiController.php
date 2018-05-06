@@ -152,7 +152,16 @@ class RekapAbsensiController extends Controller
         //     ->select('atts.jadwalkerja_id','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
         //     ->get();
         // dd($jadwalkerjas);
-        $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir');
+
+        if (Auth::user()->role->namaRole=="rs"){
+            $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir');
+        }else{
+            $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir')
+            ->where('jenis_absen','!=','Tidak Hadir');
+            
+        }
+
+        
         return view('rekapabsen.rekappegawai',['cari'=>$cari,'awal'=>$awal,'akhir'=>$akhir,'jadwalkerjas'=>$jadwalkerjas,'inforekap'=>$inforekap,'atts'=>$atts,'jenisabsens'=>$jenisabsen]);
     }
 
@@ -257,8 +266,8 @@ class RekapAbsensiController extends Controller
 
         $hapusspasi=str_replace(" ","",$request->periode);
         $tanggal=explode("-",$hapusspasi);
-        $hasil=date("d",strtotime($tanggal[0]));
-        $hasil2=date("d",strtotime($tanggal[1]));
+        $hasil=date("Y-m-d",strtotime($tanggal[0]));
+        $hasil2=date("Y-m-d",strtotime($tanggal[1]));
 
         // dd($request->checkboxnip);
         foreach ($request->checkboxnip as $key => $pegawai) {
@@ -267,975 +276,449 @@ class RekapAbsensiController extends Controller
 
           $i=0;
           $tanggalbaru =$tanggal[0];
+        //   dd($id);
+        //   dd(($request->checkbox));
+            // dd($hasil);
+            foreach ($request->checkbox as $key => $data) {
+                $data=decrypt($data);
+                // $data=str_replace(array("\r", "\n"), '', $data);
+                // dd($data);
+                //   dd(($data));              
 
-              for ($x = (int)$hasil; $x <= (int)$hasil2; $x++)
-              {
-                // dd("sda");
+                  $atts = att::join('jadwalkerjas', 'atts.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                      ->where('atts.tanggal_att', '=', $hasil)
+                      ->where('atts.id', '=', $id)
+                      ->where('atts.jadwalkerja_id','=',$data)
+                      ->get();
+                  
+                    // dd($atts);
 
-                  foreach ($request->checkbox as $key=> $data) {
-                      // dd($data);
-                      $data=decrypt($data);
+                    foreach ($atts as $key => $att) {
 
-                      $atts = att::join('jadwalkerjas', 'atts.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                          ->where('atts.tanggal_att', '=', $tanggalbaru)
-                          ->where('atts.id', '=', $id)
-                          ->where('atts.jadwalkerja_id','=',$data)
-                          ->get();
+                      $akumulasistandar = jadwalkerja::where('id', '=', $data)->get();
 
-                      // dd($atts);
+                      $jamawalakumulasi = ($akumulasistandar[0]['jam_masukjadwal']);
+                      $jamakhirakumulasi = ($akumulasistandar[0]['jam_keluarjadwal']);
+                      $jamtoleransi = strtotime('00:30:00');
 
+                      $jamstandar=$this->kurangwaktu($jamakhirakumulasi,$jamawalakumulasi);
 
-                        foreach ($atts as $key => $att) {
-                          $akumulasistandar = jadwalkerja::where('id', '=', $data)->get();
+                      if ($att['akumulasi_sehari'] <= $jamstandar) {
 
-                          $jamawalakumulasi = ($akumulasistandar[0]['jam_masukjadwal']);
-                          $jamakhirakumulasi = ($akumulasistandar[0]['jam_keluarjadwal']);
-                          $jamtoleransi = strtotime('00:30:00');
-                          // dd($jamawalakumulasi);
-                          // $jamstandar = date("H:i:s", $this->kurangwaktu($jamakhirakumulasi,$jamawalakumulasi));
+                          $search = att::where('tanggal_att', '=', $tanggalbaru)
+                              ->where('id', '=', $id)
+                              ->count();
 
-                          $jamstandar=$this->kurangwaktu($jamakhirakumulasi,$jamawalakumulasi);
-                          // dd($jamstandar);
-                          if ($att['akumulasi_sehari'] <= $jamstandar) {
+                          if ($search > 0) {
+                            
+                              if ($request->jenisabsen == "2") {
+                                  $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('id', '=', $id)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->first();
+                                  $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jam_masuk = null;
+                                  $table->keluaristirahat=null;
+                                  $table->masukistirahat=null;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->jam_keluar = null;
+                                  $table->terlambat = "00:00:00";
+                                  $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                  $table->akumulasi_sehari = "00:00:00";
+                                  $table->save();
+                              } elseif  ($request->jenisabsen=="3"){
 
-                              $search = att::where('tanggal_att', '=', $tanggalbaru)
+                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+                                      
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                      
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        // dd("asd");
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                         
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }   
+
+                                    $table->jenisabsen_id = $request->jenisabsen;
+                                    $table->jam_masuk = $awal;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = $akhir;
+                                    $table->terlambat = "00:00:00";
+                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="4"){
+
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                  ->where('jadwalkerja_id','=',$data)
                                   ->where('id', '=', $id)
-                                  ->count();
-                            //   dd($search); 
-                              if ($search > 0) {
-                                  // dd('aasdas');
-                                
-                                  if ($request->jenisabsen == "2") {
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('id', '=', $id)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->first();
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
-                                      $table->keluaristirahat=null;
-                                      $table->masukistirahat=null;
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
-                                      $table->terlambat = "00:00:00";
-                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
-                                      $table->save();
-                                  } elseif  ($request->jenisabsen=="3"){
+                                  ->first();
+                                  
+                                if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                {
 
-                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-                                          
-                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                        {
-
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                          
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                        }
-                                        else{
-                                            // dd("asd");
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                             
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                        }   
-
-                                        $table->jenisabsen_id = $request->jenisabsen;
-                                        $table->jam_masuk = $awal;
-                                        $table->masukinstansi_id=Auth::user()->instansi_id;
-                                        $table->jam_keluar = $akhir;
-                                        $table->terlambat = "00:00:00";
-                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                        $table->akumulasi_sehari = $akumulasi;
-                                        $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="4"){
-
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                      ->where('jadwalkerja_id','=',$data)
-                                      ->where('id', '=', $id)
-                                      ->first();
-                                      
-                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                    {
-
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        else{
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                            }
-                                            
-                                        }
-                                        else
-                                        {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                            }
-                                                      
-                                        }
-                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                     }
                                     else{
-                                        // dd("asd");
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        else{
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                            }
-                                            
-                                        }
-                                        else
-                                        {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                            }
-                                                         
-                                        }
-                                        // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                    }   
-
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="5"){
-
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                      ->where('jadwalkerja_id','=',$data)
-                                      ->where('id', '=', $id)
-                                      ->first();
-                                      
-                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                    {
-
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        else{
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                            }
-                                            
-                                        }
-                                        else
-                                        {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                            }
-                                                      
-                                        }
-                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                     }
-                                    else{
-                                        // dd("asd");
-                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        else{
-                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                        }
-                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                            }
-                                            
-                                        }
-                                        else
-                                        {
-                                            $harike=date('N', strtotime($tanggalbaru));
-                                            if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                            }
-                                                         
-                                        }
-                                        // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                    }   
-
-                                    $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
-                                    $table->terlambat = "00:00:00";
-                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
-                                    $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="6"){
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-                                          
-                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                        {
-
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                          
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                        }
-                                        else{
-                                            // dd("asd");
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                             
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                        }   
-
-                                        $table->jenisabsen_id = $request->jenisabsen;
-                                        $table->jam_masuk = $awal;
-                                        $table->masukinstansi_id=Auth::user()->instansi_id;
-                                        $table->jam_keluar = $akhir;
-                                        $table->terlambat = "00:00:00";
-                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                        $table->akumulasi_sehari = $akumulasi;
-                                        $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="7"){
-
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-                                          
-                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                        {
-
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                          
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                        }
-                                        else{
-                                            // dd("asd");
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                             
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                        }   
-
-                                        $table->jenisabsen_id = $request->jenisabsen;
-                                        $table->jam_masuk = $awal;
-                                        $table->masukinstansi_id=Auth::user()->instansi_id;
-                                        $table->jam_keluar = $akhir;
-                                        $table->terlambat = "00:00:00";
-                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                        $table->akumulasi_sehari = $akumulasi;
-                                        $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="8"){
-
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                        $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-                                          
-                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                        {
-
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                          
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                        }
-                                        else{
-                                            // dd("asd");
-                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            else{
-                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                            }
-                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                            if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
-
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                $harike=date('N', strtotime($tanggalbaru));
-                                                if (($harike==5) && ($table->jadwalkerja_id==1))
-                                                {
-                                                    $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                    $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                    $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
-                                                    $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
-                                                    $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                    $table->keluaristirahat=$keluaristirahat;
-                                                    $table->masukistirahat=$masukistirahat;
-                                                }
-                                                else
-                                                {
-                                                    $table->keluaristirahat=null;
-                                                    $table->masukistirahat=null;
-                                                    $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
-                                                }
-                                                             
-                                            }
-                                            // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                        }   
-
-                                        $table->jenisabsen_id = $request->jenisabsen;
-                                        $table->jam_masuk = $awal;
-                                        $table->masukinstansi_id=Auth::user()->instansi_id;
-                                        $table->jam_keluar = $akhir;
-                                        $table->terlambat = "00:00:00";
-                                        $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                        $table->akumulasi_sehari = $akumulasi;
-                                        $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="9"){
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
-                                      $table->terlambat = "00:00:00";
-                                      $table->keluaristirahat=null;
-                                      $table->masukistirahat=null;
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
-                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
-                                      $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="10"){
-
-                                        $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
-                                        $jamkeluar = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-                                        
-                                        if ($jamkeluar->jam_keluar!=null){
-
-                                            if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                            {
-                                                if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                else{
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
-                                                if ($jamkeluar->jam_keluar < $jadwalkerja[0]['jam_keluarjadwal']) {
-                                                    $akumulasi=$this->kurangwaktu($jamkeluar->jam_keluar,$jadwalkerja[0]['jam_masukjadwal']);
-                                                }
-                                                else
-                                                {
-                                                    $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                                }
-                                                
-                                            }
-                                            else
-                                            {
-                                                if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                else{
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
-                                                if ($jamkeluar->jam_keluar < $jadwalkerja[0]['jam_keluarjadwal']) {
-                                                    $akumulasi=$this->kurangwaktu($jamkeluar->jam_keluar,$jadwalkerja[0]['jam_masukjadwal']);
-                                                }
-                                                else
-                                                {
-                                                    $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
-                                            {
-                                                if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                else{
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-                                                $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                            }
-                                            else{
-                                                if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                else{
-                                                    $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
-                                                }
-                                                $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
-                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
-                                            }
-                                        }
-
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
-
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = $awal;
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->terlambat = "00:00:00";
-                                      $table->jenisabsen_id=$request->jenisabsen;
-                                      if ($table->jam_keluar!=null){
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
                                         $harike=date('N', strtotime($tanggalbaru));
                                         if (($harike==5) && ($table->jadwalkerja_id==1))
-                                            {
-                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                                $akumulasi2=$this->kurangwaktu($akhir,$masukistirahat);
-                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                                $table->keluaristirahat=$keluaristirahat;
-                                                $table->masukistirahat=$masukistirahat;
-                                            }
-                                            else
-                                            {
-                                                $table->keluaristirahat=null;
-                                                $table->masukistirahat=null;
-                                            }
-                                        $table->akumulasi_sehari=$akumulasi;
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                                  
+                                    }
+                                    // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                }
+                                else{
+                                    // dd("asd");
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    else{
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
 
-                                      }
-                                      
-                                      $table->save();
-                                  }
-                                  elseif  ($request->jenisabsen=="11"){
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                                     
+                                    }
+                                    // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                }   
 
-                                      $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                          ->where('jadwalkerja_id','=',$data)
-                                          ->where('id', '=', $id)
-                                          ->first();
+                                $table->jenisabsen_id = $request->jenisabsen;
+                                $table->jam_masuk = $awal;
+                                $table->masukinstansi_id=Auth::user()->instansi_id;
+                                $table->jam_keluar = $akhir;
+                                $table->terlambat = "00:00:00";
+                                $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                $table->akumulasi_sehari = $akumulasi;
+                                $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="5"){
 
-                                      $table->jenisabsen_id = $request->jenisabsen;
-                                      $table->jam_masuk = null;
-                                      $table->terlambat = "00:00:00";
-                                      $table->masukinstansi_id=Auth::user()->instansi_id;
-                                      $table->jam_keluar = null;
-                                      $table->keluaristirahat=null;
-                                      $table->masukistirahat=null;
-                                      $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                      $table->akumulasi_sehari = "00:00:00";
-                                      $table->save();
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
-                                  }
-                                  elseif  ($request->jenisabsen=="12"){
+                                $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                  ->where('jadwalkerja_id','=',$data)
+                                  ->where('id', '=', $id)
+                                  ->first();
+                                  
+                                if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                {
 
-                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    else{
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                                  
+                                    }
+                                    // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                }
+                                else{
+                                    // dd("asd");
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    else{
+                                        $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                    }
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                                     
+                                    }
+                                    // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                }   
+
+                                $table->jenisabsen_id = $request->jenisabsen;
+                                $table->jam_masuk = $awal;
+                                $table->masukinstansi_id=Auth::user()->instansi_id;
+                                $table->jam_keluar = $akhir;
+                                $table->terlambat = "00:00:00";
+                                $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                $table->akumulasi_sehari = $akumulasi;
+                                $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="6"){
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
                                     $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$data)
-                                        ->where('id', '=', $id)
-                                        ->first();
-
-                                    if ($table->jam_masuk==null){
-                                        return redirect()->back()->with('error','Jam masuk kosong !');
-                                    }
-                                        
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+                                      
                                     if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                     {
+
                                         if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
-                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
                                         if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
                                             $harike=date('N', strtotime($tanggalbaru));
                                             if (($harike==5) && ($table->jadwalkerja_id==1))
@@ -1252,7 +735,60 @@ class RekapAbsensiController extends Controller
                                             {
                                                 $table->keluaristirahat=null;
                                                 $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($awal,$jadwalkerja[0]['jam_keluarjadwal']);
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                      
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        // dd("asd");
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
                                             }
                                             
                                         }
@@ -1277,19 +813,37 @@ class RekapAbsensiController extends Controller
                                             }
                                                          
                                         }
+                                        // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }   
 
-                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
-                                    }
-                                    else{
+                                    $table->jenisabsen_id = $request->jenisabsen;
+                                    $table->jam_masuk = $awal;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = $akhir;
+                                    $table->terlambat = "00:00:00";
+                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="7"){
+
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+                                      
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+
                                         if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
-                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
                                         else{
-                                            $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
                                         }
-
                                         $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
                                         if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
                                             $harike=date('N', strtotime($tanggalbaru));
                                             if (($harike==5) && ($table->jadwalkerja_id==1))
@@ -1306,8 +860,9 @@ class RekapAbsensiController extends Controller
                                             {
                                                 $table->keluaristirahat=null;
                                                 $table->masukistirahat=null;
-                                                $akumulasi=$this->kurangwaktu($awal,$jadwalkerja[0]['jam_keluarjadwal']);
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
                                             }
+                                            
                                         }
                                         else
                                         {
@@ -1328,55 +883,506 @@ class RekapAbsensiController extends Controller
                                                 $table->masukistirahat=null;
                                                 $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
                                             }
-                                            // $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);                 
+                                                      
                                         }
+                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        // dd("asd");
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
 
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                         
+                                        }
                                         // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }   
 
-                                    }  
-                                
                                     $table->jenisabsen_id = $request->jenisabsen;
+                                    $table->jam_masuk = $awal;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
                                     $table->jam_keluar = $akhir;
+                                    $table->terlambat = "00:00:00";
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
                                     $table->akumulasi_sehari = $akumulasi;
                                     $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="8"){
 
-                                  }
-                                  elseif  ($request->jenisabsen=="13"){
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
 
                                     $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                        ->where('jadwalkerja_id','=',$data)
-                                        ->where('id', '=', $id)
-                                        ->first();
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+                                      
+                                    if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                    {
+
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                      
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                    }
+                                    else{
+                                        // dd("asd");
+                                        if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        else{
+                                            $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                        }
+                                        $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                        if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jadwalkerja[0]['jam_masukjadwal']);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$jadwalkerja[0]['jam_keluarjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            $harike=date('N', strtotime($tanggalbaru));
+                                            if (($harike==5) && ($table->jadwalkerja_id==1))
+                                            {
+                                                $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                                $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                                $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                                $table->keluaristirahat=$keluaristirahat;
+                                                $table->masukistirahat=$masukistirahat;
+                                            }
+                                            else
+                                            {
+                                                $table->keluaristirahat=null;
+                                                $table->masukistirahat=null;
+                                                $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                            }
+                                                         
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                    }   
 
                                     $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = null;
-                                    $table->terlambat = "00:00:00";
+                                    $table->jam_masuk = $awal;
                                     $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = null;
-                                    $table->keluaristirahat=null;
-                                    $table->masukistirahat=null;
+                                    $table->jam_keluar = $akhir;
+                                    $table->terlambat = "00:00:00";
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = "00:00:00";
+                                    $table->akumulasi_sehari = $akumulasi;
                                     $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="9"){
+                                  $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
 
+                                  $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jam_masuk = null;
+                                  $table->terlambat = "00:00:00";
+                                  $table->keluaristirahat=null;
+                                  $table->masukistirahat=null;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->jam_keluar = null;
+                                  $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                  $table->akumulasi_sehari = "00:00:00";
+                                  $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="10"){
+
+                                    $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                    $jamkeluar = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+                                    
+                                    if ($jamkeluar->jam_keluar!=null){
+
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+
+                                            if ($jamkeluar->jam_keluar < $jadwalkerja[0]['jam_keluarjadwal']) {
+                                                $akumulasi=$this->kurangwaktu($jamkeluar->jam_keluar,$jadwalkerja[0]['jam_masukjadwal']);
+                                            }
+                                            else
+                                            {
+                                                $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                            }
+                                            
+                                        }
+                                        else
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+
+                                            if ($jamkeluar->jam_keluar < $jadwalkerja[0]['jam_keluarjadwal']) {
+                                                $akumulasi=$this->kurangwaktu($jamkeluar->jam_keluar,$jadwalkerja[0]['jam_masukjadwal']);
+                                            }
+                                            else
+                                            {
+                                                $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                        {
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+                                            $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                        }
+                                        else{
+                                            if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            else{
+                                                $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                            }
+                                            $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+
+                                            $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+                                        }
+                                    }
+
+                                  $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+
+                                  $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jam_masuk = $awal;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->terlambat = "00:00:00";
+                                  $table->jenisabsen_id=$request->jenisabsen;
+                                  if ($table->jam_keluar!=null){
+                                    $harike=date('N', strtotime($tanggalbaru));
+                                    if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                            $akumulasi2=$this->kurangwaktu($akhir,$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                        }
+                                    $table->akumulasi_sehari=$akumulasi;
+
+                                  }
+                                  
+                                  $table->save();
+                              }
+                              elseif  ($request->jenisabsen=="11"){
+
+                                  $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();
+
+                                  $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jam_masuk = null;
+                                  $table->terlambat = "00:00:00";
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->jam_keluar = null;
+                                  $table->keluaristirahat=null;
+                                  $table->masukistirahat=null;
+                                  $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                  $table->akumulasi_sehari = "00:00:00";
+                                  $table->save();
+
+                              }
+                              elseif  ($request->jenisabsen=="12"){
+
+                                $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
+
+                                $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                    ->where('jadwalkerja_id','=',$data)
+                                    ->where('id', '=', $id)
+                                    ->first();
+
+                                if ($table->jam_masuk==null){
+                                    return redirect()->back()->with('error','Jam masuk kosong !');
                                 }
                                     
-                                
-                              } else {
-                                return redirect()->back()->with('error','Data kehadiran tidak ditemukan !');
+                                if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                {
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                    }
+                                    else{
+                                        $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                    }
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($awal,$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                        
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                                     
+                                    }
+
+                                    // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
+                                }
+                                else{
+                                    if ($jadwalkerja[0]['jenis_jadwal']=="PAGI UMUM"){
+                                        $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                    }
+                                    else{
+                                        $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                    }
+
+                                    $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
+
+                                    if ($table->jam_masuk < $jadwalkerja[0]['jam_masukjadwal']) {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($awal,$jadwalkerja[0]['jam_keluarjadwal']);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        $harike=date('N', strtotime($tanggalbaru));
+                                        if (($harike==5) && ($table->jadwalkerja_id==1))
+                                        {
+                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$table->jam_masuk);
+                                            $akumulasi2=$this->kurangwaktu($jadwalkerja[0]['jam_keluarjadwal'],$masukistirahat);
+                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                            $table->keluaristirahat=$keluaristirahat;
+                                            $table->masukistirahat=$masukistirahat;
+                                        }
+                                        else
+                                        {
+                                            $table->keluaristirahat=null;
+                                            $table->masukistirahat=null;
+                                            $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);    
+                                        }
+                                        // $akumulasi=$this->kurangwaktu($table->jam_masuk,$jadwalkerja[0]['jam_keluarjadwal']);                 
+                                    }
+
+                                    // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
+
+                                }  
+                            
+                                $table->jenisabsen_id = $request->jenisabsen;
+                                $table->jam_keluar = $akhir;
+                                $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                $table->akumulasi_sehari = $akumulasi;
+                                $table->save();
+
                               }
+                              elseif  ($request->jenisabsen=="13"){
+
+                                $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                    ->where('jadwalkerja_id','=',$data)
+                                    ->where('id', '=', $id)
+                                    ->first();
+
+                                $table->jenisabsen_id = $request->jenisabsen;
+                                $table->jam_masuk = null;
+                                $table->terlambat = "00:00:00";
+                                $table->masukinstansi_id=Auth::user()->instansi_id;
+                                $table->jam_keluar = null;
+                                $table->keluaristirahat=null;
+                                $table->masukistirahat=null;
+                                $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                $table->akumulasi_sehari = "00:00:00";
+                                $table->save();
+
+                            }
+                                
+                            
                           } else {
-                            return redirect()->back()->with('error','Akumulasi melebihi aturan !');
+                            return redirect()->back()->with('error','Data kehadiran tidak ditemukan !');
                           }
-                        }
+                      } else {
+                        return redirect()->back()->with('error','Akumulasi melebihi aturan !');
+                      }
+                    }
 
-                  }
-
-                  $i++;
-                  $tanggalbaru = date("Y-m-d", (strtotime("+" . $i . "days", strtotime($tanggal[0]))));
               }
+
+              $i++;
+              $tanggalbaru = date("Y-m-d", (strtotime("+" . $i . "days", strtotime($tanggal[0]))));
         }
+
         return redirect()->back()->with('status','Atur ijin berhasil');
 
     }
