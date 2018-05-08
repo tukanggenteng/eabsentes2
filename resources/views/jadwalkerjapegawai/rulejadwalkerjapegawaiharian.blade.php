@@ -214,8 +214,6 @@
         day  : 'day'
       },
       eventSources: [
-
-      // your event source
       {
         url: url,
         type: 'POST',
@@ -231,7 +229,6 @@
       // any other sources...
 
       ]
-      
       ,
       editable  : true,
       eventDurationEditable: false,
@@ -265,11 +262,6 @@
         copiedEventObject.backgroundColor = $(this).css('background-color')
         copiedEventObject.borderColor     = $(this).css('border-color')
 
-        // alert(copiedEventObject["start"]);
-        // alert(date2);
-        // render the event on the calendar
-        // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-          
           $.ajax({
             url: urlpost,
             data: { _token:token,
@@ -291,11 +283,6 @@
               swal("Gagal menambah jadwal  kerja pegawai.", "", "error");
             }
           });
-          
-          // $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
-        // is the "remove after drop" checkbox checked?
-        
 
       },
       eventClick: function(event, jsEvent) {

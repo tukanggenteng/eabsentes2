@@ -282,6 +282,22 @@ class JadwalKerjaPegawaiController extends Controller
     {
         $id=decrypt($id);
         $table=rulejadwalpegawai::find($id);
+
+        $tanggalhari=date('Y-m-d');
+        $atts=att::where('jadwalkerja_id','=',$table->jadwalkerja_id)
+                        ->where('tanggal_att','=',$tanggalhari)
+                        ->where('pegawai_id','=',$table->pegawai_id)
+                        ->whereNull('jam_masuk');
+                        
+        if ($atts->count() > 0){
+            $attsdelete=att::where('jadwalkerja_id','=',$table->jadwalkerja_id)
+                            ->where('tanggal_att','=',$tanggalhari)
+                            ->where('pegawai_id','=',$table->pegawai_id)
+                            ->whereNull('jam_masuk')
+                            ->first();
+            $attsdelete->delete();
+        }
+
         $table->delete();
         return redirect('/jadwalkerjapegawai');
     }

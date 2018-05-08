@@ -1085,38 +1085,89 @@ class Controller extends BaseController
                     {
                         // dd("tes5");
                         $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null)  && ($absen->keluaristirahat!=null))
+                        //ini yang bujur be istiraahat
+                        // if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null)  && ($absen->keluaristirahat!=null))
+
+                        $batasakhir=date("H:i:s",strtotime("14:00:00"));
+                        $jamkeluarjadwal=date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']));
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))                        
                         {
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
+
                         }
                         else
                         {
@@ -1141,35 +1192,80 @@ class Controller extends BaseController
                         if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null)  && ($absen->keluaristirahat!=null))
                         {
                                 
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1226,7 +1322,6 @@ class Controller extends BaseController
                 //Bisa Pulan 3
             }
             elseif(($jamfingerprint < ( $jamakhir)))
-
             {
                 $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
                     ->where('tanggal', '=', $tanggal_fingerprint)
@@ -1275,38 +1370,80 @@ class Controller extends BaseController
                     if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                     {
                         $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        // if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))                        
                         {
-                            
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1328,38 +1465,83 @@ class Controller extends BaseController
                     }
                     else{
                         $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        // if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {
                                 
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
+                            // 
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1477,37 +1659,83 @@ class Controller extends BaseController
                     if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                     {
                         $harike=date('N', strtotime($tanggalkemarin));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
+                        // if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))                        
                         {
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1530,37 +1758,82 @@ class Controller extends BaseController
                     }
                     else{
                         $harike=date('N', strtotime($tanggalkemarin));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal'])));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1661,37 +1934,80 @@ class Controller extends BaseController
                     if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
                     {
                         $harike=date('N', strtotime($tanggalkemarin));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1714,37 +2030,80 @@ class Controller extends BaseController
                     }
                     else{
                         $harike=date('N', strtotime($tanggalkemarin));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {
+                            // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
+                            // {
+                            //     $jam_masuk=$absen->jam_masuk;
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+                            // else
+                            // {
+                            //     $jam_masuk=$table2[0]['jam_masukjadwal'];
+                            //     $keluaristirahat=$absen->keluaristirahat;
+                            //     $masukistirahat=$absen->masukistirahat;
+                            //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
+                            //         $jam_keluar=$jam_fingerprint;
+                            //     }
+                            //     else{
+                            //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                            //     }
+                            //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
+                            //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
+                            //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                            // }
+
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
-                                $jam_masuk=$absen->jam_masuk;
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=$absen->jam_masuk;
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                             else
                             {
-                                $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                $keluaristirahat=$absen->keluaristirahat;
-                                $masukistirahat=$absen->masukistirahat;
-                                if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                    $jam_keluar=$jam_fingerprint;
+                                $jamban=($table2[0]['jam_masukjadwal']);
+                                $jam_fingerprint=date("H:i:s",strtotime($jam_fingerprint));
+                                $batasakhir=date("H:i:s",strtotime("11:30:00"));
+                                $batasakhir2=date("H:i:s",strtotime("14:00:00"));
+
+                                if ($jam_fingerprint < $batasakhir){
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                 }
-                                else{
-                                    $jam_keluar=$table2[0]['jam_keluarjadwal'];
+                                elseif ($jam_fingerprint < $batasakhir2)
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                 }
-                                $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                else
+                                {
+                                    $jamban2=date("Y-m-d H:i:s", strtotime("-2 hours 30 minutes",strtotime($tanggal_fingerprint." ".$jam_fingerprint)));
+                                }
+                                // $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                                $akumulasi=$this->kurangwaktu($jamban,$jamban2);
                             }
                         }
                         else
@@ -1864,7 +2223,7 @@ class Controller extends BaseController
                     {
                         // dd("tes5");
                         $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {
@@ -1916,7 +2275,7 @@ class Controller extends BaseController
                     }
                     else{
                         $harike=date('N', strtotime($tanggal_fingerprint));
-                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null) && ($absen->keluaristirahat!=null))
+                        if (($harike==5) && ($table2[0]['sifat']=="WA") && ($table2[0]['id']=="1"))
                         {    
                             if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                             {

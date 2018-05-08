@@ -377,8 +377,8 @@
                     };
                 },
                 cache: true
+                }
             }
-        }
         );
 
         $('#jadwalkerjamasuk').select2(

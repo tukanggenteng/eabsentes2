@@ -386,6 +386,25 @@ class PegawaiController extends Controller
         $idpeg=$updatedata->id;
         // dd($updatedata->id);
 
+        $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
+        foreach ($rulepegawais as $key => $datarule){
+
+            $tanggalhari=date('Y-m-d');
+            $atts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                            ->where('tanggal_att','=',$tanggalhari)
+                            ->where('pegawai_id','=',$updatedata->id)
+                            ->whereNull('jam_masuk');
+                            
+            if ($atts->count() > 0){
+                $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                                ->where('tanggal_att','=',$tanggalhari)
+                                ->where('pegawai_id','=',$updatedata->id)
+                                ->whereNull('jam_masuk')
+                                ->first();
+                $attsdelete->delete();
+            }
+        }
+            
         $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
         $deleterulepegawai->delete();
 
