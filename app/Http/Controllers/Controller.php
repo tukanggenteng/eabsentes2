@@ -488,13 +488,13 @@ class Controller extends BaseController
                         $tanggalbaru = date("d-M-Y");
 
                         event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                        return "Success3";
+                        return "Success";
                         //bisadatang
                     }
 
                 } else {
                     // dd("sd");
-                    return ("Success2");
+                    return ("Success");
                 }
         }
         else
@@ -503,7 +503,7 @@ class Controller extends BaseController
                     ->count();
             if ($table > 0)
             {
-                return "Success1";
+                return "Success";
             }        
             else
             {
