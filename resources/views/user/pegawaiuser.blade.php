@@ -194,7 +194,7 @@
                             <td>{{$kehadiran->jam_keluar}}</td>
                             <td>{{$kehadiran->namainstansikeluar}}</td>
                             <td>{{$kehadiran->akumulasi_sehari}}</td>
-                            @if ($kehadiran->jenis_absen=="Absent")
+                            @if ($kehadiran->jenis_absen=="Tanpa Kabar")
                             <td><span class="badge bg-red">{{$kehadiran->jenis_absen}}</span></td>
                             @else
                             <td>{{$kehadiran->jenis_absen}}</td>

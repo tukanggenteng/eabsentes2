@@ -533,7 +533,7 @@
                                 <td>{{$kehadiran->jam_keluar}}</td>
                                 <td>{{$kehadiran->namainstansikeluar}}</td>
                                 <td>{{$kehadiran->akumulasi_sehari}}</td>
-                                @if ($kehadiran->jenis_absen=="Absent")
+                                @if ($kehadiran->jenis_absen=="Tanpa Kabar")
                                 <td><span class="badge bg-red">{{$kehadiran->jenis_absen}}</span></td>
                                 @else
                                 <td>{{$kehadiran->jenis_absen}}</td>
@@ -615,7 +615,7 @@
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->namainstansikeluar}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>
-                                            @if ($kehadiranlalu->jenis_absen=="Absent")
+                                            @if ($kehadiranlalu->jenis_absen=="Tanpa Kabar")
                                             <td><span class="badge bg-red">{{$kehadiranlalu->jenis_absen}}</span></td>
                                             @else
                                             <td>{{$kehadiranlalu->jenis_absen}}</td>

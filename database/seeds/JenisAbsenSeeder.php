@@ -20,7 +20,7 @@ class JenisAbsenSeeder extends Seeder
         DB::table('jenisabsens')->insert(
         [
             'id' => '2',
-            'jenis_absen' => 'Absent'
+            'jenis_absen' => 'Tanpa Kabar'
         ]);
         DB::table('jenisabsens')->insert(
         [
