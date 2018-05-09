@@ -50,7 +50,7 @@ class LogRaspberryController extends Controller
                 $table->versi=$versi;
                 $table->save();
 
-                return "Success tambah";
+                return "Success";
             }
             else
             {
@@ -69,11 +69,11 @@ class LogRaspberryController extends Controller
                 $table->versi=$versi;
                 $table->save();
 
-                return "Success edit";
+                return "Success";
             }
        }
        else{
-           return "token invalid";
+           return "Failed";
        }
     }
 
