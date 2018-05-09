@@ -120,8 +120,8 @@
                                     <div class="form-group">
                                         <label>Sifat</label>
                                         <select name="sifat" class="form-control select2" id="sifat">
-                                            <option value="{{encrypt('TWA')}}">Tidak Wajib Absen</option>
-                                            <option value="{{encrypt('WA')}}">Wajib Absen</option>
+                                            <option value="{{encrypt('TWA')}}">Tidak Wajib Apel</option>
+                                            <option value="{{encrypt('WA')}}">Wajib Apel</option>
                                             <option value="{{encrypt('FD')}}">Full Day</option>
                                         </select>
                                     </div>
