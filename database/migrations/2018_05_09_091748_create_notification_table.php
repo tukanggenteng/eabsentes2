@@ -15,7 +15,7 @@ class CreateNotificationTable extends Migration
     {
         //
         Schema::create('notifications',function(Blueprint $table){
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->longtext('notification');
             $table->timestamps();
             $table->softDeletes();

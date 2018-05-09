@@ -22,6 +22,11 @@ class CreateRulenotificationTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+
+        Schema::table('rulenotifications',function(Blueprint $table){
+            $table->foreign('notification_id')->references('id')->on('notifications')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+        });
     }
 
     /**
