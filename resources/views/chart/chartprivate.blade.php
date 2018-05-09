@@ -1148,7 +1148,7 @@
                             .fail(function (jqXHR, ajaxOptions, thrownError) {
                                 console.log(thrownError);
                                 console.log(ajaxOptions);
-                                alert('server not responding...');
+                                // alert('server not responding...');
                             });
                 }
 
