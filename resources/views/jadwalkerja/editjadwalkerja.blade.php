@@ -82,14 +82,11 @@
                                         <label>Sifat</label>
                                         <select name="sifat" value="{{($jadwals->sifat)}}" class="form-control select2" id="sifat">
                                             @if ($jadwals->sifat == "TWA")
-                                            <option value="{{('TWA')}}" selected>Tidak Wajib Absen</option>
-                                            @else
-                                            <option value="{{('TWA')}}">Tidak Wajib Absen</option>
-                                            @endif
-                                            @if ($jadwals->sifat == "WA")
-                                            <option value="{{('WA')}}" selected>Wajib Absen</option>
-                                            @else
-                                            <option value="{{('WA')}}">Wajib Absen</option>
+                                            <option value="{{('TWA')}}" selected>Tidak Wajib Apel</option>
+                                            @elseif  ($jadwals->sifat == "WA")
+                                            <option value="{{('WA')}}" selected>Wajib Apel</option>
+                                            @elseif ($jadwals->sifat == "FD")
+                                            <option value="{{('FD')}}">Full Day</option>
                                             @endif
                                         </select>
                                     </div>
