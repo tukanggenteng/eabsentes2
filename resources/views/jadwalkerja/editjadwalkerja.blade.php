@@ -86,8 +86,11 @@
                                             @elseif  ($jadwals->sifat == "WA")
                                             <option value="{{('WA')}}" selected>Wajib Apel</option>
                                             @elseif ($jadwals->sifat == "FD")
-                                            <option value="{{('FD')}}">Full Day</option>
+                                            <option value="{{('FD')}}" selected>Full Day</option>
                                             @endif
+                                            <option value="{{('TWA')}}">Tidak Wajib Apel</option>
+                                            <option value="{{('WA')}}">Wajib Apel</option>
+                                            <option value="{{('FD')}}">Full Day</option>
                                         </select>
                                     </div>
                                 </div>
