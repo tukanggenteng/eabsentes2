@@ -338,6 +338,14 @@ class TiapHariCommand extends Command
 
                             $pegawai=pegawai::where('id','=',$idpegawai->pegawai_id)
                                         ->first();
+                            
+                            if ($pegawai->instansi_id == null){
+                                $instansi_id=null;
+                            }
+                            else
+                            {
+                                $instansi_id=$pegawai->instansi_id;
+                            }
 
                             $table=new finalrekapbulanan();
                             $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
@@ -358,7 +366,7 @@ class TiapHariCommand extends Command
                             $table->persentase_tidakhadir=$presentasetidakhadir;
                             $table->total_akumulasi=$totalakumulasi->total;
                             $table->total_terlambat=$totalterlambat->total;
-                            $table->instansi_id=$pegawai->instansi_id;
+                            $table->instansi_id=$instansi_id;
                             $table->ijinpulangcepat=$ijinpulangcepat;
                             $table->jadwalkerja_id=$idpegawai->jadwalkerja_id;
                             $table->apelbulanan=$tidakterlambat;
@@ -383,7 +391,7 @@ class TiapHariCommand extends Command
                             $table->persentase_tidakhadir=$presentasetidakhadir;
                             $table->total_akumulasi=$totalakumulasi->total;
                             $table->total_terlambat=$totalterlambat->total;
-                            $table->instansi_id=$pegawai->instansi_id;
+                            $table->instansi_id=$instansi_id;
                             $table->ijinpulangcepat=$ijinpulangcepat;
                             $table->jadwalkerja_id=$idpegawai->jadwalkerja_id;
                             $table->apelbulanan=$tidakterlambat;
@@ -686,10 +694,18 @@ class TiapHariCommand extends Command
                             ->first();
 
                             $pegawai=pegawai::where('id','=',$idpegawai->pegawai_id)
-                                        ->first();
+                                            ->first();
+
+                            if ($pegawai->instansi_id == null){
+                                $instansi_id=null;
+                            }
+                            else
+                            {
+                                $instansi_id=$pegawai->instansi_id;
+                            }
 
                             $table=new masterbulanan();
-                            $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
+                            $table->periode=date("Y-m-d",strtotime($sekarang));
                             $table->pegawai_id=$idpegawai->pegawai_id;
                             $table->hari_kerja=$harikerja;
                             $table->hadir=$hadir;
@@ -707,7 +723,7 @@ class TiapHariCommand extends Command
                             $table->persentase_tidakhadir=$presentasetidakhadir;
                             $table->total_akumulasi=$totalakumulasi->total;
                             $table->total_terlambat=$totalterlambat->total;
-                            $table->instansi_id=$pegawai->instansi_id;
+                            $table->instansi_id=$instansi_id;
                             $table->ijinpulangcepat=$ijinpulangcepat;
                             $table->jadwalkerja_id=$idpegawai->jadwalkerja_id;
                             $table->apelbulanan=$tidakterlambat;
