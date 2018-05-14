@@ -705,7 +705,7 @@ class TiapHariCommand extends Command
                             }
 
                             $table=new masterbulanan();
-                            $table->periode=date("Y-m-d",strtotime($sekarang));
+                            $table->periode=$awal;
                             $table->pegawai_id=$idpegawai->pegawai_id;
                             $table->hari_kerja=$harikerja;
                             $table->hadir=$hadir;

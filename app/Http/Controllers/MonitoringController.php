@@ -12,7 +12,7 @@ class MonitoringController extends Controller
     //
     public function monitoringinstansiminggu(Request $request)
     {
-        
+        // $masterbulanan=
         return view('monitoring.rekapmingguinstansi');
     }
 }
