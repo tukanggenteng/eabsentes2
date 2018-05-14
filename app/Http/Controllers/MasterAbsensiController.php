@@ -48,18 +48,8 @@ class MasterAbsensiController extends Controller
           $status=false;
         }
 
-        // $bulan=date("m",strtotime("-1 month",strtotime($bulan)));
-        // $tahun=date("Y");
         if ($status==true)
         {
-        // dd($awal." + ".$akhir);
-        // $pegawais=pegawai::join('rulejadwalpegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-        //     ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-        //     ->where('pegawais.status_aktif','=','1')
-        //     ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        //     ->get();
-        // dd($pegawais);
-
 
         $idpegawais=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
             ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')

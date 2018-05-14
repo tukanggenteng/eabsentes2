@@ -420,7 +420,7 @@ class TiapHariCommand extends Command
             $awal=date("Y-m-d",strtotime("-7 days",strtotime($sekarang)));
             $akhir=date("Y-m-d",strtotime("-1 days",strtotime($sekarang)));
 
-            $cekrekapbulanan=rekapminggucheck::where('tanggalcheckrekapminggu','=',$awal)
+            $cekrekapbulanan=rekapminggucheck::where('tanggalcheckrekapminggu','=',$sekarang)
                                             ->count();
             if ($cekrekapbulanan > 0)
             {
