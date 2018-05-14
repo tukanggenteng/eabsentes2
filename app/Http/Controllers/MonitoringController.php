@@ -26,8 +26,8 @@ class MonitoringController extends Controller
                                             WHERE pegawai_id=@pegawai AND YEAR(periode)="'.$tahun.'" ) AS total
                                     FROM pegawais where instansi_id="'.Auth::user()->instansi_id.'" ORDER BY total ASC');
 
-        $instansi= DB::select('SELECT namaInstansi,id,
-                                     (SELECT COUNT())
+        $instansi= DB::select('SELECT namaInstansi,@instansi:=id,
+                                     (SELECT COUNT(hari))
                                 FROM instansis 
                                 WHERE id="'.$request->instansi_id.'" ORDER BY '.$request->jenisabsen.' '.$request->metode);
 
