@@ -7,7 +7,7 @@
       <i class="fa fa-bank bg-green"></i>
     @endif
     <div class="timeline-item">
-        <span class="time"><i class="fa fa-calendar"></i> {{ date("d-F-Y",strtotime($attstran->tanggal) }}</span>
+        <span class="time"><i class="fa fa-calendar"></i> {{ date("d-F-Y",strtotime($attstran->tanggal)) }}</span>
 
         <h3 class="timeline-header">{{ $attstran->nama }} <small>dari {{ $attstran->instansiPegawai }}</small></h3>
 
