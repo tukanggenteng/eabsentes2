@@ -1708,7 +1708,9 @@ class Controller extends BaseController
                     $akhir=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                     $akumulasi=$this->kurangwaktu($awal,$akhir);
                 }
-                elseif ($table2[0]['sifat']=="WA")
+                elseif ($table2[0]['sifat']=="WA"){
+                    return "Success";
+                }
                 else
                 {
                     if ($table2[0]['jam_masukjadwal']>$table2[0]['jam_keluarjadwal'])
