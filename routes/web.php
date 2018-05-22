@@ -171,6 +171,17 @@ Route::group(['middleware' => ['rule:rs']],function(){
 });
 
 Route::group(['middleware' => ['rule:rs,user']],function(){
+
+      //monitoring BKD
+
+      // Route::get('/monitoring/instansi/mingguan','MonitoringController@monitoringinstansiminggu');
+      // Route::post('/monitoring/instansi/mingguan','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
+      // Route::get('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
+      // Route::post('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
+      // Route::get('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
+      // Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
+      // Route::post('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
+      // Route::get('/monitoring/instansi/mingguan/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
   
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
@@ -437,7 +448,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/instansi','InstansiController@index');
       Route::post('/instansi/sinkron','InstansiController@store')->name('sinkroninstansi');
       Route::get('/instansi/data','InstansiController@data')->name('datainstansi');
-      Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
+      // Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
 
       #rekap bulanan
       Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');

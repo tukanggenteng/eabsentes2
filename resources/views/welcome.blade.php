@@ -10,14 +10,14 @@
                 <img src="/dist/img/logo.png" alt="">
             </div>
             <div style="font-size: 35px;text-align: center;max-width: 100%;">
-                <strong>E-ABSEN</strong>
+                <strong>E-ABSENT</strong>
                 <p style="font-size: 15px;text-align: center;max-width: 100%;"><small>Pemerintah Provinsi Kalimantan Selatan</small></p>
             </div>
 
             <p class="login-box-msg">
                     Buku Panduan <a href="https://www.dropbox.com/s/mll1adop1b02rrv/Tutorial%20Eabsen.zip?dl=0">E-Absen</a>
                 <br>
-                    Panduan Video <a href="https://youtu.be/D6c3vSmVZg8">E-Absen</a>
+                    Panduan Video <a href="https://youtu.be/b6Feu6a2SJI">E-Absen</a>
             </p>
 
             <form action="/" method="post">

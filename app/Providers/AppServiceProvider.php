@@ -15,6 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(ViewFactory $view)
     {
         //
+        
         $view->composer('*', 'App\Http\Composers\InstansiUserComposer');
     }
 
