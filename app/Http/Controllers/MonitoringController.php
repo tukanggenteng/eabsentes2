@@ -436,6 +436,7 @@ class MonitoringController extends Controller
             ->whereYear('masterbulanans.periode','=',$tahun)
             ->where('masterbulanans.pegawai_id','=',$id)
             ->orderBy($order,$request->metode)
+            ->groupBy('masterbulanans.periode')            
             ->whereNotNull('masterbulanans.instansi_id')
             ->paginate(50);
 
