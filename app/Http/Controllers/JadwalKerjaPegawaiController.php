@@ -35,8 +35,8 @@ class JadwalKerjaPegawaiController extends Controller
 //        dd($inforekap);
         $tanggalsekarang=date("Y-m-d");
         
-            $rulejadwal2=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+            $rulejadwal2=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 // ->where('tanggal_awalrule','<=',$tanggalsekarang)
                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
@@ -48,6 +48,12 @@ class JadwalKerjaPegawaiController extends Controller
             $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                         ->orWhere('instansi_id','=','1')
                         ->get();
+
+            $jadwalkerja=rulejadwalpegawai::leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+                ->orWhere('jadwalkerjas.instansi_id','=','1')
+                ->get();
+
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal]);
     }
 
