@@ -10,7 +10,7 @@
                 <img src="/dist/img/logo.png" alt="">
             </div>
             <div style="font-size: 35px;text-align: center;max-width: 100%;">
-                <strong>E-ABSENT</strong>
+                <strong>E-ABSEN</strong>
                 <p style="font-size: 15px;text-align: center;max-width: 100%;"><small>Pemerintah Provinsi Kalimantan Selatan</small></p>
             </div>
 
