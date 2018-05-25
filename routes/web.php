@@ -28,6 +28,8 @@ Route::group(['middleware' => ['rule:user,admin,rs']],function(){
   Route::post('/home','ChartController@index');
   Route::post('/home/chat','ChartController@store')->name('chatpost');
   Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
+  Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
+  
 });
 
 Route::group(['middleware'=>['rule:user,admin,kadis,rs,karu']],function(){
@@ -179,7 +181,6 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
       Route::post('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
       Route::get('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
-      Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
       Route::post('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
       Route::get('/monitoring/instansi/mingguan/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
   
@@ -347,6 +348,7 @@ Route::group(['middleware' => ['rule:user']],function(){
 
       // Route::post('/user/registerpost','UserController@registerstore');
       // Route::get('/user/register','UserController@register');
+
 
 Route::group(['middleware' => ['rule:admin']],function(){
       #raspberry

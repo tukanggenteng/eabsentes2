@@ -610,11 +610,11 @@ class TiapHariCommand extends Command
                                 ->where('atts.tanggal_att','<=',$akhir)
                                 ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
                                 ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
-                                ->where('atts.jenisabsen_id','=',1)
+                                // ->where('atts.jenisabsen_id','=',1)
                                 // ->where('atts.jenisabsen_id','!=',2)
                                 // ->where('atts.jenisabsen_id','!=',9)
                                 // ->where('atts.jenisabsen_id','!=',11)
-                                ->where('atts.apel','=','1')
+                                ->where('atts.apel','=',1)
                                 // ->where('atts.jenisabsen_id',$tanpaabsen)
                                 ->count();
 
