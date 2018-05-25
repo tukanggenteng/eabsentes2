@@ -273,11 +273,16 @@ class JadwalKerjaPegawaiHarianController extends Controller
     public function show($id)
     {
         //
-        $jadwals=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
-                ->where('sifat','!=','FD')
-                ->orWhere('id','=','1')
-                // ->whereNotIn('sifat',['FD'])
-                ->get();
+        // $jadwals=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
+        //         ->where('sifat','!=','FD')
+        //         ->orWhere('id','=','1')
+        //         // ->whereNotIn('sifat',['FD'])
+        //         ->get();
+        $jadwals=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+        ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+        ->where('jadwalkerjas.sifat','!=','FD')
+        ->orWhere('jadwalkerjas.instansi_id','=','1')
+        ->get();
         // dd($jadwals);
 
         $idpeg=decrypt($id);
