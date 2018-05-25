@@ -7,6 +7,7 @@ use App\pegawai;
 use App\dokter;
 use App\perawatruangan;
 use App\rulejadwalpegawai;
+use App\rulejammasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Yajra\Datatables\Facades\Datatables;
@@ -45,13 +46,13 @@ class JadwalKerjaPegawaiController extends Controller
                 ->paginate(30);
 
             $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
-            $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
-                        ->orWhere('instansi_id','=','1')
-                        ->get();
+            // $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
+            //             ->orWhere('instansi_id','=','1')
+            //             ->get();
 
-            $jadwalkerja=rulejadwalpegawai::leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+            $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
                 ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
-                ->where('jadwalkerjas.instansi_id','=','1')
+                ->orWhere('jadwalkerjas.instansi_id','=','1')
                 ->get();
 
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal]);
