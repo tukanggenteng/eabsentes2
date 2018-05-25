@@ -51,7 +51,7 @@ class JadwalKerjaPegawaiController extends Controller
 
             $jadwalkerja=rulejadwalpegawai::leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
                 ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
-                ->orWhere('jadwalkerjas.instansi_id','=','1')
+                ->where('jadwalkerjas.instansi_id','=','1')
                 ->get();
 
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal]);
