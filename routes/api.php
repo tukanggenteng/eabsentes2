@@ -38,6 +38,8 @@ Route::group(['middleware'=>['api']], function () {
 
     // Route::get('/atts/hapus/{id}','AttendanceController@hapusatt');
 
+    Route::get('/attendance/{pegawai}/{tanggalawal}/{tanggalakhir}','AttendanceController@attendanceapi');
+
     Route::post('/lograspberry','LogRaspberryController@postlog');
 
     Route::get('/historyfinger/{ip}/{instansi_id}','HistoryFingerPegawaiController@getdata');

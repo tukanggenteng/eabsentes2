@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('throttle:500000,1');
+        $this->middleware('throttle:5000,1');
     }
 
     public function store(Request $request){
@@ -105,5 +105,31 @@ class AttendanceController extends Controller
         }
         // dd($table);
         return "selesai";
+    }
+
+    public function attendanceapi($pegawai,$tanggalawal,$tanggalakhir)
+    {
+        $tanggalawal=date('Y-m-d',strtotime($tanggalawal));
+        $tanggalakhir=date('Y-m-d',strtotime($tanggalakhir));
+        $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
+                ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
+                ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+                ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+                ->where('pegawais.nip','=',$pegawai)
+                ->where('atts.tanggal_att','>=',$tanggalawal)
+                ->where('atts.tanggal_att','<=',$tanggalakhir)
+                ->select('atts.tanggal_att',
+                'atts.jam_masuk',
+                'atts.terlambat',
+                'atts.jam_keluar',
+                'atts.akumulasi_sehari',
+                'atts.keluaristirahat',
+                'atts.masukistirahat',
+                'atts.apel',
+                'jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+                ->get();
+        return $data;
     }
 }
