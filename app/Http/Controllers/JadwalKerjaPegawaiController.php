@@ -22,7 +22,7 @@ class JadwalKerjaPegawaiController extends Controller
     public function index(Request $request)
     {
         //
-//        dd($request->table_search);
+        // dd($request->table_search);
 
         if ($this->notifrekap()=="")
         {
@@ -33,7 +33,7 @@ class JadwalKerjaPegawaiController extends Controller
         {
             $inforekap=$this->notifrekap();
         }
-//        dd($inforekap);
+        // dd($inforekap);
         $tanggalsekarang=date("Y-m-d");
         
             $rulejadwal2=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
@@ -158,14 +158,10 @@ class JadwalKerjaPegawaiController extends Controller
             $verifikasi=rulejadwalpegawai::
                 where('pegawai_id','=',$data)
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
-                // ->where('tanggal_awalrule',',>=',$tanggalawal)
-                // ->where('tanggal_akhirrule','<=',$tanggalakhir)
                 ->where('tanggal_akhirrule','>=',$tanggalawal)
-                // ->orWhere('tanggal_awalrule',',<=',$tanggalawal)
-                // ->orWhere('tanggal_akhirrule','>=',$tanggalakhir)
                 ->count();
 
-        //    dd($data);
+
 
             if ($verifikasi>0) {
                 return redirect('/jadwalkerjapegawai')->with('err','Terdapat data jadwal pegawai lebih dari 2 kali pada hari yang sama.');
@@ -195,15 +191,21 @@ class JadwalKerjaPegawaiController extends Controller
                             $table->jenisabsen_id = '2';
                         }
                         $table->save();
+
+                        $table = new rulejadwalpegawai();
+                        $table->pegawai_id = $data;
+                        $table->tanggal_awalrule = $tanggal[0];
+                        $table->tanggal_akhirrule = $tanggal[1];
+                        $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                        $table->save();
                     }
                 }
+                else
+                {
 
-                $table = new rulejadwalpegawai();
-                $table->pegawai_id = $data;
-                $table->tanggal_awalrule = $tanggal[0];
-                $table->tanggal_akhirrule = $tanggal[1];
-                $table->jadwalkerja_id = $request->jadwalkerjamasuk;
-                $table->save();
+                }
+
+                
 
             }
         }
