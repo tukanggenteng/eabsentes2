@@ -191,7 +191,7 @@ class TiapHariCommand extends Command
                                                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
                                                 ->get();
 
-                                    dd($jadwalpegawais);
+                                    // dd($jadwalpegawais);
                                     foreach ($jadwalpegawais as $jadwalpegawai)
                                     {
                                         $cek=att::where('tanggal_att','=',$tanggalproses)
@@ -199,7 +199,7 @@ class TiapHariCommand extends Command
                                             ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
                                             ->where('jenisabsen_id','=','2')
                                             ->count();
-                                            // dd($cek);
+                                            dd($cek);
                                         if ($cek > 0){
 
                                         }
@@ -315,7 +315,7 @@ class TiapHariCommand extends Command
                                                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
                                                 ->get();
 
-                                    dd($jadwalpegawais);
+                                    // dd($jadwalpegawais);
                                     foreach ($jadwalpegawais as $jadwalpegawai)
                                     {
                                         $cek=att::where('tanggal_att','=',$tanggalproses)
@@ -323,7 +323,7 @@ class TiapHariCommand extends Command
                                             ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
                                             ->where('jenisabsen_id','=','2')
                                             ->count();
-                                            // dd($cek);
+                                            dd($cek."tidak");
                                         if ($cek > 0){
 
                                         }
