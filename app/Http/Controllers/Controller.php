@@ -209,334 +209,575 @@ class Controller extends BaseController
         $hitungabsen=att::where('pegawai_id','=',$pegawai_id_fingerprint)
         ->where('tanggal_att','=',$tanggal_fingerprint)
         ->whereNull('jam_masuk')
+        ->whereNull('jam_keluar')
         ->count();
         // dd($hitungabsen);
         if ($hitungabsen>0) {
             // dd("asd");
-            $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
-                ->where('tanggal_att','=',$tanggal_fingerprint)
-                ->whereNull('jam_masuk')        
-                // ->oldest()
-                // ->first();
-                ->get();
-                // dd($absens);
-            foreach ($absens as $key=>$absen)
-            {
-
-                //cek kecocokan jam masuk berdasarkan jadwalkerja
-                $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
-                    ->select('jadwalkerjas.id', 'jadwalkerjas.sifat' , 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
-                    ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
+                $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
+                    ->where('tanggal_att','=',$tanggal_fingerprint)
+                    ->whereNull('jam_keluar')
+                    ->whereNull('jam_masuk')        
+                    // ->oldest()
+                    // ->first();
                     ->get();
-                // dd($cek);
-                $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
-                $jamakhir = $cek[0]['jam_masukjadwal'];
-                //menentukan jam toleransi masuk pegawai
-                // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
-                $jamakhir2=$jamakhir;
-                $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
-                // cek bisa masuk atau tidak
-
-                $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
-                $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
-
-                if ($jamsebelummasukkerja>=$jamkeluarjadwal)
+                    // dd($absens);
+                foreach ($absens as $key=>$absen)
                 {
-                    $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
-                    $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime("+1 days",strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal'])));
-                    
-                }
-                else
-                {
+                    //cek kecocokan jam masuk berdasarkan jadwalkerja
+                    $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
+                        ->select('jadwalkerjas.id', 'jadwalkerjas.sifat' , 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
+                        ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
+                        ->get();
+                    // dd($cek);
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
+                    $jamakhir = $cek[0]['jam_masukjadwal'];
+                    //menentukan jam toleransi masuk pegawai
+                    // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
+                    $jamakhir2=$jamakhir;
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
+                    // cek bisa masuk atau tidak
+
                     $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
                     $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
-                }
 
-                $jamfingerprint=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
-                // $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
-                // $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
-
-                if (($jamfingerprint >= $jamsebelummasukkerja) && ($jamfingerprint<=$jamkeluarjadwal)) {
-                    // dd("mau");
-                    //menghitung data absen trans pegawai
-                    $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
-                        ->where('tanggal', '=', $tanggal_fingerprint)
-                        ->where('status_kedatangan', '=', $status_fingerprint)
-                        ->count();
-                    // $hitungabsen=att::where('pegawai_id','=',$pegawai_id_fingerprint)
-                    //     ->where('tanggal_att','=',$tanggal_fingerprint)
-                    //     ->whereNotNull('jam_masuk')
-                    //     ->count();
-                        //jika hasil nya lebih dari 0 maka
-                    // dd($cari);
-                    if ($cari > 0) {
-                        
-                        // gasan dokter meabsen lgi
-                        if (($cek[0]['sifat']=="FD") && (($absen->jam_keluar!=null))){
-                            
-                                    $user = new att();
-                                    $user->pegawai_id = $jadwalpegawai->pegawai_id;
-                                    $user->tanggal_att=$tanggalharini;
-                                    $user->terlambat='00:00:00';
-                                    $user->jadwalkerja_id=$jadwalkerja->jadwalkerja_id;
-                                    if ($jadwalkerja->sifat=="FD"){
-                                        $user->jenisabsen_id = '13';
-                                    }
-                                    else{
-                                        $user->jenisabsen_id = '2';
-                                    }
-                                    $user->akumulasi_sehari='00:00:00';
-                                    $user->save();
-
-                                    //menambah data absen trans yang baru
-                                    $save = new atts_tran();
-                                    $save->pegawai_id = $pegawai_id_fingerprint;
-                                    $save->tanggal = $tanggal_fingerprint;
-                                    $save->jam = $jam_fingerprint;
-                                    $save->lokasi_alat = $instansi_fingerprint;
-                                    $save->status_kedatangan = $status_fingerprint;
-                                    $save->save();
-
-                                    //meubah data masuk
-                                    $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
-                                        ->where('pegawai_id', '=', $pegawai_id_fingerprint)
-                                        ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
-                                        ->where('id','=',$absen->id)
-                                        ->first();
-                                        
-                                    $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
-                                        ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                                    if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
-                                    {
-                                        $table->jenisabsen_id = "1";
-                                    }else {
-                                        // $table->jenisabsen_id = "8";
-                                        $table->jenisabsen_id = "1";
-                                    }
-
-                                    if ($jam_fingerprint>$jamakhir)
-                                    {
-                                        $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
-                                        $table->apel="0";
-
-                                    }
-                                    else {
-                                        if ($cek[0]['sifat']=="WA"){
-                                            $table->apel="1";
-                                        }
-                                        else
-                                        {
-                                            $table->apel="0";
-                                        }
-                                        $terlambatnya="00:00:00";
-                                    }
-
-                                    
-
-                                    $table->terlambat=$terlambatnya;
-                                    $table->jam_masuk = $jam_fingerprint;
-                                    $table->tanggal_att = $tanggal_fingerprint;
-                                    $table->masukinstansi_id = $instansi_fingerprint;
-
-                                    $table->save();
-
-
-
-                                    $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
-
-                                    if ($jam_fingerprint>$jamakhir2){
-
-                                    $status = "hadir terlambat";
-                                    }
-                                    else {
-
-                                    $status = "hadir";
-                                    }
-                                    if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
-                                        $class = "bg-green";
-                                    } else {
-                                        $class = "bg-yellow";
-                                    }
-
-                                    $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
-                                    event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                    return "Success";
-                                    //bisadatang
-                        }
-                        else
-                        {
-                            return "Success";
-                            // pegawai wajib apel kd perlu nambah atts otomatis
-                            //menambah data absen trans yang baru
-                            // $save = new atts_tran();
-                            // $save->pegawai_id = $pegawai_id_fingerprint;
-                            // $save->tanggal = $tanggal_fingerprint;
-                            // $save->jam = $jam_fingerprint;
-                            // $save->lokasi_alat = $instansi_fingerprint;
-                            // $save->status_kedatangan = $status_fingerprint;
-                            // $save->save();
-
-                            // //meubah data masuk
-                            // $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
-                            //     ->where('pegawai_id', '=', $pegawai_id_fingerprint)
-                            //     ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
-                            //     ->where('id','=',$absen->id)                                
-                            //     ->first();
-                                
-                            // $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
-                            //     ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                            // if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
-                            // {
-                            //     $table->jenisabsen_id = "1";
-                            // }else {
-                            //     // $table->jenisabsen_id = "8";
-                            //     $table->jenisabsen_id = "1";
-                            // }
-
-                            // if ($jam_fingerprint>$jamakhir)
-                            // {
-                            //     $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
-                            //     $table->apel="0";
-
-                            // }
-                            // else {
-                            //     if ($cek[0]['sifat']=="WA"){
-                            //         $table->apel="1";
-                            //     }
-                            //     else
-                            //     {
-                            //         $table->apel="0";
-                            //     }
-                            //     $terlambatnya="00:00:00";
-                            // }
-
-                            // $table->terlambat=$terlambatnya;
-                            // $table->jam_masuk = $jam_fingerprint;
-                            // $table->tanggal_att = $tanggal_fingerprint;
-                            // $table->masukinstansi_id = $instansi_fingerprint;
-
-                            // $table->save();
-
-
-
-                            // $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
-
-                            // if ($jam_fingerprint>$jamakhir2){
-
-                            //     $status = "hadir terlambat";
-                            // }
-                            // else {
-
-                            //     $status = "hadir";
-                            // }
-                            // if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
-                            //     $class = "bg-green";
-                            // } else {
-                            //     $class = "bg-yellow";
-                            // }
-
-                            // $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
-                            // event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                            // return "Success";
-                            // //bisadatang
-                            
-                        }
-                    } 
-                    else 
+                    if ($jamsebelummasukkerja>=$jamkeluarjadwal)
                     {
-                        // dd("asd");
-                        //menambah data absen trans yang baru
-                        // $save = new atts_tran();
-                        // $save->pegawai_id = $pegawai_id_fingerprint;
-                        // $save->tanggal = $tanggal_fingerprint;
-                        // $save->jam = $jam_fingerprint;
-                        // $save->lokasi_alat = $instansi_fingerprint;
-                        // $save->status_kedatangan = $status_fingerprint;
-                        // $save->save();
-                        // // dd("sd");
-                        // //meubah data masuk
-                        // $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
-                        //     ->where('pegawai_id', '=', $pegawai_id_fingerprint)
-                        //     ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
-                        //     ->where('id','=',$absen->id)                            
-                        //     ->first();
-                            
-                        // $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
-                        //     ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                        // if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
-                        // {
-                        //     $table->jenisabsen_id = "1";
-                        // }else {
-                        //     // $table->jenisabsen_id = "8";
-                        //     $table->jenisabsen_id = "1";
-                        // }
-
-                        // if ($jam_fingerprint>$jamakhir)
-                        // {
-                        //     $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
-                        //     $table->apel="0";
-
-                        //     if ($cek[0]['sifat']=="FD"){
-
-                        //         $terlambatnya="00:00:00";
-                        //     }
-
-                        // }
-                        // else {
-                        //     if ($cek[0]['sifat']=="WA"){
-                        //         $table->apel="1";
-                        //     }
-                        //     else
-                        //     {
-                        //         $table->apel="0";
-                        //     }
-                        //     $terlambatnya="00:00:00";
-                        // }
-
-                        // $table->terlambat=$terlambatnya;
-                        // $table->jam_masuk = $jam_fingerprint;
-                        // $table->tanggal_att = $tanggal_fingerprint;
-                        // $table->masukinstansi_id = $instansi_fingerprint;
-
-                        // $table->save();
-
-
-
-                        // $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
-
-                        // if ($jam_fingerprint>$jamakhir2){
-
-                        // $status = "hadir terlambat";
-                        // }
-                        // else {
-
-                        // $status = "hadir";
-                        // }
-                        // if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
-                        //     $class = "bg-green";
-                        // } else {
-                        //     $class = "bg-yellow";
-                        // }
-                        // $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
-
-                        // event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                        return "Success";
-                        //bisadatang
+                        $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                        $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime("+1 days",strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal'])));
+                        
+                    }
+                    else
+                    {
+                        $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                        $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
                     }
 
-                } 
-                else {
-                    return ("Success");
+                    $jamfingerprint=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                    // $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                    // $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
+
+                    if (($jamfingerprint >= $jamsebelummasukkerja) && ($jamfingerprint<=$jamkeluarjadwal)) {
+                        // dd("mau");
+                        //menghitung data absen trans pegawai
+                        $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
+                            ->where('tanggal', '=', $tanggal_fingerprint)
+                            ->where('status_kedatangan', '=', $status_fingerprint)
+                            ->count();
+                        // $cari=att::where('pegawai_id','=',$pegawai_id_fingerprint)
+                        //     ->where('tanggal_att','=',$tanggal_fingerprint)
+                        //     ->whereNotNull('jam_keluar')
+                        //     ->count();
+                        
+                        // dd($cari);
+                        if ($cari > 0) {
+                            
+                            // gasan dokter meabsen lgi
+                            if (($cek[0]['sifat']=="FD") && (($absen->jam_keluar!=null))){
+
+                                        $user = new att();
+                                        $user->pegawai_id = $pegawai_id_fingerprint;
+                                        $user->tanggal_att=$tanggal_fingerprint;
+                                        $user->terlambat='00:00:00';
+                                        $user->jadwalkerja_id=$absen->jadwalkerja_id;
+                                        if ($cek[0]['sifat']=="FD"){
+                                            $user->jenisabsen_id = '13';
+                                        }
+                                        else{
+                                            $user->jenisabsen_id = '2';
+                                        }
+                                        $user->akumulasi_sehari='00:00:00';
+                                        $user->save();
+
+                                        //menambah data absen trans yang baru
+                                        $save = new atts_tran();
+                                        $save->pegawai_id = $pegawai_id_fingerprint;
+                                        $save->tanggal = $tanggal_fingerprint;
+                                        $save->jam = $jam_fingerprint;
+                                        $save->lokasi_alat = $instansi_fingerprint;
+                                        $save->status_kedatangan = $status_fingerprint;
+                                        $save->save();
+
+                                        //meubah data masuk
+                                        $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
+                                            ->where('pegawai_id', '=', $pegawai_id_fingerprint)
+                                            ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                                            ->where('id','=',$user->id)
+                                            ->first();
+                                            
+                                        $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                            ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                                        {
+                                            $table->jenisabsen_id = "1";
+                                        }else {
+                                            // $table->jenisabsen_id = "8";
+                                            $table->jenisabsen_id = "1";
+                                        }
+
+                                        if ($jam_fingerprint>$jamakhir)
+                                        {
+                                            $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                                            $table->apel="0";
+
+                                        }
+                                        else {
+                                            if ($cek[0]['sifat']=="WA"){
+                                                $table->apel="1";
+                                            }
+                                            else
+                                            {
+                                                $table->apel="0";
+                                            }
+                                            $terlambatnya="00:00:00";
+                                        }
+
+                                        
+
+                                        $table->terlambat=$terlambatnya;
+                                        $table->jam_masuk = $jam_fingerprint;
+                                        $table->tanggal_att = $tanggal_fingerprint;
+                                        $table->masukinstansi_id = $instansi_fingerprint;
+
+                                        $table->save();
+
+
+
+                                        $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
+
+                                        if ($jam_fingerprint>$jamakhir2){
+
+                                        $status = "hadir terlambat";
+                                        }
+                                        else {
+
+                                        $status = "hadir";
+                                        }
+                                        if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                                            $class = "bg-green";
+                                        } else {
+                                            $class = "bg-yellow";
+                                        }
+
+                                        $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
+                                        event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                                        return "Success";
+                                        //bisadatang
+                            }
+                            else
+                            {
+                            //     // dd("sd");
+                                return "Success2";
+                            //     // pegawai wajib apel kd perlu nambah atts otomatis
+                            //     // menambah data absen trans yang baru
+                            //     $save = new atts_tran();
+                            //     $save->pegawai_id = $pegawai_id_fingerprint;
+                            //     $save->tanggal = $tanggal_fingerprint;
+                            //     $save->jam = $jam_fingerprint;
+                            //     $save->lokasi_alat = $instansi_fingerprint;
+                            //     $save->status_kedatangan = $status_fingerprint;
+                            //     $save->save();
+
+                            //     //meubah data masuk
+                            //     $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
+                            //         ->where('pegawai_id', '=', $pegawai_id_fingerprint)
+                            //         ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                            //         ->where('id','=',$absen->id)                                
+                            //         ->first();
+                                    
+                            //     $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                            //         ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+                            //     if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                            //     {
+                            //         $table->jenisabsen_id = "1";
+                            //     }else {
+                            //         // $table->jenisabsen_id = "8";
+                            //         $table->jenisabsen_id = "1";
+                            //     }
+
+                            //     if ($jam_fingerprint>$jamakhir)
+                            //     {
+                            //         $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                            //         $table->apel="0";
+
+                            //     }
+                            //     else {
+                            //         if ($cek[0]['sifat']=="WA"){
+                            //             $table->apel="1";
+                            //         }
+                            //         else
+                            //         {
+                            //             $table->apel="0";
+                            //         }
+                            //         $terlambatnya="00:00:00";
+                            //     }
+
+                            //     $table->terlambat=$terlambatnya;
+                            //     $table->jam_masuk = $jam_fingerprint;
+                            //     $table->tanggal_att = $tanggal_fingerprint;
+                            //     $table->masukinstansi_id = $instansi_fingerprint;
+
+                            //     $table->save();
+
+
+
+                            //     $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
+
+                            //     if ($jam_fingerprint>$jamakhir2){
+
+                            //         $status = "hadir terlambat";
+                            //     }
+                            //     else {
+
+                            //         $status = "hadir";
+                            //     }
+                            //     if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                            //         $class = "bg-green";
+                            //     } else {
+                            //         $class = "bg-yellow";
+                            //     }
+
+                            //     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
+                            //     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                            //     return "Success";
+                            //     // //bisadatang
+                                
+                            }
+                        } 
+                        else 
+                        {
+                            // dd("asd");
+                            //menambah data absen trans yang baru
+                            $save = new atts_tran();
+                            $save->pegawai_id = $pegawai_id_fingerprint;
+                            $save->tanggal = $tanggal_fingerprint;
+                            $save->jam = $jam_fingerprint;
+                            $save->lokasi_alat = $instansi_fingerprint;
+                            $save->status_kedatangan = $status_fingerprint;
+                            $save->save();
+                            // dd("sd");
+                            //meubah data masuk
+                            $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
+                                ->where('pegawai_id', '=', $pegawai_id_fingerprint)
+                                ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                                ->where('id','=',$absen->id)                            
+                                ->first();
+                                
+                            $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+                            if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                            {
+                                $table->jenisabsen_id = "1";
+                            }else {
+                                // $table->jenisabsen_id = "8";
+                                $table->jenisabsen_id = "1";
+                            }
+
+                            if ($jam_fingerprint>$jamakhir)
+                            {
+                                $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                                $table->apel="0";
+
+                                if ($cek[0]['sifat']=="FD"){
+
+                                    $terlambatnya="00:00:00";
+                                }
+
+                            }
+                            else {
+                                if ($cek[0]['sifat']=="WA"){
+                                    $table->apel="1";
+                                }
+                                else
+                                {
+                                    $table->apel="0";
+                                }
+                                $terlambatnya="00:00:00";
+                            }
+
+                            $table->terlambat=$terlambatnya;
+                            $table->jam_masuk = $jam_fingerprint;
+                            $table->tanggal_att = $tanggal_fingerprint;
+                            $table->masukinstansi_id = $instansi_fingerprint;
+
+                            $table->save();
+
+
+
+                            $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
+
+                            if ($jam_fingerprint>$jamakhir2){
+
+                            $status = "hadir terlambat";
+                            }
+                            else {
+
+                            $status = "hadir";
+                            }
+                            if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                                $class = "bg-green";
+                            } else {
+                                $class = "bg-yellow";
+                            }
+                            $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
+
+                            event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                            return "Success";
+                            //bisadatang
+                        }
+
+                    } 
+                    else {
+                        return ("Success4");
+                    }
                 }
-            }
         }
         else
         {
             $table=attendancecheck::where('tanggalcheckattendance','=',$tanggal_fingerprint)
                     ->count();
+
             if ($table > 0)
             {
-                return "Success";
+                $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
+                ->where('tanggal_att','=',$tanggal_fingerprint)
+                // ->whereNull('jam_keluar')
+                // ->whereNull('jam_masuk')        
+                // ->oldest()
+                // ->first();
+                ->get();
+                // dd($absens);
+                foreach ($absens as $key=>$absen)
+                {
+                    //cek kecocokan jam masuk berdasarkan jadwalkerja
+                    $cek = jadwalkerja::join('rulejammasuks', 'jadwalkerjas.id', '=', 'rulejammasuks.jadwalkerja_id')
+                        ->select('jadwalkerjas.id', 'jadwalkerjas.sifat' , 'jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal', 'rulejammasuks.jamsebelum_masukkerja')
+                        ->where('jadwalkerjas.id', '=', $absen->jadwalkerja_id)
+                        ->get();
+                    // dd($cek);
+                    $jamawal = date("H:i:s", strtotime($cek[0]['jamsebelum_masukkerja']));
+                    $jamakhir = $cek[0]['jam_masukjadwal'];
+                    //menentukan jam toleransi masuk pegawai
+                    // $jamakhir2 = date("H:i:s", strtotime("+30 minutes", strtotime($jamakhir)));
+                    $jamakhir2=$jamakhir;
+                    $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
+                    // cek bisa masuk atau tidak
+
+                    $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                    $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
+
+                    if ($jamsebelummasukkerja>=$jamkeluarjadwal)
+                    {
+                        $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                        $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime("+1 days",strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal'])));
+                        
+                    }
+                    else
+                    {
+                        $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                        $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
+                    }
+
+                    $jamfingerprint=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
+                    // $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
+                    // $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
+
+                    if (($jamfingerprint >= $jamsebelummasukkerja) && ($jamfingerprint<=$jamkeluarjadwal)) {
+                        // dd("mau");
+                        //menghitung data absen trans pegawai
+                        $cari = atts_tran::where('pegawai_id', '=', $pegawai_id_fingerprint)
+                            ->where('tanggal', '=', $tanggal_fingerprint)
+                            ->where('status_kedatangan', '=', $status_fingerprint)
+                            ->count();
+                        // $cari=att::where('pegawai_id','=',$pegawai_id_fingerprint)
+                        //     ->where('tanggal_att','=',$tanggal_fingerprint)
+                        //     ->whereNotNull('jam_keluar')
+                        //     ->count();
+                        
+                        // dd($cari);
+                        if ($cari > 0) {
+                            
+                            // gasan dokter meabsen lgi
+                            if (($cek[0]['sifat']=="FD") && (($absen->jam_keluar!=null))){
+
+                                        $user = new att();
+                                        $user->pegawai_id = $pegawai_id_fingerprint;
+                                        $user->tanggal_att=$tanggal_fingerprint;
+                                        $user->terlambat='00:00:00';
+                                        $user->jadwalkerja_id=$absen->jadwalkerja_id;
+                                        if ($cek[0]['sifat']=="FD"){
+                                            $user->jenisabsen_id = '13';
+                                        }
+                                        else{
+                                            $user->jenisabsen_id = '2';
+                                        }
+                                        $user->akumulasi_sehari='00:00:00';
+                                        $user->save();
+
+                                        //menambah data absen trans yang baru
+                                        $save = new atts_tran();
+                                        $save->pegawai_id = $pegawai_id_fingerprint;
+                                        $save->tanggal = $tanggal_fingerprint;
+                                        $save->jam = $jam_fingerprint;
+                                        $save->lokasi_alat = $instansi_fingerprint;
+                                        $save->status_kedatangan = $status_fingerprint;
+                                        $save->save();
+
+                                        //meubah data masuk
+                                        $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
+                                            ->where('pegawai_id', '=', $pegawai_id_fingerprint)
+                                            ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                                            ->where('id','=',$user->id)
+                                            ->first();
+                                            
+                                        $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                                            ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                                        {
+                                            $table->jenisabsen_id = "1";
+                                        }else {
+                                            // $table->jenisabsen_id = "8";
+                                            $table->jenisabsen_id = "1";
+                                        }
+
+                                        if ($jam_fingerprint>$jamakhir)
+                                        {
+                                            $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                                            $table->apel="0";
+
+                                        }
+                                        else {
+                                            if ($cek[0]['sifat']=="WA"){
+                                                $table->apel="1";
+                                            }
+                                            else
+                                            {
+                                                $table->apel="0";
+                                            }
+                                            $terlambatnya="00:00:00";
+                                        }
+
+                                        
+
+                                        $table->terlambat=$terlambatnya;
+                                        $table->jam_masuk = $jam_fingerprint;
+                                        $table->tanggal_att = $tanggal_fingerprint;
+                                        $table->masukinstansi_id = $instansi_fingerprint;
+
+                                        $table->save();
+
+
+
+                                        $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
+
+                                        if ($jam_fingerprint>$jamakhir2){
+
+                                        $status = "hadir terlambat";
+                                        }
+                                        else {
+
+                                        $status = "hadir";
+                                        }
+                                        if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                                            $class = "bg-green";
+                                        } else {
+                                            $class = "bg-yellow";
+                                        }
+
+                                        $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
+                                        event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                                        return "Success5";
+                                        //bisadatang
+                            }
+                            else
+                            {
+                            //     // dd("sd");
+                                return "Success6";
+                            //     // pegawai wajib apel kd perlu nambah atts otomatis
+                            //     // menambah data absen trans yang baru
+                            //     $save = new atts_tran();
+                            //     $save->pegawai_id = $pegawai_id_fingerprint;
+                            //     $save->tanggal = $tanggal_fingerprint;
+                            //     $save->jam = $jam_fingerprint;
+                            //     $save->lokasi_alat = $instansi_fingerprint;
+                            //     $save->status_kedatangan = $status_fingerprint;
+                            //     $save->save();
+
+                            //     //meubah data masuk
+                            //     $table = att::where('tanggal_att', '=', $tanggal_fingerprint)
+                            //         ->where('pegawai_id', '=', $pegawai_id_fingerprint)
+                            //         ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
+                            //         ->where('id','=',$absen->id)                                
+                            //         ->first();
+                                    
+                            //     $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
+                            //         ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
+                            //     if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                            //     {
+                            //         $table->jenisabsen_id = "1";
+                            //     }else {
+                            //         // $table->jenisabsen_id = "8";
+                            //         $table->jenisabsen_id = "1";
+                            //     }
+
+                            //     if ($jam_fingerprint>$jamakhir)
+                            //     {
+                            //         $terlambatnya=$this->kurangwaktu($jam_fingerprint,$jamakhir);
+                            //         $table->apel="0";
+
+                            //     }
+                            //     else {
+                            //         if ($cek[0]['sifat']=="WA"){
+                            //             $table->apel="1";
+                            //         }
+                            //         else
+                            //         {
+                            //             $table->apel="0";
+                            //         }
+                            //         $terlambatnya="00:00:00";
+                            //     }
+
+                            //     $table->terlambat=$terlambatnya;
+                            //     $table->jam_masuk = $jam_fingerprint;
+                            //     $table->tanggal_att = $tanggal_fingerprint;
+                            //     $table->masukinstansi_id = $instansi_fingerprint;
+
+                            //     $table->save();
+
+
+
+                            //     $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
+
+                            //     if ($jam_fingerprint>$jamakhir2){
+
+                            //         $status = "hadir terlambat";
+                            //     }
+                            //     else {
+
+                            //         $status = "hadir";
+                            //     }
+                            //     if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
+                            //         $class = "bg-green";
+                            //     } else {
+                            //         $class = "bg-yellow";
+                            //     }
+
+                            //     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
+                            //     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                            //     return "Success";
+                            //     // //bisadatang
+                                
+                            }
+                        } 
+                        
+
+                    } 
+                    else {
+                        return ("Success7");
+                    }
+                }
+
+                return "Success8";
             }        
             else
             {
