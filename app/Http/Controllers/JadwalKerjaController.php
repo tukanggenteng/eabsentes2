@@ -142,10 +142,12 @@ class JadwalKerjaController extends Controller
 
     public function editstore(Request $request){
         $this->validate($request, [
-            'jenisjadwal'=>'required|min:5',
+            'jenisjadwal'=>'required|min:2',
+            'singkatan'=>'required|min:2',
             'awal'=>'required|min:5',
             'pulang'=>'required|min:5'
         ]);
+        // dd("asd");
         $table=jadwalkerja::where('id','=',$request->id)->first();
         $table->jam_masukjadwal=$request->awal;
         $table->jam_keluarjadwal=$request->pulang;

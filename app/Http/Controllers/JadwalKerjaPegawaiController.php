@@ -73,7 +73,24 @@ class JadwalKerjaPegawaiController extends Controller
                     ->editColumn('action', function ($rulejadwal) {
                         return '<input type="checkbox" name="checkbox[]" value="'.encrypt($rulejadwal->id).'" class="flat-red checkbox">';
                     })
-                    ->rawColumns(['action'])
+                    ->addColumn('keterangan',function($rulejadwal){
+                        $tanggalsekarang=date("Y-m-d");
+
+                        $datarules=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                            ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                            // ->where('tanggal_awalrule','<=',$tanggalsekarang)
+                            ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
+                            ->where('rulejadwalpegawais.pegawai_id','=',$rulejadwal->id)
+                            ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','jadwalkerjas.classdata','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                            ->get();
+                        $hasil="";
+                        foreach ($datarules as $key=>$datarule){
+                            $hasil=$hasil."<span class='badge ".$datarule->classdata."'>".$datarule->jenis_jadwal."</span>";
+                        }
+                        return $hasil;
+                    })
+                    ->rawColumns(['action','keterangan'])
                     ->make(true);
     }
 
@@ -153,7 +170,6 @@ class JadwalKerjaPegawaiController extends Controller
             $tanggalawal=date("Y-m-d",strtotime($tanggal[0]));
             $tanggalakhir=date("Y-m-d",strtotime($tanggal[1]));
 
-        //    dd($tanggalakhir."+".$tanggalawal);
 
             $verifikasi=rulejadwalpegawai::
                 where('pegawai_id','=',$data)
@@ -164,34 +180,57 @@ class JadwalKerjaPegawaiController extends Controller
 
 
             if ($verifikasi>0) {
-                return redirect('/jadwalkerjapegawai')->with('err','Terdapat data jadwal pegawai lebih dari 2 kali pada hari yang sama.');
+                return redirect('/jadwalkerjapegawai')->with('err','Jadwal pegawai tidak berlaku, karena tanggal awal pada jenis jadwal kerja yang dipilih tidak lebih dari tanggal akhir pada jadwal kerja sebelum nya.');
             }
             else
             {
-                if (($tanggalhariini == $tanggalawal)) {
-                    $cek = att::where('tanggal_att', '=', $tanggalhariini)
-                        ->where('pegawai_id','=',$data)
-                        ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
-                        ->count();
-                    if ($cek == 0) {
+                $comparejadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+                // dd($comparejadwalkerja);
+                $datarules=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                            ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                            // ->where('tanggal_awalrule','<=',$tanggalsekarang)
+                            ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalhariini)
+                            ->where('rulejadwalpegawais.pegawai_id','=',$data)
+                            ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                            ->get();
+                // dd($datarules);
+                foreach ($datarules as $key => $value){
+                    // dd("asd");
+                    if ((($comparejadwalkerja->jam_masukjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_masukjadwal <= $value->jam_keluarjadwal)) || (($comparejadwalkerja->jam_keluarjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_keluarjadwal)))
+                    {
+                        return redirect('/jadwalkerjapegawai')->with('err','Tidak dapat mengatur jadwal kerja karena jadwal kerja <span class="badge bg-yellow"><b>'.$comparejadwalkerja->jenis_jadwal.'</b></span> yang dipilih bersamaan dengan <span class="badge bg-yellow"><b>'.$value->jenis_jadwal.'</b></span>.');
+                    }
+                    else
+                    {
+                        
+                        if (($tanggalhariini == $tanggalawal)) {
+                            $cek = att::where('tanggal_att', '=', $tanggalhariini)
+                                ->where('pegawai_id','=',$data)
+                                ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
+                                ->count();
+                            if ($cek == 0) {
 
-                        $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+                                $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
 
-                        $table = new att();
-                        $table->pegawai_id = $data;
-                        $table->jadwalkerja_id = $request->jadwalkerjamasuk;
-                        $table->tanggal_att = $tanggalhariini;
-                        $table->terlambat="00:00:00";
-                        $table->akumulasi_sehari="00:00:00";
-                        $table->apel="0";  
-                        if ($jadwalkerja->sifat=="FD"){
-                            $table->jenisabsen_id = '13';
+                                $table = new att();
+                                $table->pegawai_id = $data;
+                                $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                                $table->tanggal_att = $tanggalhariini;
+                                $table->terlambat="00:00:00";
+                                $table->akumulasi_sehari="00:00:00";
+                                $table->apel="0";  
+                                if ($jadwalkerja->sifat=="FD"){
+                                    $table->jenisabsen_id = '13';
+                                }
+                                else{
+                                    $table->jenisabsen_id = '2';
+                                }
+                                $table->save();
+
+                                
+                            }
                         }
-                        else{
-                            $table->jenisabsen_id = '2';
-                        }
-                        $table->save();
-
                         $table = new rulejadwalpegawai();
                         $table->pegawai_id = $data;
                         $table->tanggal_awalrule = $tanggal[0];
@@ -200,13 +239,7 @@ class JadwalKerjaPegawaiController extends Controller
                         $table->save();
                     }
                 }
-                else
-                {
-
-                }
-
-                
-
+                    
             }
         }
         return redirect('/jadwalkerjapegawai');
@@ -321,6 +354,21 @@ class JadwalKerjaPegawaiController extends Controller
         foreach ($request->checkbox2 as $data){
             $data=decrypt($data);
             $table=rulejadwalpegawai::find($data);
+            $tanggalhari=date('Y-m-d');
+            $atts=att::where('jadwalkerja_id','=',$table->jadwalkerja_id)
+                            ->where('tanggal_att','=',$tanggalhari)
+                            ->where('pegawai_id','=',$table->pegawai_id)
+                            ->whereNull('jam_masuk');
+                            
+            if ($atts->count() > 0){
+                $attsdelete=att::where('jadwalkerja_id','=',$table->jadwalkerja_id)
+                                ->where('tanggal_att','=',$tanggalhari)
+                                ->where('pegawai_id','=',$table->pegawai_id)
+                                ->whereNull('jam_masuk')
+                                ->first();
+                $attsdelete->delete();
+            }
+
             $table->delete();
         }
         

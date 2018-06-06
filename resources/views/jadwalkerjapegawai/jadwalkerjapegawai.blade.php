@@ -43,8 +43,8 @@
                 @if (!empty(session('err')))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
-                    {{session('err')}}
+                    <h4><i class="icon fa fa-ban"></i> Perhatian!</h4>
+                    {!!session('err')!!}
                 </div>
                 @endif
                 <div class="box">
@@ -104,6 +104,7 @@
                                                     </th>
                                                     <th>NIP</th>
                                                     <th>Nama</th>
+                                                    <th>Keterangan</th>
                                                 </tr>
                                             </thead> 
                                         </table>
@@ -279,7 +280,8 @@
                 columns: [
                     { data: 'action', name: 'action',orderable: false },
                     { data: 'nip', name: 'nip' },
-                    { data: 'nama', name: 'nama' }
+                    { data: 'nama', name: 'nama' },
+                    { data: 'keterangan', name: 'keterangan' },
                 ]
             });
         });
