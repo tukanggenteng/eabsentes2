@@ -19,6 +19,7 @@ use App\adminpegawai;
 use App\hapusfingerpegawai;
 use App\lograspberry;
 use App\historyfingerpegawai;
+use App\logattendance;
 use App\attendancecheck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -221,7 +222,7 @@ class Controller extends BaseController
                     // ->oldest()
                     // ->first();
                     ->get();
-                    // dd($absens);
+                    // dd($absens);asas
                 foreach ($absens as $key=>$absen)
                 {
                     //cek kecocokan jam masuk berdasarkan jadwalkerja
@@ -269,12 +270,12 @@ class Controller extends BaseController
                         //     ->whereNotNull('jam_keluar')
                         //     ->count();
                         
-                        // dd($cari);
+
                         if ($cari > 0) {
                             
                             // gasan dokter meabsen lgi
                             if (($cek[0]['sifat']=="FD") && (($absen->jam_keluar!=null))){
-
+                                        // dd($cek[0]['sifat']);
                                         $user = new att();
                                         $user->pegawai_id = $pegawai_id_fingerprint;
                                         $user->tanggal_att=$tanggal_fingerprint;
@@ -307,7 +308,7 @@ class Controller extends BaseController
                                             
                                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2) || ($table->jenisabsen_id==13))
                                         {
                                             $table->jenisabsen_id = "1";
                                         }else {
@@ -361,13 +362,30 @@ class Controller extends BaseController
 
                                         $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                                         event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+
+                                        $att=new logattendance();
+                                        $att->pegawai_id=$pegawai_id_fingerprint;
+                                        $att->instansi_id=$instansi_fingerprint;
+                                        $att->tanggal=$tanggal_fingerprint;
+                                        $att->function="jam_masuk";
+                                        $att->status="Success";
+                                        $att->save();
+
                                         return "Success";
                                         //bisadatang
                             }
                             else
                             {
                             //     // dd("sd");
-                                return "Success2";
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="jam_masuk";
+                                $att->status="Success2";
+                                $att->save();
+
+                                return "Success";
                             //     // pegawai wajib apel kd perlu nambah atts otomatis
                             //     // menambah data absen trans yang baru
                             //     $save = new atts_tran();
@@ -522,13 +540,30 @@ class Controller extends BaseController
                             $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
 
                             event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+
+                            $att=new logattendance();
+                            $att->pegawai_id=$pegawai_id_fingerprint;
+                            $att->instansi_id=$instansi_fingerprint;
+                            $att->tanggal=$tanggal_fingerprint;
+                            $att->function="jam_masuk";
+                            $att->status="Success3";
+                            $att->save();
+
                             return "Success";
                             //bisadatang
                         }
 
                     } 
                     else {
-                        return ("Success4");
+                        $att=new logattendance();
+                        $att->pegawai_id=$pegawai_id_fingerprint;
+                        $att->instansi_id=$instansi_fingerprint;
+                        $att->tanggal=$tanggal_fingerprint;
+                        $att->function="jam_masuk";
+                        $att->status="Success4";
+                        $att->save();
+
+                        return ("Success");
                     }
                 }
         }
@@ -632,7 +667,7 @@ class Controller extends BaseController
                                             
                                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
-                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2))
+                                        if (($pegawai[0]['instansi_id']==$instansi_fingerprint) || ($table->jenisabsen_id==2) || ($table->jenisabsen_id==13))
                                         {
                                             $table->jenisabsen_id = "1";
                                         }else {
@@ -686,13 +721,29 @@ class Controller extends BaseController
 
                                         $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                                         event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
-                                        return "Success5";
+                                        
+                                        $att=new logattendance();
+                                        $att->pegawai_id=$pegawai_id_fingerprint;
+                                        $att->instansi_id=$instansi_fingerprint;
+                                        $att->tanggal=$tanggal_fingerprint;
+                                        $att->function="jam_masuk";
+                                        $att->status="Success5";
+                                        $att->save();
+
+                                        return "Success";
                                         //bisadatang
                             }
                             else
                             {
                             //     // dd("sd");
-                                return "Success6";
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="jam_masuk";
+                                $att->status="Success6";
+                                $att->save();
+                                return "Success";
                             //     // pegawai wajib apel kd perlu nambah atts otomatis
                             //     // menambah data absen trans yang baru
                             //     $save = new atts_tran();
@@ -773,11 +824,27 @@ class Controller extends BaseController
 
                     } 
                     else {
-                        return ("Success7");
+                        $att=new logattendance();
+                        $att->pegawai_id=$pegawai_id_fingerprint;
+                        $att->instansi_id=$instansi_fingerprint;
+                        $att->tanggal=$tanggal_fingerprint;
+                        $att->function="jam_masuk";
+                        $att->status="Success7";
+                        $att->save();
+                        return ("Success");
                     }
                 }
 
-                return "Success8";
+
+                $att=new logattendance();
+                $att->pegawai_id=$pegawai_id_fingerprint;
+                $att->instansi_id=$instansi_fingerprint;
+                $att->tanggal=$tanggal_fingerprint;
+                $att->function="jam_masuk";
+                $att->status="Success8";
+                $att->save();
+
+                return "Success";
             }        
             else
             {
@@ -1057,23 +1124,57 @@ class Controller extends BaseController
                             if ($jam_fingerprint>=$batasawal){
                                 $table->keluaristirahat = $batasawal;
                                 $table->save();
+
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="keluaristirahat";
+                                $att->status="Success";
+                                $att->save();
+
                                 return "Success";
                             }
                             else
                             {
                                 $table->keluaristirahat = $jam_fingerprint;
                                 $table->save();
+
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="keluaristirahat";
+                                $att->status="Success2";
+                                $att->save();
+
                                 return "Success";
                             }
                             
                         }
                         else{
+                            $att=new logattendance();
+                            $att->pegawai_id=$pegawai_id_fingerprint;
+                            $att->instansi_id=$instansi_fingerprint;
+                            $att->tanggal=$tanggal_fingerprint;
+                            $att->function="keluaristirahat";
+                            $att->status="Success3";
+                            $att->save();
+
                             return "Success";
                         }
                         
                     }
                     else
                     {
+                        $att=new logattendance();
+                        $att->pegawai_id=$pegawai_id_fingerprint;
+                        $att->instansi_id=$instansi_fingerprint;
+                        $att->tanggal=$tanggal_fingerprint;
+                        $att->function="keluaristirahat";
+                        $att->status="Success4";
+                        $att->save();
+
                         return "Success";
                     }
 
@@ -1081,6 +1182,13 @@ class Controller extends BaseController
             }
             else
             {
+                $att=new logattendance();
+                $att->pegawai_id=$pegawai_id_fingerprint;
+                $att->instansi_id=$instansi_fingerprint;
+                $att->tanggal=$tanggal_fingerprint;
+                $att->function="keluaristirahat";
+                $att->status="Success5";
+                $att->save();
             return "Success";
             }
         }
@@ -1089,6 +1197,13 @@ class Controller extends BaseController
                     ->count();
             if ($table > 0)
             {
+                $att=new logattendance();
+                $att->pegawai_id=$pegawai_id_fingerprint;
+                $att->instansi_id=$instansi_fingerprint;
+                $att->tanggal=$tanggal_fingerprint;
+                $att->function="keluaristirahat";
+                $att->status="Success6";
+                $att->save();
                 return "Success";
             }        
             else
@@ -1147,28 +1262,69 @@ class Controller extends BaseController
                             {
                                 $table->masukistirahat = $batasakhir;
                                 $table->save();
+
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="masukistirahat";
+                                $att->status="Success";
+                                $att->save();
+
                                 return "Success";
                             }
                             else
                             {
                                 $table->masukistirahat = $jam_fingerprint;
                                 $table->save();
+
+                                $att=new logattendance();
+                                $att->pegawai_id=$pegawai_id_fingerprint;
+                                $att->instansi_id=$instansi_fingerprint;
+                                $att->tanggal=$tanggal_fingerprint;
+                                $att->function="masukistirahat";
+                                $att->status="Success2";
+                                $att->save();
+
                                 return "Success";
                             }
                             
                         }
+
                         else{
+                            $att=new logattendance();
+                            $att->pegawai_id=$pegawai_id_fingerprint;
+                            $att->instansi_id=$instansi_fingerprint;
+                            $att->tanggal=$tanggal_fingerprint;
+                            $att->function="masukistirahat";
+                            $att->status="Success3";
+                            $att->save();
+
                             return "Success";
                         }
                         
                     }
                     else
                     {
+                        $att=new logattendance();
+                        $att->pegawai_id=$pegawai_id_fingerprint;
+                        $att->instansi_id=$instansi_fingerprint;
+                        $att->tanggal=$tanggal_fingerprint;
+                        $att->function="masukistirahat";
+                        $att->status="Success4";
+                        $att->save();
                         return "Success";
                     }
             }
             else
             {
+                $att=new logattendance();
+                $att->pegawai_id=$pegawai_id_fingerprint;
+                $att->instansi_id=$instansi_fingerprint;
+                $att->tanggal=$tanggal_fingerprint;
+                $att->function="masukistirahat";
+                $att->status="Success5";
+                $att->save();
             return "Success";
             }
         }
@@ -1178,6 +1334,13 @@ class Controller extends BaseController
                     ->count();
             if ($table > 0)
             {
+                $att=new logattendance();
+                $att->pegawai_id=$pegawai_id_fingerprint;
+                $att->instansi_id=$instansi_fingerprint;
+                $att->tanggal=$tanggal_fingerprint;
+                $att->function="masukistirahat";
+                $att->status="Success6";
+                $att->save();
                 return "Success";
             }        
             else
@@ -1615,6 +1778,15 @@ class Controller extends BaseController
 
                     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranhariini";
+                    $att->status="Success";
+                    $att->save();
+
                     return "Success";
                     //Bisa Pulan 3
                 }
@@ -1897,6 +2069,15 @@ class Controller extends BaseController
                     $tanggalbaru = date("d-M-Y", strtotime($tanggal_fingerprint));
 
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranhariini";
+                    $att->status="Success2";
+                    $att->save();
+
                     return "Success";
                     //Pulang Cepat
                 }
@@ -1904,6 +2085,13 @@ class Controller extends BaseController
         }
         else
         {
+            $att=new logattendance();
+            $att->pegawai_id=$pegawai_id_fingerprint;
+            $att->instansi_id=$instansi_fingerprint;
+            $att->tanggal=$tanggal_fingerprint;
+            $att->function="kehadiranhariini";
+            $att->status="Success3";
+            $att->save();
             return "Success";
         }
         
@@ -2216,6 +2404,15 @@ class Controller extends BaseController
 
                     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranharikemarin";
+                    $att->status="Success";
+                    $att->save();
+
                     return "Success";
                     //Bisa Pulang
                 }
@@ -2496,6 +2693,15 @@ class Controller extends BaseController
 
                     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranharikemarin";
+                    $att->status="Success2";
+                    $att->save();
+
                     return "Success";
                     // return "Failed";
                     //Pulang Cepat
@@ -2504,6 +2710,13 @@ class Controller extends BaseController
         }
         else
         {
+            $att=new logattendance();
+            $att->pegawai_id=$pegawai_id_fingerprint;
+            $att->instansi_id=$instansi_fingerprint;
+            $att->tanggal=$tanggal_fingerprint;
+            $att->function="kehadiranharikemarin";
+            $att->status="Success3";
+            $att->save();
             return "Success";
         }
     }
@@ -2824,6 +3037,15 @@ class Controller extends BaseController
 
                     $tanggalbaru=date("d-F-Y",strtotime($tanggal_fingerprint));
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranharikemarinfingerprint";
+                    $att->status="Success";
+                    $att->save();
+                    
                     return "Success";
                     //Bisa Pulan 3
                 }
@@ -3101,6 +3323,15 @@ class Controller extends BaseController
                     $tanggalbaru = date("d-M-Y", strtotime($tanggal_fingerprint));
 
                     event(new Timeline($pegawai_id_fingerprint, $tanggalbaru, $jam_fingerprint, $instansi_fingerprint, $status_fingerprint, $pegawai[0]['nama'], $pegawai[0]['namaInstansi'], $instansi[0]['namaInstansi'], $status, $class));
+                    
+                    $att=new logattendance();
+                    $att->pegawai_id=$pegawai_id_fingerprint;
+                    $att->instansi_id=$instansi_fingerprint;
+                    $att->tanggal=$tanggal_fingerprint;
+                    $att->function="kehadiranharikemarinfingerprint";
+                    $att->status="Success2";
+                    $att->save();
+
                     return "Success";
                     //Pulang Cepat
                 }
@@ -3108,6 +3339,14 @@ class Controller extends BaseController
         }
         else 
         {
+            $att=new logattendance();
+            $att->pegawai_id=$pegawai_id_fingerprint;
+            $att->instansi_id=$instansi_fingerprint;
+            $att->tanggal=$tanggal_fingerprint;
+            $att->function="kehadiranharikemarinfingerprint";
+            $att->status="Success3";
+            $att->save();
+
             return "Success";
         }
         
