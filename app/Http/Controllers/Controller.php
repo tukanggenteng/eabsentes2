@@ -1208,7 +1208,7 @@ class Controller extends BaseController
             }        
             else
             {
-                return "None";
+                return "Failed";
             }
         }
     }
@@ -1345,7 +1345,7 @@ class Controller extends BaseController
             }        
             else
             {
-                return "None";
+                return "Failed";
             }
         }
     }
