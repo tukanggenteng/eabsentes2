@@ -64,5 +64,5 @@ class InstansiUserComposer {
             $view->with('notification', $data);
         }
     }
-
+ 
 }
