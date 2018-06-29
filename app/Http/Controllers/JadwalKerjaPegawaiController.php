@@ -153,6 +153,7 @@ class JadwalKerjaPegawaiController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $this->validate($request, [
             'checkbox'=>'required',
             'jadwalkerjamasuk'=>'required'
@@ -176,7 +177,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
                 ->where('tanggal_akhirrule','>=',$tanggalawal)
                 ->count();
-
+            //dd($verifikasi);
 
 
             if ($verifikasi>0) {
@@ -194,52 +195,91 @@ class JadwalKerjaPegawaiController extends Controller
                             ->where('rulejadwalpegawais.pegawai_id','=',$data)
                             ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                             ->get();
-                // dd($datarules);
-                foreach ($datarules as $key => $value){
-                    // dd("asd");
-                    if ((($comparejadwalkerja->jam_masukjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_masukjadwal <= $value->jam_keluarjadwal)) || (($comparejadwalkerja->jam_keluarjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_keluarjadwal)))
-                    {
-                        return redirect('/jadwalkerjapegawai')->with('err','Tidak dapat mengatur jadwal kerja karena jadwal kerja <span class="badge bg-yellow"><b>'.$comparejadwalkerja->jenis_jadwal.'</b></span> yang dipilih bersamaan dengan <span class="badge bg-yellow"><b>'.$value->jenis_jadwal.'</b></span>.');
-                    }
-                    else
-                    {
-                        
-                        if (($tanggalhariini == $tanggalawal)) {
-                            $cek = att::where('tanggal_att', '=', $tanggalhariini)
-                                ->where('pegawai_id','=',$data)
-                                ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
-                                ->count();
-                            if ($cek == 0) {
+                //dd($datarules);
+                if ($datarules->count()==0)
+                {
+                    if (($tanggalhariini == $tanggalawal)) {
+                                $cek = att::where('tanggal_att', '=', $tanggalhariini)
+                                    ->where('pegawai_id','=',$data)
+                                    ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
+                                    ->count();
+                                if ($cek == 0) {
 
-                                $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+                                    $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
 
-                                $table = new att();
+                                    $table = new att();
+                                    $table->pegawai_id = $data;
+                                    $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                                    $table->tanggal_att = $tanggalhariini;
+                                    $table->terlambat="00:00:00";
+                                    $table->akumulasi_sehari="00:00:00";
+                                    $table->apel="0";  
+                                    if ($jadwalkerja->sifat=="FD"){
+                                        $table->jenisabsen_id = '13';
+                                    }
+                                    else{
+                                        $table->jenisabsen_id = '2';
+                                    }
+                                    $table->save();
+
+                                    
+                                }
+                            }
+                                $table = new rulejadwalpegawai();
                                 $table->pegawai_id = $data;
+                                $table->tanggal_awalrule = $tanggal[0];
+                                $table->tanggal_akhirrule = $tanggal[1];
                                 $table->jadwalkerja_id = $request->jadwalkerjamasuk;
-                                $table->tanggal_att = $tanggalhariini;
-                                $table->terlambat="00:00:00";
-                                $table->akumulasi_sehari="00:00:00";
-                                $table->apel="0";  
-                                if ($jadwalkerja->sifat=="FD"){
-                                    $table->jenisabsen_id = '13';
-                                }
-                                else{
-                                    $table->jenisabsen_id = '2';
-                                }
                                 $table->save();
 
-                                
-                            }
-                        }
-                        $table = new rulejadwalpegawai();
-                        $table->pegawai_id = $data;
-                        $table->tanggal_awalrule = $tanggal[0];
-                        $table->tanggal_akhirrule = $tanggal[1];
-                        $table->jadwalkerja_id = $request->jadwalkerjamasuk;
-                        $table->save();
-                    }
                 }
-                    
+                else
+                {
+                    foreach ($datarules as $key => $value){
+                        // dd("asd");
+                        if ((($comparejadwalkerja->jam_masukjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_masukjadwal <= $value->jam_keluarjadwal)) || (($comparejadwalkerja->jam_keluarjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_keluarjadwal)))
+                        {
+                            return redirect('/jadwalkerjapegawai')->with('err','Tidak dapat mengatur jadwal kerja karena jadwal kerja <span class="badge bg-yellow"><b>'.$comparejadwalkerja->jenis_jadwal.'</b></span> yang dipilih bersamaan dengan <span class="badge bg-yellow"><b>'.$value->jenis_jadwal.'</b></span>.');
+                        }
+                        else
+                        {
+                            //dd("as");    
+                            if (($tanggalhariini == $tanggalawal)) {
+                                $cek = att::where('tanggal_att', '=', $tanggalhariini)
+                                    ->where('pegawai_id','=',$data)
+                                    ->where('jadwalkerja_id', '=', $request->jadwalkerjamasuk)
+                                    ->count();
+                                if ($cek == 0) {
+
+                                    $jadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+
+                                    $table = new att();
+                                    $table->pegawai_id = $data;
+                                    $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                                    $table->tanggal_att = $tanggalhariini;
+                                    $table->terlambat="00:00:00";
+                                    $table->akumulasi_sehari="00:00:00";
+                                    $table->apel="0";  
+                                    if ($jadwalkerja->sifat=="FD"){
+                                        $table->jenisabsen_id = '13';
+                                    }
+                                    else{
+                                        $table->jenisabsen_id = '2';
+                                    }
+                                    $table->save();
+
+                                    
+                                }
+                            }
+                                $table = new rulejadwalpegawai();
+                                $table->pegawai_id = $data;
+                                $table->tanggal_awalrule = $tanggal[0];
+                                $table->tanggal_akhirrule = $tanggal[1];
+                                $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                                $table->save();
+                        }
+                    }
+                }    
             }
         }
         return redirect('/jadwalkerjapegawai');
