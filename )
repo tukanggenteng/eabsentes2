@@ -49,7 +49,7 @@
                 @endif
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Monitoring Rekap Mingguan Instansi</h3>
+                        <h3 class="box-title">Monitoring Grafik Harian Instansi</h3>
 
                         <div class="box-tools">
                         </div>
@@ -57,14 +57,12 @@
                     </div>
                     <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <form action="{{route('monitoringinstansiminggu')}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
-
                                     <div class="form-group">
                                         <div class="col-md-7">
                                             <label>Instansi</label>
-                                            <select class="form-control select2" id="instansi_id" value="{{ $instansi_id }}" name="instansi_id[]" data-placeholder="Instansi">
+                                            <select class="form-control select2" id="instansi_id"  name="instansi_id[]" data-placeholder="Instansi">
                                                 
                                             </select>
                                         </div>
@@ -74,43 +72,7 @@
                                     <div class="form-group">
                                         <div class="col-md-2">
                                             <label>Tanggal berlaku</label>
-                                            <input type="text" class="form-control" id="tanggal" readonly value="{{$date}}" name="tanggal"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="col-md-7">
-                                            <label>Jenis Absen</label>
-                                            <select class="form-control select2" name="jenis_absen" value="{{ $jenis_absen2 }}" data-placeholder="Jenis Absen">
-                                                @foreach($jenis_absens as $jenisabsen)
-                                                    @if ($jenisabsen->id==($jenis_absen2))
-                                                        <option value="{{($jenisabsen->id)}}" selected>{{$jenisabsen->jenis_absen}}</option>
-                                                    @else
-                                                        <option value="{{($jenisabsen->id)}}">{{$jenisabsen->jenis_absen}}</option>
-                                                    @endif
-                                                @endforeach
-                                                <option value="20">Apel Bulanan</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="col-md-7">
-                                            <label>Pencarian</label>
-                                            <select class="form-control select2" name="metode" value="{{$metode}}" data-placeholder="Jenis Absen">
-                                                @if ($metode=='desc')
-                                                <option value="desc" selected>Terbanyak</option>
-                                                @else
-                                                <option value="desc">Terbanyak</option>
-                                                @endif
-                                                @if ($metode=='asc')
-                                                <option value="asc" selected>Terkecil</option>
-                                                @else
-                                                <option value="asc">Terkecil</option>
-                                                @endif                                                
-                                            </select>
+                                            <input type="text" class="form-control" id="tanggal" readonly name="tanggal"/>
                                         </div>
                                     </div>
                                 </div>
@@ -121,72 +83,23 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <div class="col-md-6">
-                                            <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                            <button type="button" id="cari" class="btn btn-primary btn-flat">Cari</button>
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <hr>
                             
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Instansi</th>
-                                                    <th>Hari Kerja</th>
-                                                    <th>Hadir</th>
-                                                    <th>Tanpa Kabar</th>
-                                                    <th>Ijin</th>
-                                                    <th>Ijin Terlambat</th>
-                                                    <th>Sakit</th>
-                                                    <th>Tugas Luar</th>
-                                                    <th>Tugas Belajar</th>
-                                                    <th>Terlambat</th>
-                                                    <th>Rapat/Undangan</th>
-                                                    <th>Pulang Cepat</th>
-                                                    <th>Ijin Pulang Cepat</th>
-                                                    <th>Apel</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($datas as $data)
-                                                    <tr>
-                                                        <td><a href="/monitoring/{{encrypt($data->instansi_id)}}/{{encrypt($tanggal)}}">{{$data->namaInstansi}}</a></td>
-                                                        <td>{{$data->hari_kerja}}</td>
-                                                        <td>{{$data->hadir}}</td>
-                                                        <td>{{$data->tanpa_kabar}}</td>
-                                                        <td>{{$data->ijin}}</td>
-                                                        <td>{{$data->ijinterlambat}}</td>
-                                                        <td>{{$data->sakit}}</td>
-                                                        <td>{{$data->tugas_luar}}</td>
-                                                        <td>{{$data->tugas_belajar}}</td>
-                                                        <td>{{$data->terlambat}}</td>
-                                                        <td>{{$data->rapatundangan}}</td>
-                                                        <td>{{$data->pulang_cepat}}</td>
-                                                        <td>{{$data->ijinpulangcepat}}</td>
-                                                        <td>{{$data->apelbulanan}}</td>
-                                                                                                                
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                            
-                                        </table>
-                                    </div>
-                                        
+                                   <canvas id="lineChart"></canvas>
                                 </div>
+
                             </div>
 
-                            </form>
                         </div>
                         <!-- /.box-body -->
-
-                    <div class="box-footer clearfix">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            {{$datas->appends(['jenis_absen'=>($jenis_absen2),'metode'=>($metode),'tanggal'=>$tanggal,'instansi_id'=>$instansi_id])->links()}}
-                        </ul>
-                    </div>
                 </div>
 
                 
@@ -194,7 +107,7 @@
 
           </section>
             <!-- /.content -->
-        </div>
+      </div>
         <!-- /.content-wrapper -->
 
                 @include('layouts.footer')
@@ -211,10 +124,14 @@
     <!-- DataTables -->
     <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-                                                        
+    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+                                     
     <!-- Select2 -->
     <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
-    <!-- InputMask -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+
+   <!-- InputMask -->
     <script src="{{asset('plugins/input-mask/jquery.inputmask.js')}}"></script>
     <script src="{{asset('plugins/input-mask/jquery.inputmask.date.extensions.js')}}"></script>
     <script src="{{asset('plugins/input-mask/jquery.inputmask.extensions.js')}}"></script>
@@ -239,13 +156,88 @@
     <script type="text/javascript">
         $(function() {
             $('input[name="tanggal"]').datepicker({
-                format: "yyyy-mm",
-                startView: "months",
-                minViewMode: "months"
+                format: "yyyy-mm-dd",
             });
            
+                var lineChartCanvas = document.getElementById('lineChart').getContext('2d')
 
-           
+                window.myBar = new Chart(lineChartCanvas, {
+                      type: 'line',
+                      data: {
+                              labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
+                              datasets: [
+                                  {
+                                      label: "Apel",
+                                      data: [1,2,3,4,5,6,7,8,9,0,1,2],
+                                      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                      borderColor: 'rgba(255,99,132,1)'
+                                  },
+                                  {
+                                      label: "Tanpa Kabar",
+                                      data: [11,21,31,41,51,61,71,81,91,10,11,12],
+                                      backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                      borderColor: 'rgba(54, 162, 235, 1)'
+                                  }
+                              ]
+                          },
+                      options: {
+                          responsive: true,
+                          legend: {
+                              position: 'top',
+                          },
+                          title: {
+                              display: true,
+                              text: 'Grafik Absensi'
+                          },
+                          tooltips: {
+                              enabled: true,
+                              mode: 'index',
+                              intersect: false,
+                          }
+                      }
+                  });
+
+        });
+        
+        $('#cari').click(function(){
+              var tanggal=$('#tanggal').val();
+              var instansi=$('#instansi_id').val();
+              var token=$('input[name=_token]').val();
+                  
+              if ((instansi==null) || (tanggal==null))
+              {
+                  swal("Gagal !","Data instansi atau tanggal kosong.","error");
+              }
+              else
+              {
+                $.ajax({
+                    type:'post',
+                    url:'{{route('monitoringgrafikhariandata')}}',
+                    data: {tanggal:tanggal,instansi:instansi, token:token},
+                    dataType:'json',
+                    async:false,
+                    processData: false,
+                    contentType: false,
+                    success:function(response){
+                        if((response.errors)){
+                            $('.error').removeClass('hidden');
+                            $('.error').text(response.errors.username);
+                            $('.error').text(response.errors.email);
+                            $('.error').text(response.errors.password);
+                            $('.error').text(response.errors.name);
+                            $('.error').text(response.errors.selectrole);
+                            $('.error').text(response.errors.selectinstansi);
+                        }
+                        else
+                        {
+                            $('.error').addClass('hidden');
+                            $('#modal_add').modal('hide');
+                            oTable.ajax.reload();
+                        }
+                    },
+                });
+              }
+ 
         });
 
         $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({

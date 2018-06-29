@@ -176,14 +176,20 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
 
       //monitoring BKD
 
-      Route::get('/monitoring/instansi/mingguan','MonitoringController@monitoringinstansiminggu');
-      Route::post('/monitoring/instansi/mingguan','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
-      Route::get('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
-      Route::post('/monitoring/instansi/mingguan/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
-      Route::get('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
-      Route::post('/monitoring/instansi/mingguan/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
-      Route::get('/monitoring/instansi/mingguan/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
+      Route::get('/monitoring','MonitoringController@monitoringinstansiminggu');
+      Route::post('/monitoring','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
+      Route::get('/monitoring/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
+      Route::post('/monitoring/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
+      Route::get('/monitoring/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
+      Route::post('/monitoring/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
+      Route::get('/monitoring/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
   
+      Route::get('/monitoring/grafik/harian','MonitoringController@grafikmonitoringharian');
+      Route::get('/monitoring/grafik/harian/data','MonitoringController@grafikmonitoringhariandata')->name('monitoringgrafikhariandata');
+      Route::get('/monitoring/grafik/bulanan','MonitoringController@grafikmonitoringbulan');
+      Route::get('/monitoring/grafik/bulanan/data','MonitoringController@grafikmonitoringbulandata')->name('monitoringgrafikbulanandata');
+
+
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
       Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');

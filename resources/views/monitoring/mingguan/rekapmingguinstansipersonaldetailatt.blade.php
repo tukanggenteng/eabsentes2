@@ -57,7 +57,7 @@
                     </div>
                     <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <form action="/monitoring/instansi/mingguan/detail/{{encrypt($id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}" method="post">
+                            <form action="/monitoring/detail/att/{{encrypt($id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -65,6 +65,7 @@
                                             NIP : 
                                             <label>{{$nip}}</label>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
