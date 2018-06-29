@@ -176,13 +176,13 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
 
       //monitoring BKD
 
-      Route::get('/monitoring','MonitoringController@monitoringinstansiminggu');
-      Route::post('/monitoring','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
-      Route::get('/monitoring/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
-      Route::post('/monitoring/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
-      Route::get('/monitoring/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
-      Route::post('/monitoring/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
-      Route::get('/monitoring/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
+      Route::get('/monitoring/instansi','MonitoringController@monitoringinstansiminggu');
+      Route::post('/monitoring/instansi','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
+      Route::get('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
+      Route::post('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
+      Route::get('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
+      Route::post('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
+      Route::get('/monitoring/instansi/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
   
       Route::get('/monitoring/grafik/harian','MonitoringController@grafikmonitoringharian');
       Route::get('/monitoring/grafik/harian/data','MonitoringController@grafikmonitoringhariandata')->name('monitoringgrafikhariandata');
