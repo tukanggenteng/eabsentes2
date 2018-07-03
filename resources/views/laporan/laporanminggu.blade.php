@@ -151,7 +151,7 @@
                                   <th>Tugas Belajar</th>
                                   <th>Rapat/Undangan</th>
                                   <th>Pulang Cepat</th>
-                                  <th>Tidak Apel</th>
+                                  <th>Apel</th>
                                   <th>Tanpa Kabar</th>
                                   <th>Akumulasi Terlambat</th>
                                   <th>Akumulasi Jam Kerja</th>
@@ -174,8 +174,8 @@
                                         <td>{{$att->tugas_belajar}}</td>
                                         <td>{{$att->rapatundangan}}</td>
                                         <td>{{$att->pulang_cepat}}</td>
-                                        <td>{{$att->persentase_apel}}</td>
-                                        <td>{{$att->persentase_tidakhadir}}</td>
+                                        <td>{{$att->apelbulanan}}</td>
+                                        <td>{{$att->tanpa_kabar}}</td>
                                         <td>{{$att->total_terlambat}}</td>
                                         <td>{{$att->total_akumulasi}}</td>
                                     </tr>
