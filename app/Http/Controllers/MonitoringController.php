@@ -222,8 +222,8 @@ class MonitoringController extends Controller
             $subdata['label']=$tanggal2;
                
             $count=  att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.tanggal_att','=',$tanggal2)
                                     ->where('pegawais.instansi_id','=',$instansi)
                                     // ->where('atts.jenisabsen_id','=',1)
@@ -231,6 +231,7 @@ class MonitoringController extends Controller
                                     // ->where('atts.jenisabsen_id','!=',9)
                                     // ->where('atts.jenisabsen_id','!=',11)
                                     ->where('atts.apel','=',1)
+                                    ->whereNotNull('atts.apel')
                                     // ->where('atts.jenisabsen_id',$tanpaabsen)
                                     ->count();
             array_push($data['apel'],$count);
@@ -637,7 +638,10 @@ class MonitoringController extends Controller
                                         DB::raw('sum(masterbulanans.rapatundangan) as rapatundangan'),
                                         DB::raw('sum(masterbulanans.pulang_cepat) as pulang_cepat'),
                                         DB::raw('sum(masterbulanans.ijinpulangcepat) as ijinpulangcepat'),
-                                        DB::raw('sum(masterbulanans.apelbulanan) as apelbulanan')
+                                        DB::raw('sum(masterbulanans.apelbulanan) as apelbulanan'),
+                                        'instansis.namaInstansi',
+                                        'masterbulanans.instansi_id'
+
                                 )
                                 // ->distinct()
                                 ->groupBy('masterbulanans.instansi_id')

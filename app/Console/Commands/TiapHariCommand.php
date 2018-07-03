@@ -364,32 +364,42 @@ class TiapHariCommand extends Command
             }
         }
 
-        sleep(3600);
+        //sleep(3600);
 
         $checkattendancebulan=rekapbulancheck::latest()
                                 ->first();
+        //dd($checkattendancebulan->tanggalcheckrekapbulan); 
+        //dd($tanggalsekarang);
         $diffbulan=Controller::diffbulan($checkattendancebulan->tanggalcheckrekapbulan,$tanggalsekarang);
-        // dd($diffbulan);
+        //$diffbulan=Controller::diffbulan($tanggalsekarang,$tanggalsekarang);
+
+        //dd($diffbulan);
+
+        //$diffbulan=0;
         for ($b=1 ; $b <= $diffbulan; $b++){
 
-            // echo $b;
+            //dd($b);
             $tanggalproses=date('Y-m-d',strtotime('+'.$b.' months',strtotime($checkattendancebulan->tanggalcheckrekapbulan)));
             // $tanggalproses=date('Y-m-d',strtotime('2018-05-01'));
             $tanggal=date('d',strtotime($tanggalproses));
+            $tanggalbantu=$tanggalproses;
+            $tanggalbantu2=date("Y-m-01");
+            //dd($tanggalbantu!=$tanggalbantu2);
+            if ($tanggalbantu!=$tanggalbantu2){
 
-            if ($tanggal==1){
                 // echo $tanggal.",";
                 
                 $sekarang=$tanggalproses;
-                $bulan=date("Y-m",strtotime("-0 month",strtotime($sekarang)));
-                    // dd($bulan);
-                $pecah=explode("-",$bulan);
+                //$bulan=date("Y-m",strtotime("0 month",strtotime($sekarang)));
+                 //dd($bulan);
+                $pecah=explode("-",$sekarang);
                 $bulan=$pecah[1];
                 $tahun=$pecah[0];
-
+                //dd($tahun);
                 $cekrekapbulanan=rekapbulancheck::whereMonth('tanggalcheckrekapbulan','=',$bulan)
                                                 ->whereYear('tanggalcheckrekapbulan','=',$tahun)
                                                 ->count();
+                //dd($cekrekapbulanan);
                 if ($cekrekapbulanan > 0)
                 {
 
@@ -401,10 +411,12 @@ class TiapHariCommand extends Command
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         // ->where('pegawais.id','=','830')
-                        ->select('atts.pegawai_id','atts.jadwalkerja_id')
+                        ->select('atts.pegawai_id')
                         //   ->distinct('atts.pegawai_id','atts.jadwalkerja_id')
-                        ->distinct()
+                        //->distinct()
+                        ->groupBy('atts.pegawai_id')
                         ->get();
+                    //dd($idpegawais);
                     foreach ($idpegawais as $key => $idpegawai) {
 
                                 $harikerja = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -414,11 +426,11 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id','!=','9')
                                     ->where('atts.jenisabsen_id','!=','11')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
-
-
+                                //dd($harikerja." bulan:".$bulan." tahun:".$tahun);
+                                //dd($idpegawai->pegawai_id);
                                 $perbaikanakumulasi=att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                                     ->join('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                                     // ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
@@ -427,7 +439,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id','=','1')
                                     // ->where('atts.jenisabsen_id','=','10')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->where('atts.jam_keluar','=',null)
                                     ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
                                     ->get();
@@ -478,7 +490,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '1')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
 
@@ -488,7 +500,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '10')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $absen = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -497,7 +509,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '2')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $ijin = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -506,7 +518,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '3')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $sakit = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -515,7 +527,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '5')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $cuti = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -524,7 +536,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '4')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $tugasluar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -533,7 +545,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '7')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $tugasbelajar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -541,7 +553,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '6')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $rapatundangan = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -549,18 +561,18 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '8')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $terlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.jam_masuk', '>','jadwalkerjas.jam_masukjadwal')
                                     ->whereMonth('atts.tanggal_att','=',$bulan)
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 // $tanpaabsen=jenisabsen::where('id','!=',2)
@@ -570,12 +582,12 @@ class TiapHariCommand extends Command
                                 //                 ->get();
 
                                 $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->whereMonth('atts.tanggal_att','=',$bulan)
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->where('atts.jenisabsen_id','=',1)
                                     // ->where('atts.jenisabsen_id','!=',2)
                                     // ->where('atts.jenisabsen_id','!=',9)
@@ -604,8 +616,8 @@ class TiapHariCommand extends Command
                                 // dd($tidakterlambat);
 
                                 $pulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
                                     ->where('atts.jam_keluar', '=', null)
                                     ->whereMonth('atts.tanggal_att','=',$bulan)
@@ -613,7 +625,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id', '=', '1')
                                     ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $ijinpulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -622,7 +634,7 @@ class TiapHariCommand extends Command
                                     ->whereYear('atts.tanggal_att','=',$tahun)
                                     ->where('jenisabsen_id', '=', '12')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
 
@@ -647,7 +659,7 @@ class TiapHariCommand extends Command
                                 ->whereMonth('atts.tanggal_att','=',$bulan)
                                 ->whereYear('atts.tanggal_att','=',$tahun)
                                 ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                 ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
                                 ->first();
 
@@ -655,7 +667,7 @@ class TiapHariCommand extends Command
                                 ->whereMonth('atts.tanggal_att','=',$bulan)
                                 ->whereYear('atts.tanggal_att','=',$tahun)
                                 ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                 ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.terlambat))) as total'))
                                 ->first();
 
@@ -671,7 +683,7 @@ class TiapHariCommand extends Command
                                 }
 
                                 $table=new finalrekapbulanan();
-                                $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
+                                $table->periode=$tanggalproses;
                                 $table->pegawai_id=$idpegawai->pegawai_id;
                                 $table->hari_kerja=$harikerja;
                                 $table->hadir=$hadir;
@@ -693,10 +705,11 @@ class TiapHariCommand extends Command
                                 $table->ijinpulangcepat=$ijinpulangcepat;
                                 $table->jadwalkerja_id=$idpegawai->jadwalkerja_id;
                                 $table->apelbulanan=$tidakterlambat;
+                                //dd($table);
                                 $table->save();
 
                                 $table=new rekapbulanan();
-                                $table->periode=date("Y-m-d",strtotime("-1 month",strtotime($sekarang)));
+                                $table->periode=$tanggalproses;
                                 $table->pegawai_id=$idpegawai->pegawai_id;
                                 $table->hari_kerja=$harikerja;
                                 $table->hadir=$hadir;
@@ -733,8 +746,10 @@ class TiapHariCommand extends Command
         $checkattendanceminggu=rekapminggucheck::latest()
                                         ->first();
         $diffminggu=Controller::difftanggal2($checkattendanceminggu->tanggalcheckrekapminggu,$tanggalsekarang);
-        // dd($diffminggu);
+        //dd("awal=".$checkattendanceminggu->tanggalcheckrekapminggu." akhir=".$tanggalsekarang."=>".$diffminggu);
+        
         for ($m=7; $m <= $diffminggu; $m=$m+7){
+
 
 
             $tanggalproses=date('Y-m-d',strtotime('+'.$m.' days',strtotime($checkattendanceminggu->tanggalcheckrekapminggu)));
@@ -768,10 +783,12 @@ class TiapHariCommand extends Command
                         ->where('atts.tanggal_att','>=',$awal)
                         ->where('atts.tanggal_att','<=',$akhir)
                         // ->where('pegawais.id','=','830')
-                        ->select('atts.pegawai_id','atts.jadwalkerja_id')
+                        ->select('atts.pegawai_id')
                         //   ->distinct('atts.pegawai_id','atts.jadwalkerja_id')
-                        ->distinct()
+                        //->distinct()
+                        ->groupBy('atts.pegawai_id')
                         ->get();
+                        //dd($idpegawais);
                     foreach ($idpegawais as $key => $idpegawai) {
 
                                 $harikerja = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -781,7 +798,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id','!=','9')
                                     ->where('atts.jenisabsen_id','!=','11')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
 
@@ -794,7 +811,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id','=','1')
                                     // ->where('atts.jenisabsen_id','=','10')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->where('atts.jam_keluar','=',null)
                                     ->select('atts.*','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
                                     ->get();
@@ -845,7 +862,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '1')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
 
@@ -855,7 +872,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '10')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $absen = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -864,7 +881,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '2')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $ijin = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -873,7 +890,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '3')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $sakit = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -882,7 +899,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '5')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $cuti = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -891,7 +908,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '4')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $tugasluar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -900,7 +917,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '7')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $tugasbelajar = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -908,7 +925,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '6')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $rapatundangan = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -916,18 +933,18 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '8')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $terlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.jam_masuk', '>','jadwalkerjas.jam_masukjadwal')
                                     ->where('atts.tanggal_att','>=',$awal)
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 // $tanpaabsen=jenisabsen::where('id','!=',2)
@@ -937,12 +954,10 @@ class TiapHariCommand extends Command
                                 //                 ->get();
 
                                 $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.tanggal_att','>=',$awal)
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     // ->where('atts.jenisabsen_id','=',1)
                                     // ->where('atts.jenisabsen_id','!=',2)
                                     // ->where('atts.jenisabsen_id','!=',9)
@@ -950,7 +965,8 @@ class TiapHariCommand extends Command
                                     ->where('atts.apel','=',1)
                                     // ->where('atts.jenisabsen_id',$tanpaabsen)
                                     ->count();
-
+                        
+                                //dd($tidakterlambat);
 
                                 // $tidakterlambat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                                 // ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
@@ -968,11 +984,11 @@ class TiapHariCommand extends Command
                                 // ->count();
                                 
                                 
-                                // dd($tidakterlambat);
+                                //dd($awal." akhir=".$akhir);
 
                                 $pulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    //->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    //->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
                                     ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
                                     ->where('atts.jam_keluar', '=', null)
                                     ->where('atts.tanggal_att','>=',$awal)
@@ -980,7 +996,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.jenisabsen_id', '=', '1')
                                     ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->count();
 
                                 $ijinpulangcepat = att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
@@ -989,7 +1005,7 @@ class TiapHariCommand extends Command
                                     ->where('atts.tanggal_att','<=',$akhir)
                                     ->where('jenisabsen_id', '=', '12')
                                     ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                    ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                    //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                     ->select('atts.tanggal_att')
                                     ->count();
 
@@ -1014,7 +1030,7 @@ class TiapHariCommand extends Command
                                 ->where('atts.tanggal_att','>=',$awal)
                                 ->where('atts.tanggal_att','<=',$akhir)
                                 ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                 ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.akumulasi_sehari))) as total'))
                                 ->first();
 
@@ -1022,7 +1038,7 @@ class TiapHariCommand extends Command
                                 ->where('atts.tanggal_att','>=',$awal)
                                 ->where('atts.tanggal_att','<=',$akhir)
                                 ->where('atts.pegawai_id','=',$idpegawai->pegawai_id)
-                                ->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
+                                //->where('atts.jadwalkerja_id','=',$idpegawai->jadwalkerja_id)
                                 ->select(DB::raw('SEC_TO_TIME( SUM(time_to_sec(atts.terlambat))) as total'))
                                 ->first();
 
@@ -1060,6 +1076,7 @@ class TiapHariCommand extends Command
                                 $table->ijinpulangcepat=$ijinpulangcepat;
                                 $table->jadwalkerja_id=$idpegawai->jadwalkerja_id;
                                 $table->apelbulanan=$tidakterlambat;
+                                //dd($table);
                                 $table->save();
 
                                 // $table=new rekapbulanan();

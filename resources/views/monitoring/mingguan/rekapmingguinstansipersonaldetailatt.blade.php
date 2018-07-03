@@ -57,7 +57,7 @@
                     </div>
                     <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <form action="/monitoring/detail/att/{{encrypt($id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}" method="post">
+                            <form action="/monitoring/instansi/detail/att/{{encrypt($id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">

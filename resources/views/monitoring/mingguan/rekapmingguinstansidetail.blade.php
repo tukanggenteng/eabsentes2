@@ -57,7 +57,7 @@
                     </div>
                     <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <form action="/monitoring/{{encrypt($id)}}/{{encrypt($tanggal)}}" method="post">
+                            <form action="/monitoring/instansi/{{encrypt($id)}}/{{encrypt($tanggal)}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -154,7 +154,7 @@
                                             <tbody>
                                                 @foreach($datas as $data)
                                                     <tr>
-                                                        <td><a href="/monitoring/detail/{{encrypt($data->pegawai_id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}">{{$data->nip}}</a></td>
+                                                        <td><a href="/monitoring/instansi/detail/{{encrypt($data->pegawai_id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}">{{$data->nip}}</a></td>
                                                         <td>{{$data->nama}}</td>                                                        
                                                         <td>{{date("m-Y",strtotime($data->periode))}}</td>                                                        
                                                         <td>{{$data->hari_kerja}}</td>

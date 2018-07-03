@@ -153,7 +153,7 @@
                                             <tbody>
                                                 @foreach($datas as $data)
                                                     <tr>
-                                                        <td><a href="/monitoring/{{encrypt($data->instansi_id)}}/{{encrypt($tanggal)}}">{{$data->namaInstansi}}</a></td>
+                                                        <td><a href="/monitoring/instansi/{{encrypt($data->instansi_id)}}/{{encrypt($tanggal)}}">{{$data->namaInstansi}}</a></td>
                                                         <td>{{$data->hari_kerja}}</td>
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>
