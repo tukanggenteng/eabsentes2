@@ -84,6 +84,10 @@ class LoginController extends Controller
           elseif ((Auth::user()->role->namaRole=="karu")){
             return redirect('/home/ruangan');
           }
+          elseif ((Auth::user()->role->namaRole=="bkd")){
+            return redirect('/monitoring/instansi');
+          }
+
           else {
             // dd(Auth::user()->role->namaRole="pegawai");
             return redirect('/home');

@@ -49,7 +49,7 @@
                 @endif
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Monitoring Rekap Mingguan Instansi Detail</h3>
+                        <h3 class="box-title">Monitoring Rekap Pegawai Harian</h3>
 
                         <div class="box-tools">
                         </div>
@@ -85,7 +85,6 @@
                                 </div>
                                 
                             </div>
-                            
                             <hr>
                             
                             <div class="row">
@@ -157,7 +156,6 @@
                                 </div>
                             </div>
                             
-                            </form>
                         </div>
                         <!-- /.box-body -->
 

@@ -49,7 +49,7 @@
                 @endif
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Monitoring Rekap Mingguan Instansi Detail</h3>
+                        <h3 class="box-title">Monitoring Rekap Pegawai Mingguan</h3>
 
                         <div class="box-tools">
                         </div>
@@ -57,6 +57,7 @@
                     </div>
                     <!-- /.box-header -->
                         <div class="box-body table-responsive">
+                            <form action="/monitoring/pegawai/{{encrypt($id)}}/{{encrypt($tanggal)}}" method="post">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -64,7 +65,6 @@
                                             NIP : 
                                             <label>{{$nip}}</label>
                                         </div>
-
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -83,78 +83,108 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-7">
+                                            <label>Jenis Absen</label>
+                                            <select class="form-control select2" name="jenis_absen" value="{{ $jenis_absen2 }}" data-placeholder="Jenis Absen">
+                                                @foreach($jenis_absens as $jenisabsen)
+                                                    @if ($jenisabsen->id==($jenis_absen2))
+                                                        <option value="{{($jenisabsen->id)}}" selected>{{$jenisabsen->jenis_absen}}</option>
+                                                    @else
+                                                        <option value="{{($jenisabsen->id)}}">{{$jenisabsen->jenis_absen}}</option>
+                                                    @endif
+                                                @endforeach
+                                                <option value="20">Apel Bulanan</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-7">
+                                            <label>Pencarian</label>
+                                            <select class="form-control select2" name="metode" value="{{$metode}}" data-placeholder="Jenis Absen">
+                                                @if ($metode=='DESC')
+                                                <option value="DESC" selected>Terbanyak</option>
+                                                @else
+                                                <option value="DESC">Terbanyak</option>
+                                                @endif
+                                                @if ($metode=='ASC')
+                                                <option value="ASC" selected>Terkecil</option>
+                                                @else
+                                                <option value="ASC">Terkecil</option>
+                                                @endif                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
+                            <br>
+                            {{csrf_field()}}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <hr>
                             
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                    <table class="table table-striped table-bordered">
-                                        <tr>
-                                        <th>Tanggal</th>
-                                        <th>Absen Terlambat</th>
-                                        <th>Apel</th>
-                                        <th>Jam Masuk</th>
-                                        <th>Lokasi Absen Masuk</th>
-                                        <th>Mulai Istirahat</th>
-                                        <th>Selesai Istirahat</th>
-                                        <th>Jam Keluar</th>
-                                        <th>Lokasi Absen Keluar</th>
-                                        <th>Akumulasi</th>
-                                        <th>Keterangan</th>
-                                        <th>Jadwal Kerja</th>
-                                        <th>Sifat</th>
-                                        </tr>
-                                        @foreach ($datas as $key => $data)
-
-                                        <tr>
-                                            <td>{{$data->tanggal_att}}</td>
-                                            @if ($data->terlambat=="00:00:00")
-                                            <td>{{$data->terlambat}}</td>
-                                            @else
-                                                @if ($data->sifat=="WA")
-                                                <td><span class="badge bg-red">{{$data->terlambat}}</span></td>
-                                                @else
-                                                <td>{{$data->terlambat}}</td>
-                                                @endif                                    
-                                            @endif
-                                            @if (($data->apel=="1") )
-                                            <td>A</td>
-                                            @else
-                                                @if ($data->sifat=="WA") 
-                                                    <td><span class="badge bg-red">TA</span></td>
-                                                @else
-                                                    <td>TA</td>
-                                                @endif
-                                            @endif
-                                            <td>{{$data->jam_masuk}}</td>
-                                            <td>{{$data->namainstansimasuk}}</td>
-                                            <td>{{$data->keluaristirahat}}</td>
-                                            <td>{{$data->masukistirahat}}</td>
-                                            <td>{{$data->jam_keluar}}</td>
-                                            <td>{{$data->namainstansikeluar}}</td>
-                                            <td>{{$data->akumulasi_sehari}}</td>
-                                            @if ($data->jenis_absen=="Tanpa Kabar")
-                                            <td><span class="badge bg-red">{{$data->jenis_absen}}</span></td>
-                                            @else
-                                            <td>{{$data->jenis_absen}}</td>
-                                            @endif
-                                            <td>{{$data->jenis_jadwal}}</td>
-                                            @if ($data->sifat=="WA")
-                                                <td>Wajib Apel</td>
-                                            @elseif ($data->sifat=="TWA")
-                                                <td>Wajib Apel</td>
-                                            @elseif ($data->sifat=="FD")
-                                                <td>Full Day</td></td>
-                                            @endif
-                                        </tr>
-                                        @endforeach
-                                    </table>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tanggal</th>
+                                                    <th>Hari Kerja</th>
+                                                    <th>Hadir</th>
+                                                    <th>Tanpa Kabar</th>
+                                                    <th>Ijin</th>
+                                                    <th>Ijin Terlambat</th>
+                                                    <th>Sakit</th>
+                                                    <th>Tugas Luar</th>
+                                                    <th>Tugas Belajar</th>
+                                                    <th>Terlambat</th>
+                                                    <th>Rapat/Undangan</th>
+                                                    <th>Pulang Cepat</th>
+                                                    <th>Ijin Pulang Cepat</th>
+                                                    <th>Apel</th>
+                                                    <th>Total Terlambat</th>                                                    
+                                                    <th>Total Akumulasi Kerja</th>                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($datas as $data)
+                                                    <tr>
+                                                        <td><a href="/monitoring/pegawai/{{encrypt($data->pegawai_id)}}/{{encrypt($data->periode)}}/att">{{date("d-m-Y",strtotime($data->periode))}}</a></td>                                                        
+                                                        <td>{{$data->hari_kerja}}</td>
+                                                        <td>{{$data->hadir}}</td>
+                                                        <td>{{$data->tanpa_kabar}}</td>
+                                                        <td>{{$data->ijin}}</td>
+                                                        <td>{{$data->ijinterlambat}}</td>
+                                                        <td>{{$data->sakit}}</td>
+                                                        <td>{{$data->tugas_luar}}</td>
+                                                        <td>{{$data->tugas_belajar}}</td>
+                                                        <td>{{$data->terlambat}}</td>
+                                                        <td>{{$data->rapatundangan}}</td>
+                                                        <td>{{$data->pulang_cepat}}</td>
+                                                        <td>{{$data->ijinpulangcepat}}</td>
+                                                        <td>{{$data->apelbulanan}}</td>
+                                                        <td>{{$data->total_terlambat}}</td>
+                                                        <td>{{$data->total_akumulasi}}</td>                   
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                            
+                                        </table>
                                     </div>
                                         
                                 </div>
+
                             </div>
                             
                             </form>

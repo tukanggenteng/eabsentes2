@@ -1123,13 +1123,18 @@ class RekapAbsensiController extends Controller
                               elseif  ($request->jenisabsen=="10"){
 
                                     $jadwalkerja=jadwalkerja::where('id','=',$data)->get();
-
+                                    //dd($jadwalkerja);
                                     $jamkeluar = att::where('tanggal_att', '=', $tanggalbaru)
                                       ->where('jadwalkerja_id','=',$data)
                                       ->where('id', '=', $id)
                                       ->first();
+                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                      ->where('jadwalkerja_id','=',$data)
+                                      ->where('id', '=', $id)
+                                      ->first();  
                                     
                                     if ($jamkeluar->jam_keluar!=null){
+
 
                                         if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
                                         {
@@ -1190,7 +1195,9 @@ class RekapAbsensiController extends Controller
                                         }
                                         else{
                                             if ($jadwalkerja[0]['sifat']=="WA"){
+                                                //dd($jadwalkerja[0]['jam_masukjadwal']);
                                                 $awal=date("Y-m-d H:i:s", strtotime("-1 minute", strtotime($jadwalkerja[0]['jam_masukjadwal'])));
+                                                //dd($awal);
                                                 $table->apel=1;                                                                                                                      
                                             }
                                             else{
@@ -1198,15 +1205,12 @@ class RekapAbsensiController extends Controller
                                                 $table->apel=0;                                                                                                                      
                                             }
                                             $akhir=$jadwalkerja[0]['jam_keluarjadwal'];
-
                                             $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                         }
                                     }
+                                  
 
-                                  $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                      ->where('jadwalkerja_id','=',$data)
-                                      ->where('id', '=', $id)
-                                      ->first();
+                                  
 
                                   $table->jenisabsen_id = $request->jenisabsen;
                                   $table->jam_masuk = $awal;

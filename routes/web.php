@@ -172,9 +172,15 @@ Route::group(['middleware' => ['rule:rs']],function(){
       Route::get('/userkhusus/data','UserRuanganController@data')->name('datauserkhusus');
 });
 
-Route::group(['middleware' => ['rule:rs,user']],function(){
-
+Route::group(['middleware' => ['rule:bkd']],function(){
       //monitoring BKD
+      Route::get('/monitoring/pegawai','MonitoringController@monitoringpegawaibulanan');
+      Route::post('/monitoring/pegawai','MonitoringController@monitoringpegawaibulanan')->name('monitoringpegawaibulan');
+      Route::get('/monitoring/pegawai/{id}/{tanggal}','MonitoringController@monitoringpegawaiminggu');
+      Route::post('/monitoring/pegawai/{id}/{tanggal}','MonitoringController@monitoringpegawaiminggu')->name('monitoringpegawaiminggu');
+      Route::get('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari');
+      Route::post('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari')->name('monitoringpegawaihari');    
+
 
       Route::get('/monitoring/instansi','MonitoringController@monitoringinstansiminggu');
       Route::post('/monitoring/instansi','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
@@ -189,7 +195,12 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/monitoring/grafik/bulanan','MonitoringController@grafikmonitoringbulan');
       Route::get('/monitoring/grafik/bulanan/data','MonitoringController@grafikmonitoringbulandata')->name('monitoringgrafikbulanandata');
 
+ 
+});
 
+Route::group(['middleware' => ['rule:rs,user']],function(){
+
+      
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
       Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');
