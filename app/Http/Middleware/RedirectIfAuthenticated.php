@@ -30,7 +30,7 @@ class RedirectIfAuthenticated
           // {
           //   return redirect('/home');
           // }
-          elseif ((Auth::user()->role->namaRole=="user") && (Auth::user()->role->namaRole=="admin") )
+          elseif ((Auth::user()->role->namaRole=="user") && (Auth::user()->role->namaRole=="rs") && (Auth::user()->role->namaRole=="admin") )
           {
             return redirect('/home');
           }
