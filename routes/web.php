@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
   Route::get('/','LoginController@getLogin')->name('login');
   Route::post('/','LoginController@postLogin');
 
-Route::group(['middleware' => ['rule:user,admin,rs']],function(){
+Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
   Route::get('/home','ChartController@index');
   Route::get('/home/data','ChartController@data');
   Route::get('/home/datacari','ChartController@datacari');
