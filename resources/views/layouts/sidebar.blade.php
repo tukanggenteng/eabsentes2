@@ -209,6 +209,33 @@
                     <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
                 </ul>
             </li>
+            @elseif (Auth::user()->role->namaRole=="bkd")
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-area-chart"></i>
+                    <span>Grafik</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/monitoring/grafik/harian"><i class="fa fa-circle-o"></i> Monitoring Grafik Harian</a></li>
+                    <li><a href="/monitoting/grafik/bulanan"><i class="fa fa-circle-o"></i> Monitoring Grafik Bulanan</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-folder-o"></i>
+                    <span>Rekap Absen</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/monitoring/pegawai"><i class="fa fa-circle-o"></i> Monitoring Absen Pegawai</a></li>
+                    <li><a href="/monitoting/instansi"><i class="fa fa-circle-o"></i> Monitoring Absen Instansi</a></li>
+                </ul>
+            </li>
             @else
             <li>
                 <a href="/timeline">
