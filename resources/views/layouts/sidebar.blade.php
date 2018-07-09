@@ -233,7 +233,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/monitoring/pegawai"><i class="fa fa-circle-o"></i> Monitoring Absen Pegawai</a></li>
-                    <li><a href="/monitoting/instansi"><i class="fa fa-circle-o"></i> Monitoring Absen Instansi</a></li>
+                    <li><a href="/monitoring/instansi"><i class="fa fa-circle-o"></i> Monitoring Absen Instansi</a></li>
                 </ul>
             </li>
             @else
