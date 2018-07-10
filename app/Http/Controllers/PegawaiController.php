@@ -9,6 +9,7 @@ use App\atts_tran;
 use App\dokter;
 use App\perawatruangan;
 use App\att;
+use App\rulejammasuk;
 use App\hapusfingerpegawai;
 use App\adminpegawai;
 use App\rulejadwalpegawai;
