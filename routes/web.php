@@ -66,7 +66,7 @@ Route::group(['middleware'=>['rule:user,admin,kadis,rs,karu']],function(){
 
 });
 
-Route::group(['middleware' => ['rule:kadis,sekda,user,admin,pegawai,gubernur']],function(){
+Route::group(['middleware' => ['rule:kadis,bkd,sekda,user,admin,pegawai,gubernur']],function(){
   Route::get('/changepassword','UserController@indexchange');
   Route::post('/changepassword','UserController@changepassword');
 });
