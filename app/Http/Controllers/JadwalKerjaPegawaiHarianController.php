@@ -8,6 +8,7 @@ use App\jadwalkerja;
 use App\pegawai;
 use App\rulejadwalpegawai;
 use App\perawatruangan;
+use App\rulejammasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -356,7 +357,7 @@ class JadwalKerjaPegawaiHarianController extends Controller
         $jadwals=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
         ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
         ->where('jadwalkerjas.sifat','!=','FD')
-        ->orWhere('jadwalkerjas.instansi_id','=','1')
+        ->where('jadwalkerjas.instansi_id','!=','1')
         ->get();
         // dd($jadwals);
 
