@@ -91,6 +91,6 @@ class UpdatePegawai extends Command
            $user->save();
         }
 
-      }
+        }
     }
 }
