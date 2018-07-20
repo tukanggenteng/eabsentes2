@@ -36,7 +36,7 @@ class RuleJadwalKerja24JamController extends Controller
         
             
             $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
-                        ->orWhere('instansi_id','=','1')
+                        ->where('sifat','=','FD')
                         ->get();
             return view('jadwalkerjapegawai.jadwalkerjapegawai24',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja]);
     }

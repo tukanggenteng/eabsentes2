@@ -286,13 +286,15 @@
 
       },
       eventClick: function(event, jsEvent) {
+        console.log(event.start._i);
         var title = confirm('Hapus jadwal '+event.title+' ?', { buttons: { Ok: true, Cancel: false} });
         // alert(event.id);
         if (title){
           $.ajax({
             url: urldelete,
             data: { _token:token,
-                  id:event.id
+                  id:event.id,
+                  tanggal:event.start._i
                   },
             type: 'POST',
             dataType: 'json',

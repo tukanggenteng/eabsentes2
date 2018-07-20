@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\att;
+use App\harikerja;
 use App\jadwalkerja;
 use App\pegawai;
 use App\dokter;
@@ -50,10 +51,20 @@ class JadwalKerjaPegawaiController extends Controller
             //             ->orWhere('instansi_id','=','1')
             //             ->get();
 
-            $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            if (Auth::user()->role->namaRole=="rs")
+            {
+                $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+                ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+                ->get();
+            }
+            else
+            {
+                $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
                 ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
                 ->orWhere('jadwalkerjas.instansi_id','=','1')
                 ->get();
+            }
+            
 
             return view('jadwalkerjapegawai.jadwalkerjapegawai',['inforekap'=>$inforekap,'jadwalkerjas'=>$jadwalkerja,'rulejadwals2'=>$rulejadwal2,'rulejadwals'=>$rulejadwal]);
     }
@@ -158,7 +169,8 @@ class JadwalKerjaPegawaiController extends Controller
             'checkbox'=>'required',
             'jadwalkerjamasuk'=>'required'
         ]);
-
+        
+        $status=false;
 
         foreach ($request->checkbox as $data){
             $data=decrypt($data);
@@ -177,7 +189,7 @@ class JadwalKerjaPegawaiController extends Controller
                 ->where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
                 ->where('tanggal_akhirrule','>=',$tanggalawal)
                 ->count();
-            //dd($verifikasi);
+           // dd($verifikasi);
 
 
             if ($verifikasi>0) {
@@ -187,13 +199,13 @@ class JadwalKerjaPegawaiController extends Controller
             {
                 $comparejadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
                 // dd($comparejadwalkerja);
-                $datarules=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                            ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                $datarules=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                            ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
                             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-                            // ->where('tanggal_awalrule','<=',$tanggalsekarang)
-                            ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalhariini)
+                            ->where('rulejadwalpegawais.tanggal_awalrule','>=',$tanggalawal)
+                            ->where('rulejadwalpegawais.tanggal_akhirrule','<=',$tanggalakhir)
                             ->where('rulejadwalpegawais.pegawai_id','=',$data)
-                            ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
+                            ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal','rulejadwalpegawais.jadwalkerja_id','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
                             ->get();
                 //dd($datarules);
                 if ($datarules->count()==0)
@@ -224,7 +236,7 @@ class JadwalKerjaPegawaiController extends Controller
 
                                     
                                 }
-                            }
+                     }
                                 $table = new rulejadwalpegawai();
                                 $table->pegawai_id = $data;
                                 $table->tanggal_awalrule = $tanggal[0];
@@ -235,15 +247,47 @@ class JadwalKerjaPegawaiController extends Controller
                 }
                 else
                 {
+                    
                     foreach ($datarules as $key => $value){
                         // dd("asd");
-                        if ((($comparejadwalkerja->jam_masukjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_masukjadwal <= $value->jam_keluarjadwal)) || (($comparejadwalkerja->jam_keluarjadwal >= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_keluarjadwal)))
+                        $statushari=true;
+
+                        //hari kerja
+                        $harikerjas=harikerja::where('jadwalkerja_id','=',$request->jadwalkerjamasuk)
+                                    ->where('instansi_id','=',Auth::user()->instansi_id)
+                                    ->get();
+
+                        $harikerjabase=harikerja::where('jadwalkerja_id','=',$value->jadwalkerja_id)
+                                    ->where('instansi_id','=',Auth::user()->instansi_id)
+                                    ->get(['hari']);
+                        $arrayharikerja=[];
+                        foreach ($harikerjabase as $datahari)
                         {
-                            return redirect('/jadwalkerjapegawai')->with('err','Tidak dapat mengatur jadwal kerja karena jadwal kerja <span class="badge bg-yellow"><b>'.$comparejadwalkerja->jenis_jadwal.'</b></span> yang dipilih bersamaan dengan <span class="badge bg-yellow"><b>'.$value->jenis_jadwal.'</b></span>.');
+                            array_push($arrayharikerja,$datahari->hari);
                         }
-                        else
+                         
+                        foreach ($harikerjas as $key2 => $harikerja)
                         {
-                            //dd("as");    
+                                $harikerjabase=$arrayharikerja; 
+                                if (array_search($harikerja->hari,$harikerjabase))
+                                {
+                                    $statushari=false;
+                                    break;
+                                    dd($statushari);
+                                }
+                                else
+                                {
+                                    //$statushari=true;
+                                }
+                        }
+                        
+                        //jammasukerjabase
+
+                        $statusjammasuk=(($comparejadwalkerja->jam_masukjadwal <= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_masukjadwal));
+                        $statusjamkeluar=(($comparejadwalkerja->jam_masukjadwal >= $value->jam_keluarjadwal) && ($comparejadwalkerja->jam_keluarjadwal >= $value->jam_keluarjadwal));
+                        //dd("masuk=".$statusjammasuk." keluar=".$statusjamkeluar." harikerja=".$statushari);
+                        if ((($statushari)) || (($statusjammasuk)) || (($statusjamkeluar)))
+                        {
                             if (($tanggalhariini == $tanggalawal)) {
                                 $cek = att::where('tanggal_att', '=', $tanggalhariini)
                                     ->where('pegawai_id','=',$data)
@@ -276,13 +320,35 @@ class JadwalKerjaPegawaiController extends Controller
                                 $table->tanggal_awalrule = $tanggal[0];
                                 $table->tanggal_akhirrule = $tanggal[1];
                                 $table->jadwalkerja_id = $request->jadwalkerjamasuk;
-                                $table->save();
+                                
+                                if ($table->save())
+                                {
+                                    $status=true;
+                                }
+
+                            //dd("nambah statusjammasuk=".$statusjammasuk." statusjamkeluar=".$statusjamkeluar." harikerja=".$statushari);
                         }
+                        else
+                        {
+                            $datapegawai=pegawai::where('id','=',$data)->first();
+
+                            return redirect('/jadwalkerjapegawai')->with('err','Jadwal kerja pegawai  atas nama '.$datapegawai->nip.' '.$datapegawai->nama.' bermasalah dengan jadwal '.$value->jenis_jadwal.' !');
+                            //dd("gagal nambahstatusjammasuk=".$statushari." statusjamkeluar=".$statusjamkeluar);
+                        }
+                        
                     }
                 }    
             }
         }
-        return redirect('/jadwalkerjapegawai');
+        if ($status)
+        {
+            return redirect('/jadwalkerjapegawai')->with('success','Berhasil menyimpan jadwal pegawai !');
+        }
+        else
+        {
+            return redirect('/jadwalkerjapegawai')->with('err','Cek pengisian data !');
+        }
+        
     }
 
     /**

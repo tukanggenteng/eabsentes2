@@ -1133,6 +1133,11 @@ class Controller extends BaseController
             // dd($hitungabsen);
 
             if ($hitungabsen>0) {
+                // $absens = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
+                //     ->where('tanggal_att', '=', $tanggalkemarin)
+                //     ->whereNotNull('jam_masuk')
+                //     ->whereNull('jam_keluar')
+                //     ->get();
 
                 $absen = att::where('pegawai_id', '=', $pegawai_id_fingerprint)
                     ->where('tanggal_att','=',$tanggal_fingerprint)

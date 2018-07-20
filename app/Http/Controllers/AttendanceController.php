@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('throttle:5000,1');
+        $this->middleware('throttle:100,1');
     }
 
     public function store(Request $request){

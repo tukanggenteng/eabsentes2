@@ -220,7 +220,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/monitoring/grafik/harian"><i class="fa fa-circle-o"></i> Monitoring Grafik Harian</a></li>
-                    <li><a href="/monitoting/grafik/bulanan"><i class="fa fa-circle-o"></i> Monitoring Grafik Bulanan</a></li>
+                    <li><a href="/monitoring/grafik/bulanan"><i class="fa fa-circle-o"></i> Monitoring Grafik Bulanan</a></li>
                 </ul>
             </li>
             <li class="treeview">

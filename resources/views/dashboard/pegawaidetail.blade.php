@@ -261,6 +261,7 @@
 <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.js"></script>
 <script>
+    var lineChartCanvas = document.getElementById('container').getContext('2d')
     $(function () {
 
           var apel = new Array();
@@ -279,89 +280,216 @@
             minViewMode: "years"
           });
         var nip=($('#nip').val());
-
+        console.log(nip);
         if (nip==""){
-            var url = "{{url('/instansi/grafik/public')}}";
 
-            $.get(url, function(response) {
+            var url = "{{url('/pegawai/grafik')}}";
 
-                absen2.push(response['Absen']);
-                apel2.push(response['Apel']);
-
-                var ctx = $('#container');
-                var stackedLine = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
+            $.get(url,{ nip:nip }, function(response) {
+                window.myBar = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: {
+                        labels: response['datasets'],
                         datasets: [
                             {
-                                label: "Tidak Apel",
-                                data: apel3[0],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)'
-                                ],
-                                borderWidth: 1
+                                label: "Tanpa Kabar",
+                                data: response['tanpakabar'],
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255,99,132,1)'
                             },
                             {
-                                label: "Tanpa Kabar",
-                                data: absen3[0],
-                                backgroundColor: [
-                                    'rgba(54, 162, 235, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(54, 162, 235, 1)'
-                                ],
-                                borderWidth: 1
-                            }
+                                label: "Hari Kerja",
+                                data: response['harikerja'],
+                                backgroundColor: 'rgba(30, 117, 7, 0)',
+                                borderColor: 'rgba(30, 117, 7, 1)'
+                            },
+                            {
+                                label: "Hadir",
+                                data: response['hadir'],
+                                backgroundColor: 'rgba(3, 231, 231, 0.2)',
+                                borderColor: 'rgba(3, 231, 231, 1)'
+                            },
+
+                            {
+                                label: "Apel",
+                                data: response['apel'],
+                                backgroundColor: 'rgba(160, 221, 207, 0.2)',
+                                borderColor: 'rgba(124, 208, 188, 1)'
+                            },
+                            {
+                                label: "Ijin",
+                                data: response['ijin'],
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)'
+                            },
+                            {
+                                label: "Ijin Terlambat",
+                                data: response['ijinterlambat'],
+                                backgroundColor: 'rgba(95, 35, 28, 0.2)',
+                                borderColor: 'rgba(96, 36, 28, 1)'
+                            },
+                            {
+                                label: "Pulang Cepat",
+                                data: response['pulangcepat'],
+                                backgroundColor: 'rgba(255, 203, 15, 0.2)',
+                                borderColor: 'rgba(255, 203, 15, 1)'
+                            },
+                            {                                      
+                                label: "Sakit",
+                                data: response['sakit'],
+                                backgroundColor: 'rgba(10, 114, 133, 0.2)',
+                                borderColor: 'rgba(10, 114, 133, 1)'
+                            },
+                            {                                      
+                                label: "Tugas Belajar",
+                                data: response['tb'],
+                                backgroundColor: 'rgba(50, 104, 3, 0.2)',
+                                borderColor: 'rgba(50, 104, 3, 1)'
+                            },
+                            {                                      
+                                label: "Tugas Luar",
+                                data: response['tl'],
+                                backgroundColor: 'rgba(48, 8, 150, 0.2)',
+                                borderColor: 'rgba(48, 8, 150, 1)'
+                            },
+                            {                                      
+                                label: "Rapat/Undangan",
+                                data: response['rapat'],
+                                backgroundColor: 'rgba(119, 95, 124, 0.2)',
+                                borderColor: 'rgba(119, 95, 124, 1)'
+                            },
+                            {                                      
+                                label: "Terlambat",
+                                data: response['terlambat'],
+                                backgroundColor: 'rgba(184, 163, 46, 0.2)',
+                                borderColor: 'rgba(184, 163, 46, 1)'
+                            },
+
                         ]
+                    },
+                options: {
+                    responsive: true,
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Grafik Absensi'
+                    },
+                    tooltips: {
+                        enabled: true,
+                        mode: 'index',
+                        intersect: false,
                     }
-                });
+                }
             });
+
+     });
         }
         else {
           var nip=($('#nip').val());
           var url = "{{url('/pegawai/grafik')}}";
 
-          $.get(url,{nip:nip}, function(response) {
+          $.get(url,{ nip:nip }, function(response) {
+                    window.myBar = new Chart(lineChartCanvas, {
+                          type: 'line',
+                          data: {
+                                  labels: response['datasets'],
+                                  datasets: [
+                                      {
+                                          label: "Tanpa Kabar",
+                                          data: response['tanpakabar'],
+                                          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                          borderColor: 'rgba(255,99,132,1)'
+                                      },
+                                      {
+                                          label: "Hari Kerja",
+                                          data: response['harikerja'],
+                                          backgroundColor: 'rgba(30, 117, 7, 0)',
+                                          borderColor: 'rgba(30, 117, 7, 1)'
+                                      },
+                                      {
+                                          label: "Hadir",
+                                          data: response['hadir'],
+                                          backgroundColor: 'rgba(3, 231, 231, 0.2)',
+                                          borderColor: 'rgba(3, 231, 231, 1)'
+                                      },
 
-              absen2.push(response['Absen']);
-              apel2.push(response['Apel']);
+                                      {
+                                          label: "Apel",
+                                          data: response['apel'],
+                                          backgroundColor: 'rgba(160, 221, 207, 0.2)',
+                                          borderColor: 'rgba(124, 208, 188, 1)'
+                                      },
+                                      {
+                                          label: "Ijin",
+                                          data: response['ijin'],
+                                          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                          borderColor: 'rgba(54, 162, 235, 1)'
+                                      },
+                                      {
+                                          label: "Ijin Terlambat",
+                                          data: response['ijinterlambat'],
+                                          backgroundColor: 'rgba(95, 35, 28, 0.2)',
+                                          borderColor: 'rgba(96, 36, 28, 1)'
+                                      },
+                                      {
+                                          label: "Pulang Cepat",
+                                          data: response['pulangcepat'],
+                                          backgroundColor: 'rgba(255, 203, 15, 0.2)',
+                                          borderColor: 'rgba(255, 203, 15, 1)'
+                                      },
+                                      {                                      
+                                          label: "Sakit",
+                                          data: response['sakit'],
+                                          backgroundColor: 'rgba(10, 114, 133, 0.2)',
+                                          borderColor: 'rgba(10, 114, 133, 1)'
+                                      },
+                                      {                                      
+                                          label: "Tugas Belajar",
+                                          data: response['tb'],
+                                          backgroundColor: 'rgba(50, 104, 3, 0.2)',
+                                          borderColor: 'rgba(50, 104, 3, 1)'
+                                      },
+                                      {                                      
+                                          label: "Tugas Luar",
+                                          data: response['tl'],
+                                          backgroundColor: 'rgba(48, 8, 150, 0.2)',
+                                          borderColor: 'rgba(48, 8, 150, 1)'
+                                      },
+                                      {                                      
+                                          label: "Rapat/Undangan",
+                                          data: response['rapat'],
+                                          backgroundColor: 'rgba(119, 95, 124, 0.2)',
+                                          borderColor: 'rgba(119, 95, 124, 1)'
+                                      },
+                                      {                                      
+                                          label: "Terlambat",
+                                          data: response['terlambat'],
+                                          backgroundColor: 'rgba(184, 163, 46, 0.2)',
+                                          borderColor: 'rgba(184, 163, 46, 1)'
+                                      },
 
-              var ctx = $('#container');
-              var stackedLine = new Chart(ctx, {
-                  type: 'line',
-                  data: {
-                      labels: ["JAN", "FEB", "MAR", "APR", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
-                      datasets: [
-                          {
-                              label: "Tidak Apel",
-                              data: apel2[0],
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(255,99,132,1)'
-                              ],
-                              borderWidth: 1
-                          },
-                          {
-                              label: "Tanpa Kabar",
-                              data: absen2[0],
-                              backgroundColor: [
-                                  'rgba(54, 162, 235, 0.2)'
-                              ],
-                              borderColor: [
-                                  'rgba(54, 162, 235, 1)'
-                              ],
-                              borderWidth: 1
+                                  ]
+                              },
+                          options: {
+                              responsive: true,
+                              legend: {
+                                  position: 'top',
+                              },
+                              title: {
+                                  display: true,
+                                  text: 'Grafik Absensi = '+response['pegawai']+' orang'
+                              },
+                              tooltips: {
+                                  enabled: true,
+                                  mode: 'index',
+                                  intersect: false,
+                              }
                           }
-                      ]
-                  }
-              });
-          });
+                      });
+  
+               });
         }
 
     });

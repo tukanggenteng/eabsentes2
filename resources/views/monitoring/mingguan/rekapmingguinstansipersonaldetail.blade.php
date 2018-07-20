@@ -160,7 +160,7 @@
                                             <tbody>
                                                 @foreach($datas as $data)
                                                     <tr>
-                                                        <td><a href="/monitoring/instansi/detail/att/{{encrypt($data->pegawai_id)}}/{{encrypt($data->periode)}}/{{$instansi_id}}">{{date("d-m-Y",strtotime($data->periode))}}</a></td>                                                        
+                                                        <td><a href="/monitoring/instansi/detail/att/{{encrypt($data->id)}}/{{encrypt($data->periode)}}/{{$instansi_id}}">{{$data->periode}}</a></td>                                                        
                                                         <td>{{$data->hari_kerja}}</td>
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>

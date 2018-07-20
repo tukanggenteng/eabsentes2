@@ -47,6 +47,14 @@
                     {!!session('err')!!}
                 </div>
                 @endif
+
+                @if (!empty(session('success')))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Sukses!</h4>
+                    {!!session('success')!!}
+                </div>
+                @endif
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Atur Jadwal Kerja Pegawai</h3>
