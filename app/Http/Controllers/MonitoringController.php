@@ -1256,7 +1256,7 @@ class MonitoringController extends Controller
         // dd($instansi_id);
         // dd($id);
         $instansi_id=$instansi_id;
-        $tanggalawal=date('Y-m-d',strtotime('+7 days',strtotime($tanggal)));
+        $tanggalawal=date('Y-m-d',strtotime('+6 days',strtotime($tanggal)));
         $tanggalakhir=date('Y-m-d',strtotime(($tanggal)));
 
         // dd($tanggalawal." + ".$tanggalakhir);

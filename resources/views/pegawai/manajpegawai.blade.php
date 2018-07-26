@@ -49,20 +49,20 @@
                                         </form>
                                     </div>
                                 </div>
-                                <!-- <div class="row">
+                                <div class="row">
                                   <div class="col-md-12">
                                     <div class="col-md-8">
-                                        <p>Banyak data pegawai {{$hitungs}}</p>
+                                        
                                     </div>
                                     <div class="col-md-4">
                                         <form action="/pegawai" method="post">
                                           {{csrf_field()}}
-                                          <input type="text" name="cari" placeholder="NIP/Nama/Instansi">
+                                          <input type="text" name="cari" placeholder="NIP/Nama/Instansi" value="{{$pegawaisearch}}">
                                           <button type="submit" name="button"><i class="fa fa-search"></i></button>
                                         </form>
                                     </div>
                                   </div>
-                                </div> -->
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
@@ -75,15 +75,16 @@
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
-                                                <!-- <tbody>
+                                                <tbody>
                                                   @foreach($pegawais as $pegawai)
                                                       <tr>
                                                           <td>{{$pegawai->nip}}</td>
                                                           <td>{{$pegawai->nama}}</td>
-                                                          <td>{{$pegawai->namaInstansi}}</td>
+                                                          <td id="{{$pegawai->id}}">{{$pegawai->namaInstansi}}</td>
+                                                          <td><button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-idrow="{{$pegawai->id}}" data-nip="{{$pegawai->nip}}"  data-nama="{{$pegawai->nama}}" data-id="{{encrypt($pegawai->id)}}" data-target="#modal_delete">Hapus</button></td>
                                                       </tr>
                                                   @endforeach
-                                                </tbody> -->
+                                                </tbody>
                                             </table>
                                         </div>
 
@@ -91,11 +92,12 @@
                                 </div>
 
                             </div>
-                            <!-- <div class="box-footer clearfix">
+                            <div class="box-footer clearfix">
+                                <p>Banyak data pegawai {{$hitungs}}</p>
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     {{$pegawais->links()}}
                                 </ul>
-                            </div> -->
+                            </div>
                         </div>
                         <div class="modal modal-danger fade" id="modal_delete">
                                     <div class="modal-dialog">
@@ -165,19 +167,20 @@
         })
     </script>
     <script type="text/javascript">
+        var idbaris=0;
         var oTable;
         $(function() {
-            oTable = $('#tableaja').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{route('datapegawai')}}',
-                columns: [
-                    { data: 'nip', name: 'nip' },
-                    { data: 'nama', name: 'nama' },
-                    { data: 'namaInstansi', name: 'namaInstansi' },
-                    { data: 'action', name: 'action' },
-                ]
-            });
+            // oTable = $('#tableaja').DataTable({
+            //     processing: true,
+            //     serverSide: true,
+            //     ajax: '{{route('datapegawai')}}',
+            //     columns: [
+            //         { data: 'nip', name: 'nip' },
+            //         { data: 'nama', name: 'nama' },
+            //         { data: 'namaInstansi', name: 'namaInstansi' },
+            //         { data: 'action', name: 'action' },
+            //     ]
+            // });
         });
     </script>
 
@@ -220,12 +223,14 @@
             $(document).on('click','.modal_delete',function () {
                 $('#delidpegawai').val($(this).data('nip'));
                 $('.labelpegawai').text($(this).data('nama'));
+                idrow=$(this).data('idrow');
             });
         </script>
 
         <script type="text/javascript">
         $(document).on('click','#simpandelpegawai',function (){
           var nip=$('#delidpegawai').val();
+
           var _token=$("input[name=_token]").val();
             $.ajax({
                 type:'post',
@@ -234,15 +239,11 @@
                         delidpegawai:nip,
                         _token:_token
                         },
-                // data: new FormData($('#formdeletepegawai')[0]),
-                // dataType:'json',
-                // async:false,
-                // processData: false,
-                // contentType: false,
                 success:function(response){
                     $('.error').addClass('hidden');
                     $('#modal_delete').modal('hide');
-                    oTable.ajax.reload();
+                    // oTable.ajax.reload();
+                    $('#'+idrow).text("");
                 },
             });
         });

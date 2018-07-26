@@ -171,7 +171,7 @@
                             <div class="col-xs-12">
                                 <div class="box box-default">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Manajemen Pegawai Khusus</h3>
+                                        <h3 class="box-title">Manajemen Pegawai</h3>
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
@@ -637,7 +637,7 @@
                 ]
             });
         });
-
+        
         var oTable;
         $(function() {
             oTable = $('#tableaja').DataTable({
@@ -988,6 +988,9 @@
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus ruangan.", "", "success");
                         oTableruangan.ajax.reload();
+                        oTable.ajax.reload();
+                        oTable24.ajax.reload();
+                        oTablepegawai.ajax.reload();
                         // oTable.ajax.reload();
                         $('#modal_deleteruangan').modal('hide');
                     }

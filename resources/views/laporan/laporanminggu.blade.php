@@ -141,7 +141,7 @@
                                   <th>Periode</th>
                                   <th>Hari Kerja</th>
                                   <th>Hadir</th>
-                                  <th>Absent</th>
+                                  <th>Tanpa Kabar</th>
                                   <th>Ijin</th>
                                   <th>Ijin Terlambat</th>
                                   <th>Ijin Pulang Cepat</th>
@@ -152,7 +152,6 @@
                                   <th>Rapat/Undangan</th>
                                   <th>Pulang Cepat</th>
                                   <th>Apel</th>
-                                  <th>Tanpa Kabar</th>
                                   <th>Akumulasi Terlambat</th>
                                   <th>Akumulasi Jam Kerja</th>
                                 </tr>
@@ -175,7 +174,6 @@
                                         <td>{{$att->rapatundangan}}</td>
                                         <td>{{$att->pulang_cepat}}</td>
                                         <td>{{$att->apelbulanan}}</td>
-                                        <td>{{$att->tanpa_kabar}}</td>
                                         <td>{{$att->total_terlambat}}</td>
                                         <td>{{$att->total_akumulasi}}</td>
                                     </tr>

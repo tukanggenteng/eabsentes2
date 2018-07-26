@@ -381,6 +381,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'AddColumAtts' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
         'AddColumFinalrekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
         'AddColumRekapbulanan' => __DIR__ . '/../..' . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
+        'AddColumnLewathariToJadwalkerjasTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_23_141710_add_column_lewathari_to_jadwalkerjas_table.php',
         'AddSifatUsersColumn' => __DIR__ . '/../..' . '/database/migrations/2018_03_14_093212_add_sifat_users_column.php',
         'AddcolumApelRekapanTable' => __DIR__ . '/../..' . '/database/migrations/2018_04_26_094826_addcolum_apel_rekapan_table.php',
         'App\\Console\\Commands\\CheckRaspberry' => __DIR__ . '/../..' . '/app/Console/Commands/CheckRaspberry.php',

@@ -226,7 +226,7 @@ class JadwalKerjaPegawaiHarianController extends Controller
 
     public function eventcalendarstore(Request $request)
     {
-                $id=decrypt($request->idemploye);
+            $id=decrypt($request->idemploye);
                 
 
 
@@ -239,12 +239,14 @@ class JadwalKerjaPegawaiHarianController extends Controller
             $verifikasi=rulejadwalpegawai::
                 where('pegawai_id','=',$id)
                 ->where('jadwalkerja_id','=',$jadwalkerjaid)
-                ->where('tanggal_akhirrule','>=',$tanggalawal)
+                ->where('tanggal_akhirrule','=',$tanggalawal)
+                ->where('tanggal_awalrule','=',$tanggalawal)
                 ->count();
 
 
 
             if ($verifikasi>0) {
+                // dd("sd");
                 return response()->json("failed");
                 // return redirect('/jadwalkerjapegawai')->with('err','Jadwal pegawai tidak berlaku, karena tanggal awal pada jenis jadwal kerja yang dipilih tidak lebih dari tanggal akhir pada jadwal kerja sebelum nya.');
             }
@@ -339,7 +341,6 @@ class JadwalKerjaPegawaiHarianController extends Controller
 
                         $statusjammasuk=(($comparejadwalkerja->jam_masukjadwal <= $value->jam_masukjadwal) && ($comparejadwalkerja->jam_keluarjadwal <= $value->jam_masukjadwal));
                         $statusjamkeluar=(($comparejadwalkerja->jam_masukjadwal >= $value->jam_keluarjadwal) && ($comparejadwalkerja->jam_keluarjadwal >= $value->jam_keluarjadwal));
-                        //dd("masuk=".$statusjammasuk." keluar=".$statusjamkeluar." harikerja=".$statushari);
                         if ((($statushari)) || (($statusjammasuk)) || (($statusjamkeluar)))
                         {
                             if (($tanggalhariini == $tanggalawal)) {
@@ -373,7 +374,7 @@ class JadwalKerjaPegawaiHarianController extends Controller
                                 $table->pegawai_id = $id;
                                 $table->tanggal_awalrule = $tanggalawal;
                                 $table->tanggal_akhirrule = $tanggalawal;
-                                $table->jadwalkerja_id = $request->jadwalkerjamasuk;
+                                $table->jadwalkerja_id = $jadwalkerjaid;
                                 $table->save();
                             //dd("nambah statusjammasuk=".$statusjammasuk." statusjamkeluar=".$statusjamkeluar." harikerja=".$statushari);
                         }

@@ -210,6 +210,7 @@ class JadwalKerjaPegawaiController extends Controller
                 //dd($datarules);
                 if ($datarules->count()==0)
                 {
+
                     if (($tanggalhariini == $tanggalawal)) {
                                 $cek = att::where('tanggal_att', '=', $tanggalhariini)
                                     ->where('pegawai_id','=',$data)
@@ -236,7 +237,7 @@ class JadwalKerjaPegawaiController extends Controller
 
                                     
                                 }
-                     }
+                     }  
                                 $table = new rulejadwalpegawai();
                                 $table->pegawai_id = $data;
                                 $table->tanggal_awalrule = $tanggal[0];
@@ -244,11 +245,15 @@ class JadwalKerjaPegawaiController extends Controller
                                 $table->jadwalkerja_id = $request->jadwalkerjamasuk;
                                 $table->save();
 
+                                $status=true;
+
+
                 }
                 else
                 {
-                    
-                    foreach ($datarules as $key => $value){
+
+                    foreach ($datarules as $key => $value)
+                    {
                         // dd("asd");
                         $statushari=true;
 
@@ -273,7 +278,7 @@ class JadwalKerjaPegawaiController extends Controller
                                 {
                                     $statushari=false;
                                     break;
-                                    dd($statushari);
+                                    // dd($statushari);
                                 }
                                 else
                                 {
@@ -324,6 +329,14 @@ class JadwalKerjaPegawaiController extends Controller
                                 if ($table->save())
                                 {
                                     $status=true;
+                                    break;
+
+                                }
+                                else
+                                {
+                                    $status=false;
+                                    return redirect('/jadwalkerjapegawai')->with('err','Gagal menyimpan data !');
+
                                 }
 
                             //dd("nambah statusjammasuk=".$statusjammasuk." statusjamkeluar=".$statusjamkeluar." harikerja=".$statushari);
@@ -429,7 +442,7 @@ class JadwalKerjaPegawaiController extends Controller
     public function destroy($id)
     {
         $id=decrypt($id);
-        $table=rulejadwalpegawai::find($id);
+        $table=rulejadwalpegawai::where('id','=',$id)->first();
 
         $tanggalhari=date('Y-m-d');
         $atts=att::where('jadwalkerja_id','=',$table->jadwalkerja_id)

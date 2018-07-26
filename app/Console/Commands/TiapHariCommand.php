@@ -79,29 +79,29 @@ class TiapHariCommand extends Command
         $yg2=array();
           //
         // dd(($jsons));
-       foreach ($jsons as $key=>$json)
-       {
+    //    foreach ($jsons as $key=>$json)
+    //    {
 
-                   // set_time_limit(0);
-                   // ini_set('memory_limit', '20000M');
+    //                // set_time_limit(0);
+    //                // ini_set('memory_limit', '20000M');
+    //         // dd($json['nip']);
+    //         $pegawai=pegawai::where('nip','=',$json['nip'])
+    //         ->count();
 
-        $pegawai=pegawai::where('nip','=',$json['nip'])
-        ->count();
+    //         if ($pegawai > 0)
+    //         {
+    //             array_push($yg2,$json['nip']);
+    //         }
+    //         else
+    //         {
+    //         $user = new pegawai();
+    //         $user->nip = $json['nip'];
+    //         $user->nama = $json['nama'];
+    //         $user->instansi_id = null;
+    //         $user->save();
+    //         }
 
-        if ($pegawai > 0)
-        {
-            array_push($yg2,$json['nip']);
-        }
-        else
-        {
-           $user = new pegawai();
-           $user->nip = $json['nip'];
-           $user->nama = $json['nama'];
-           $user->instansi_id = null;
-           $user->save();
-        }
-
-        }
+    //     }
         
         $month=Carbon::now()->month;
         $year = Carbon::now()->year;

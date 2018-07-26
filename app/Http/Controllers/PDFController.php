@@ -284,10 +284,10 @@ class PDFController extends Controller
                                 'pegawais.nama',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                                 DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
-                                DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                                DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                                DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                                DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                                DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                                 DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -328,10 +328,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        DB::raw('count(*) hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -384,10 +384,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -427,10 +427,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -471,10 +471,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -546,10 +546,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -621,10 +621,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        DB::raw('count(*) hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1" ,1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -694,10 +694,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -768,10 +768,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -785,7 +785,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy('atts.tanggal_att','DESC')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('atts.tanggal_att','=',$request->tanggal)
                 ->where('pegawais.nip','=',$request->nip)
@@ -810,10 +810,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -827,7 +827,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy('atts.tanggal_att','DESC')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('atts.tanggal_att','=',$request->tanggal)
                 ->paginate(50);
@@ -849,10 +849,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -866,7 +866,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy('atts.tanggal_att','DESC')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
@@ -887,10 +887,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2"|| (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -904,7 +904,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy('atts.tanggal_att','DESC')
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->paginate(50);
         $nip=null;
@@ -925,10 +925,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -942,7 +942,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','ASC'))
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->get();
 
@@ -998,10 +998,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -1015,7 +1015,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','ASC'))
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('atts.tanggal_att','=',$id)
                 ->where('pegawais.nip','=',$id2)
@@ -1069,10 +1069,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -1086,7 +1086,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','ASC'))
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('atts.tanggal_att','=',$id)
                 ->get();
@@ -1138,10 +1138,10 @@ class PDFController extends Controller
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
-                        DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                        DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                         DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
@@ -1155,7 +1155,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'),DB::raw('pegawais.id'))
-                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','DESC'))
+                ->orderBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))','ASC'))
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$id)
                 ->get();

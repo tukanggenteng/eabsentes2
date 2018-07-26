@@ -23,6 +23,9 @@ class LoginController extends Controller
               {
                 return redirect('/user/pegawai');
               }
+              elseif ((Auth::user()->role->namaRole=="bkd")){
+                return redirect('/monitoring/instansi');
+              }
               // elseif ((Auth::user()->role->namaRole=="karu"))
               // {
               //   return redirect('/home');
@@ -60,6 +63,9 @@ class LoginController extends Controller
             }
             elseif ((Auth::user()->role->namaRole=="karu")){
               return redirect('/home/ruangan');
+            }
+            elseif ((Auth::user()->role->namaRole=="bkd")){
+              return redirect('/monitoring/instansi');
             }
             else {
               return redirect('/home');

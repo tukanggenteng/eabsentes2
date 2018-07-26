@@ -35,7 +35,7 @@ class PegawaiController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:60,1');
+        $this->middleware('throttle:60000,1');
     }
 
 
@@ -57,19 +57,22 @@ class PegawaiController extends Controller
         if ($request->cari=="")
         {
           $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                ->select('pegawais.*','instansis.namaInstansi')
                 ->paginate(30);
         }
         else {
 
           $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                ->select('pegawais.*','instansis.namaInstansi')
                 ->orWhere('pegawais.nip','like','%'.$request->cari.'%')
                 ->orWhere('pegawais.nama','like','%'.$request->cari.'%')
                 ->orWhere('instansis.namaInstansi','like','%'.$request->cari.'%')
                 ->paginate(30);
         }
 
+        $pegawaisearch=$request->cari;
 
-        return view('pegawai.manajpegawai',['hitungs'=>$hitung,'inforekap'=>$inforekap,'pegawais'=>$pegawais]);
+        return view('pegawai.manajpegawai',['hitungs'=>$hitung,'inforekap'=>$inforekap,'pegawais'=>$pegawais,'pegawaisearch'=>$pegawaisearch]);
     }
 
     /**
@@ -81,8 +84,8 @@ class PegawaiController extends Controller
     public function data(){
         $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')->get();
         return Datatables::of($users)
-        ->addColumn('action', function ($users) {
-            return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
+            ->addColumn('action', function ($users) {
+                return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
             })
             ->make(true);
     }
@@ -388,7 +391,8 @@ class PegawaiController extends Controller
         // dd($updatedata->id);
 
         $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
-        foreach ($rulepegawais as $key => $datarule){
+        foreach ($rulepegawais as $key => $datarule)
+        {
 
             $tanggalhari=date('Y-m-d');
             $atts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
@@ -400,9 +404,7 @@ class PegawaiController extends Controller
                 $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
                                 ->where('tanggal_att','=',$tanggalhari)
                                 ->where('pegawai_id','=',$updatedata->id)
-                                ->whereNull('jam_masuk')
-                                ->first();
-                $attsdelete->delete();
+                                ->whereNull('jam_masuk')->delete();
             }
         }
             

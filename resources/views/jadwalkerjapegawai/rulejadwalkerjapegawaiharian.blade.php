@@ -73,7 +73,7 @@
                       <!-- the events -->
                       <div id="external-events">
                           @foreach ($jadwals as $jadwal)
-                            <div class="external-event {{$jadwal->classdata}}" data-id="{{encrypt($jadwal->id)}}" data-jammasuk="{{$jadwal->jam_masukjadwal}}" data-jamkeluar="{{$jadwal->jam_keluarjadwal}}" data-jenisjadwal="{{$jadwal->jenis_jadwal}}">{{$jadwal->jenis_jadwal}}</div>
+                            <div class="external-event {{$jadwal->classdata}}" data-id="{{encrypt($jadwal->id)}}" data-jammasuk="{{$jadwal->jam_masukjadwal}}" data-jamkeluar="{{$jadwal->jam_keluarjadwal}}" data-jenisjadwal="{{$jadwal->jenis_jadwal}}">{{$jadwal->jenis_jadwal}} - [{{$jadwal->jam_masukjadwal}} - {{$jadwal->jam_keluarjadwal}}]</div>
                           @endforeach
                       </div>
                       </div>
@@ -273,7 +273,15 @@
             type: 'POST',
             dataType: 'json',
             success: function(response){
-              swal("Berhasil menambah jadwal kerja pegawai.", "", "success");
+              if (response=='success')
+              {
+                swal("Berhasil menambah jadwal kerja pegawai.", "", "success");
+              }
+              else
+              {
+                swal("Gagal menambah jadwal  kerja pegawai.", "", "error");
+              }
+              
               // console.log(response);
               // if(response == 'success')
               // $('#calendar').fullCalendar('updateEvent',event);

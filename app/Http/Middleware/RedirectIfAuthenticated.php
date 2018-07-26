@@ -34,6 +34,9 @@ class RedirectIfAuthenticated
           {
             return redirect('/home');
           }
+          elseif ((Auth::user()->role->namaRole=="bkd")){
+            return redirect('/monitoring/instansi');
+          }
           elseif ((Auth::user()->role->namaRole=="karu")){
             return redirect('/home/ruangan');
           }

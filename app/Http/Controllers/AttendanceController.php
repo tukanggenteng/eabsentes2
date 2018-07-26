@@ -32,7 +32,7 @@ class AttendanceController extends Controller
        $hasilbasic=$jam.$tanggal.$user_id.$instansi.$status;
        $hasil=$this->encryptOTP($hasilbasic);
        $statusauth=false;
-
+    //    dd("sd");
     //    dd($hasil);
 
        if ($hasil==$auth){

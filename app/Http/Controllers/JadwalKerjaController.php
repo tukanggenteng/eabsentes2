@@ -75,6 +75,17 @@ class JadwalKerjaController extends Controller
                     ->editColumn('classdata', function ($tables) {
                         return '<a class="'.$tables->classcolor.'" ><i class="fa fa-square"></i></a>';
                     })
+                    ->editColumn('lewathari', function ($tables) {
+                        if ($tables->lewathari==1)
+                        {
+                            return 'Ya';
+                        }
+                        else
+                        {
+                            return 'Tidak';
+                        }
+
+                    })
                     ->rawColumns(['action','classdata'])
                     ->make(true);
     }
@@ -101,6 +112,7 @@ class JadwalKerjaController extends Controller
             'awal'=>'required|min:5',
             'pulang'=>'required|min:5',
             'instansi_id'=>'required',
+            'lewathari'=>'required',
             'sifat'=>'required',
             'color'=>'required',
             'singkatan'=>'required'
@@ -114,6 +126,7 @@ class JadwalKerjaController extends Controller
         $user->color = ($request->color);
         $user->classcolor = ($request->classcolor);
         $user->classdata = ($request->classdata);
+        $user->lewathari = ($request->lewathari);
         $user->singkatan = $request->singkatan;
         $user->instansi_id = $request->instansi_id[0];
         $user->save();
@@ -141,12 +154,19 @@ class JadwalKerjaController extends Controller
     }
 
     public function editstore(Request $request){
+        
+
         $this->validate($request, [
-            'jenisjadwal'=>'required|min:2',
-            'singkatan'=>'required|min:2',
+            'jenisjadwal'=>'required',
             'awal'=>'required|min:5',
-            'pulang'=>'required|min:5'
+            'pulang'=>'required|min:5',
+            // 'instansi_id'=>'required',
+            'lewathari'=>'required',
+            'sifat'=>'required',
+            'color'=>'required',
+            'singkatan'=>'required'
         ]);
+        // dd($request);
         // dd("asd");
         $table=jadwalkerja::where('id','=',$request->id)->first();
         $table->jam_masukjadwal=$request->awal;
@@ -155,6 +175,7 @@ class JadwalKerjaController extends Controller
         $table->sifat=$request->sifat;
         $table->color=$request->color;
         $table->classcolor=$request->classcolor;
+        $table->lewathari=$request->lewathari;
         $table->classdata=$request->classdata;
         $table->singkatan=$request->singkatan;
         $table->save();

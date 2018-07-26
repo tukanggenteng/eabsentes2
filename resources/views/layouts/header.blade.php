@@ -1,21 +1,19 @@
 
 <header class="main-header">
     <!-- Logo -->
-    @if (Auth::user()->role->namaRole=="karu")
-        <a href="/home/ruangan" class="logo">
+    
+        <!-- <a href="/home/ruangan" class="logo">
+           
+            <span class="logo-mini"><b>EA</b></span>
+            <span class="logo-lg"><b>e-Absen</b></span>
+        </a> -->
+    
+        <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>EA</b></span>
             <!-- logo for regular state and mobile devices -->
             <span class="logo-lg"><b>e-Absen</b></span>
         </a>
-    @else
-        <a href="/home" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>EA</b></span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>e-Absen</b></span>
-        </a>
-    @endif
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->

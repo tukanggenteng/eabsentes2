@@ -98,6 +98,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label>Lewat Hari</label>
+                                        <select name="lewathari" class="form-control select2" id="lewathari">
+                                            @if ($jadwals->lewathari=="1")
+                                                <option value="1" selected>Ya</option>
+                                                <option value="0">Tidak</option>
+                                            @else
+                                                <option value="1">Ya</option>
+                                                <option value="0" selected>Tidak</option>
+                                            @endif
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label>Color</label>
                                         <input readonly type="hidden" name="color" id="color" value="{{$jadwals->color}}">
                                         <input readonly type="hidden" name="classcolor" id="classcolor" value="{{$jadwals->classcolor}}">

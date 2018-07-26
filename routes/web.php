@@ -295,7 +295,7 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
 });
 
-Route::group(['middleware' => ['rule:user']],function(){
+Route::group(['middleware' => ['rule:user,rs']],function(){
       
 
       

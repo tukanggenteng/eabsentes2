@@ -49,7 +49,7 @@
                 @endif
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Monitoring Rekap Mingguan Instansi</h3>
+                        <h3 class="box-title">Monitoring Rekap Instansi</h3>
 
                         <div class="box-tools">
                         </div>

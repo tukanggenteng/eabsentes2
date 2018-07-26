@@ -11,6 +11,7 @@ use App\ruangan;
 use App\instansi;
 use App\atts_tran;
 use App\att;
+use App\User;
 use App\hapusfingerpegawai;
 use App\adminpegawai;
 use App\rulejadwalpegawai;
@@ -114,7 +115,7 @@ class DokterPerawatRuanganController extends Controller
         $dataperawat=perawatruangan::pluck('pegawai_id')->all();
         $tags = pegawai::
                 where('nip','LIKE','%'.$term.'%')
-                ->orWhere('nama','LIKE','%'.$term.'%')
+                // ->orWhere('nama','LIKE','%'.$term.'%')
                 ->where('instansi_id','=',Auth::user()->instansi_id)
                 ->whereNotIn('id',$datadokter)
                 ->whereNotIn('id',$dataperawat)
@@ -227,6 +228,17 @@ class DokterPerawatRuanganController extends Controller
     public function destroyruangan(Request $request){
             $table=ruangan::where('id','=',decrypt($request->delidruangan))->first();
             if ($table->delete()){
+                $table=perawatruangan::where('ruangan_id','=',decrypt($request->delidruangan))->delete();
+                
+                $ruanganusers=ruanganuser::where('ruangan_id','=',decrypt($request->delidruangan))->get();
+
+                foreach ($ruanganusers as $ruanganuser)
+                {
+                    $userdata=User::where('id','=',$ruanganuser->user_id)
+                        ->first();
+                    $userdata->delete();
+                }
+
                 return response()->json("Success");
             }else{
                 return response()->json("Failed");
@@ -264,7 +276,8 @@ class DokterPerawatRuanganController extends Controller
     }
 
     public function destroyperawat(Request $request){
-        $table=perawatruangan::where('id','=',decrypt($request->delidpegawaiperawat))->first();
+        // dd(decrypt($request->delidpegawai));
+        $table=perawatruangan::where('id','=',decrypt($request->delidpegawai))->first();
         $pegawaiid=($table->pegawai_id); 
         if ($table->delete()){
             $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$pegawaiid);

@@ -130,6 +130,17 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <label>Lewat Hari</label>
+                                        <select name="lewathari" class="form-control select2" id="lewathari">
+                                            <option value="1">Ya</option>
+                                            <option value="0">Tidak</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <label>Color</label>
                                         <input readonly type="hidden" name="color" id="color">
                                         <input readonly type="hidden" name="classcolor" id="classcolor">
@@ -191,6 +202,7 @@
                                                 <th>Instansi</th>
                                                 <th>Warna</th>
                                                 <th>Sifat</th>
+                                                <th>Lewat Hari</th>
                                                 <th>Aksi</th>
                                             </thead>
                                                
@@ -418,6 +430,7 @@
                     { data: 'namaInstansi', name: 'namaInstansi' },
                     { data: 'classdata', name: 'classdata' },
                     { data: 'sifat', name: 'sifat' },
+                    { data: 'lewathari', name: 'lewathari' },
                     { data: 'action', name: 'action',orderable: false }
                 ]
             });
