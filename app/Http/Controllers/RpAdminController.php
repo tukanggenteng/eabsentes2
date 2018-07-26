@@ -65,7 +65,7 @@ class RpAdminController extends Controller
        ->join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
        ->join('instansis','rapatundangans.instansi_id','=','instansis.id')
        ->select('rapatundangans.*','rekapbulanans.pegawai_id','pegawais.nip','pegawais.nama','instansis.namaInstansi')
-       ->where('rapatundangans.instansi_id','=',Auth::user()->instansi_id)
+    //    ->where('rapatundangans.instansi_id','=',Auth::user()->instansi_id)
        ->get();
        return Datatables::of($sakit)
        ->addColumn('action',function($sakit){

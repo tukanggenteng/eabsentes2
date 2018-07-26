@@ -295,6 +295,13 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
 });
 
+Route::group(['middleware' => ['rule:admin,bkd']],function(){
+      #rekap bulanan
+      Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');
+      Route::get('/rekapbulanan/rekapbulanan/admin/data','RekapAbsensiController@datarekapadmin')->name('datarekapadminmingguan');
+
+});
+
 Route::group(['middleware' => ['rule:user,rs']],function(){
       
 

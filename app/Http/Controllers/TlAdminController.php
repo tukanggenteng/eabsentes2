@@ -59,7 +59,7 @@ class TlAdminController extends Controller
          return view('admin.tl.edittl',['sakit'=>$sakit]);
      }
 
-     public function datatb()
+     public function datatl()
      {
        $sakit=tugasluar::join('rekapbulanans','tugasluars.rekapbulanan_id','=','rekapbulanans.id')
        ->join('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')

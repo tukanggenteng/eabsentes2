@@ -41,7 +41,7 @@
                     <div class="col-xs-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Rekap Absen Bulanan</h3>
+                                <h3 class="box-title">Surat dukung yang tidak dilaporkan </h3>
                             </div>
                             <div class="box-body">
                                 <hr>
@@ -64,8 +64,7 @@
                                             <th>Ijin Terlambat</th>
                                             <th>Terlambat</th>
                                             <th>Pulang Cepat</th>
-                                            <th>Persentase Absent</th>
-                                            <th>Persentase Apel</th>
+                                            <th>Ijin Pulang Cepat</th>
                                             <th>Akumulasi Jam Kerja</th>
                                             <th>Akumulasi Jam Terlambat</th>
                                             <th>Instansi</th>
@@ -89,12 +88,12 @@
     <!-- ./wrapper -->
 
     <!-- jQuery 3 -->
-    <script src="{{asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+
     <script src="{{asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- Select2 -->
-    {{--<script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>--}}
+
     <!-- DataTables -->
     <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
@@ -109,16 +108,7 @@
     <script src="{{asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-    <!-- AdminLTE for demo purposes -->
-    {{--<script src="{{asset('dist/js/demo.js')}}"></script>--}}
-    <!-- Page script -->
-    {{--<script>--}}
-        {{--$(function () {--}}
-            {{--//Initialize Select2 Elements--}}
-            {{--$('.select2').select2()--}}
 
-        {{--})--}}
-    {{--</script>--}}
     <script type="text/javascript">
 
         $(function() {
@@ -170,6 +160,7 @@
         $(function() {
             oTable = $('#tableaja').DataTable({
                 processing: true,
+                
                 serverSide: true,
                 ajax: '{{route('datarekapadminmingguan')}}',
                 columns: [
@@ -186,8 +177,9 @@
                     { data: 'tugas_belajar', name: 'tugas_belajar' },
                     { data: 'rapatundangan', name: 'rapatundangan' },
                     { data: 'ijinterlambat', name: 'ijinterlambat' },
+                    { data: 'terlambat', name: 'terlambat' },
                     { data: 'pulang_cepat', name: 'pulang_cepat' },
-                    { data: 'persentase_tidakhadir', name: 'persentase_tidakhadir' },
+                    { data: 'ijinpulangcepat', name: 'ijinpulangcepat' },
                     { data: 'total_akumulasi', name: 'total_akumulasi' },
                     { data: 'total_terlambat', name: 'total_terlambat' },
                     { data: 'namaInstansi', name: 'namaInstansi' }

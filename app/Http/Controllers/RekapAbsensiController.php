@@ -1456,9 +1456,17 @@ class RekapAbsensiController extends Controller
 
     public function datarekapadmin()
     {
-      $sakit=masterbulanan::join('pegawais','masterbulanans.pegawai_id','=','pegawais.id')
-      ->join('instansis','masterbulanans.instansi_id','=','instansis.id')
-      ->select('masterbulanans.*','pegawais.nip','pegawais.nama','instansis.namaInstansi')
+      $sakit=rekapbulanan::leftJoin('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
+      ->leftJoin('instansis','rekapbulanans.instansi_id','=','instansis.id')
+      ->select('rekapbulanans.*','pegawais.nip','pegawais.nama','instansis.namaInstansi')
+      ->where('rekapbulanans.ijin','>',0)
+      ->orWhere('rekapbulanans.sakit','>',0)
+      ->orWhere('rekapbulanans.cuti','>',0)
+      ->orWhere('rekapbulanans.ijinterlambat','>',0)
+      ->orWhere('rekapbulanans.tugas_luar','>',0)
+      ->orWhere('rekapbulanans.tugas_belajar','>',0)
+      ->orWhere('rekapbulanans.rapatundangan','>',0)
+      ->orWhere('rekapbulanans.ijinpulangcepat','>',0)
       ->get();
       return Datatables::of($sakit)
       ->make(true);

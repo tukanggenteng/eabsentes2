@@ -66,7 +66,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/rekapbulanan/rekapbulanan/admin"><i class="fa fa-circle-o"></i> Rekap Absen Mingguan</a></li>
+                    <li><a href="/rekapbulanan/rekapbulanan/admin"><i class="fa fa-circle-o"></i> Verifikasi Surat</a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -234,6 +234,17 @@
                 <ul class="treeview-menu">
                     <li><a href="/monitoring/pegawai"><i class="fa fa-circle-o"></i> Monitoring Absen Pegawai</a></li>
                     <li><a href="/monitoring/instansi"><i class="fa fa-circle-o"></i> Monitoring Absen Instansi</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>Rekap</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="/rekapbulanan/rekapbulanan/admin"><i class="fa fa-circle-o"></i> Verifikasi Surat</a></li>
                 </ul>
             </li>
             @else
