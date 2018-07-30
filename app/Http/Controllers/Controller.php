@@ -1351,7 +1351,7 @@ class Controller extends BaseController
             $hitungabsen=att::leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id','=',$pegawai_id_fingerprint)
             ->where('atts.tanggal_att','=',$tanggal_fingerprint)
-            ->whereNull('atts.jam_masuk')
+            ->whereNull('atts.jam_masuk ')
             ->where('jadwalkerjas.lewathari','=','1')
             ->count();
             // dd($hitungabsen);
@@ -1556,37 +1556,6 @@ class Controller extends BaseController
                             $jamkeluarjadwal=date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']));
                             if (($harike==5) && ($table2[0]['sifat']=="WA"))                        
                             {
-                                // if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
-                                // {
-                                //     $jam_masuk=$absen->jam_masuk;
-                                //     $keluaristirahat=$absen->keluaristirahat;
-                                //     $masukistirahat=$absen->masukistirahat;
-                                //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                //         $jam_keluar=$jam_fingerprint;
-                                //     }
-                                //     else{
-                                //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
-                                //     }
-                                //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                // }
-                                // else
-                                // {
-                                //     $jam_masuk=$table2[0]['jam_masukjadwal'];
-                                //     $keluaristirahat=$absen->keluaristirahat;
-                                //     $masukistirahat=$absen->masukistirahat;
-                                //     if ($jamfingerprint < date("H:i:s",strtotime($table2[0]['jam_keluarjadwal']))){
-                                //         $jam_keluar=$jam_fingerprint;
-                                //     }
-                                //     else{
-                                //         $jam_keluar=$table2[0]['jam_keluarjadwal'];
-                                //     }
-                                //     $akumulasi1=$this->kurangwaktu($keluaristirahat,$jam_masuk);
-                                //     $akumulasi2=$this->kurangwaktu($jam_keluar,$masukistirahat);
-                                //     $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                // }
-
                                 if ($absen->jam_masuk > $table2[0]['jam_masukjadwal'])
                                 {
                                     // $jamban=$absen->jam_masuk;
@@ -1763,12 +1732,15 @@ class Controller extends BaseController
                         ->where('id','=',$absen->id)
                         ->first();
                     // dd($jamban." + ".$jamban2." = ".$akumulasi);
+                    // dd("sd");
                     $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                         ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
 
                     if (($table->jenisabsen_id=="2") || ($table->jenisabsen_id=="13")){
                         $table->jenisabsen_id = "1";
                     }
+
+
                     $table->jam_keluar = $jam_fingerprint;
                     $table->keluarinstansi_id = $instansi_fingerprint;
                     $table->akumulasi_sehari = $akumulasi;
@@ -1779,10 +1751,8 @@ class Controller extends BaseController
 
                     $instansi = instansi::where('id', '=', $instansi_fingerprint)->get();
 
-                    if (($jamfingerprint >= $jamakhir2) && ($jamfingerprint <= ( $jamawal))) {
-
+                    
                     $status="pulang";
-                    }
                     if ($pegawai[0]['namaInstansi'] == $instansi[0]['namaInstansi']) {
                         $class = "bg-green";
                     } else {
@@ -1799,7 +1769,8 @@ class Controller extends BaseController
                     $att->function="kehadiranhariini";
                     $att->status="Success";
                     $att->save();
-
+                    
+                    // dd("asd");   
                     return "Success";
                     //Bisa Pulan 3
                 }

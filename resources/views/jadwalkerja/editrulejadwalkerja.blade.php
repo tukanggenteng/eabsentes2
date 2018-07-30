@@ -126,12 +126,14 @@
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
     <script type="text/javascript">
         $('#awalmasuk').timepicker({
-            showMeridian:false
+            showMeridian:false,
+            showSeconds:true
         });
     </script>
     <script type="text/javascript">
         $('#bataspulang').timepicker({
-            showMeridian:false
+            showMeridian:false,
+            showSeconds:true
         });
     </script>
 

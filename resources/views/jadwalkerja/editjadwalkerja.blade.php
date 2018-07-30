@@ -197,12 +197,14 @@
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
     <script type="text/javascript">
         $('#awal').timepicker({
-            showMeridian:false
+            showMeridian:false,
+            showSeconds:true
         });
     </script>
     <script type="text/javascript">
         $('#pulang').timepicker({
-            showMeridian:false
+            showMeridian:false,
+            showSeconds:true
         });
 
         var currColor = '#3c8dbc' //Red by default
