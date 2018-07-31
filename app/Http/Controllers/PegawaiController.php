@@ -386,7 +386,7 @@ class PegawaiController extends Controller
         //
         $deletepegawai=decrypt($request->delidpegawai);
         // dd($deletepegawai);
-        $updatedata = pegawai::where('nip','=',$deletepegawai)->first();
+        $updatedata = pegawai::where('id','=',$deletepegawai)->first();
         $idpeg=$updatedata->id;
         // dd($updatedata->id);
 

@@ -246,7 +246,7 @@
 
     <script type="text/javascript">
         $(document).on('click','.modal_delete',function () {
-            $('#delidpegawai').val($(this).data('nip'));
+            $('#delidpegawai').val($(this).data('id'));
             $('.labelpegawai').text($(this).data('nama'));
         });
     </script>
