@@ -138,15 +138,15 @@ class PegawaiController extends Controller
      foreach ($jsons as $key=>$json)
      {
 
-                 // set_time_limit(0);
-                 // ini_set('memory_limit', '20000M');
+                 set_time_limit(0);
+                 ini_set('memory_limit', '20000M');
 
       $pegawai=pegawai::where('nip','=',$json['nip'])
       ->count();
 
       if ($pegawai > 0){
           // dd($json['nip']);
-          array_push($yg2,$json['nip']);
+        //   array_push($yg2,$json['nip']);
       }
       else{
          $user = new pegawai();
