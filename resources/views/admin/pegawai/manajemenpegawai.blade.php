@@ -151,6 +151,7 @@
 
     <script type="text/javascript">
         $(document).on('click','.modal_delete',function () {
+            console.log($(this).data('id'));
             $('#delidpegawai').val($(this).data('id'));
             $('.labelpegawai').text($(this).data('nama'));
         });
