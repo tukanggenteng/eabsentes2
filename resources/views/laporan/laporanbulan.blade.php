@@ -149,7 +149,7 @@
                                   <th>Cuti</th>
                                   <th>Tugas Luar</th>
                                   <th>Tugas Belajar</th>
-                                  <th>Rapat/Undangan</th>
+                                  <th>Ijin Kepentingan Lain</th>
                                   <th>Pulang Cepat</th>
                                   <th>Apel</th>
                                   <th>Akumulasi Terlambat</th>

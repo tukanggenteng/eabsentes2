@@ -287,7 +287,7 @@
                                           borderColor: 'rgba(48, 8, 150, 1)'
                                       },
                                       {                                      
-                                          label: "Rapat/Undangan",
+                                          label: "Ijin Kepentingan Lain",
                                           data: response['rapat'],
                                           backgroundColor: 'rgba(119, 95, 124, 0.2)',
                                           borderColor: 'rgba(119, 95, 124, 1)'

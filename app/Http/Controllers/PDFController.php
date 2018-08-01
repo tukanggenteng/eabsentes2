@@ -520,7 +520,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
@@ -597,7 +597,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
@@ -671,7 +671,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
@@ -744,7 +744,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
@@ -972,7 +972,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
@@ -1045,7 +1045,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
@@ -1115,7 +1115,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
@@ -1188,7 +1188,7 @@ class PDFController extends Controller
                         $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
                         $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Rapat/Undangan'); });
+                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
                         $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });

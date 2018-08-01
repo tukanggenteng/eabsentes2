@@ -50,7 +50,7 @@ class JenisAbsenSeeder extends Seeder
         DB::table('jenisabsens')->insert(
         [
             'id' => '8',
-            'jenis_absen' => 'Rapat / Undangan'
+            'jenis_absen' => 'Ijin Kepentingan Lain'
         ]);
         DB::table('jenisabsens')->insert(
         [

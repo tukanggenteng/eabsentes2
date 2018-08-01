@@ -72,7 +72,7 @@
             <th class="header garis">Cuti</th>
             <th class="header garis">Tugas Luar</th>
             <th class="header garis">Tugas Belajar</th>
-            <th class="header garis">Rapat/Undangan</th>
+            <th class="header garis">Ijin Kepentingan Lain</th>
             <th class="header garis">Pulang Cepat</th>
             <th class="header garis">Tidak Apel</th>
             <th class="header garis">Tanpa Kabar</th>

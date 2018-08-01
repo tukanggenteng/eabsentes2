@@ -57,7 +57,7 @@
                                             <th>Sakit</th>
                                             <th>Tugas Luar</th>
                                             <th>Tugas Belajar</th>
-                                            <th>Rapat/ Undangan</th>
+                                            <th>Ijin Kepentingan Lain</th>
                                             <th>Ijin Terlambat</th>
                                             <th>Ijin Pulang Cepat</th>
                                         </tr>
@@ -384,7 +384,7 @@
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title">Upload Surat Rapat/ Undangan</h4>
+                                <h4 class="modal-title">Upload Surat Ijin Kepentingan Lain</h4>
                             </div>
                             <div class="modal-body">
                                 <div class="error alert-danger alert-dismissible">

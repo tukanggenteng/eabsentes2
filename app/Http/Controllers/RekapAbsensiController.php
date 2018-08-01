@@ -233,7 +233,7 @@ class RekapAbsensiController extends Controller
             ->select('atts.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
             ->get();
         // dd($jadwalkerjas);
-        $jenisabsen=jenisabsen::all()->where('jenis_absen','!=','Hadir')
+        $jenisabsen=jenisabsen::all()->where('id','!=','13')->where('id','!=','1');
             // ->where('jenis_absen','!=','Rapat/Undangan')
             ;
         $awal=date("Y/m/d");

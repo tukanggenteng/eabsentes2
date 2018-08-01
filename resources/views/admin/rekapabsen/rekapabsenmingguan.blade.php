@@ -60,7 +60,7 @@
                                             <th>Sakit</th>
                                             <th>Tugas Luar</th>
                                             <th>Tugas Belajar</th>
-                                            <th>Rapat/ Undangan</th>
+                                            <th>Ijin Kepentingan Lain</th>
                                             <th>Ijin Terlambat</th>
                                             <th>Terlambat</th>
                                             <th>Pulang Cepat</th>

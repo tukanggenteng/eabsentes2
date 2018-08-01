@@ -149,7 +149,7 @@
                                                     <th>Tugas Luar</th>
                                                     <th>Tugas Belajar</th>
                                                     <th>Terlambat</th>
-                                                    <th>Rapat/Undangan</th>
+                                                    <th>Ijin Kepentingan Lain</th>
                                                     <th>Pulang Cepat</th>
                                                     <th>Ijin Pulang Cepat</th>
                                                     <th>Apel</th>

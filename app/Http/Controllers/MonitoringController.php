@@ -1329,6 +1329,8 @@ class MonitoringController extends Controller
         //$tanggal=decrypt($tanggal);
         // dd($tanggal);
         // dd($request->tanggal);
+
+
         $hitungtanggal=strlen($request->tanggal);
         if ($hitungtanggal > 10)
         {
@@ -1434,10 +1436,31 @@ class MonitoringController extends Controller
             ->whereYear('masterbulanans.periode','=',$tahun)
             //->where('masterbulanans.instansi_id','=',$id)
             ->orderBy($order,$request->metode)
-            ->whereNotNull('masterbulanans.instansi_id')
-            ->paginate(50);
+            ->whereNotNull('masterbulanans.instansi_id');
+            
 
             // dd($id);
+
+            if ($request->nip!="")
+            {
+                $data=$data->where('pegawais.nip','=',$request->nip);
+            }
+            else
+            {
+
+            }
+
+            if ($request->nama!="")
+            {
+                $data=$data->where('pegawais.nama','like',"%".$request->nama."%");
+            }
+            else
+            {
+
+            }
+
+            $data=$data->paginate(50);
+
 
         $jenisabsens=jenisabsen::where('id','!=','9')
                     ->where('id','!=','11')
@@ -1446,7 +1469,7 @@ class MonitoringController extends Controller
         //$instansi=instansi::where('id','=',$id)
         //                ->first();
                         
-        return view('monitoring.pegawai.rekappegawaibulanan',['datas'=>$data,'jenis_absen2'=>($request->jenis_absen),'metode'=>$request->metode,'date'=>$request->tanggal,'tanggal'=>$request->tanggal,'jenis_absens'=>$jenisabsens]);
+        return view('monitoring.pegawai.rekappegawaibulanan',['datas'=>$data,'jenis_absen2'=>($request->jenis_absen),'metode'=>$request->metode,'date'=>$request->tanggal,'nama'=>$request->nama,'nip'=>$request->nip,'tanggal'=>$request->tanggal,'jenis_absens'=>$jenisabsens]);
     }
     
     public function monitoringpegawaiminggu(Request $request,$id,$tanggal)

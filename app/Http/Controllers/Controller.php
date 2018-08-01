@@ -638,7 +638,6 @@ class Controller extends BaseController
                         $jamakhir2=$jamakhir;
                         $jamfingerprint = date("H:i:s", strtotime($jam_fingerprint));
                         // cek bisa masuk atau tidak
-
                         $jamsebelummasukkerja=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jamsebelum_masukkerja']));
                         $jamkeluarjadwal=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$cek[0]['jam_keluarjadwal']));
 
@@ -1351,7 +1350,7 @@ class Controller extends BaseController
             $hitungabsen=att::leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id','=',$pegawai_id_fingerprint)
             ->where('atts.tanggal_att','=',$tanggal_fingerprint)
-            ->whereNull('atts.jam_masuk ')
+            ->whereNull('atts.jam_masuk')
             ->where('jadwalkerjas.lewathari','=','1')
             ->count();
             // dd($hitungabsen);
@@ -1485,7 +1484,7 @@ class Controller extends BaseController
             ->whereNull('jam_keluar')
             //->latest()
             ->get();
-             //dd($absens);
+            //  dd($absens);
             foreach ($absens as $key => $absen) {
                 //cek kecocokan jam masuk berdasarkan jadwalkerja
                 // dd($absen);

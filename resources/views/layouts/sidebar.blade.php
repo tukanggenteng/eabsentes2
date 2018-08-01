@@ -93,7 +93,7 @@
                     <li><a href="/cuti/admin"><i class="fa fa-circle-o"></i> Cuti</a></li>
                     <li><a href="/tugasbelajar/admin"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
                     <li><a href="/tugasluar/admin"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
-                    <li><a href="/rapatundangan/admin"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                    <li><a href="/rapatundangan/admin"><i class="fa fa-circle-o"></i> Ijin Kepentingan Lain</a></li>
                     <li><a href="/ijinterlambat/admin"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
             </li>
             @elseif (Auth::user()->role->namaRole=="rs")
@@ -144,7 +144,7 @@
                   <li><a href="/transrekap/download/cuti"><i class="fa fa-circle-o"></i> Cuti</a></li>
                   <li><a href="/transrekap/download/tl"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
                   <li><a href="/transrekap/download/tb"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
-                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Ijin Kepentingan Lain</a></li>
                   <li><a href="/transrekap/download/it"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
                   <li><a href="/transrekap/download/ipc"><i class="fa fa-circle-o"></i> Ijin Pulang Cepat</a></li>
                 </ul>
@@ -283,7 +283,7 @@
                   <li><a href="/transrekap/download/cuti"><i class="fa fa-circle-o"></i> Cuti</a></li>
                   <li><a href="/transrekap/download/tl"><i class="fa fa-circle-o"></i> Tugas Luar</a></li>
                   <li><a href="/transrekap/download/tb"><i class="fa fa-circle-o"></i> Tugas Belajar</a></li>
-                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Rapat Undangan</a></li>
+                  <li><a href="/transrekap/download/ru"><i class="fa fa-circle-o"></i> Ijin Kepentingan Lain</a></li>
                   <li><a href="/transrekap/download/it"><i class="fa fa-circle-o"></i> Ijin Terlambat</a></li>
                   <li><a href="/transrekap/download/ipc"><i class="fa fa-circle-o"></i> Ijin Pulang Cepat</a></li>
                 </ul>

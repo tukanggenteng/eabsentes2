@@ -213,7 +213,7 @@
                                                     <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                                 </a>
                                                     <div class="info-box-content">
-                                                        <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
+                                                        <span class="info-box-text">Ijin Kepentingan Lain</span>
                                                         <span class="info-box-number">{{$event}}</span>
                                                     </div>
                                                     <!-- /.info-box-content -->
@@ -363,7 +363,7 @@
                                                 <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                             </a>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
+                                                    <span class="info-box-text">Ijin Kepentingan Lain</span>
                                                     <span class="info-box-number">{{$eventbulan}}</span>
                                                 </div>
                                                 <!-- /.info-box-content -->
@@ -510,7 +510,7 @@
                                                 <span class="info-box-icon bg-aqua"><i class="fa fa-suitcase"></i></span>
                                             </a>
                                                 <div class="info-box-content">
-                                                    <span class="info-box-text">Rapat/Undangan/Sosialisasi</span>
+                                                    <span class="info-box-text">Ijin Kepentingan Lain</span>
                                                     <span class="info-box-number">{{$eventtahun}}</span>
                                                 </div>
                                                 <!-- /.info-box-content -->
@@ -824,7 +824,7 @@
                                           borderColor: 'rgba(48, 8, 150, 1)'
                                       },
                                       {                                      
-                                          label: "Rapat/Undangan",
+                                          label: "Ijin Kepentingan Lain",
                                           data: response['rapat'],
                                           backgroundColor: 'rgba(119, 95, 124, 0.2)',
                                           borderColor: 'rgba(119, 95, 124, 1)'

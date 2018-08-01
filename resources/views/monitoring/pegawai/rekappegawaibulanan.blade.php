@@ -61,6 +61,22 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                        <div class="col-md-7">
+                                            <label>NIP</label>
+                                            <input type="text" class="form-control" id="nip" placeholder="NIP" value="{{$nip}}" name="nip"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-7">
+                                            <label>Nama</label>
+                                            <input type="text" class="form-control" id="nama" placeholder="Nama" value="{{$nama}}" name="nama"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
                                         <div class="col-md-2">
                                             <label>Tanggal berlaku</label>
                                             <input type="text" class="form-control" id="tanggal" readonly value="{{$date}}" name="tanggal"/>
@@ -135,7 +151,7 @@
                                                     <th>Tugas Luar</th>
                                                     <th>Tugas Belajar</th>
                                                     <th>Terlambat</th>
-                                                    <th>Rapat/Undangan</th>
+                                                    <th>Ijin Kepentingan Lain</th>
                                                     <th>Pulang Cepat</th>
                                                     <th>Ijin Pulang Cepat</th>
                                                     <th>Apel</th>

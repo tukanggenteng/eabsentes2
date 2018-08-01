@@ -77,39 +77,48 @@ class TiapHariCommand extends Command
         $jsons=(json_decode($result, true));
 
         $yg2=array();
-          //
-        // dd(($jsons));
-       foreach ($jsons as $key=>$json)
-       {
-            $pegawai=pegawai::where('nip','=',$json['nip'])
-            ->count();
 
-            if ($pegawai > 0)
+        // $jsons2=json_decode($jsons,true);
+          //
+        // dd(($jsons[0]['nip']));
+        // dd(gettype($jsons));
+        if(is_array($jsons)){
+            foreach ($jsons as $json)
             {
-                $user=pegawai::where('nip','=',$json['nip'])->first();
-                if ($user->nama==$json['nama'])
+                // dd(($json['nip']));
+                // dd($json['nip']);
+                echo $josn['nip'];
+                $pegawai=pegawai::where('nip','=',$json['nip'])
+                ->count();
+
+                if ($pegawai > 0)
                 {
+                    $user=pegawai::where('nip','=',$json['nip'])->first();
+                    if ($user->nama==$json['nama'])
+                    {
+
+                    }
+                    else
+                    {
+                        $user->nama = $json['nama'];
+                        $user->save();
+                    }
+                    
 
                 }
                 else
                 {
-                    $user->nama = $json['nama'];
-                    $user->save();
+                $user = new pegawai();
+                $user->nip = $json['nip'];
+                $user->nama = $json['nama'];
+                $user->instansi_id = null;
+                $user->save();
                 }
-                
 
             }
-            else
-            {
-            $user = new pegawai();
-            $user->nip = $json['nip'];
-            $user->nama = $json['nama'];
-            $user->instansi_id = null;
-            $user->save();
-            }
-
         }
-        
+
+
         $month=Carbon::now()->month;
         $year = Carbon::now()->year;
         $date = Carbon::createFromDate($year,$month);
