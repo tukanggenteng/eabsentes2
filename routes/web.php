@@ -180,11 +180,14 @@ Route::group(['middleware' => ['rule:bkd']],function(){
       Route::post('/monitoring/pegawai/{id}/{tanggal}','MonitoringController@monitoringpegawaiminggu')->name('monitoringpegawaiminggu');
       Route::get('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari');
       Route::post('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari')->name('monitoringpegawaihari');    
+      Route::get('/monitoring/pegawai/export','MonitoringController@monitoringpegawaibulanexport');
 
 
       Route::get('/monitoring/instansi','MonitoringController@monitoringinstansiminggu');
       Route::post('/monitoring/instansi','MonitoringController@monitoringinstansiminggu')->name('monitoringinstansiminggu');
+      Route::get('/monitoring/instansi/export','MonitoringController@monitoringinstansimingguexport');
       Route::get('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
+      Route::get('/monitoring/instansi/export/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonalexport');
       Route::post('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
       Route::get('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
       Route::post('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 

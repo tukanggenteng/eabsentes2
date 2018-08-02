@@ -119,6 +119,8 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                            <a href="{{$url}}" form="formexport" class="btn btn-success btn-flat">Export</a>
+
                                         </div>
                                     </div>
                                 </div>
@@ -131,24 +133,27 @@
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>NIP</th>
-                                                    <th>Nama</th>
-                                                    <th>Tanggal</th>
-                                                    <th>Hari Kerja</th>
-                                                    <th>Hadir</th>
-                                                    <th>Tanpa Kabar</th>
-                                                    <th>Ijin</th>
-                                                    <th>Ijin Terlambat</th>
-                                                    <th>Sakit</th>
-                                                    <th>Tugas Luar</th>
-                                                    <th>Tugas Belajar</th>
-                                                    <th>Terlambat</th>
-                                                    <th>Ijin Kepentingan Lain</th>
-                                                    <th>Pulang Cepat</th>
-                                                    <th>Ijin Pulang Cepat</th>
-                                                    <th>Apel</th>
-                                                    <th>Total Terlambat</th>                                                    
-                                                    <th>Total Akumulasi Kerja</th>                                                    
+                                                <th>NIP</th>
+                                                <th>Nama</th>
+                                                <th>Tanggal</th>
+                                                <th>Hari Kerja</th>
+                                                <th>Hadir</th>
+                                                <th>Tanpa Kabar</th>
+                                                <th>Persentase Kehadiran</th>
+                                                <th>Apel</th>
+                                                <th>Tidak Apel Wajib Apel</th>
+                                                <th>Persentase Apel</th>
+                                                <th>Ijin</th>
+                                                <th>Ijin Terlambat</th>
+                                                <th>Sakit</th>
+                                                <th>Tugas Luar</th>
+                                                <th>Tugas Belajar</th>
+                                                <th>Terlambat</th>
+                                                <th>Ijin Kepentingan Lain</th>
+                                                <th>Pulang Cepat</th>
+                                                <th>Ijin Pulang Cepat</th>
+                                                <th>Total Terlambat</th>                                                    
+                                                <th>Total Akumulasi Kerja</th>                                                       
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -156,10 +161,14 @@
                                                     <tr>
                                                         <td><a href="/monitoring/instansi/detail/{{encrypt($data->id)}}/{{encrypt($tanggal)}}/{{encrypt($instansi_id)}}">{{$data->nip}}</a></td>
                                                         <td>{{$data->nama}}</td>                                                        
-                                                        <td>{{($data->periode)}}</td>                                                        
+                                                        <td>{{$data->periode}}</td>     
                                                         <td>{{$data->hari_kerja}}</td>
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>
+                                                        <td>{{$data->persentase_kehadiran}}%</td>                                                                                                                    
+                                                        <td>{{$data->apelbulanan}}</td>
+                                                        <td>{{$data->tidakapelwajibapel}}</td>
+                                                        <td>{{$data->persentase_apel}}%</td>
                                                         <td>{{$data->ijin}}</td>
                                                         <td>{{$data->ijinterlambat}}</td>
                                                         <td>{{$data->sakit}}</td>
@@ -169,7 +178,6 @@
                                                         <td>{{$data->rapatundangan}}</td>
                                                         <td>{{$data->pulang_cepat}}</td>
                                                         <td>{{$data->ijinpulangcepat}}</td>
-                                                        <td>{{$data->apelbulanan}}</td>
                                                         <td>{{$data->total_terlambat}}</td>
                                                         <td>{{$data->total_akumulasi}}</td>
                                                                                                                 

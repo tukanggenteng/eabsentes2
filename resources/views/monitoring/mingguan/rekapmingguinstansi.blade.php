@@ -90,7 +90,9 @@
                                                         <option value="{{($jenisabsen->id)}}">{{$jenisabsen->jenis_absen}}</option>
                                                     @endif
                                                 @endforeach
-                                                <option value="20">Apel Bulanan</option>
+                                                <option value="20">Apel</option>
+                                                <option value="21">Persentase Apel</option>
+                                                <option value="22">Persentase Kehadiran</option>
                                             </select>
                                         </div>
                                     </div>
@@ -122,6 +124,7 @@
                                     <div class="form-group">
                                         <div class="col-md-6">
                                             <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                            <a href="{{$url}}" class="btn btn-success btn-flat">Export</a>
                                         </div>
                                     </div>
                                 </div>
@@ -135,39 +138,45 @@
                                             <thead>
                                                 <tr>
                                                     <th>Instansi</th>
+                                                    <th>Periode</th>
                                                     <th>Hari Kerja</th>
                                                     <th>Hadir</th>
                                                     <th>Tanpa Kabar</th>
+                                                    <th>Persentase Kehadiran</th>
+                                                    <th>Apel</th>
+                                                    <th>Tidak Apel Wajib Apel</th>
+                                                    <th>Terlambat</th>
                                                     <th>Ijin</th>
                                                     <th>Ijin Terlambat</th>
                                                     <th>Sakit</th>
                                                     <th>Tugas Luar</th>
                                                     <th>Tugas Belajar</th>
-                                                    <th>Terlambat</th>
                                                     <th>Ijin Kepentingan Lain</th>
                                                     <th>Pulang Cepat</th>
                                                     <th>Ijin Pulang Cepat</th>
-                                                    <th>Apel</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($datas as $data)
                                                     <tr>
                                                         <td><a href="/monitoring/instansi/{{encrypt($data->instansi_id)}}/{{encrypt($tanggal)}}">{{$data->namaInstansi}}</a></td>
+                                                        <td>{{$data->periode}}</td>
                                                         <td>{{$data->hari_kerja}}</td>
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>
+                                                        <td>{{$data->persentase_kehadiran}}%</td>
+                                                        <td>{{$data->apelbulanan}}</td>
+                                                        <td>{{$data->tidakapelwajibapel}}</td>
+                                                        <td>{{$data->persentase_apel}}%</td>
+                                                        <td>{{$data->terlambat}}</td>
                                                         <td>{{$data->ijin}}</td>
                                                         <td>{{$data->ijinterlambat}}</td>
                                                         <td>{{$data->sakit}}</td>
                                                         <td>{{$data->tugas_luar}}</td>
                                                         <td>{{$data->tugas_belajar}}</td>
-                                                        <td>{{$data->terlambat}}</td>
                                                         <td>{{$data->rapatundangan}}</td>
                                                         <td>{{$data->pulang_cepat}}</td>
-                                                        <td>{{$data->ijinpulangcepat}}</td>
-                                                        <td>{{$data->apelbulanan}}</td>
-                                                                                                                
+                                                        <td>{{$data->ijinpulangcepat}}</td>                                    
                                                     </tr>
                                                 @endforeach
                                             </tbody>
