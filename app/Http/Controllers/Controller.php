@@ -1377,24 +1377,24 @@ class Controller extends BaseController
                     ->count();
                 // dd("sd");
 
-                return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+                // return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
 
-                // if ($cekjamkeluar>0) {
-                //     // function kehadiranharikemarin
-                //     // dd("sd");
-                //     //variabel $tanggalkemarin
-                //     return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
-                // }
-                // else{
-                //     // dd("ji");
+                if ($cekjamkeluar>0) {
+                    // function kehadiranharikemarin
+                    // dd("sd");
+                    //variabel $tanggalkemarin
+                    return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+                }
+                else{
+                    // dd("ji");
 
-                //     //pencarian absen hari ini yang jam masuk nya terisi
-                //     // function kehadiranharikemarinfingerprint
-                //     //memakai variabel tanggal_fingerprint
-                //     return $this->kehadiranharikemarinfingerprint($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint);
+                    //pencarian absen hari ini yang jam masuk nya terisi
+                    // function kehadiranharikemarinfingerprint
+                    //memakai variabel tanggal_fingerprint
+                    return $this->kehadiranharikemarinfingerprint($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint);
                     
-                //     // return "Success";
-                // }
+                    // return "Success";
+                }
             }
             // return "Success";
         }
