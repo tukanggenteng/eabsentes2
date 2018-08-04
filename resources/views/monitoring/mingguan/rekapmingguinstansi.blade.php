@@ -145,6 +145,7 @@
                                                     <th>Persentase Kehadiran</th>
                                                     <th>Apel</th>
                                                     <th>Tidak Apel Wajib Apel</th>
+                                                    <th>Persentase Apel</th>
                                                     <th>Terlambat</th>
                                                     <th>Ijin</th>
                                                     <th>Ijin Terlambat</th>
