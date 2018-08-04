@@ -2034,7 +2034,7 @@ class MonitoringController extends Controller
                     'pegawais.id',
                     'pegawais.nip',
                     'pegawais.nama',
-                    DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                    DB::raw('tanggal_att as periode'),
                     DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
                     DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                     DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
