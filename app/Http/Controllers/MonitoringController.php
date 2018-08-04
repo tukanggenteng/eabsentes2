@@ -2094,7 +2094,7 @@ class MonitoringController extends Controller
         // dd($instansi_id);
         //$instansi_id=$instansi_id;
         $tanggalawal=date('Y-m-d',strtotime('-7 days',strtotime($tanggal)));
-        //($id);
+        dd($id);
         $tanggalakhir=date('Y-m-d',strtotime('-1 days',strtotime($tanggal)));
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
