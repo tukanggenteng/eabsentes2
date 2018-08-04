@@ -480,8 +480,8 @@ Route::group(['middleware' => ['rule:admin']],function(){
       // Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
 
       #rekap bulanan
-      Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');
-      Route::get('/rekapbulanan/rekapbulanan/admin/data','RekapAbsensiController@datarekapadmin')->name('datarekapadminmingguan');
+      // Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');
+      // Route::get('/rekapbulanan/rekapbulanan/admin/data','RekapAbsensiController@datarekapadmin')->name('datarekapadminmingguan');
 
       #manajemen user
       Route::get('/user','UserController@index');
