@@ -2063,9 +2063,9 @@ class MonitoringController extends Controller
             ->whereMonth('atts.tanggal_att','=',$bulan)
             ->whereYear('atts.tanggal_att','=',$tahun)
             ->where('pegawais.nip','=',$id)
+            ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'))                
             ->orderBy($order,$request->metode)
-            ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-            ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                           
+            ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')                          
             ->whereNotNull('pegawais.instansi_id')
             ->paginate(50);
 
@@ -2090,20 +2090,26 @@ class MonitoringController extends Controller
     public function monitoringpegawaihari(Request $request,$id,$tanggal){
         $id=decrypt($id);
         $tanggal=decrypt($tanggal);
+        // dd($id);
         // $instansi_id=decrypt($instansi_id);
         // dd($instansi_id);
         //$instansi_id=$instansi_id;
-        $tanggalawal=date('Y-m-d',strtotime('-7 days',strtotime($tanggal)));
-        dd($id);
-        $tanggalakhir=date('Y-m-d',strtotime('-1 days',strtotime($tanggal)));
+        // $tanggalawal=date('Y-m-d',strtotime('-7 days',strtotime($tanggal)));
+        // // dd($id);
+        // $tanggalakhir=date('Y-m-d',strtotime('-1 days',strtotime($tanggal)));
+        $tanggalawal=date('Y-m-d',strtotime('+6 days',strtotime($tanggal)));
+        $tanggalakhir=date('Y-m-d',strtotime(($tanggal)));
+
+        // dd($tanggalawal."+".$tanggalakhir);
+
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-        ->where('atts.tanggal_att','>=',$tanggalawal)
-        ->where('atts.tanggal_att','<=',$tanggalakhir)
-        ->where('pegawais.nip','=',$id)
+        ->where('atts.tanggal_att','>=',$tanggalakhir)
+        ->where('atts.tanggal_att','<=',$tanggalawal)
+        ->where('pegawais.id','=',$id)
         // ->whereMonth('atts.tanggal_att','=',$bulan)
         // ->whereDay('atts.tanggal_att','=',$tanggal)
         // ->whereYear('atts.tanggal_att','=',$tahun)
@@ -2118,10 +2124,10 @@ class MonitoringController extends Controller
         //$instansi=instansi::where('id','=',$instansi_id)
         //                ->first();
         $pegawai=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
-                ->where('pegawais.nip','=',$id)
+                ->where('pegawais.id','=',$id)
                 ->select('pegawais.*','instansis.namaInstansi')
                 ->first();
-        //dd($pegawai);
+        // dd($id);
         return view('monitoring.pegawai.rekappegawaihari',['datas'=>$data,'jenis_absen2'=>($request->jenis_absen),'namainstansi'=>$pegawai->namaInstansi,'idpegawai'=>$pegawai->id,'nip'=>$pegawai->nip,'namapegawai'=>$pegawai->nama,'metode'=>$request->metode,'date'=>$tanggal,'tanggal'=>$tanggal,'id'=>$id,'jenis_absens'=>$jenisabsens]); 
     }
 
