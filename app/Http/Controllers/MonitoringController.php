@@ -2103,7 +2103,7 @@ class MonitoringController extends Controller
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
         ->where('atts.tanggal_att','>=',$tanggalawal)
         ->where('atts.tanggal_att','<=',$tanggalakhir)
-        ->where('pegawais.id','=',$id)
+        ->where('pegawais.nip','=',$id)
         // ->whereMonth('atts.tanggal_att','=',$bulan)
         // ->whereDay('atts.tanggal_att','=',$tanggal)
         // ->whereYear('atts.tanggal_att','=',$tahun)
@@ -2118,7 +2118,7 @@ class MonitoringController extends Controller
         //$instansi=instansi::where('id','=',$instansi_id)
         //                ->first();
         $pegawai=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
-                ->where('pegawais.id','=',$id)
+                ->where('pegawais.nip','=',$id)
                 ->select('pegawais.*','instansis.namaInstansi')
                 ->first();
         //dd($pegawai);
