@@ -18,7 +18,7 @@ class AttendanceController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('throttle:100,1');
+        $this->middleware('throttle:20000,1');
     }
 
     public function store(Request $request){
@@ -33,7 +33,7 @@ class AttendanceController extends Controller
        $hasil=$this->encryptOTP($hasilbasic);
        $statusauth=false;
     //    dd("sd");
-    //    dd($hasil);
+       dd($hasil);
 
        if ($hasil==$auth){
 
