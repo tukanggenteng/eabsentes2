@@ -87,7 +87,7 @@ class TiapHariCommand extends Command
             {
                 // dd(($json['nip']));
                 // dd($json['nip']);
-                echo $josn['nip'];
+                echo $json['nip'];
                 $pegawai=pegawai::where('nip','=',$json['nip'])
                 ->count();
 
