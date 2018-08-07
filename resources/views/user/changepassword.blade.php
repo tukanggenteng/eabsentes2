@@ -50,7 +50,7 @@
                                           <div class="input-group-addon">
                                               <i class="fa fa-envelope-o"></i>
                                           </div>
-                                          <input id="email" name="email" class="form-control" type="text" value="{{Auth::user()->email}}">
+                                          <input id="email" name="email" class="form-control" type="text" placeholder="{{Auth::user()->email}}">
                                       </div>
                                   </div>
                                     <div class="form-group">
