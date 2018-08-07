@@ -48,7 +48,7 @@
                                       <label>Email</label>
                                       <div class="input-group bootstrap-timepicker timepicker">
                                           <div class="input-group-addon">
-                                              <i class="fa fa-key"></i>
+                                              <i class="fa fa-envelope-o"></i>
                                           </div>
                                           <input id="email" name="email" class="form-control" type="text" value="{{Auth::user()->email}}">
                                       </div>

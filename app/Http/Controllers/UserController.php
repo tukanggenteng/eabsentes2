@@ -184,17 +184,36 @@ class UserController extends Controller
               'konfirmasipassword' => 'required|string|min:8|same:passwordbaru'
           ]);
 
-          if (Hash::check($request->password,Hash::make($request->password))) {
-            // dd("berubah");
-            request()->user()->fill([
-                'password' => Hash::make(request()->input('passwordbaru'))
-            ])->save();
+        if ($request->email=="")
+        {
+            if (Hash::check($request->password,Hash::make($request->password))) {
+                // dd("berubah");
+                request()->user()->fill([
+                    'password' => Hash::make(request()->input('passwordbaru'))
+                ])->save();
 
-            return redirect()->back()->with('statussucces','Password berhasil di ubah.');
-          }
-          else{
-            return redirect()->back()->with('statuserror','Password Salah');
-          }
+                return redirect()->back()->with('statussucces','Password berhasil di ubah.');
+            }
+            else{
+                return redirect()->back()->with('statuserror','Password Salah');
+            }
+        }
+        else
+        {
+            if (Hash::check($request->password,Hash::make($request->password))) {
+                // dd("berubah");
+                request()->user()->fill([
+                    'password' => Hash::make(request()->input('passwordbaru')),
+                    'email' => request()->input('email')
+                ])->save();
+
+                return redirect()->back()->with('statussucces','Password dan Email berhasil di ubah.');
+            }
+            else{
+                return redirect()->back()->with('statuserror','Password Salah');
+            }
+        }
+          
 
           // return redirect()->route('password.change');
 
