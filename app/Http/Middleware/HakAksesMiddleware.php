@@ -15,8 +15,9 @@ class HakAksesMiddleware
      */
     public function handle($request, Closure $next,...$namaRole)
     {
-      // dd(auth()->user()->punyaRule($namaRole));
-      // dd(auth()->check() && auth()->user()->punyaRule($namaRole) == true);
+        // dd($namaRole);
+    //   dd(auth()->user()->punyaRule());
+    //   dd(auth()->check()." & ".auth()->user()->punyaRule($namaRole));
         if(auth()->check() && auth()->user()->punyaRule($namaRole) == true){
             return $next($request);
         }

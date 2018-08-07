@@ -21,10 +21,7 @@ use Illuminate\Support\Facades\Auth;
   Route::get('/','LoginController@getLogin')->name('login');
   Route::post('/','LoginController@postLogin');
 
-  Route::group(['middleware' => ['rule:kadis,bkd,sekda,user,admin,pegawai,gubernur']],function(){
-    Route::get('/changepassword','UserController@indexchange');
-    Route::post('/changepassword','UserController@changepassword');
-  });
+
 Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
   Route::get('/home','ChartController@index');
   Route::get('/home/data','ChartController@data');

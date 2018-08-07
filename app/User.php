@@ -137,5 +137,80 @@ class User extends Authenticatable
                 return false;
             }
         }
+        elseif (count($namaRole)== 7)
+        {
+            if ($this->role->namaRole == $namaRole[0]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[1]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[2]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[3]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[4]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[5]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[6]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif (count($namaRole)== 8)
+        {
+            if ($this->role->namaRole == $namaRole[0]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[1]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[2]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[3]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[4]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[5]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[6]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[7]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        elseif (count($namaRole)== 9)
+        {
+            if ($this->role->namaRole == $namaRole[0]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[1]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[2]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[3]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[4]) {
+                return true;
+            } elseif ($this->role->namaRole == $namaRole[5]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[6]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[7]) {
+                return true;
+            }
+            elseif ($this->role->namaRole == $namaRole[8]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
