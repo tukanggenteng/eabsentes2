@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\macaddresse;
+use App\instansi;
 use Illuminate\Http\Request;
 
 class MacAdressControllers extends Controller
@@ -13,13 +14,15 @@ class MacAdressControllers extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:500000,1');
+        $this->middleware('throttle:60,1');
     }
 
     public function index()
     {
         //
-        $tables=macaddresse::all();
+        $tables=macaddresse::leftJoin('instansis','macaddresses.instansi_id','=','instansis.id')
+                ->select('macaddresses.*','instansis.namaInstansi')
+                ->get();
         return view('macaddress.macaddress',['tables'=>$tables]);
     }
 
@@ -44,10 +47,12 @@ class MacAdressControllers extends Controller
         //
         $this->validate($request, [
             'macaddress'=>'required | min:17 | unique:macaddresses',
+            'instansi_id'=>'required'
         ]);
         
         $user = new macaddresse;
         $user->macaddress = strtoupper($request->macaddress);
+        $user->macaddress = ($request->instansi_id);
         $user->save();
         return redirect('/macaddress');
     }
@@ -65,7 +70,10 @@ class MacAdressControllers extends Controller
 
         $table=macaddresse::find($id)->first();
 
-        return view('macaddress.editmacaddress',['tables'=>$table,'id'=>$id]);
+        $instansis=instansi::where('id','!=','1')->get();
+        // dd($instansis);
+
+        return view('macaddress.editmacaddress',['tables'=>$table,'id'=>$id,'instansis'=>$instansis]);
 
     }
 
@@ -83,6 +91,7 @@ class MacAdressControllers extends Controller
         ]);
         $table=macaddresse::where('id','=',$request->id)->first();
         $table->macaddress=$request->macaddress;
+        $user->macaddress = ($request->instansi_id);
         $table->save();
         return redirect('/macaddress');
     }

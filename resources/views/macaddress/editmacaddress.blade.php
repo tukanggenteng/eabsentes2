@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">
+<link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.css')}}">
+
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
 <!-- Bootstrap time Picker -->
@@ -51,6 +53,19 @@
                                         <input id="macaddress" name="macaddress" class="form-control pull-right" type="text" value="{{$tables->macaddress}}">
                                         <input id="id" name="id" readonly hidden type="text" value="{{$id}}">
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Jenis Jadwal</label>
+                                    <select class="form-control select2" name="instansi_id" id="instansi_id" data-placeholder="Jenis Jadwal Kerja">
+                                            @foreach($instansis as $instansi)
+                                                @if ($tables->instansi_id==$instansi->id)
+                                                <option value="{{$instansi->id}}">{{$instansi->namaInstansi}}</option>
+                                                @else
+                                                <option value="{{$instansi->id}}">{{$instansi->namaInstansi}}</option>
+                                                @endif
+                                            @endforeach
+
+                                    </select>
                                 </div>
 
                                 {{csrf_field()}}
@@ -109,6 +124,8 @@
     <script src="{{asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
-
+    <script type="text/javascript">
+    $('#instansi_id').select2();
+    </script>
     </body>
 @endsection

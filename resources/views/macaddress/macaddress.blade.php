@@ -6,6 +6,8 @@
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- iCheck for checkboxes and radio inputs -->
 <link rel="stylesheet" href="{{asset('plugins/iCheck/all.css')}}">
+<link rel="stylesheet" href="{{asset('bower_components/select2/dist/css/select2.css')}}">
+
 <!-- Bootstrap Color Picker -->
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}">
 <!-- Bootstrap time Picker -->
@@ -51,6 +53,10 @@
                                         <input id="macaddress" name="macaddress" class="form-control pull-right" type="text">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>Instansi</label>
+                                    <select name="instansi_id[]" class="form-control select2" id="instansi_id"></select>
+                                </div>
 
                                 {{csrf_field()}}
                                 <!-- /.form-group -->
@@ -89,11 +95,13 @@
                                         <table class="table table-striped">
                                             <tr>
                                                 <th>Mac Address</th>
+                                                <th>Instansi</th>
                                                 <th>Aksi</th>
                                             </tr>
                                                 @foreach($tables as $table)
                                                     <tr>
                                                     <td>{{ $table->macaddress }}</td>
+                                                    <td>{{ $table->namaInstansi }}</td>
                                                     <td><a class="btn-sm btn-success" href="/macaddress/{{ encrypt($table->id) }}">Edit</a>
                                                         <a class="btn-sm btn-danger" data-method="delete"
                                                            data-token="{{csrf_token()}}" href="/macaddress/delete/{{ encrypt($table->id) }}">Hapus</a></td>
@@ -171,6 +179,27 @@
         $('#pulang').timepicker({
             showMeridian:false
         });
+        $('#instansi_id').select2(
+            {
+            placeholder: "Pilih Instansi.",
+            minimumInputLength: 1,
+            ajax: {
+                url: '/instansi/cari',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+                }
+            }
+        );
     </script>
 
     </body>
