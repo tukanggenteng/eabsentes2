@@ -1369,32 +1369,34 @@ class Controller extends BaseController
 
                 $tanggalkemarin=date("Y-m-d",strtotime("-1 day",strtotime($tanggal_fingerprint)));
 
+                return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+
                 // cek absen pulang yg tidak kosong kemarin
-                $cekjamkeluar=att::where('pegawai_id','=',$pegawai_id_fingerprint)
-                    ->where('tanggal_att','=',$tanggalkemarin)
-                    ->whereNull('jam_keluar')
-                    ->whereNotNull('jam_masuk')
-                    ->count();
-                // dd("sd");
+                // $cekjamkeluar=att::where('pegawai_id','=',$pegawai_id_fingerprint)
+                //     ->where('tanggal_att','=',$tanggalkemarin)
+                //     ->whereNull('jam_keluar')
+                //     ->whereNotNull('jam_masuk')
+                //     ->count();
+                // // dd("sd");
 
-                // return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+                // // return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
 
-                if ($cekjamkeluar>0) {
-                    // function kehadiranharikemarin
-                    // dd("sd");
-                    //variabel $tanggalkemarin
-                    return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
-                }
-                else{
-                    // dd("ji");
+                // if ($cekjamkeluar>0) {
+                //     // function kehadiranharikemarin
+                //     // dd("sd");
+                //     //variabel $tanggalkemarin
+                //     return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+                // }
+                // else{
+                //     // dd("ji");
 
-                    //pencarian absen hari ini yang jam masuk nya terisi
-                    // function kehadiranharikemarinfingerprint
-                    //memakai variabel tanggal_fingerprint
-                    return $this->kehadiranharikemarinfingerprint($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint);
+                //     //pencarian absen hari ini yang jam masuk nya terisi
+                //     // function kehadiranharikemarinfingerprint
+                //     //memakai variabel tanggal_fingerprint
+                //     return $this->kehadiranharikemarinfingerprint($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint);
                     
-                    // return "Success";
-                }
+                //     // return "Success";
+                // }
             }
             // return "Success";
         }

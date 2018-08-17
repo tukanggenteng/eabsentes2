@@ -391,7 +391,25 @@ class JadwalKerjaPegawaiController extends Controller
             ->where('rulejadwalpegawais.id','=',$id)
             ->get();
 
-            $jadwalkerja=jadwalkerja::all();
+
+        $rulejadwal=pegawai::where('instansi_id',Auth::user()->instansi_id)->paginate(30);
+        // $jadwalkerja=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
+        //             ->orWhere('instansi_id','=','1')
+        //             ->get();
+
+        if (Auth::user()->role->namaRole=="rs")
+        {
+            $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+            ->get();
+        }
+        else
+        {
+            $jadwalkerja=rulejammasuk::leftJoin('jadwalkerjas','rulejammasuks.jadwalkerja_id','=','jadwalkerjas.id')
+            ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
+            ->orWhere('jadwalkerjas.instansi_id','=','1')
+            ->get();
+        }
         return view('jadwalkerjapegawai.editjadwalkerjapegawai',['inforekap'=>$inforekap,'rulejadwals'=>$rulejadwal2,'jadwalkerjas'=>$jadwalkerja]);
     }
 
