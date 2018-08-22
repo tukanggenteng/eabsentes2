@@ -413,7 +413,7 @@
                             <div class="col-xs-12">
                                 <div class="box box-default">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Manajemen Pegawai</h3><small> Perruangan</small>
+                                        <h3 class="box-title">Manajemen Pegawai</h3><small> Ruangan Khusus</small>
                                     </div>
                                     <div class="box-body">
                                         <div class="row">

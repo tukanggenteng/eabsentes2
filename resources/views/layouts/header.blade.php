@@ -43,6 +43,18 @@
                         {
                             $hitung=$hitung+1;
                         }
+                        if ($datapegawai>0)
+                        {
+                            $hitung=$hitung+1;
+                        }
+                        if ($dataperawat>0)
+                        {
+                            $hitung=$hitung+1;
+                        }
+                        if ($datadokter>0)
+                        {
+                            $hitung=$hitung+1;
+                        }
                         echo $hitung;
                     ?>
                 </span>
@@ -62,6 +74,28 @@
                     <li>
                         <a href="/alat/instansi/sidikjari">
                         <i class="fa fa-users text-yellow"></i> {{$notification[1]['updatefinger']}} Pegawai sidik jari belum berubah
+                        </a>
+                    </li>
+                    @endif
+
+                    @if ($datapegawai>0)
+                    <li>
+                        <a href="/jadwalkerjapegawai">
+                        <i class="fa fa-users text-yellow"></i> {{$datapegawai}} Pegawai tidak memiliki jadwal kerja
+                        </a>
+                    </li>
+                    @endif
+                    @if ($dataperawat>0)
+                    <li>
+                        <a href="/jadwalkerjapegawaiharian">
+                        <i class="fa fa-users text-yellow"></i> {{$dataperawat}} Pegawai Ruangan Khusus tidak memiliki jadwal kerja
+                        </a>
+                    </li>
+                    @endif
+                    @if ($datadokter>0)
+                    <li>
+                        <a href="/jadwalkerjapegawai24">
+                        <i class="fa fa-users text-yellow"></i> {{$datadokter}} Pegawai 24 Jam tidak memiliki jadwal kerja
                         </a>
                     </li>
                     @endif

@@ -34,7 +34,7 @@
                             <div class="col-xs-12">
                                 <div class="box box-default">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Manajemen Pegawai</h3><small> Perruangan</small>
+                                        <h3 class="box-title">Manajemen Pegawai</h3><small> Ruangan Khusus</small>
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
@@ -74,7 +74,7 @@
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span></button>
-                                        <h4 class="modal-title">Manajemen Pegawai Perruangan</h4>
+                                        <h4 class="modal-title">Manajemen Pegawai Ruangan Khusus</h4>
                                     </div>
                                     <div class="modal-body">
                                         <div class="error alert-danger alert-dismissible">

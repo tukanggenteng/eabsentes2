@@ -33,7 +33,7 @@ Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
   
 });
 
-Route::group(['middleware' => ['rule:kadis,bkd,sekda,user,admin,pegawai,gubernur']],function(){
+Route::group(['middleware' => ['rule:kadis,bkd,karu,rs,sekda,user,admin,pegawai,gubernur']],function(){
   Route::get('/changepassword','UserController@indexchange');
   Route::post('/changepassword','UserController@changepassword');
 });
