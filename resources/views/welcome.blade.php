@@ -17,7 +17,7 @@
             <p class="login-box-msg">
                     Buku Panduan <a href="https://www.dropbox.com/s/mll1adop1b02rrv/Tutorial%20Eabsen.zip?dl=0">E-Absen</a>
                 <br>
-                    Panduan Video <a href="https://youtu.be/b6Feu6a2SJI">E-Absen</a>
+                    Panduan Video <a href="https://www.youtube.com/playlist?list=PLxEvuuapMZIoXf6yhyDtjJrC3HneExOYx">E-Absen</a>
             </p>
 
             <form action="/" method="post">
