@@ -53,6 +53,9 @@ class AttendanceController extends Controller
               elseif ($request->json('status')=='3'){
                 return $this->masukistirahat($user_id,$tanggal,$jam,$status,$instansi);
               }
+              elseif ($request->json('status')=='4'){
+                return $this->jam_masuktanpaapel($user_id,$tanggal,$jam,$status,$instansi);
+              }
         }
         else{
             //dd("s");
