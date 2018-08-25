@@ -187,7 +187,7 @@ class InstansiUserComposer {
                 $datapegawais=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
                                 ->whereIn('id',$dataperawat)
                                 ->get();
-                
+                dd($datapegawais);
                 foreach ($datapegawais as $datapegawai)
                 {
                     // dd($datapegawai);
@@ -202,7 +202,7 @@ class InstansiUserComposer {
                             // ->select('pegawais.id')
                             // ->groupBy('pegawais.id')
                             ->count();
-                    dd($datapegawaitanpajadwal);
+                    // dd($datapegawaitanpajadwal);
                     
                     if ($datapegawaitanpajadwal<1)
                     {
