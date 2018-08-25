@@ -202,7 +202,8 @@ class InstansiUserComposer {
                             // ->select('pegawais.id')
                             // ->groupBy('pegawais.id')
                             ->count();
-                    // dd($datapegawaitanpajadwal);
+                                
+                    dd($datapegawaitanpajadwal);
                     
                     if ($datapegawaitanpajadwal<1)
                     {
