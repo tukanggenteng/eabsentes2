@@ -276,6 +276,7 @@
             $('#role2').val($(this).data('role'));
             $('#instansi2').val($(this).data('instansi'));
             $('#iduser').val($(this).data('id'));
+            console.log($(this).data('id'));
         });
     </script>
 
