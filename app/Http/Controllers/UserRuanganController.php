@@ -139,7 +139,7 @@ class UserRuanganController extends Controller
 
         $request->deliduser=decrypt($request->deliduser);
 
-        $request->ruangan2=decrypt($request->ruangan2);
+        // $request->ruangan2=decrypt($request->ruangan2);
 
         $validator=Validator::make(Input::all(),$rules);
         if($validator->fails()){
