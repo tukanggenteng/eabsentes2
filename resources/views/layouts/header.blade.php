@@ -27,7 +27,7 @@
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
             <li class="dropdown notifications-menu">
-                @if ((Auth::user()->role->namaRole=="rs") || (Auth::user()->role->namaRole=="user"))
+                @if ((Auth::user()->role->namaRole=="rs") || (Auth::user()->role->namaRole=="user") || (Auth::user()->role->namaRole=="karu"))
                 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
