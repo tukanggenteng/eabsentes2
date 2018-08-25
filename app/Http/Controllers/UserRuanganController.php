@@ -117,7 +117,7 @@ class UserRuanganController extends Controller
     
     public function edit (Request $request){
 
-        dd($request);
+        // dd($request);
 
         if ($request->password2==""){
             $rules=array(
@@ -139,9 +139,9 @@ class UserRuanganController extends Controller
         }
     
 
-        $request->deliduser=decrypt($request->deliduser);
+        $request->iduser=decrypt($request->iduser);
 
-        // $request->ruangan2=decrypt($request->ruangan2);
+        $request->ruangan2=decrypt($request->ruangan2);
 
         $validator=Validator::make(Input::all(),$rules);
         if($validator->fails()){
@@ -156,11 +156,11 @@ class UserRuanganController extends Controller
 
                 if ($updatedata->save()){
                     
-                    $userdata=User::where('id','=',$request->deliduser)
+                    $userdata=User::where('id','=',$request->iduser)
                         ->first();
 
-                    $userruangan=ruanganuser::where('user_id','=',$request->deliduser)->first();
-                    $userruangan->user_id=$request->deliduser;
+                    $userruangan=ruanganuser::where('user_id','=',$request->iduser)->first();
+                    $userruangan->user_id=$request->iduser;
                     $userruangan->ruangan_id=$request->ruangan2;
                     $userruangan->save();
     
