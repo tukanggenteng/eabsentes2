@@ -179,7 +179,7 @@ class InstansiUserComposer {
             }
             elseif (Auth::user()->role->namaRole=="karu")
             {
-                $ruanganid=ruangan::where('id','=',Auth::user()->id)->first();
+                $ruanganid=ruangan::where('instansi_id','=',Auth::user()->instansi_id)->first();
 
                 $datadokter=dokter::pluck('pegawai_id')->all();
                 $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$ruanganid->id)->all();
