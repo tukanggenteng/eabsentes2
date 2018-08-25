@@ -187,7 +187,7 @@ class InstansiUserComposer {
                 $datapegawais=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
                                 ->whereIn('id',$dataperawat)
                                 ->get();
-                dd($dataperawat);
+                dd($datapegawais);
                 foreach ($datapegawais as $datapegawai)
                 {
                     // dd($datapegawai);
