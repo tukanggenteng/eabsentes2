@@ -214,7 +214,7 @@ class InstansiUserComposer {
                 }
             }
             
-            dd($countperawat);
+            // dd($countperawat);
             $view->with('datapegawai', $countpegawai);                
             $view->with('datadokter', $countdoctor);                
             $view->with('dataperawat', $countperawat);                
