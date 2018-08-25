@@ -307,6 +307,8 @@
                         swal("Gagal menambahkan user.", "", "error");
                     }
 
+                    console.log(response)
+
                     if((response.errors)){
                         if (response.errors.username){
                             swal("Username", ""+response.errors.username+"", "error");
@@ -339,6 +341,7 @@
                 processData: false,
                 contentType: false,
                 success:function(response){
+                    console.log(response)
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil mengubah user.", "", "success");
                         $('#modal_edit').modal('hide');

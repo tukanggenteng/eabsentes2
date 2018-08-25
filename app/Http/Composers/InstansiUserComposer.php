@@ -177,41 +177,41 @@ class InstansiUserComposer {
                     }
                 }
             }
-            // elseif (Auth::user()->role->namaRole=="karu")
-            // {
-            //     $ruanganid=ruangan::where('id','=',Auth::user()->id)->first();
+            elseif (Auth::user()->role->namaRole=="karu")
+            {
+                $ruanganid=ruangan::where('id','=',Auth::user()->id)->first();
 
-            //     $datadokter=dokter::pluck('pegawai_id')->all();
-            //     $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$ruanganid->id)->all();
+                $datadokter=dokter::pluck('pegawai_id')->all();
+                $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$ruanganid->id)->all();
 
-            //     $datapegawais=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
-            //                     ->whereIn('id',$dataperawat)
-            //                     ->get();
+                $datapegawais=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
+                                ->whereIn('id',$dataperawat)
+                                ->get();
                 
-            //     foreach ($datapegawais as $datapegawai)
-            //     {
-            //         // dd($datapegawai);
-            //         $datapegawaitanpajadwal=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-            //                 ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-            //                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-            //                 // ->where('tanggal_awalrule','<=',$tanggalsekarang)
-            //                 // ->whereNotIn('pegawais.id',$datadokter)
-            //                 ->where('rulejadwalpegawais.pegawai_id','=',$datapegawai->id)
-            //                 // ->havingRaw('rulejadwalpegawais.tanggal_akhirrule','<',$tanggalsekarang)
-            //                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
-            //                 // ->select('pegawais.id')
-            //                 // ->groupBy('pegawais.id')
-            //                 ->count();
-            //         // dd($datapegawaitanpajadwal);
+                foreach ($datapegawais as $datapegawai)
+                {
+                    // dd($datapegawai);
+                    $datapegawaitanpajadwal=rulejadwalpegawai::join('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+                            ->join('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+                            ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
+                            // ->where('tanggal_awalrule','<=',$tanggalsekarang)
+                            // ->whereNotIn('pegawais.id',$datadokter)
+                            ->where('rulejadwalpegawais.pegawai_id','=',$datapegawai->id)
+                            // ->havingRaw('rulejadwalpegawais.tanggal_akhirrule','<',$tanggalsekarang)
+                            ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
+                            // ->select('pegawais.id')
+                            // ->groupBy('pegawais.id')
+                            ->count();
+                    // dd($datapegawaitanpajadwal);
                     
-            //         if ($datapegawaitanpajadwal<1)
-            //         {
-            //             // dd('sd');
-            //             $countperawat++;
-            //             // dd($countpegawai);
-            //         }
-            //     }
-            // }
+                    if ($datapegawaitanpajadwal<1)
+                    {
+                        // dd('sd');
+                        $countperawat++;
+                        // dd($countpegawai);
+                    }
+                }
+            }
             
             // dd($countpegawai);
             $view->with('datapegawai', $countpegawai);                
