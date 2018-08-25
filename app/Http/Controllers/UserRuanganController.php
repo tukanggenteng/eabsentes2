@@ -117,6 +117,8 @@ class UserRuanganController extends Controller
     
     public function edit (Request $request){
 
+        dd($request);
+
         if ($request->password2==""){
             $rules=array(
                 'nama2'=>'required|min:3',
