@@ -182,7 +182,7 @@ class InstansiUserComposer {
                 $ruanganid=ruangan::where('instansi_id','=',Auth::user()->instansi_id)->first();
 
                 $datadokter=dokter::pluck('pegawai_id')->all();
-                $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$ruanganid->id)->get();
+                $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$ruanganid->id);
 
                 $datapegawais=pegawai::where('instansi_id','=',Auth::user()->instansi_id)
                                 ->whereIn('id',$dataperawat)
