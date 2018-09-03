@@ -69,11 +69,11 @@ class MacAdressControllers extends Controller
         //
         $id=decrypt($id);
 
-        $table=macaddresse::find($id)->first();
+        $table=macaddresse::where('id','=',$id)->first();
 
         $instansis=instansi::where('id','!=','1')->get();
         // dd($instansis);
-
+        // dd($table);
         return view('macaddress.editmacaddress',['tables'=>$table,'id'=>$id,'instansis'=>$instansis]);
 
     }

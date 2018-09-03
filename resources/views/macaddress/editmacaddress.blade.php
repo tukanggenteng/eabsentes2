@@ -59,13 +59,17 @@
                                     <select class="form-control select2" name="instansi_id" id="instansi_id" data-placeholder="Jenis Jadwal Kerja">
                                             @foreach($instansis as $instansi)
                                                 @if ($tables->instansi_id==$instansi->id)
-                                                <option value="{{$instansi->id}}" selected>{{$instansi->namaInstansi}}</option>
+
+                                                    <option value="{{$instansi->id}}" selected>{{$instansi->namaInstansi}}</option>
                                                 @else
-                                                <option value="{{$instansi->id}}">{{$instansi->namaInstansi}}</option>
+
+                                                    <option value="{{$instansi->id}}">{{$instansi->namaInstansi}}</option>
                                                 @endif
                                             @endforeach
 
                                     </select>
+
+                                    
                                 </div>
 
                                 {{csrf_field()}}
