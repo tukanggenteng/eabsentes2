@@ -45,6 +45,7 @@ class MacAdressControllers extends Controller
     public function store(Request $request)
     {
         //
+        // dd($request->instansi_id[0]);
         $this->validate($request, [
             'macaddress'=>'required | min:17 | unique:macaddresses',
             'instansi_id'=>'required'
@@ -52,7 +53,7 @@ class MacAdressControllers extends Controller
         
         $user = new macaddresse;
         $user->macaddress = strtoupper($request->macaddress);
-        $user->macaddress = ($request->instansi_id[0]);
+        $user->instansi_id = ($request->instansi_id[0]);
         $user->save();
         return redirect('/macaddress');
     }
@@ -91,7 +92,7 @@ class MacAdressControllers extends Controller
         ]);
         $table=macaddresse::where('id','=',$request->id)->first();
         $table->macaddress=$request->macaddress;
-        $user->macaddress = ($request->instansi_id);
+        $user->instansi_id = ($request->instansi_id);
         $table->save();
         return redirect('/macaddress');
     }
