@@ -92,7 +92,7 @@ class MacAdressControllers extends Controller
         ]);
         $table=macaddresse::where('id','=',$request->id)->first();
         $table->macaddress=$request->macaddress;
-        $user->instansi_id = ($request->instansi_id);
+        $user->instansi_id = ($request->instansi_id[0]);
         $table->save();
         return redirect('/macaddress');
     }
