@@ -52,6 +52,7 @@
                                                     <th>NIP</th>
                                                     <th>Nama</th>
                                                     <th>Instansi</th>
+                                                    <th>Sidik Jari</th>
                                                     <th>Aksi</th>
                                                 </tr>
                                                 </thead>
@@ -208,6 +209,7 @@
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'namaInstansi', name: 'namaInstansi' },
+                    { data: 'finger', name: 'finger' },
                     { data: 'action', name: 'action' }
                 ]
             });

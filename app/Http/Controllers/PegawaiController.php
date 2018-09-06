@@ -82,7 +82,8 @@ class PegawaiController extends Controller
      */
 
     public function data(){
-        $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')->get();
+        $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                ->get();
         return Datatables::of($users)
             ->addColumn('action', function ($users) {
                 return '<button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_delete">Hapus</button>';
@@ -359,9 +360,11 @@ class PegawaiController extends Controller
 
 
     public function datauser(){
+        $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
         $users=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+              ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
               ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-              ->select('pegawais.*','instansis.namaInstansi')
+              ->select('pegawais.*','instansis.namaInstansi','fingerpegawais.*')
               ->get();
         return Datatables::of($users)
               ->addColumn('action', function ($users) {

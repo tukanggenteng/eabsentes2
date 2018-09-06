@@ -28,7 +28,7 @@ class FingerPegawaiController extends Controller
       }
       else {
         // dd("asd");
-          $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
+                $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais GROUP BY pegawai_id) as fingerpegawais");
                 $pegawais=pegawai::leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                       ->leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
                       // ->select('pegawais.*','instansis.namaInstansi',DB::raw('COUNT(fingerpegawais.pegawai_id) as finger'))
