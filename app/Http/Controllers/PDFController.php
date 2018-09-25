@@ -523,8 +523,8 @@ class PDFController extends Controller
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -600,8 +600,8 @@ class PDFController extends Controller
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -674,8 +674,8 @@ class PDFController extends Controller
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
                         $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -746,8 +746,8 @@ class PDFController extends Controller
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -974,8 +974,8 @@ class PDFController extends Controller
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -1047,8 +1047,8 @@ class PDFController extends Controller
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -1117,8 +1117,8 @@ class PDFController extends Controller
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
@@ -1190,8 +1190,8 @@ class PDFController extends Controller
                         $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
                         $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
                         $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('R1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });

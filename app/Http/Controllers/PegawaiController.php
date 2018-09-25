@@ -324,7 +324,7 @@ class PegawaiController extends Controller
         else {
             $updatedata = pegawai::where('nip','=',$request->nip)->first();
             // dd($updatedata);
-            $updatedata->instansi_id = $tes;
+            $updatedata->instansi_id = Auth::user()->instansi_id;
             $updatedata->save();
 
             $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
@@ -563,7 +563,7 @@ class PegawaiController extends Controller
                 ->get();
       return $table;
     }
-
+ 
     public function cekpegawaiparams($id){
         $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
         $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
