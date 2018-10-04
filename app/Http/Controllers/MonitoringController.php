@@ -825,7 +825,7 @@ class MonitoringController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -874,7 +874,7 @@ class MonitoringController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -1002,7 +1002,7 @@ class MonitoringController extends Controller
                             DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                             DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                             DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                            DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                            DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                             DB::raw('ROUND(
                                 ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                 
@@ -1163,7 +1163,7 @@ class MonitoringController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -1299,7 +1299,8 @@ class MonitoringController extends Controller
                             DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                             DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                             DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                            DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                            DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
+
                             DB::raw('ROUND(
                                 ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                 
@@ -1711,7 +1712,8 @@ class MonitoringController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
+
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -1870,7 +1872,7 @@ class MonitoringController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -2040,7 +2042,7 @@ class MonitoringController extends Controller
                     DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                     DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                     DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                    DB::raw('count(if (atts.apel = "0" && jadwalkerjas.sifat="FD",1,null)) as tidakapelwajibapel'),
+                    DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                     DB::raw('ROUND(
                         ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                         
