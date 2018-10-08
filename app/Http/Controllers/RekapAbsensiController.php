@@ -400,6 +400,7 @@ class RekapAbsensiController extends Controller
                                             }
                                                       
                                         }
+                                            
                                         // $akumulasi=$this->kurangwaktu($akhir,$jadwalkerja[0]['jam_masukjadwal']);
                                     }
                                     else{
@@ -466,13 +467,24 @@ class RekapAbsensiController extends Controller
                                         // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                     }   
 
+                                    // $table->jenisabsen_id = $request->jenisabsen;
+                                    // $table->jam_masuk = $awal;
+                                    // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    // $table->jam_keluar = $akhir;
+                                    // $table->terlambat = "00:00:00";
+                                    // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    // $table->akumulasi_sehari = $akumulasi;
+                                    // $table->save();
+
                                     $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
+                                    $table->jam_masuk = null;
                                     $table->terlambat = "00:00:00";
+                                    $table->keluaristirahat=null;
+                                    $table->masukistirahat=null;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
                               }
                               elseif  ($request->jenisabsen=="4"){
@@ -614,13 +626,24 @@ class RekapAbsensiController extends Controller
                                     // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                 }   
 
+                                // $table->jenisabsen_id = $request->jenisabsen;
+                                // $table->jam_masuk = $awal;
+                                // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                // $table->jam_keluar = $akhir;
+                                // $table->terlambat = "00:00:00";
+                                // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                // $table->akumulasi_sehari = $akumulasi;
+                                // $table->save();
+
                                 $table->jenisabsen_id = $request->jenisabsen;
-                                $table->jam_masuk = $awal;
-                                $table->masukinstansi_id=Auth::user()->instansi_id;
-                                $table->jam_keluar = $akhir;
+                                $table->jam_masuk = null;
                                 $table->terlambat = "00:00:00";
+                                $table->keluaristirahat=null;
+                                $table->masukistirahat=null;
+                                $table->masukinstansi_id=Auth::user()->instansi_id;
+                                $table->jam_keluar = null;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                $table->akumulasi_sehari = $akumulasi;
+                                $table->akumulasi_sehari = "00:00:00";
                                 $table->save();
                               }
                               elseif  ($request->jenisabsen=="5"){
@@ -762,13 +785,24 @@ class RekapAbsensiController extends Controller
                                     // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                 }   
 
+                                // $table->jenisabsen_id = $request->jenisabsen;
+                                // $table->jam_masuk = $awal;
+                                // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                // $table->jam_keluar = $akhir;
+                                // $table->terlambat = "00:00:00";
+                                // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                // $table->akumulasi_sehari = $akumulasi;
+                                // $table->save();
+
                                 $table->jenisabsen_id = $request->jenisabsen;
-                                $table->jam_masuk = $awal;
-                                $table->masukinstansi_id=Auth::user()->instansi_id;
-                                $table->jam_keluar = $akhir;
+                                $table->jam_masuk = null;
                                 $table->terlambat = "00:00:00";
+                                $table->keluaristirahat=null;
+                                $table->masukistirahat=null;
+                                $table->masukinstansi_id=Auth::user()->instansi_id;
+                                $table->jam_keluar = null;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                $table->akumulasi_sehari = $akumulasi;
+                                $table->akumulasi_sehari = "00:00:00";
                                 $table->save();
                               }
                               elseif  ($request->jenisabsen=="6"){
@@ -908,13 +942,24 @@ class RekapAbsensiController extends Controller
                                         // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                     }   
 
+                                    // $table->jenisabsen_id = $request->jenisabsen;
+                                    // $table->jam_masuk = $awal;
+                                    // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    // $table->jam_keluar = $akhir;
+                                    // $table->terlambat = "00:00:00";
+                                    // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    // $table->akumulasi_sehari = $akumulasi;
+                                    // $table->save();
+
                                     $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
+                                    $table->jam_masuk = null;
                                     $table->terlambat = "00:00:00";
+                                    $table->keluaristirahat=null;
+                                    $table->masukistirahat=null;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
                               }
                               elseif  ($request->jenisabsen=="7"){
@@ -1055,13 +1100,24 @@ class RekapAbsensiController extends Controller
                                         // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                     }   
 
+                                    // $table->jenisabsen_id = $request->jenisabsen;
+                                    // $table->jam_masuk = $awal;
+                                    // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    // $table->jam_keluar = $akhir;
+                                    // $table->terlambat = "00:00:00";
+                                    // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    // $table->akumulasi_sehari = $akumulasi;
+                                    // $table->save();
+
                                     $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
+                                    $table->jam_masuk = null;
                                     $table->terlambat = "00:00:00";
+                                    $table->keluaristirahat=null;
+                                    $table->masukistirahat=null;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
                               }
                               elseif  ($request->jenisabsen=="8"){
@@ -1202,13 +1258,24 @@ class RekapAbsensiController extends Controller
                                         // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
                                     }   
 
+                                    // $table->jenisabsen_id = $request->jenisabsen;
+                                    // $table->jam_masuk = $awal;
+                                    // $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    // $table->jam_keluar = $akhir;
+                                    // $table->terlambat = "00:00:00";
+                                    // $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    // $table->akumulasi_sehari = $akumulasi;
+                                    // $table->save();
+
                                     $table->jenisabsen_id = $request->jenisabsen;
-                                    $table->jam_masuk = $awal;
-                                    $table->masukinstansi_id=Auth::user()->instansi_id;
-                                    $table->jam_keluar = $akhir;
+                                    $table->jam_masuk = null;
                                     $table->terlambat = "00:00:00";
+                                    $table->keluaristirahat=null;
+                                    $table->masukistirahat=null;
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                    $table->akumulasi_sehari = $akumulasi;
+                                    $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
                               }
                               elseif  ($request->jenisabsen=="9"){
@@ -1354,32 +1421,43 @@ class RekapAbsensiController extends Controller
 
                                   
 
-                                  $table->jenisabsen_id = $request->jenisabsen;
-                                  $table->jam_masuk = $awal;
-                                  $table->masukinstansi_id=Auth::user()->instansi_id;
-                                  $table->terlambat = "00:00:00";
-                                  $table->jenisabsen_id=$request->jenisabsen;
-                                  if ($table->jam_keluar!=null){
-                                    $harike=date('N', strtotime($tanggalbaru));
-                                    if (($harike==5) && ($table->jadwalkerja_id==1))
-                                        {
-                                            $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
-                                            $masukistirahat=date('H:i:s',strtotime('14:00:00'));
-                                            $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
-                                            $akumulasi2=$this->kurangwaktu($akhir,$masukistirahat);
-                                            $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
-                                            $table->keluaristirahat=$keluaristirahat;
-                                            $table->masukistirahat=$masukistirahat;
-                                        }
-                                        else
-                                        {
-                                            $table->keluaristirahat=null;
-                                            $table->masukistirahat=null;
-                                        }
-                                    $table->akumulasi_sehari=$akumulasi;
+                                //   $table->jenisabsen_id = $request->jenisabsen;
+                                //   $table->jam_masuk = $awal;
+                                //   $table->masukinstansi_id=Auth::user()->instansi_id;
+                                //   $table->terlambat = "00:00:00";
+                                //   $table->jenisabsen_id=$request->jenisabsen;
+                                //   if ($table->jam_keluar!=null){
+                                //     $harike=date('N', strtotime($tanggalbaru));
+                                //     if (($harike==5) && ($table->jadwalkerja_id==1))
+                                //         {
+                                //             $keluaristirahat=date('H:i:s',strtotime('11:30:00'));
+                                //             $masukistirahat=date('H:i:s',strtotime('14:00:00'));
+                                //             $akumulasi1=$this->kurangwaktu($keluaristirahat,$awal);
+                                //             $akumulasi2=$this->kurangwaktu($akhir,$masukistirahat);
+                                //             $akumulasi=date("H:i:s",strtotime($this->tambahwaktu($akumulasi1,$akumulasi2)));
+                                //             $table->keluaristirahat=$keluaristirahat;
+                                //             $table->masukistirahat=$masukistirahat;
+                                //         }
+                                //         else
+                                //         {
+                                //             $table->keluaristirahat=null;
+                                //             $table->masukistirahat=null;
+                                //         }
+                                //     $table->akumulasi_sehari=$akumulasi;
 
-                                  }
+                                //   }
                                   
+                                //   $table->save();
+
+                                  $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jam_masuk = null;
+                                  $table->terlambat = "00:00:00";
+                                  $table->keluaristirahat=null;
+                                  $table->masukistirahat=null;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->jam_keluar = null;
+                                  $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                  $table->akumulasi_sehari = "00:00:00";
                                   $table->save();
                               }
                               elseif  ($request->jenisabsen=="11"){
@@ -1389,13 +1467,24 @@ class RekapAbsensiController extends Controller
                                       ->where('id', '=', $id)
                                       ->first();
 
+                                //   $table->jenisabsen_id = $request->jenisabsen;
+                                //   $table->jam_masuk = null;
+                                //   $table->terlambat = "00:00:00";
+                                //   $table->masukinstansi_id=Auth::user()->instansi_id;
+                                //   $table->jam_keluar = null;
+                                //   $table->keluaristirahat=null;
+                                //   $table->masukistirahat=null;
+                                //   $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                //   $table->akumulasi_sehari = "00:00:00";
+                                //   $table->save();
+
                                   $table->jenisabsen_id = $request->jenisabsen;
                                   $table->jam_masuk = null;
                                   $table->terlambat = "00:00:00";
-                                  $table->masukinstansi_id=Auth::user()->instansi_id;
-                                  $table->jam_keluar = null;
                                   $table->keluaristirahat=null;
                                   $table->masukistirahat=null;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->jam_keluar = null;
                                   $table->keluarinstansi_id=Auth::user()->instansi_id;
                                   $table->akumulasi_sehari = "00:00:00";
                                   $table->save();
