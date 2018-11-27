@@ -78,6 +78,24 @@ class InstansiController extends Controller
             ->get();
             // dd($response);
         $jsons2=json_decode($response2,true);
+        
+        //
+        
+        // $instansis=instansi::all();
+
+        // $array_all=array_push($jsons2,$jsons);
+
+        // foreach ($instansis as $key => $instansi) {
+            
+        //     if (array_search($instansi->kode,$array_all,true))
+        //     {
+        //         echo "ketemu <br>";
+        //     }
+        //     else
+        //     {
+        //         echo "tidak terdaftar <br>";
+        //     }
+        // }
 
         foreach ($jsons2 as $key=>$json2)
         {

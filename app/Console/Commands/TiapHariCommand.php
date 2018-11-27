@@ -17,6 +17,8 @@ use App\masterbulanan;
 use App\rulejadwalpegawai;
 use App\jenisabsen;
 use Illuminate\Console\Command;
+use Ixudra\Curl\Facades\Curl;
+use App\Exceptions\InstansiException;
 use Carbon\Carbon;
 
 class TiapHariCommand extends Command
@@ -51,6 +53,8 @@ class TiapHariCommand extends Command
      *
      * @return mixed
      */
+    
+    
     public function handle()
     {
         //
@@ -58,6 +62,219 @@ class TiapHariCommand extends Command
         
         
         // $hari='Senin';
+
+        $dataunkersatker=[];
+
+        
+        $url="https://simpeg.kalselprov.go.id/api/unker";
+        $ch = curl_init();
+        // Disable SSL verification
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        // Will return the response, if false it print the response
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch, CURLOPT_URL,$url);
+        // Execute
+        $result=curl_exec($ch);
+        // Closing
+        curl_close($ch);
+        // dd($result);
+
+        //Will dump a beauty json :3
+        $jsons=(json_decode($result,true));
+
+        // $jsons=json_decode($response,true);
+
+        // $objecttoarray = (array) $jsons;
+        // dd($jsons);
+        // dd($objecttoarray);
+
+        $url2="https://simpeg.kalselprov.go.id/api/satker";
+        $ch2 = curl_init();
+        // Disable SSL verification
+        curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+        // Will return the response, if false it print the response
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        // Set the url
+        curl_setopt($ch2, CURLOPT_URL,$url2);
+        // Execute
+        $result2=curl_exec($ch2);
+        // Closing
+        curl_close($ch2);
+        // dd($result2);
+            // dd($response);
+        $jsons2=(json_decode($result2,true));
+
+        try {
+            try {
+              //check for "example" in mail address
+              if ((is_array($jsons)) && (is_array($jsons2))){
+
+                $dataunkersatker=array_merge($jsons['data'],$jsons2['data']);
+
+                // dd($dataunkersatker);
+                    
+                        $instansis=instansi::where('namaInstansi','!=','Admin')->get();
+                        // $instansis=instansi::all();
+
+                        // $array_all=array_push($jsons2,$jsons);
+                        // $i=1;
+
+                        // dd($json);
+                        $i=1;
+                        foreach ($instansis as $key => $instansi) {
+                            // dd($instansi->kode);
+                            // echo array_search("19",$json);
+
+                            foreach ($dataunkersatker as $key2=>$json)
+                            {
+                                if (((string)$instansi->kode === $json['kode_unker']) && (array_key_exists('unker',$json)))
+                                {
+                                    $updateinstansi=instansi::where('kode','=',$instansi->kode)->first();
+                                    $updateinstansi->namaInstansi=$json['unker'];
+                                    $updateinstansi->save();
+
+
+                                    break;
+                                }
+                                else if (((array_key_exists('kode_satker',$json))) && (array_key_exists('upt',$json)) )
+                                {
+                                    if (((string)$instansi->kode === $json['kode_satker']) && (($json['upt']==="1"))) 
+                                        {
+                                            
+                                            $updateinstansi=instansi::where('kode','=',$instansi->kode)->first();
+                                            $updateinstansi->namaInstansi=$json['satker'];
+                                            $updateinstansi->save();
+
+                                            break;
+                                        }
+                                        else if (((string)$instansi->kode === $json['kode_satker']) && ((($json['upt']==null)) || (($json['upt']=="")))) 
+                                        {
+                                            
+                                            $deleteinstansi=instansi::where('kode','=',$instansi->kode)->first();
+
+                                            $allpegawaiinstansis=pegawai::where('instansi_id','=',$deleteinstansi->id)->get();
+                                            foreach ($allpegawaiinstansis as $key => $allpegawaiinstansi) {
+                                                $allpegawaiinstansis=pegawai::where('id','=',$allpegawaiinstansi->id)->first();
+                                                $allpegawaiinstansi->instansi_id=null;
+                                                $allpegawaiinstansi->save();
+                                            }
+
+                                            $deleteinstansi->delete();
+                                            echo "tidak ada database ke json >> ";
+                                            echo $json['satker'];
+                                            echo "\n";
+                                            break;
+
+                                            break;
+                                        }
+                                }
+                                
+                            }
+                            
+                        }
+              }
+              else
+              {
+                // throw new InstansiException(false);
+              }
+            }
+            catch(InstansiException $e) {
+              //re-throw exception
+              throw new InstansiException($e);
+            }
+        }
+          
+        catch (InstansiException $e) {
+        //display custom message
+        echo $e->Cek();
+        }
+
+
+        try {
+            try {
+              //check for "example" in mail address
+              if ((is_array($jsons)) && (is_array($jsons2))){
+
+                $dataunkersatker=array_merge($jsons['data'],$jsons2['data']);
+
+                        $i=1;
+                        foreach ($dataunkersatker as $key2=>$json) {
+                            // dd($instansi->kode);
+                            // echo array_search("19",$json);
+
+                            
+                            if ((array_key_exists('unker',$json)))
+                            {
+                                $instansis=instansi::where('namaInstansi','!=','Admin')
+                                        ->where('kode','=',$json['kode_unker'])
+                                        // ->where('namaInstansi','=',$json['unker'])
+                                        ->count();
+
+                                if ($instansis < 1)
+                                {
+                                    $addinstansi=new instansi;
+                                    $addinstansi->kode=$json['kode_unker'];
+                                    $addinstansi->namaInstansi=$json['unker'];
+                                    $addinstansi->save();
+                                    echo "data baru";
+
+                                    // echo "tambah data ";
+                                    // echo $key2;
+                                    // echo ".".$json['kode_unker'];
+                                    // echo ".".$json['unker'];
+                                    echo "\n";
+                                }
+                            }
+                            else if (((array_key_exists('kode_satker',$json))) && (array_key_exists('upt',$json)) )
+                            {
+                                if ((($json['upt']==="1"))) 
+                                {
+                                    
+                                    $instansis=instansi::where('namaInstansi','!=','Admin')
+                                        ->where('kode','=',$json['kode_satker'])
+                                        // ->where('namaInstansi','=',$json['satker'])
+                                        ->count();
+
+                                    if ($instansis < 1)
+                                    {
+                                        $addinstansi=new instansi;
+                                        $addinstansi->kode=$json['kode_satker'];
+                                        $addinstansi->namaInstansi=$json['satker'];
+                                        $addinstansi->save();
+                                        echo "data baru";
+
+                                        // echo "tambah data ";
+                                        // echo $key2;
+                                        // echo ".".$json['kode_satker'];
+                                        // echo ".".$json['satker'];
+                                        echo "\n";
+                                    }
+                                }
+                            }
+
+                            
+                            
+                        }
+              }
+              else
+              {
+                // throw new InstansiException(false);
+              }
+            }
+            catch(InstansiException $e) {
+              //re-throw exception
+              throw new InstansiException($e);
+            }
+        }
+          
+        catch (InstansiException $e) {
+        //display custom message
+        echo $e->Cek();
+        }
+
+
+        dd("selesai");
 
         $url="https://simpeg.kalselprov.go.id/api/identitas";
         $ch = curl_init();
@@ -82,6 +299,9 @@ class TiapHariCommand extends Command
           //
         // dd(($jsons[0]['nip']));
         // dd(gettype($jsons));
+
+        
+
         if(is_array($jsons)){
             foreach ($jsons as $json)
             {
