@@ -2614,7 +2614,7 @@ class MonitoringController extends Controller
     public function api_monitoring_instansi_kehadiran()
     {
 
-        $tanggal=date("Y-m");
+        $tanggal=date("Y-m",strtotime('2018-11'));
         $pecah=explode("-",$tanggal);
         $bulan=$pecah[1];
         $tahun=$pecah[0];
