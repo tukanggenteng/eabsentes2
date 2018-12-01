@@ -2134,4 +2134,9 @@ class MonitoringController extends Controller
     }
 
 
+    public function apigetyears(){
+        $tahun = att::distinct('tanggal_att')->select(DB::raw('DATE_FORMAT(tanggal_att,"%Y")'))->get();
+
+        return $tahun;
+    }
 }   
