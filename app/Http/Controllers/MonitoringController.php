@@ -2580,10 +2580,19 @@ class MonitoringController extends Controller
     }
 
 
-    public function api_monitoring_instansi_kehadiran()
+    public function api_monitoring_instansi_kehadiran(Request $request)
     {
 
-        $tanggal=date("Y-m",strtotime('2018-11'));
+        if ($request->tanggal=="")
+        {
+            $tanggal=date("Y-m");
+        }
+        else
+        {
+            $tanggal=date("Y-m",strtotime($request->tanggal));
+        }
+
+        
         $pecah=explode("-",$tanggal);
         $bulan=$pecah[1];
         $tahun=$pecah[0];
@@ -2593,7 +2602,63 @@ class MonitoringController extends Controller
         $jenis_absen=22;
         $order='persentase_kehadiran';
 
-        $metode='desc';
+        $metode='asc';
+
+        $tanggalexception=date('Y-m-d');
+       
+        $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                        ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                        ->select(
+                                'pegawais.id',
+                                DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                                DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
+                                DB::raw('ROUND(
+                                    ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
+                                    
+                                ,2) as persentase_apel'),
+                                'instansis.namaInstansi',
+                                'pegawais.instansi_id'
+                        )
+                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        ->whereMonth('atts.tanggal_att','=',$bulan)
+                        ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','!=',$tanggalexception)
+                        ->orderBy($order,$metode);
+
+    
+
+
+        $data=$data->limit(150)->get();
+
+
+        return $data;                
+        
+    }
+
+    public function api_monitoring_instansi_apel(Request $request)
+    {
+
+        if ($request->tanggal=="")
+        {
+            $tanggal=date("Y-m");
+        }
+        else
+        {
+            $tanggal=date("Y-m",strtotime($request->tanggal));
+        }
+
+        
+        $pecah=explode("-",$tanggal);
+        $bulan=$pecah[1];
+        $tahun=$pecah[0];
+        // $request->tanggal=$tanggal;
+
+
+        $jenis_absen=22;
+        $order='persentase_apel';
+
+        $metode='asc';
 
         $tanggalexception=date('Y-m-d');
        
