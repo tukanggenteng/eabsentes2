@@ -49,6 +49,8 @@ Route::group(['middleware'=>['api']], function () {
     Route::post('/historycrash','HistoryCrashRaspberryController@post');
 
 
-    // Route::get('/instansis','InstansiController@apidata');
+    Route::get('/instansis','MonitoringController@apigetinstansi');
     Route::get('/tahun/absensi','MonitoringController@apigetyears');
+
+
 });

@@ -2139,4 +2139,10 @@ class MonitoringController extends Controller
 
         return $tahun;
     }
+
+    public function apigetinstansi(){
+        $instansis = instansi::all();
+
+        return $instansis;
+    }
 }   
