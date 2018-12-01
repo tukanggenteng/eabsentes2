@@ -51,6 +51,9 @@ Route::group(['middleware'=>['api']], function () {
 
     Route::get('/instansis','MonitoringController@apigetinstansi');
     Route::get('/tahun/absensi','MonitoringController@apigetyears');
+    Route::post('/absensi/bulan','MonitoringController@api_get_absensi_bulan');
+    Route::get('/absensi/instansi/kehadiran','MonitoringController@api_monitoring_instansi_kehadiran');
+
 
 
 });

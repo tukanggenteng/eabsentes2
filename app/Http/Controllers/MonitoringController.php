@@ -1606,7 +1606,8 @@ class MonitoringController extends Controller
         return view('monitoring.mingguan.rekapmingguinstansipersonaldetailatt   ',['datas'=>$data,'jenis_absen2'=>($request->jenis_absen),'instansi_id'=>$instansi_id,'namainstansi'=>$instansi->namaInstansi,'idpegawai'=>$pegawai->id,'nip'=>$pegawai->nip,'namapegawai'=>$pegawai->nama,'metode'=>$request->metode,'date'=>$tanggal,'tanggal'=>$tanggal,'id'=>$id,'jenis_absens'=>$jenisabsens]); 
     }
 
-    public function monitoringpegawaibulanan(Request $request){
+    public function monitoringpegawaibulanan(Request $request)
+    {
         //$id=decrypt($id);
         // dd($id);
         //$tanggal=decrypt($tanggal);
@@ -2144,5 +2145,518 @@ class MonitoringController extends Controller
         $instansis = instansi::all();
 
         return $instansis;
+    }
+
+
+    public function api_get_absensi_bulan(Request $request)
+    {
+        $tanggal=$request->tanggal."-01";
+        $instansi=$request->instansi_id;
+        $data=array();
+        //dd($tanggal);
+        $datasets=array();
+        $data['tanpakabar']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            array_push($datasets,$tanggal2);
+
+            // $tanpakabar=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+            
+            $tanpakabar= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                        ->whereMonth('atts.tanggal_att','=',$bulan)
+                        ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('pegawais.instansi_id','=',$instansi)  
+                        ->where('atts.jenisabsen_id','=','2')
+                        ->count();            
+                        
+
+            //$subdata['tanpakabar']=$tanpakabar;
+            array_push($data['tanpakabar'],$tanpakabar);
+        }
+        
+
+        $data['harikerja']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m-d",strtotime($i-$angka." months",strtotime($tanggal)));
+
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            // dd($bulan." + ".$tahun);
+
+            $tanpakabar= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            // ->where('atts.jenisabsen_id','!=','13')
+                            // ->where('atts.jenisabsen_id','!=','11')
+                            // ->where('atts.jenisabsen_id','!=','9')
+                            ->count();
+            // dd($tanpakabar);
+            //$subdata['tanpakabar']=$tanpakabar;
+            array_push($data['harikerja'],$tanpakabar);
+        }
+
+        $data['ijin']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            $subdata['label']=$tanggal2;
+               
+            // $tanpakabar=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.jenisabsen_id','=','3')
+                            ->count();
+            array_push($data['ijin'],$count);
+        }
+        
+        $data['hadir']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            $subdata['label']=$tanggal2;
+               
+            // $tanpakabar=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(                   
+            //                     DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->get();
+
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->where('atts.jenisabsen_id','=','1')
+                            ->count();
+            array_push($data['hadir'],$count);
+        }
+
+
+        $data['ijinterlambat']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            $subdata['label']=$tanggal2;
+               
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->where('atts.jenisabsen_id','=','10')
+                            ->count();
+            array_push($data['ijinterlambat'],$count);
+        }
+
+        $data['sakit']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+
+            $subdata['label']=$tanggal2;
+
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+               
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->where('atts.jenisabsen_id','=','5')
+                            ->count();
+            array_push($data['sakit'],$count);
+        }
+
+        $data['tl']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+               
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.jenisabsen_id','=','7')
+                            ->count();
+            array_push($data['tl'],$count);
+        }
+
+
+        $data['tb']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+
+            // $tanpakabar=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+                   
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->where('pegawais.instansi_id','=',$instansi)  
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.jenisabsen_id','=','6')
+                            ->count();
+            array_push($data['tb'],$count);
+        }
+
+        $data['terlambat']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+            
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->where('pegawais.instansi_id','=',$instansi)
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.terlambat','!=','00:00:00')  
+                            ->count();
+            array_push($data['terlambat'],$count);
+        }
+
+        $data['rapat']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan')
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+               
+            $count= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                            ->where('pegawais.instansi_id','=',$instansi)
+                            ->whereMonth('atts.tanggal_att','=',$bulan)
+                            ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.jenisabsen_id','=','8')  
+                            ->count();
+            array_push($data['keperluanlain'],$count);
+        }
+            
+
+        $data['pulangcepat']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+
+            // $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+            //             ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+            //             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+            //             ->select(
+            //                     DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat')
+                                
+            //             )
+            //             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+            //             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+            //             ->whereMonth('atts.tanggal_att','=',$bulan)
+            //             ->whereYear('atts.tanggal_att','=',$tahun)
+            //             // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+            //             ->where('pegawais.instansi_id','=',$instansi)
+            //             ->count();
+               
+            $count=  att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+                                    ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+                                    ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+                                    ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
+                                    ->whereNull('atts.jam_keluar')
+                                    ->whereNotNull('atts.jam_masuk')
+                                    ->whereMonth('atts.tanggal_att','=',$bulan)
+                                    ->whereYear('atts.tanggal_att','=',$tahun)
+                                    ->where('atts.jenisabsen_id', '=', '1')
+                                    ->where('pegawais.instansi_id','=',$instansi)
+                                    ->whereNotNull('atts.jam_masuk')
+                                    ->count();
+            array_push($data['pulangcepat'],$count);
+        }
+
+        $data['apel']=[];
+        for ($i=0;$i<=12;$i++)
+        {
+            $subdata=array();
+            $angka=12;
+            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            
+            $tanggal3=explode("-",$tanggal2);
+
+            $bulan=$tanggal3[1];
+            $tahun=$tanggal3[0];
+            $subdata['label']=$tanggal2;
+
+            $count=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+                        ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                        ->select(
+                                DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan')
+                        )
+                        ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+                        ->whereMonth('atts.tanggal_att','=',$bulan)
+                        ->whereYear('atts.tanggal_att','=',$tahun)
+                        // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+                        ->where('pegawais.instansi_id','=',$instansi)
+                        ->get();
+            // dd($count[0]['apel_bulanan']);
+               
+            // $count=  att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
+            //                         ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
+            //                         ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
+            //                         ->whereMonth('atts.tanggal_att','=',$bulan)
+            //                         ->whereYear('atts.tanggal_att','=',$tahun)
+            //                         ->where('pegawais.instansi_id','=',$instansi)
+            //                         // ->where('atts.jenisabsen_id','=',1)
+            //                         // ->where('atts.jenisabsen_id','!=',2)
+            //                         // ->where('atts.jenisabsen_id','!=',9)
+            //                         // ->where('atts.jenisabsen_id','!=',11)
+            //                         ->where('atts.apel','=',"1")
+            //                         // ->where('atts.jenisabsen_id',$tanpaabsen)
+            //                         ->count();
+            array_push($data['apel'],$count[0]['apel_bulanan']);
+        }
+        $data['datasets']=$datasets;
+        $data['pegawai']=pegawai::where('instansi_id','=',$instansi)->count();
+        return $data;
+
+    }
+
+
+    public function api_monitoring_instansi_kehadiran()
+    {
+
+        $tanggal=date("Y-m");
+        $pecah=explode("-",$tanggal);
+        $bulan=$pecah[1];
+        $tahun=$pecah[0];
+        // $request->tanggal=$tanggal;
+
+
+        $jenis_absen=22;
+        $order='persentase_kehadiran';
+
+        $metode='desc';
+
+        $tanggalexception=date('Y-m-d');
+       
+        $data=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
+                    ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                    ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                    ->select(
+                            'pegawais.id',
+                            'pegawais.nip',
+                            'pegawais.nama',
+                            DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
+                            DB::raw('ROUND(
+                                ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
+                                
+                            ,2) as persentase_apel'),
+                            'instansis.namaInstansi',
+                            'pegawais.instansi_id'
+                    )
+                    ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+                    ->orderBy($order,$metode)
+                    ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                    ->whereMonth('atts.tanggal_att','=',$bulan)
+                    ->whereYear('atts.tanggal_att','=',$tahun)
+                    ->where('atts.tanggal_att','!=',$tanggalexception)
+                    ->whereNotNull('pegawais.instansi_id');
+        
+
+
+        $data=$data->limit(150)->get();
+
+
+        return $data;                
+        
     }
 }   
