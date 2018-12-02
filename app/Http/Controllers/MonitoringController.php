@@ -2303,11 +2303,12 @@ class MonitoringController extends Controller
                             
                             DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as data')
                             )
-
-                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
-
                             ->first();
-                            dd($count);
+
+            if ($count->data==null){
+                dd($count);
+            }                    
+                            // dd($count);
             array_push($data['hadir'],$count->data);
         }
 
