@@ -2171,10 +2171,11 @@ class MonitoringController extends Controller
                         // ->where('atts.jenisabsen_id','=','2')
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->select(
-                            
-
-                            DB::raw(' (count(atts.id) * 100
-                            ) as tanpakabar')
+                            DB::raw('ROUND(
+                                (count
+                                    (if (atts.jenisabsen_id = "2",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                
+                            ,2) as tanpakabar')
                         )
                         ->get();          
                         
