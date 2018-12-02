@@ -2300,7 +2300,8 @@ class MonitoringController extends Controller
                             // ->where('atts.jenisabsen_id','=','1')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
                             ->select(
-                                DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,0))) + (count(if (atts.jenisabsen_id = "3",1,0))) + (count(if (atts.jenisabsen_id = "5",1,0))) + (count(if (atts.jenisabsen_id = "4",1,0))) + (count(if (atts.jenisabsen_id = "7",1,0))) + (count(if (atts.jenisabsen_id = "6",1,0))) + (count(if (atts.jenisabsen_id = "8",1,0))) + (count(if (atts.jenisabsen_id = "10",1,0))) + (count(if (atts.jenisabsen_id = "12",1,0)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as data')
+                            
+                            DB::raw('ROUND(count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100,2) as hadir')
                             )
 
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
