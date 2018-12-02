@@ -2818,7 +2818,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('pegawais.instansi_id'))                
                         // ->whereMonth('atts.tanggal_att','=',$bulan)
                         // ->whereYear('atts.tanggal_att','=',$tahun)
-                        ->whereDate('atts.tanggal_att','=',$tanggal_now)
+                        // ->whereDate('atts.tanggal_att','=',$tanggal_now)
                         // ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
