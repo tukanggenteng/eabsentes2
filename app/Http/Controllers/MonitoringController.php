@@ -2797,7 +2797,7 @@ class MonitoringController extends Controller
         // $tahun=$pecah[0];
         // $request->tanggal=$tanggal;
         
-        dd($tanggal_now);
+        // dd($tanggal_now);
 
         $jenis_absen=22;
         $order='persentase_kehadiran';
@@ -2820,7 +2820,7 @@ class MonitoringController extends Controller
                         // ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','=',$tanggal_now)
                         // ->where('atts.tanggal_att','!=',$tanggalexception)
-                        ->whereNotNull('pegawais.instansi_id')
+                        // ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
 
     
