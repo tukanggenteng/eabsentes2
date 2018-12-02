@@ -2131,7 +2131,8 @@ class MonitoringController extends Controller
         $data=array();
         //dd($tanggal);
         $tanggalexception=date('Y-m-d');
-
+        
+    
 
         $datasets=array();
         $data['tanpakabar']=[];
@@ -2145,6 +2146,8 @@ class MonitoringController extends Controller
 
             $bulan=$tanggal3[1];
             $tahun=$tanggal3[0];
+
+            dd($tahun);
 
             array_push($datasets,$tanggal2);
 
