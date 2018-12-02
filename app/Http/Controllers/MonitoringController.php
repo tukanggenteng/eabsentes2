@@ -2306,7 +2306,7 @@ class MonitoringController extends Controller
                             ->first();
 
             if ($count->data==null){
-                dd($count);
+                dd($count->data." ".$bulan);
             }                    
                             // dd($count);
             array_push($data['hadir'],$count->data);
