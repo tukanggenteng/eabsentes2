@@ -2172,15 +2172,14 @@ class MonitoringController extends Controller
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->select(
                             DB::raw('ROUND(
-                                (count
-                                    (if (atts.jenisabsen_id = "2",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                (count(if (atts.jenisabsen_id = "2",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
                                 
                             ,2) as tanpakabar')
                         )
                         ->get();          
                         
                         
-                        
+            dd($tanpakabar);
 
             //$subdata['tanpakabar']=$tanpakabar;
             array_push($data['tanpakabar'],$tanpakabar[0]['tanpakabar']);
