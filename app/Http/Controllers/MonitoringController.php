@@ -2132,15 +2132,15 @@ class MonitoringController extends Controller
         //dd($tanggal);
         $tanggalexception=date('Y-m-d');
         
-        dd($tanggal);
+        // dd($tanggal);
 
         $datasets=array();
         $data['tanpakabar']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=1;$i<=12;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
             
             $tanggal3=explode("-",$tanggal2);
 
