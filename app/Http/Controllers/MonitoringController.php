@@ -2168,14 +2168,13 @@ class MonitoringController extends Controller
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('pegawais.instansi_id','=',$instansi)  
-                        ->where('atts.jenisabsen_id','=','2')
+                        // ->where('atts.jenisabsen_id','=','2')
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->select(
-                            DB::raw('ROUND(
-                                ( count
-                                    (if (atts.jenisabsen_id = "2",1,null)) ) / count(atts.id) * 100
-                                
-                            ,2) as tanpakabar')
+                            
+
+                            DB::raw('( (count(atts.id) * 100
+                            ) as tanpakabar')
                         )
                         ->get();          
                         
