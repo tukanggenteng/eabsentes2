@@ -2170,11 +2170,20 @@ class MonitoringController extends Controller
                         ->where('pegawais.instansi_id','=',$instansi)  
                         ->where('atts.jenisabsen_id','=','2')
                         ->where('atts.tanggal_att','!=',$tanggalexception)
-                        ->count();            
+                        ->select(
+                            DB::raw('ROUND(
+                                ( count
+                                    (if (atts.jenisabsen_id = "2",1,null)) ) / count(atts.id) * 100
+                                
+                            ,2) as tanpakabar')
+                        )
+                        ->get();          
+                        
+                        
                         
 
             //$subdata['tanpakabar']=$tanpakabar;
-            array_push($data['tanpakabar'],$tanpakabar);
+            array_push($data['tanpakabar'],$tanpakabar[0]['tanpakabar']);
         }
         
 
