@@ -2562,7 +2562,8 @@ class MonitoringController extends Controller
                             // ->where('atts.terlambat','!=','00:00:00')  
                             ->where('atts.tanggal_att','!=',$tanggalexception)
                             ->select(
-                                DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as data')
+                                DB::raw('ROUND(count(if (atts.terlambat != "00:00:00",1,null)) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                        ,2) as data')
                             )
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
