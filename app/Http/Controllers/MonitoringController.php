@@ -2147,7 +2147,6 @@ class MonitoringController extends Controller
             $bulan=$tanggal3[1];
             $tahun=$tanggal3[0];
 
-            dd($tahun);
 
             array_push($datasets,$tanggal2);
 
