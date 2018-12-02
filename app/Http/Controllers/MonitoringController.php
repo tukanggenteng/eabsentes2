@@ -2179,10 +2179,10 @@ class MonitoringController extends Controller
                         ->first();          
                         
                         
-            dd($tanpakabar->tanpakabar);
+            // dd($tanpakabar->tanpakabar);
 
             //$subdata['tanpakabar']=$tanpakabar;
-            array_push($data['tanpakabar'],$tanpakabar[0]['tanpakabar']);
+            array_push($data['tanpakabar'],$tanpakabar->tanpakabar);
         }
         
 
@@ -2208,10 +2208,16 @@ class MonitoringController extends Controller
                             // ->where('atts.jenisabsen_id','!=','13')
                             // ->where('atts.jenisabsen_id','!=','11')
                             // ->where('atts.jenisabsen_id','!=','9')
-                            ->count();
+                            ->select(
+                                DB::raw('
+                                    count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))
+                                    
+                                 as harikerja')
+                            )
+                            ->first();
             // dd($tanpakabar);
             //$subdata['tanpakabar']=$tanpakabar;
-            array_push($data['harikerja'],$tanpakabar);
+            array_push($data['harikerja'],$tanpakabar->harikerja);
         }
 
         $data['ijin']=[];
@@ -2246,11 +2252,18 @@ class MonitoringController extends Controller
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
-                            ->where('atts.jenisabsen_id','=','3')
+                            // ->where('atts.jenisabsen_id','=','3')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "3",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['ijin'],$count);
+                            ->first();
+            array_push($data['ijin'],$count->data);
         }
         
         $data['hadir']=[];
@@ -2285,11 +2298,18 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
-                            ->where('atts.jenisabsen_id','=','1')
+                            // ->where('atts.jenisabsen_id','=','1')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            
+                            
+                            ->select(
+                                DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as data')
+                            )
 
-                            ->count();
-            array_push($data['hadir'],$count);
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+
+                            ->first();
+            array_push($data['hadir'],$count->data);
         }
 
 
@@ -2325,11 +2345,18 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
-                            ->where('atts.jenisabsen_id','=','10')
+                            // ->where('atts.jenisabsen_id','=','10')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "10",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['ijinterlambat'],$count);
+                            ->first();
+            array_push($data['ijinterlambat'],$count->data);
         }
 
         $data['sakit']=[];
@@ -2364,11 +2391,18 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
-                            ->where('atts.jenisabsen_id','=','5')
+                            // ->where('atts.jenisabsen_id','=','5')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "5",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['sakit'],$count);
+                            ->first();
+            array_push($data['sakit'],$count->data);
         }
 
         $data['tl']=[];
@@ -2402,11 +2436,18 @@ class MonitoringController extends Controller
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
-                            ->where('atts.jenisabsen_id','=','7')
+                            // ->where('atts.jenisabsen_id','=','7')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "7",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['tl'],$count);
+                            ->first();
+            array_push($data['tl'],$count->data);
         }
 
 
@@ -2442,11 +2483,17 @@ class MonitoringController extends Controller
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
-                            ->where('atts.jenisabsen_id','=','6')
+                            // ->where('atts.jenisabsen_id','=','6')
                             ->where('atts.tanggal_att','!=',$tanggalexception)
-
-                            ->count();
-            array_push($data['tb'],$count);
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "6",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                            ->first();
+            array_push($data['tb'],$count->data);
         }
 
         $data['terlambat']=[];
@@ -2480,11 +2527,15 @@ class MonitoringController extends Controller
                             ->where('pegawais.instansi_id','=',$instansi)
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
-                            ->where('atts.terlambat','!=','00:00:00')  
+                            // ->where('atts.terlambat','!=','00:00:00')  
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['terlambat'],$count);
+                            ->first();
+            array_push($data['terlambat'],$count->data);
         }
 
         $data['keperluanlain']=[];
@@ -2518,11 +2569,18 @@ class MonitoringController extends Controller
                             ->where('pegawais.instansi_id','=',$instansi)
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
-                            ->where('atts.jenisabsen_id','=','8')  
+                            // ->where('atts.jenisabsen_id','=','8')  
                             ->where('atts.tanggal_att','!=',$tanggalexception)
+                            ->select(
+                                DB::raw('ROUND(
+                                    (count(if (atts.jenisabsen_id = "8",1,null)) ) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
+                                    
+                                ,2) as data')
+                            )
+                            // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
-                            ->count();
-            array_push($data['keperluanlain'],$count);
+                            ->first();
+            array_push($data['keperluanlain'],$count->data);
         }
             
 
@@ -2557,18 +2615,23 @@ class MonitoringController extends Controller
             $count=  att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
                                     ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
                                     ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-                                    ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
-                                    ->whereNull('atts.jam_keluar')
-                                    ->whereNotNull('atts.jam_masuk')
+                                    // ->where('atts.jam_keluar', '<', 'jadwalkerjas.jam_keluarjadwal')
+                                    // ->whereNull('atts.jam_keluar')
+                                    // ->whereNotNull('atts.jam_masuk')
                                     ->whereMonth('atts.tanggal_att','=',$bulan)
                                     ->whereYear('atts.tanggal_att','=',$tahun)
-                                    ->where('atts.jenisabsen_id', '=', '1')
+                                    // ->where('atts.jenisabsen_id', '=', '1')
                                     ->where('pegawais.instansi_id','=',$instansi)
-                                    ->whereNotNull('atts.jam_masuk')
+                                    // ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.tanggal_att','!=',$tanggalexception)
+                                    ->select(
+                                        DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as data')
 
-                                    ->count();
-            array_push($data['pulangcepat'],$count);
+                                    )
+                                    // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+     
+                                    ->first();
+            array_push($data['pulangcepat'],$count->data);
         }
 
         $data['apel']=[];
@@ -2588,32 +2651,23 @@ class MonitoringController extends Controller
                         ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                         ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                         ->select(
-                                DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan')
-                        )
-                        ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
+                            DB::raw('ROUND(
+                                ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
+                                
+                            ,2) as persentase_apel')
+                            )
+                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+
+                        // ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
                         // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
                         ->where('pegawais.instansi_id','=',$instansi)
                         ->where('atts.tanggal_att','!=',$tanggalexception)
-                        ->get();
-            // dd($count[0]['apel_bulanan']);
-               
-            // $count=  att::join('pegawais', 'atts.pegawai_id', '=', 'pegawais.id')
-            //                         ->join('rulejadwalpegawais', 'atts.pegawai_id', '=', 'rulejadwalpegawais.pegawai_id')
-            //                         ->join('jadwalkerjas', 'rulejadwalpegawais.jadwalkerja_id', '=', 'jadwalkerjas.id')
-            //                         ->whereMonth('atts.tanggal_att','=',$bulan)
-            //                         ->whereYear('atts.tanggal_att','=',$tahun)
-            //                         ->where('pegawais.instansi_id','=',$instansi)
-            //                         // ->where('atts.jenisabsen_id','=',1)
-            //                         // ->where('atts.jenisabsen_id','!=',2)
-            //                         // ->where('atts.jenisabsen_id','!=',9)
-            //                         // ->where('atts.jenisabsen_id','!=',11)
-            //                         ->where('atts.apel','=',"1")
-            //                         // ->where('atts.jenisabsen_id',$tanpaabsen)
-            //                         ->count();
-            array_push($data['apel'],$count[0]['apel_bulanan']);
+                        ->first();
+            
+            array_push($data['apel'],$count->persentase_apel);
         }
         $data['datasets']=$datasets;
         $data['pegawai']=pegawai::where('instansi_id','=',$instansi)->count();
