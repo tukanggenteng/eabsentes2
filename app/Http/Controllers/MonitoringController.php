@@ -2818,7 +2818,7 @@ class MonitoringController extends Controller
                         // ->whereMonth('atts.tanggal_att','=',$bulan)
                         // ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','=',$tanggal_now)
-                        ->where('atts.tanggal_att','!=',$tanggalexception)
+                        // ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
 
