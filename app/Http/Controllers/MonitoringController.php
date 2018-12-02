@@ -2177,7 +2177,10 @@ class MonitoringController extends Controller
                             ,2) as tanpakabar')
                         )
                         ->first();          
-                        
+                   
+            if ($tanpakabar->tanpakabar==null){
+                $tanpakabar->tanpakabar=0;
+            }     
                         
             // dd($tanpakabar->tanpakabar);
 
@@ -2216,11 +2219,16 @@ class MonitoringController extends Controller
                             ->first();
             // dd($tanpakabar);
             //$subdata['tanpakabar']=$tanpakabar;
+
+            if ($tanpakabar->harikerja==null){
+                $tanpakabar->harikerja=0;
+            }     
+
             array_push($data['harikerja'],$tanpakabar->harikerja);
         }
 
         $data['ijin']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
@@ -2262,11 +2270,16 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
+            
             array_push($data['ijin'],$count->data);
         }
         
         $data['hadir']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
@@ -2306,7 +2319,7 @@ class MonitoringController extends Controller
                             ->first();
 
             if ($count->data==null){
-                dd($count->data." ".$bulan);
+                $count->data=0;
             }                    
                             // dd($count);
             array_push($data['hadir'],$count->data);
@@ -2356,6 +2369,11 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
+
             array_push($data['ijinterlambat'],$count->data);
         }
 
@@ -2402,6 +2420,10 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
             array_push($data['sakit'],$count->data);
         }
 
@@ -2447,6 +2469,10 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
             array_push($data['tl'],$count->data);
         }
 
@@ -2493,6 +2519,11 @@ class MonitoringController extends Controller
                             )
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
+
             array_push($data['tb'],$count->data);
         }
 
@@ -2535,6 +2566,11 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
+
             array_push($data['terlambat'],$count->data);
         }
 
@@ -2580,6 +2616,10 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
             array_push($data['keperluanlain'],$count->data);
         }
             
@@ -2631,6 +2671,11 @@ class MonitoringController extends Controller
                                     // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
      
                                     ->first();
+
+            if ($count->data==null){
+                $count->data=0;
+            }     
+
             array_push($data['pulangcepat'],$count->data);
         }
 
@@ -2667,6 +2712,10 @@ class MonitoringController extends Controller
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->first();
             
+            if ($count->data==null){
+                $count->data=0;
+            }     
+
             array_push($data['apel'],$count->persentase_apel);
         }
         $data['datasets']=$datasets;
