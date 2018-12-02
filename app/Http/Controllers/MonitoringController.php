@@ -2714,8 +2714,8 @@ class MonitoringController extends Controller
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->first();
             
-            if ($count->data==null){
-                $count->data=0;
+            if ($count->persentase_apel==null){
+                $count->persentase_apel=0;
             }     
 
             array_push($data['apel'],$count->persentase_apel);
