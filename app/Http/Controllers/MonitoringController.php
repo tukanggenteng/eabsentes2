@@ -2773,7 +2773,7 @@ class MonitoringController extends Controller
     
 
 
-        $data=$data->limit(150)->get();
+        $data=$data->get();
 
 
         return $data;                
