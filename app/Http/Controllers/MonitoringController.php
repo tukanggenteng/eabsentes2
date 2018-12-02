@@ -2758,14 +2758,13 @@ class MonitoringController extends Controller
                         ->select(
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
-                                'instansis.namaInstansi',
-                                DB::raw('ROUND(count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) / count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) * 100
-                                ,2) as data')
+                                'instansis.namaInstansi'
                         )
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','!=',$tanggalexception)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
 
     
@@ -2810,17 +2809,16 @@ class MonitoringController extends Controller
                         ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                         ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                         ->select(
-                                'pegawais.id',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
-                                'instansis.namaInstansi',
-                                'pegawais.instansi_id'
+                                'instansis.namaInstansi'
                         )
-                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         // ->whereMonth('atts.tanggal_att','=',$bulan)
                         // ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','=',$tanggal_now)
                         ->where('atts.tanggal_att','!=',$tanggalexception)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
 
     
@@ -2875,6 +2873,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->orderBy($order,$metode);
 
@@ -2930,11 +2929,12 @@ class MonitoringController extends Controller
                                 'instansis.namaInstansi',
                                 'pegawais.instansi_id'
                         )
-                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         // ->whereMonth('atts.tanggal_att','=',$bulan)
                         // ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->where('atts.tanggal_att','=',$tanggal_now)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$metode);
 
     
