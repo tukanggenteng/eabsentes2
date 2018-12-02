@@ -205,7 +205,8 @@ class Controller extends BaseController
         }
     }
 
-    protected function jam_masuk($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint){
+    protected function jam_masuk($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint)
+    {
         $table=attendancecheck::where('tanggalcheckattendance','=',$tanggal_fingerprint)
                     ->count();
         //dd("sd");
@@ -2037,7 +2038,8 @@ class Controller extends BaseController
                                 }
                             }
                         }
-                        else{
+                        else
+                        {
                             $harike=date('N', strtotime($tanggal_fingerprint));
                             if (($harike==5) && ($table2[0]['sifat']=="WA") )
                             {

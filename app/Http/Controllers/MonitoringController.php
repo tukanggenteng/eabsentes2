@@ -18,6 +18,11 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class MonitoringController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:100,1');
+    }
+
     //untuk grafik harin
     public function grafikmonitoringharian()
     {
@@ -897,6 +902,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->orderBy($order,$request->metode)
                         ->paginate(50);
 
@@ -1484,6 +1490,7 @@ class MonitoringController extends Controller
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->orderBy($order,$request->metode)
                         ->where('pegawais.id','=',$id)
+                        ->whereNotNull('pegawais.instansi_id')
                         ->paginate(50);
 
         
@@ -2123,6 +2130,9 @@ class MonitoringController extends Controller
         $instansi=$request->instansi_id;
         $data=array();
         //dd($tanggal);
+        $tanggalexception=date('Y-m-d');
+
+
         $datasets=array();
         $data['tanpakabar']=[];
         for ($i=0;$i<=12;$i++)
@@ -2157,6 +2167,7 @@ class MonitoringController extends Controller
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('pegawais.instansi_id','=',$instansi)  
                         ->where('atts.jenisabsen_id','=','2')
+                        ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->count();            
                         
 
@@ -2182,6 +2193,7 @@ class MonitoringController extends Controller
             $tanpakabar= att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
                             ->where('pegawais.instansi_id','=',$instansi)  
                             // ->where('atts.jenisabsen_id','!=','13')
                             // ->where('atts.jenisabsen_id','!=','11')
@@ -2225,6 +2237,8 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('atts.jenisabsen_id','=','3')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['ijin'],$count);
         }
@@ -2262,6 +2276,8 @@ class MonitoringController extends Controller
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->where('atts.jenisabsen_id','=','1')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['hadir'],$count);
         }
@@ -2300,6 +2316,8 @@ class MonitoringController extends Controller
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->where('atts.jenisabsen_id','=','10')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['ijinterlambat'],$count);
         }
@@ -2337,6 +2355,8 @@ class MonitoringController extends Controller
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('pegawais.instansi_id','=',$instansi)  
                             ->where('atts.jenisabsen_id','=','5')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['sakit'],$count);
         }
@@ -2373,6 +2393,8 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('atts.jenisabsen_id','=','7')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['tl'],$count);
         }
@@ -2410,6 +2432,8 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('atts.jenisabsen_id','=','6')
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['tb'],$count);
         }
@@ -2446,6 +2470,8 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('atts.terlambat','!=','00:00:00')  
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['terlambat'],$count);
         }
@@ -2482,6 +2508,8 @@ class MonitoringController extends Controller
                             ->whereMonth('atts.tanggal_att','=',$bulan)
                             ->whereYear('atts.tanggal_att','=',$tahun)
                             ->where('atts.jenisabsen_id','=','8')  
+                            ->where('atts.tanggal_att','!=',$tanggalexception)
+
                             ->count();
             array_push($data['keperluanlain'],$count);
         }
@@ -2526,6 +2554,8 @@ class MonitoringController extends Controller
                                     ->where('atts.jenisabsen_id', '=', '1')
                                     ->where('pegawais.instansi_id','=',$instansi)
                                     ->whereNotNull('atts.jam_masuk')
+                                    ->where('atts.tanggal_att','!=',$tanggalexception)
+
                                     ->count();
             array_push($data['pulangcepat'],$count);
         }
@@ -2555,6 +2585,7 @@ class MonitoringController extends Controller
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
                         ->where('pegawais.instansi_id','=',$instansi)
+                        ->where('atts.tanggal_att','!=',$tanggalexception)
                         ->get();
             // dd($count[0]['apel_bulanan']);
                
@@ -2580,7 +2611,7 @@ class MonitoringController extends Controller
     }
 
 
-    public function api_monitoring_instansi_kehadiran(Request $request)
+    public function api_monitoring_instansi_bulan_kehadiran(Request $request)
     {
 
         if ($request->tanggal=="")
@@ -2613,10 +2644,6 @@ class MonitoringController extends Controller
                                 'pegawais.id',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                                 DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
-                                DB::raw('ROUND(
-                                    ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
-                                    
-                                ,2) as persentase_apel'),
                                 'instansis.namaInstansi',
                                 'pegawais.instansi_id'
                         )
@@ -2636,7 +2663,62 @@ class MonitoringController extends Controller
         
     }
 
-    public function api_monitoring_instansi_apel(Request $request)
+    public function api_monitoring_instansi_hari_kehadiran(Request $request)
+    {
+
+        if ($request->tanggal=="")
+        {
+            $tanggal=date("Y-m");
+        }
+        else
+        {
+            $tanggal=date("Y-m",strtotime($request->tanggal));
+        }
+
+        
+        $pecah=explode("-",$tanggal);
+        $bulan=$pecah[1];
+        $tahun=$pecah[0];
+        // $request->tanggal=$tanggal;
+
+
+        $jenis_absen=22;
+        $order='persentase_kehadiran';
+
+        $metode='asc';
+
+        $tanggalexception=date('Y-m-d');
+
+        $tanggal_now=date('Y-m-d');
+       
+        $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                        ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                        ->select(
+                                'pegawais.id',
+                                DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                                DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
+                                'instansis.namaInstansi',
+                                'pegawais.instansi_id'
+                        )
+                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        // ->whereMonth('atts.tanggal_att','=',$bulan)
+                        // ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','=',$tanggal_now)
+                        ->where('atts.tanggal_att','!=',$tanggalexception)
+                        ->orderBy($order,$metode);
+
+    
+
+
+        $data=$data->limit(150)->get();
+
+
+        return $data;                
+        
+    }
+
+    public function api_monitoring_instansi_bulan_apel(Request $request)
     {
 
         if ($request->tanggal=="")
@@ -2668,7 +2750,6 @@ class MonitoringController extends Controller
                         ->select(
                                 'pegawais.id',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                                DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
                                 DB::raw('ROUND(
                                     ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
                                     
@@ -2691,4 +2772,65 @@ class MonitoringController extends Controller
         return $data;                
         
     }
+
+    public function api_monitoring_instansi_hari_apel(Request $request)
+    {
+
+        if ($request->tanggal=="")
+        {
+            $tanggal=date("Y-m");
+        }
+        else
+        {
+            $tanggal=date("Y-m",strtotime($request->tanggal));
+        }
+
+        
+        $pecah=explode("-",$tanggal);
+        $bulan=$pecah[1];
+        $tahun=$pecah[0];
+        // $request->tanggal=$tanggal;
+
+
+        $jenis_absen=22;
+        $order='persentase_apel';
+
+        $metode='asc';
+
+        $tanggalexception=date('Y-m-d');
+
+        $tanggal_now=date('Y-m-d');
+
+       
+        $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+                        ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
+                        ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
+                        ->select(
+                                'pegawais.id',
+                                DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                                DB::raw('ROUND(
+                                    ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
+                                    
+                                ,2) as persentase_apel'),
+                                'instansis.namaInstansi',
+                                'pegawais.instansi_id'
+                        )
+                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        // ->whereMonth('atts.tanggal_att','=',$bulan)
+                        // ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','!=',$tanggalexception)
+                        ->where('atts.tanggal_att','=',$tanggal_now)
+                        ->orderBy($order,$metode);
+
+    
+
+
+        $data=$data->limit(150)->get();
+
+
+        return $data;                
+        
+    }
+
+
 }   
