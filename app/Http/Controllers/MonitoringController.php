@@ -2570,7 +2570,7 @@ class MonitoringController extends Controller
                             ->first();
 
             if ($count->data==null){
-                $count->data=0;
+                $count->data=floatval(0);
             }     
 
             array_push($data['terlambat'],$count->data);
