@@ -2132,7 +2132,7 @@ class MonitoringController extends Controller
         //dd($tanggal);
         $tanggalexception=date('Y-m-d');
         
-    
+        dd($tanggal);
 
         $datasets=array();
         $data['tanpakabar']=[];
