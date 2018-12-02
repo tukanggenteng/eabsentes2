@@ -2173,7 +2173,7 @@ class MonitoringController extends Controller
                         ->select(
                             
 
-                            DB::raw('( (count(atts.id) * 100
+                            DB::raw(' (count(atts.id) * 100
                             ) as tanpakabar')
                         )
                         ->get();          
