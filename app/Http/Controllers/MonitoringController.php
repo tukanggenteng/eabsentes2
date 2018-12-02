@@ -2763,7 +2763,7 @@ class MonitoringController extends Controller
                                 'instansis.namaInstansi',
                                 'pegawais.instansi_id'
                         )
-                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
+                        // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->where('atts.tanggal_att','!=',$tanggalexception)
