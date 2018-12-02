@@ -2307,6 +2307,7 @@ class MonitoringController extends Controller
                             // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
 
                             ->first();
+                            dd($count)
             array_push($data['hadir'],$count->data);
         }
 
