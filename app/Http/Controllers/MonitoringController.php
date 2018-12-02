@@ -2179,11 +2179,11 @@ class MonitoringController extends Controller
         
 
         $data['harikerja']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m-d",strtotime($i-$angka." months",strtotime($tanggal)));
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
 
             $tanggal3=explode("-",$tanggal2);
 
@@ -2211,7 +2211,7 @@ class MonitoringController extends Controller
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
             
             $tanggal3=explode("-",$tanggal2);
 
@@ -2250,8 +2250,8 @@ class MonitoringController extends Controller
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2286,12 +2286,12 @@ class MonitoringController extends Controller
 
 
         $data['ijinterlambat']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2325,12 +2325,12 @@ class MonitoringController extends Controller
         }
 
         $data['sakit']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2364,12 +2364,12 @@ class MonitoringController extends Controller
         }
 
         $data['tl']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2403,12 +2403,13 @@ class MonitoringController extends Controller
 
 
         $data['tb']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2441,12 +2442,12 @@ class MonitoringController extends Controller
         }
 
         $data['terlambat']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2479,12 +2480,12 @@ class MonitoringController extends Controller
         }
 
         $data['keperluanlain']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2518,12 +2519,12 @@ class MonitoringController extends Controller
             
 
         $data['pulangcepat']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
@@ -2563,12 +2564,12 @@ class MonitoringController extends Controller
         }
 
         $data['apel']=[];
-        for ($i=0;$i<=12;$i++)
+        for ($i=0;$i<=11;$i++)
         {
             $subdata=array();
             $angka=12;
-            $tanggal2=date("Y-m",strtotime($i-$angka." months",strtotime($tanggal)));
-            
+            $tanggal2=date("Y-m",strtotime($i." months",strtotime($tanggal)));
+
             $tanggal3=explode("-",$tanggal2);
 
             $bulan=$tanggal3[1];
