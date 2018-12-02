@@ -2796,7 +2796,8 @@ class MonitoringController extends Controller
         // $bulan=$pecah[1];
         // $tahun=$pecah[0];
         // $request->tanggal=$tanggal;
-
+        
+        dd($tanggal_now);
 
         $jenis_absen=22;
         $order='persentase_kehadiran';
