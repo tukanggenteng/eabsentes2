@@ -2793,7 +2793,7 @@ class MonitoringController extends Controller
 
         
         $pecah=explode("-",$tanggal_now);
-        $tanggal=$pecah[0]
+        $tanggal=$pecah[0];
         $bulan=$pecah[1];
         $tahun=$pecah[2];
         // $request->tanggal=$tanggal;
