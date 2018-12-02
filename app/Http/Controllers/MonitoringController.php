@@ -2176,10 +2176,10 @@ class MonitoringController extends Controller
                                 
                             ,2) as tanpakabar')
                         )
-                        ->get();          
+                        ->first();          
                         
                         
-            dd($tanpakabar);
+            dd($tanpakabar->tanpakabar);
 
             //$subdata['tanpakabar']=$tanpakabar;
             array_push($data['tanpakabar'],$tanpakabar[0]['tanpakabar']);
