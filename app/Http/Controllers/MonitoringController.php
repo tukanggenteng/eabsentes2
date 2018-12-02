@@ -2476,7 +2476,7 @@ class MonitoringController extends Controller
             array_push($data['terlambat'],$count);
         }
 
-        $data['rapat']=[];
+        $data['keperluanlain']=[];
         for ($i=0;$i<=12;$i++)
         {
             $subdata=array();
