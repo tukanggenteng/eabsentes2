@@ -2730,7 +2730,7 @@ class MonitoringController extends Controller
     public function api_monitoring_instansi_bulan_kehadiran(Request $request)
     {
 
-        if ($request->tanggal=="")
+        if (($request->tanggal=="") || ($request->tanggal==null)) 
         {
             $tanggal=date("m-Y");
         }
