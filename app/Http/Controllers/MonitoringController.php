@@ -2770,7 +2770,7 @@ class MonitoringController extends Controller
     
 
 
-        $data=$data->get();
+        $data=$data->limit(15)->get();
 
 
         return $data;                
@@ -2825,7 +2825,7 @@ class MonitoringController extends Controller
     
 
 
-        $data=$data->limit(150)->get();
+        $data=$data->limit(15)->get();
 
 
         return $data;                
@@ -2881,7 +2881,7 @@ class MonitoringController extends Controller
     
 
 
-        $data=$data->limit(150)->get();
+        $data=$data->limit(15)->get();
 
 
         return $data;                
@@ -2941,7 +2941,7 @@ class MonitoringController extends Controller
     
 
 
-        $data=$data->limit(150)->get();
+        $data=$data->limit(15)->get();
 
 
         return $data;                
