@@ -2732,11 +2732,11 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("m/Y");
+            $tanggal=date("m-Y");
         }
         else
         {
-            $tanggal=date("m/Y",strtotime($request->tanggal));
+            $tanggal=date("Y-m",strtotime($request->tanggal));
         }
 
         
@@ -2782,12 +2782,12 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal_now=date('d/m/Y');
+            $tanggal_now=date('d-m-Y');
 
         }
         else
         {
-            $tanggal_now=date("d/m/Y",strtotime($request->tanggal));
+            $tanggal_now=date("d-m-Y",strtotime($request->tanggal));
 
         }
 
@@ -2837,11 +2837,11 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("m/Y");
+            $tanggal=date("m-Y");
         }
         else
         {
-            $tanggal=date("m/Y",strtotime($request->tanggal));
+            $tanggal=date("m-Y",strtotime($request->tanggal));
         }
 
         
@@ -2894,12 +2894,12 @@ class MonitoringController extends Controller
         if ($request->tanggal=="")
         {
             // $tanggal=date("Y-m");
-            $tanggal_now=date('d/m/Y');
+            $tanggal_now=date('d-m-Y');
 
         }
         else
         {
-            $tanggal_now=date("d/m/Y",strtotime($request->tanggal));
+            $tanggal_now=date("d-m-Y",strtotime($request->tanggal));
             // $tanggal_now=date('Y-m-d');
 
         }
