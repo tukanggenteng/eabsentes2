@@ -48,7 +48,7 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 */
 
 
-header("Access-Control-Allow-Origin: http://localhost");
+header("Access-Control-Allow-Origin: '*' ");
 header("Access-Controll-Allow-Methods", "POST");
 header("Access-Controll-Allow-Methods", "GET");
 
