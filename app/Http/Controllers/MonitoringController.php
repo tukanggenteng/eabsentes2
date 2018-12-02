@@ -2736,13 +2736,13 @@ class MonitoringController extends Controller
         }
         else
         {
-            $tanggal=date("Y-m",strtotime($request->tanggal));
+            $tanggal=date("m-Y",strtotime($request->tanggal));
         }
 
         
         $pecah=explode("-",$tanggal);
-        $bulan=$pecah[1];
-        $tahun=$pecah[0];
+        $bulan=$pecah[0];
+        $tahun=$pecah[1];
         // $request->tanggal=$tanggal;
 
 
