@@ -2625,9 +2625,7 @@ class MonitoringController extends Controller
                                     // ->whereNotNull('atts.jam_masuk')
                                     ->where('atts.tanggal_att','!=',$tanggalexception)
                                     ->select(
-                                        DB::raw('
-                                            count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,0))
-                                             as data')
+                                        DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,0)) as data')
 
                                     )
                                     // ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
