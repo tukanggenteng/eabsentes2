@@ -2136,7 +2136,7 @@ class MonitoringController extends Controller
 
         $datasets=array();
         $data['tanpakabar']=[];
-        for ($i=1;$i<=12;$i++)
+        for ($i=0;$i<=12;$i++)
         {
             $subdata=array();
             $angka=12;
