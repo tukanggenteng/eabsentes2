@@ -2732,17 +2732,17 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("Y-m");
+            $tanggal=date("m/Y");
         }
         else
         {
-            $tanggal=date("Y-m",strtotime($request->tanggal));
+            $tanggal=date("m/Y",strtotime($request->tanggal));
         }
 
         
         $pecah=explode("-",$tanggal);
-        $bulan=$pecah[1];
-        $tahun=$pecah[0];
+        $bulan=$pecah[0];
+        $tahun=$pecah[1];
         // $request->tanggal=$tanggal;
 
 
@@ -2751,7 +2751,7 @@ class MonitoringController extends Controller
 
         $metode='asc';
 
-        $tanggalexception=date('Y-m-d');
+        $tanggalexception=date('d-m-Y');
        
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
                         ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
@@ -2782,17 +2782,19 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("Y-m");
+            $tanggal_now=date('d/m/Y');
+
         }
         else
         {
-            $tanggal=date("Y-m",strtotime($request->tanggal));
+            $tanggal_now=date("d/m/Y",strtotime($request->tanggal));
+
         }
 
         
-        $pecah=explode("-",$tanggal);
-        $bulan=$pecah[1];
-        $tahun=$pecah[0];
+        // $pecah=explode("-",$tanggal);
+        // $bulan=$pecah[1];
+        // $tahun=$pecah[0];
         // $request->tanggal=$tanggal;
 
 
@@ -2801,9 +2803,8 @@ class MonitoringController extends Controller
 
         $metode='asc';
 
-        $tanggalexception=date('Y-m-d');
+        $tanggalexception=date('d-m-Y');
 
-        $tanggal_now=date('Y-m-d');
        
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
                         ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
@@ -2836,17 +2837,17 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("Y-m");
+            $tanggal=date("m/Y");
         }
         else
         {
-            $tanggal=date("Y-m",strtotime($request->tanggal));
+            $tanggal=date("m/Y",strtotime($request->tanggal));
         }
 
         
         $pecah=explode("-",$tanggal);
-        $bulan=$pecah[1];
-        $tahun=$pecah[0];
+        $bulan=$pecah[0];
+        $tahun=$pecah[1];
         // $request->tanggal=$tanggal;
 
 
@@ -2855,7 +2856,7 @@ class MonitoringController extends Controller
 
         $metode='asc';
 
-        $tanggalexception=date('Y-m-d');
+        $tanggalexception=date('d-m-Y');
        
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
                         ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
@@ -2892,17 +2893,18 @@ class MonitoringController extends Controller
 
         if ($request->tanggal=="")
         {
-            $tanggal=date("Y-m");
+            // $tanggal=date("Y-m");
+            $tanggal_now=date('d/m/Y');
+
         }
         else
         {
-            $tanggal=date("Y-m",strtotime($request->tanggal));
+            $tanggal_now=date("d/m/Y",strtotime($request->tanggal));
+            // $tanggal_now=date('Y-m-d');
+
         }
 
         
-        $pecah=explode("-",$tanggal);
-        $bulan=$pecah[1];
-        $tahun=$pecah[0];
         // $request->tanggal=$tanggal;
 
 
@@ -2911,9 +2913,8 @@ class MonitoringController extends Controller
 
         $metode='asc';
 
-        $tanggalexception=date('Y-m-d');
+        $tanggalexception=date('d-m-Y');
 
-        $tanggal_now=date('Y-m-d');
 
        
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
