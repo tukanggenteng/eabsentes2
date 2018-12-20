@@ -263,8 +263,8 @@
                     { data: 'username', name: 'username' },
                     { data: 'email', name: 'email' },
                     { data: 'name', name: 'name' },
-                    { data: 'role.namaRole', name: 'namaRole' },
-                    { data: 'instansi.namaInstansi', name: 'namaInstansi' },
+                    { data: 'namaRole', name: 'namaRole' },
+                    { data: 'namaInstansi', name: 'namaInstansi' },
                     {data:'action'}
                 ]
             });

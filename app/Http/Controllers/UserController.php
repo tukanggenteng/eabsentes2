@@ -51,7 +51,10 @@ class UserController extends Controller
     }
 
     public function data(){
-        $users=User::leftJoin('instansis','users.instansi_id','=','instansis.id')->leftJoin('roles','users.role_id','=','roles.id')->get();
+        $users=User::leftJoin('instansis','users.instansi_id','=','instansis.id')
+                    ->leftJoin('roles','users.role_id','=','roles.id')
+                    ->select('users.*','instansis.namaInstansi','roles.namaRole')
+                    ->get();
        return Datatables::of($users)
            ->addColumn('action', function ($users) {
                return '<button type="button" class="modal_edit btn btn-success btn-sm" data-toggle="modal" data-username="'.$users->username.'" data-email="'.$users->email.'" data-instansi="'.$users->instansi_id.'" data-role="'.$users->role_id.'" data-nama="'.$users->name.'" data-id="'.$users->id.'" data-target="#modal_edit">Edit</button>
