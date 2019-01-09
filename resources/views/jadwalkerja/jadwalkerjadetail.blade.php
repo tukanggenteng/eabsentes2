@@ -79,12 +79,11 @@
                                             </div>
                                             <input id="bataspulang" readonly name="bataspulang" class="form-control pull-right" type="text">
                                         </div>
+                                        <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="hidden" value="{{$jadwalkerjaid}}">
+
                                         {{csrf_field()}}
                                     </div>
-                                    <div class="form-group">
-                                        <label>Jenis Jadwal</label>
-                                        <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="text" value="{{$jadwalkerjaid}}">
-                                    </div>
+                                    
                                     <!-- /.form-group -->
                                 </div>
                             </div>
@@ -98,7 +97,7 @@
                         <!-- /.row -->
                     </div>
                 </div>
-                
+
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title">Atur Jam Kerja</h3>
