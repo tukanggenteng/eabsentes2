@@ -131,8 +131,18 @@ class JadwalKerjaController extends Controller
         $user->instansi_id = $request->instansi_id[0];
         $user->save();
         // dd("tes");
-        return redirect()->back()->with('status','Jadwal kerja berhasil disimpan.');
+        return redirect('/jadwalkerja/'.$user->id.'/detail')->with('status','Jadwal kerja berhasil disimpan.');
 
+    }
+
+    public function detailjadwalkerja($id)
+    {
+        $id= decrypt($id);
+
+        $jadwalkerja= jadwalkerja::leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
+        ->select('jadwalkerjas.*','instansis.namaInstansi')->where('jadwalkerjas.id','=',$id)->first();
+
+        return view('jadwalkerja.jadwalkerjadetail',['jadwalkerja'=>$jadwalkerja]);
     }
 
     public function editshow($id){
@@ -214,10 +224,8 @@ class JadwalKerjaController extends Controller
             'jadwalkerjaminggu'=>'required',
             'checkbox2'=>'required'
         ]);
-            // dd($request->checkbox2);
-
+          
         foreach ($request->checkbox2 as $key=> $data){
-        //    dd($data);
             $user = new jadwalminggu();
             $user->minggu = $data;
             $user->jadwalkerja_id = $request->jadwalkerjaminggu;

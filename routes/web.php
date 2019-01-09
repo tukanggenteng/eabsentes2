@@ -395,6 +395,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/jadwalkerja/{id}/edit','JadwalKerjaController@editshow');
       Route::put('/jadwalkerja/{id}','JadwalKerjaController@editstore');
       Route::get('/jadwalkerja/{id}/hapus','JadwalKerjaController@deletestore');
+      Route::get('/jadwalkerja/{id}/detail','JadwalKerjaController@detailjadwalkerja');
       Route::get('/jadwalkerja/cari','JadwalKerjaController@cari')->name('carijadwal');
       Route::get('/jadwalkerja/datatable/jadwalkerja','JadwalKerjaController@jadwalkerjadatatable')->name('jadwalkerjadatatable');
       Route::get('/jadwalkerja/datatable/rulejadwalkerja','JadwalKerjaController@rulejadwalkerjadatatable')->name('rulejadwalkerjadatatable');
