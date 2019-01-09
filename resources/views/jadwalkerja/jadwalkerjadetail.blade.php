@@ -156,7 +156,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Sifat</label>
+                                        <label>Sifat : </label>
                                         {{$jadwalkerja->sifat}}
                                     </div>
                                 </div>
@@ -164,8 +164,12 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Lewat Hari</label>
-                                        {{$jadwalkerja->lewathari}}
+                                        <label>Lewat Hari : </label>
+                                        @if $jadwalkerja->lewathari == "1"
+                                            Ya
+                                        @else
+                                            Tidak
+                                        @endif
                                     </div>
                                 </div>
                             </div>
