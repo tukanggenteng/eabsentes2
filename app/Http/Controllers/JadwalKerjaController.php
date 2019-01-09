@@ -195,6 +195,17 @@ class JadwalKerjaController extends Controller
     public function deletestore($id){
         $id = decrypt($id);
         $table=jadwalkerja::find($id);
+
+        $tablerule=rulejammasuk::where('jadwalkerja_id','=',$id)->count();
+
+        if ($tablerule>0)
+        {
+            $tablerule2=rulejammasuk::where('jadwalkerja_id','=',$id)->first();
+            $tablerule2->delete();
+
+        }
+
+
         $table->delete();
         return redirect('/jadwalkerja');
     }
