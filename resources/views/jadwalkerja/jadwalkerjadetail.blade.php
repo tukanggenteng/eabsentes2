@@ -127,6 +127,7 @@
                                         <input readonly type="hidden" name="classcolor" id="classcolor">
                                         <input readonly type="hidden" name="classdata" id="classdata">
                                         <ul class="fc-color-picker" id="color-chooser">
+                                            <li><a class="text-red" data-color="bg-red" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
                                             
                                         </ul>
                                     </div>
@@ -317,6 +318,7 @@
         });
         var currColor = '{{$jadwalkerja->color}}' //Red by default
         //Color chooser button
+        $('#preview')[0].className = '{{$jadwalkerja->classdata}}';
         var colorChooser = $('#color-chooser-btn')
         $('#color-chooser > li > a').click(function (e) {
             e.preventDefault()
