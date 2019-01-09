@@ -64,6 +64,36 @@ class RuleJadwalKerja extends Controller
         return redirect('/jadwalkerja');
     }
 
+    public function storedetail(Request $request)
+    {
+        //
+        $this->validate($request, [
+            'jadwalkerjamasuk'=>'required',
+            'awalmasuk'=>'required',
+            'bataspulang'=>'required'
+        ]);
+
+
+
+        $hitung=rulejammasuk::where('jadwalkerja_id','=',$request->jadwalkerjamasuk)->count();
+
+        if ($hitung>0)
+        {
+
+        }
+        else{
+            $user = new rulejammasuk();
+            $user->jadwalkerja_id = $request->jadwalkerjamasuk;
+            $user->jamsebelum_masukkerja = $request->awalmasuk;
+            $user->jamsebelum_pulangkerja = $request->bataspulang;
+            $user->instansi_id = $request->instansi_id;
+            $user->save();
+        }
+
+        
+        return redirect('/jadwalkerja');
+    }
+
     /**
      * Display the specified resource.
      *

@@ -59,12 +59,63 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
+                        <form action="/rulejadwalkerjadetail" method="post">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Jam Mulai Masuk Kerja</label>
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input id="awalmasuk" readonly name="awalmasuk" class="form-control pull-right" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jam Batas Pulang Kerja</label>
+                                        <div class="input-group bootstrap-timepicker timepicker">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input id="bataspulang" readonly name="bataspulang" class="form-control pull-right" type="text">
+                                        </div>
+                                        {{csrf_field()}}
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis Jadwal</label>
+                                        <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="text" value="{{$jadwalkerjaid}}">
+                                    </div>
+                                    <!-- /.form-group -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-primary btn-flat">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /.col -->
+                        <!-- /.row -->
+                    </div>
+                </div>
+                
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Atur Jam Kerja</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
 
 
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Jam Masuk Kerja</label>
+                                        <label>Jam Masuk Kerja : </label>
                                         {{$jadwalkerja->jam_masukjadwal}}
                                         
                                     </div>
@@ -73,7 +124,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Jam Pulang Kerja</label>
+                                        <label>Jam Pulang Kerja : </label>
                                         {{$jadwalkerja->jam_keluarjadwal}}
                                     </div>
                                 
@@ -82,7 +133,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Jenis Jadwal</label>
+                                        <label>Jenis Jadwal : </label>
                                         {{$jadwalkerja->jenis_jadwal}}
                                     </div>
                                 </div>
@@ -90,7 +141,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Singkatan Jadwal</label>
+                                        <label>Singkatan Jadwal : </label>
                                         {{$jadwalkerja->singkatan}}
                                     </div>
                                 </div>
@@ -98,7 +149,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label>Instansi</label>
+                                        <label>Instansi : </label>
                                         {{$jadwalkerja->namaInstansi}}
                                     </div>
                                 </div>
@@ -144,56 +195,7 @@
                 
 
                 <!-- Atur Jadwal Sebelum Masuk Kerja -->
-                <div class="box box-default">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Atur Jam Kerja</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <form action="/rulejadwalkerja" method="post">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Jam Mulai Masuk Kerja</label>
-                                        <div class="input-group bootstrap-timepicker timepicker">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
-                                            <input id="awalmasuk" readonly name="awalmasuk" class="form-control pull-right" type="text">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Jam Batas Pulang Kerja</label>
-                                        <div class="input-group bootstrap-timepicker timepicker">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
-                                            <input id="bataspulang" readonly name="bataspulang" class="form-control pull-right" type="text">
-                                        </div>
-                                        {{csrf_field()}}
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Jenis Jadwal</label>
-                                        <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="text" value="{{$jadwalkerjaid}}">
-                                    </div>
-                                    <!-- /.form-group -->
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <button type="submit" class="btn btn-primary btn-flat">Submit</button>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- /.col -->
-                        <!-- /.row -->
-                    </div>
-                </div>
+                
                 <!-- /.box -->
 
 

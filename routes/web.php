@@ -406,6 +406,8 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/rulejadwalkerja/{id}/edit','RuleJadwalKerja@edit');
       Route::put('/rulejadwalkerja/{id}','RuleJadwalKerja@update');
       Route::get('/rulejadwalkerja/{id}/hapus','RuleJadwalKerja@destroy');
+      Route::post('/rulejadwalkerjadetail','RuleJadwalKerja@storedetail');
+
 
       #manajemen fingerpegawai
       Route::get('/finger','FingerPegawaiController@index');
