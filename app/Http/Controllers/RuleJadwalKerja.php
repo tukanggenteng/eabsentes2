@@ -82,11 +82,12 @@ class RuleJadwalKerja extends Controller
 
         }
         else{
+            $jadwalkerja = jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
             $user = new rulejammasuk();
             $user->jadwalkerja_id = $request->jadwalkerjamasuk;
             $user->jamsebelum_masukkerja = $request->awalmasuk;
             $user->jamsebelum_pulangkerja = $request->bataspulang;
-            $user->instansi_id = $request->instansi_id;
+            $user->instansi_id = $jadwalkerja->instansi_id;
             $user->save();
         }
 
