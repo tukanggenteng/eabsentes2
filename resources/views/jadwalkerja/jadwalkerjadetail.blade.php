@@ -127,7 +127,7 @@
                                         <input readonly type="hidden" name="classcolor" id="classcolor">
                                         <input readonly type="hidden" name="classdata" id="classdata">
                                         <ul class="fc-color-picker" id="color-chooser">
-                                            <li><a class="text-red" data-color="{{$jadwalkerja->classdata}}" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
+                                            <li><a class="{{$jadwalkerja->color}}" data-color="{{$jadwalkerja->classdata}}" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
                                             
                                         </ul>
                                     </div>
