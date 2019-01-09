@@ -165,7 +165,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Lewat Hari : </label>
-                                        @if $jadwalkerja->lewathari == "1"
+                                        @if ($jadwalkerja->lewathari == "1")
                                             Ya
                                         @else
                                             Tidak
