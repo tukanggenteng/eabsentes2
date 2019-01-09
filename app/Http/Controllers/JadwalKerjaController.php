@@ -142,7 +142,7 @@ class JadwalKerjaController extends Controller
         $jadwalkerja= jadwalkerja::leftJoin('instansis','jadwalkerjas.instansi_id','=','instansis.id')
         ->select('jadwalkerjas.*','instansis.namaInstansi')->where('jadwalkerjas.id','=',$id)->first();
 
-        return view('jadwalkerja.jadwalkerjadetail',['jadwalkerja'=>$jadwalkerja]);
+        return view('jadwalkerja.jadwalkerjadetail',['jadwalkerja'=>$jadwalkerja,'jadwalkerjaid'=>$id]);
     }
 
     public function editshow($id){

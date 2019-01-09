@@ -179,10 +179,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Jenis Jadwal</label>
-                                            <select class="form-control select2" name="jadwalkerjamasuk[]" id="jadwalkerjamasuk">
-
-                                            </select>
-                                        <input id="instansi_id" name="instansi_id" type="hidden" value="{{ Auth::user()->instansi_id }}">
+                                        <input id="jadwalkerjamasuk" name="jadwalkerjamasuk" type="text" value="{{$jadwalkerjaid}}">
                                     </div>
                                     <!-- /.form-group -->
                                 </div>
@@ -287,27 +284,27 @@
             }
         );
 
-        $('#jadwalkerjamasuk').select2(
-            {
-            placeholder: "Pilih Jadwal Kerja",
-            minimumInputLength: 1,
-            ajax: {
-                url: '/jadwalkerja/cari',
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        q: $.trim(params.term)
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data
-                    };
-                },
-                cache: true
-            }
-        }
-        );
+        // $('#jadwalkerjamasuk').select2(
+        //     {
+        //     placeholder: "Pilih Jadwal Kerja",
+        //     minimumInputLength: 1,
+        //     ajax: {
+        //         url: '/jadwalkerja/cari',
+        //         dataType: 'json',
+        //         data: function (params) {
+        //             return {
+        //                 q: $.trim(params.term)
+        //             };
+        //         },
+        //         processResults: function (data) {
+        //             return {
+        //                 results: data
+        //             };
+        //         },
+        //         cache: true
+        //     }
+        // }
+        // );
 
         var jadwalkerjadatatable;
         var rulejadwalkerjadatatable;
