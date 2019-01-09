@@ -127,7 +127,7 @@
                                         <input readonly type="hidden" name="classcolor" id="classcolor">
                                         <input readonly type="hidden" name="classdata" id="classdata">
                                         <ul class="fc-color-picker" id="color-chooser">
-                                            <li><a class="text-red" data-color="bg-red" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
+                                            <li><a class="text-red" data-color="{{$jadwalkerja->classdata}}" id="preview" href="#"><i class="fa fa-check-circle"></i></a></li>
                                             
                                         </ul>
                                     </div>
@@ -316,29 +316,29 @@
             
            
         });
-        var currColor = '{{$jadwalkerja->color}}' //Red by default
-        //Color chooser button
-        $('#preview')[0].className = '{{$jadwalkerja->classdata}}';
-        var colorChooser = $('#color-chooser-btn')
-        $('#color-chooser > li > a').click(function (e) {
-            e.preventDefault()
-            //Save color
-            currColor = $(this).css('color')
-            currClass=$(this).attr('class')
-            currData=$(this).data('color')
-            //Add color effect to button
-            $("#preview").removeAttr('class');
-            $("#preview").attr('class', '');
-            $('#preview')[0].className = currClass;
+        // var currColor = '{{$jadwalkerja->color}}' //Red by default
+        // //Color chooser button
+        // $('#preview')[0].className = '{{$jadwalkerja->classdata}}';
+        // var colorChooser = $('#color-chooser-btn')
+        // $('#color-chooser > li > a').click(function (e) {
+        //     e.preventDefault()
+        //     //Save color
+        //     currColor = $(this).css('color')
+        //     currClass=$(this).attr('class')
+        //     currData=$(this).data('color')
+        //     //Add color effect to button
+        //     $("#preview").removeAttr('class');
+        //     $("#preview").attr('class', '');
+        //     $('#preview')[0].className = currClass;
 
-            $('#color').val('');
-            $('#color').val(currColor);
-            $('#classcolor').val('');
-            $('#classcolor').val(currClass);
-            $('#classdata').val('');
-            $('#classdata').val(currData);
-            // $('#preview').removeClass()
-        })
+        //     $('#color').val('');
+        //     $('#color').val(currColor);
+        //     $('#classcolor').val('');
+        //     $('#classcolor').val(currClass);
+        //     $('#classdata').val('');
+        //     $('#classdata').val(currData);
+        //     // $('#preview').removeClass()
+        // })
     </script>
 
     </body>
