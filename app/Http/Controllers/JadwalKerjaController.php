@@ -131,7 +131,7 @@ class JadwalKerjaController extends Controller
         $user->instansi_id = $request->instansi_id[0];
         $user->save();
         // dd("tes");
-        return redirect('/jadwalkerja/'.$user->id.'/detail')->with('status','Jadwal kerja berhasil disimpan.');
+        return redirect('/jadwalkerja/'.encrypt($user->id).'/detail')->with('status','Jadwal kerja berhasil disimpan.');
 
     }
 
