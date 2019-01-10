@@ -764,7 +764,7 @@
                                 @if ($kehadiran->sifat=="WA")
                                     <td>Wajib Apel</td>
                                 @elseif ($kehadiran->sifat=="TWA")
-                                    <td>Wajib Apel</td>
+                                    <td>Tidak Wajib Apel</td>
                                 @elseif ($kehadiran->sifat=="FD")
                                     <td>Full Day</td></td>
                                 @endif
@@ -868,7 +868,7 @@
                                             @if ($kehadiranlalu->sifat=="WA")
                                                 <td>Wajib Apel</td>
                                             @elseif ($kehadiranlalu->sifat=="TWA")
-                                                <td>Wajib Apel</td>
+                                                <td>Tidak Wajib Apel</td>
                                             @elseif ($kehadiranlalu->sifat=="FD")
                                                 <td>Full Day</td></td>
                                             @endif
