@@ -767,6 +767,9 @@
                         $('.error').addClass('hidden');
                         $('#modal_add').modal('hide');
                         oTable.ajax.reload();
+                        oTable24.ajax.reload();
+                        oTablepegawai.ajax.reload();
+
                     }
                 },
             });
@@ -937,7 +940,7 @@
     <!-- modal delete -->
     <script type="text/javascript">
         $(document).on('click','.modal_delete',function () {
-            $('#delidpegawai').val($(this).data('nip'));
+            $('#delidpegawai').val($(this).data('id'));
             $('.labelpegawai').text($(this).data('nama'));
         });
         $(document).on('click','#simpandelpegawai',function (){
@@ -954,9 +957,11 @@
                 success:function(response){
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus pegawai.", "", "success");
-                        $('#modal_deleteperawat').modal('hide');
-                        oTablepegawai.ajax.reload();
+                        $('#modal_delete').modal('hide');
+                       
                         oTable.ajax.reload();
+                        oTable24.ajax.reload();
+                        oTablepegawai.ajax.reload();
                     }
                     else
                     {
@@ -1024,8 +1029,9 @@
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus pegawai.", "", "success");
                         $('#modal_delete24').modal('hide');
-                        oTable24.ajax.reload();
                         oTable.ajax.reload();
+                        oTable24.ajax.reload();
+                        oTablepegawai.ajax.reload();
                     }
                     else
                     {
@@ -1050,15 +1056,17 @@
                 type:'post',
                 url:'{{route('destroyperawat')}}',
                 data : {
-                        delidpegawai:nip,
+                        delidpegawaiperawat:nip,
                         _token:_token
                         },
                 success:function(response){
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus pegawai.", "", "success");
                         $('#modal_deleteperawat').modal('hide');
-                        oTablepegawai.ajax.reload();
+                        
                         oTable.ajax.reload();
+                        oTable24.ajax.reload();
+                        oTablepegawai.ajax.reload();
                     }
                     else
                     {

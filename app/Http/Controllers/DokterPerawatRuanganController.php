@@ -76,7 +76,7 @@ class DokterPerawatRuanganController extends Controller
         // dd($users);
         return Datatables::of($users)
             ->addColumn('action', function ($users) {
-            return '<button type="button" class="modal_deleteperawat btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'"  data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-ruangan="'.$users->nama_ruangan.'" data-target="#modal_deleteperawat">Hapus</button>';
+            return '<button type="button" class="modal_deleteperawat btn btn-danger btn-sm" data-toggle="modal" data-nip="'.$users->nip.'"  data-nama="'.$users->nama.'" data-id="'.encrypt($users->pegawai_id).'" data-ruangan="'.$users->nama_ruangan.'" data-target="#modal_deleteperawat">Hapus</button>';
             })
             ->make(true);
 
@@ -277,7 +277,7 @@ class DokterPerawatRuanganController extends Controller
 
     public function destroyperawat(Request $request){
         // dd(decrypt($request->delidpegawai));
-        $table=perawatruangan::where('id','=',decrypt($request->delidpegawai))->first();
+        $table=perawatruangan::where('pegawai_id','=',decrypt($request->delidpegawaiperawat))->first();
         $pegawaiid=($table->pegawai_id); 
         if ($table->delete()){
             $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$pegawaiid);
@@ -340,7 +340,7 @@ class DokterPerawatRuanganController extends Controller
 
         return Datatables::of($users)
         ->addColumn('action', function ($users) {
-            return '<button type="button" class="modal_deleteperawat btn btn-danger btn-sm" data-toggle="modal" data-nip="'.encrypt($users->nip).'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->id).'" data-target="#modal_deleteperawat">Hapus</button>';
+            return '<button type="button" class="modal_deleteperawat btn btn-danger btn-sm" data-toggle="modal" data-nip="'.encrypt($users->nip).'" data-jabatan="'.$users->jabatan.'" data-instansi="'.$users->instansi_id.'" data-nama="'.$users->nama.'" data-id="'.encrypt($users->pegawai_id).'" data-target="#modal_deleteperawat">Hapus</button>';
             })
             ->make(true);
     }

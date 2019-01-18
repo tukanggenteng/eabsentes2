@@ -288,6 +288,7 @@
             // alert($(this).data('nama'));
             $('#delidpegawaiperawat').val($(this).data('id'));
             $('.labelpegawaiperawat').text($(this).data('nama'));
+            console.log($(this).data('id'))
         }); 
         $(document).on('click','#simpandelpegawaiperawat',function (){
           var nip=$('#delidpegawaiperawat').val();
