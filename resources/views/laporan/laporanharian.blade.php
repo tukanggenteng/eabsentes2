@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Rekap Absensi Pegawai Harian
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -22,11 +26,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -86,7 +88,7 @@
                                 </form>
                               </div>
                           </div>
-                        @elseif (isset($nip) && !isset($tanggal)) 
+                        @elseif (isset($nip) && !isset($tanggal))
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanharian" method="post">
@@ -134,7 +136,7 @@
                         <hr>
                         <div class="row">
                           <div class="col-md-12">
-                            <table class="table table-hover">
+                            <table class="table table-striped table-bordered table-hover table-align">
                                 <tr>
                                   <th>NIP</th>
                                   <th>Nama</th>
@@ -259,5 +261,4 @@
         })
     </script>
 
-    </body>
 @endsection

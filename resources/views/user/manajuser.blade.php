@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Manajemen User
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -14,7 +19,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -40,7 +44,7 @@
                                 </button>
                                 <hr>
                                 <div class="table-responsive">
-                                    <table id="tableaja" class="table">
+                                    <table id="tableaja" class="table table-striped table-hover">
                                         <thead>
                                         <tr>
                                             <th>Username</th>
@@ -381,5 +385,4 @@
             });
         });
     </script>
-    </body>
 @endsection

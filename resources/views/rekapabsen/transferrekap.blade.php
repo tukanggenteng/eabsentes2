@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Laporan Surat Pendukung
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -22,13 +27,11 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
 
     <div class="wrapper">
 
         <!-- Left side column. contains the logo and sidebar -->
         @include('layouts.header')
-
         @include('layouts.sidebar')
 
         <!-- Content Wrapper. Contains page content -->
@@ -46,7 +49,7 @@
                             <div class="box-body">
                                 <hr>
                                 <div class="table-responsive">
-                                    <table id="tableaja" class="table">
+                                    <table id="tableaja" class="table table-striped table-hover">
                                         <thead>
                                         <tr>
                                             <th>NIP</th>
@@ -1193,7 +1196,4 @@
             });
         });
     </script>
-
-
-    </body>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Manajemen Keterangan Absensi
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -24,7 +28,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -112,14 +115,14 @@
                                     </form>
                                 </div>
                                 <div class="col-md-6">
-                                    
+
                                 </div>
                             </div>
                         </div> -->
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="table-responsive">  
-                                    <table id="tableaja" class="table">
+                                <div class="table-responsive">
+                                    <table id="tableaja" class="table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -161,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
                 <!-- /.box-body -->
@@ -271,7 +274,7 @@
             radioClass   : 'iradio_flat-green'
         })
 
-        
+
     </script>
     <script type="text/javascript">
         var oTable;
@@ -299,5 +302,4 @@
         });
     </script>
 
-    </body>
 @endsection

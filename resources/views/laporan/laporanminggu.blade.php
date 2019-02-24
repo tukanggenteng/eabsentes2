@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Rekap Absensi Pegawai Mingguan
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -22,11 +26,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -134,7 +136,7 @@
                         <hr>
                         <div class="row">
                           <div class="col-md-12">
-                            <table class="table table-hover">
+                            <table class="table table-striped table-bordered table-hover table-align">
                                 <tr>
                                   <th>NIP</th>
                                   <th>Nama</th>
@@ -161,21 +163,21 @@
                                         <td>{{$att->nip}}</td>
                                         <td>{{$att->nama}}</td>
                                         <td>{{$att->periode}}</td>
-                                        <td>{{$att->hari_kerja}}</td>
-                                        <td>{{$att->hadir}}</td>
-                                        <td>{{$att->tanpa_kabar}}</td>
-                                        <td>{{$att->ijin}}</td>
-                                        <td>{{$att->ijinterlambat}}</td>
-                                        <td>{{$att->ijinpulangcepat}}</td>
-                                        <td>{{$att->sakit}}</td>
-                                        <td>{{$att->cuti}}</td>
-                                        <td>{{$att->tugas_luar}}</td>
-                                        <td>{{$att->tugas_belajar}}</td>
-                                        <td>{{$att->rapatundangan}}</td>
-                                        <td>{{$att->pulang_cepat}}</td>
-                                        <td>{{$att->apelbulanan}}</td>
-                                        <td>{{$att->total_terlambat}}</td>
-                                        <td>{{$att->total_akumulasi}}</td>
+                                        <td style="text-align:right;">{{$att->hari_kerja}}</td>
+                                        <td style="text-align:right;">{{$att->hadir}}</td>
+                                        <td style="text-align:right;">{{$att->tanpa_kabar}}</td>
+                                        <td style="text-align:right;">{{$att->ijin}}</td>
+                                        <td style="text-align:right;">{{$att->ijinterlambat}}</td>
+                                        <td style="text-align:right;">{{$att->ijinpulangcepat}}</td>
+                                        <td style="text-align:right;">{{$att->sakit}}</td>
+                                        <td style="text-align:right;">{{$att->cuti}}</td>
+                                        <td style="text-align:right;">{{$att->tugas_luar}}</td>
+                                        <td style="text-align:right;">{{$att->tugas_belajar}}</td>
+                                        <td style="text-align:right;">{{$att->rapatundangan}}</td>
+                                        <td style="text-align:right;">{{$att->pulang_cepat}}</td>
+                                        <td style="text-align:right;">{{$att->apelbulanan}}</td>
+                                        <td style="text-align:center;">{{$att->total_terlambat}}</td>
+                                        <td style="text-align:center;">{{$att->total_akumulasi}}</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -255,5 +257,4 @@
         })
     </script>
 
-    </body>
 @endsection

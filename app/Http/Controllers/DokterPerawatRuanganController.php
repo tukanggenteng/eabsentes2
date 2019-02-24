@@ -56,7 +56,7 @@ class DokterPerawatRuanganController extends Controller
         $users=dokter::leftJoin('instansis','dokters.instansi_id','=','instansis.id')
                 ->leftJoin('pegawais','dokters.pegawai_id','=','pegawais.id')
                 ->where('dokters.instansi_id','=',Auth::user()->instansi_id)
-                ->select('dokters.*','pegawais.nip','pegawais.nama','instansis.namaInstansi')
+                ->select('dokters.*','pegawais.id','pegawais.nip','pegawais.nama','instansis.namaInstansi')
                 ->get();
         return Datatables::of($users)
         ->addColumn('action', function ($users) {
@@ -70,9 +70,9 @@ class DokterPerawatRuanganController extends Controller
             ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
             ->leftJoin('ruangans','perawatruangans.ruangan_id','=','ruangans.id')
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-            ->select('perawatruangans.*','pegawais.nama','pegawais.nip','ruangans.nama_ruangan')
+            ->select('perawatruangans.*','pegawais.id','pegawais.nama','pegawais.nip','ruangans.nama_ruangan')
             ->get();
-        
+
         // dd($users);
         return Datatables::of($users)
             ->addColumn('action', function ($users) {
@@ -149,7 +149,7 @@ class DokterPerawatRuanganController extends Controller
         $table=new dokter;
         $table->pegawai_id=$request->nip;
         $table->instansi_id=Auth::user()->instansi_id;
-        
+
         if ($table->save()){
             return response()->json("success");
         }
@@ -166,7 +166,7 @@ class DokterPerawatRuanganController extends Controller
 
         // dd(decrypt($request->delidpegawai));
 
-        $pegawaiid=($table->pegawai_id);     
+        $pegawaiid=($table->pegawai_id);
         // dd($table->pegawai_id);
         if ($table->delete()){
             $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$pegawaiid);
@@ -176,7 +176,7 @@ class DokterPerawatRuanganController extends Controller
         else
         {
             return response()->json("failed");
-        }        
+        }
     }
 
     public function storeruangan(Request $request){
@@ -229,7 +229,7 @@ class DokterPerawatRuanganController extends Controller
             $table=ruangan::where('id','=',decrypt($request->delidruangan))->first();
             if ($table->delete()){
                 $table=perawatruangan::where('ruangan_id','=',decrypt($request->delidruangan))->delete();
-                
+
                 $ruanganusers=ruanganuser::where('ruangan_id','=',decrypt($request->delidruangan))->get();
 
                 foreach ($ruanganusers as $ruanganuser)
@@ -278,7 +278,7 @@ class DokterPerawatRuanganController extends Controller
     public function destroyperawat(Request $request){
         // dd(decrypt($request->delidpegawai));
         $table=perawatruangan::where('pegawai_id','=',decrypt($request->delidpegawaiperawat))->first();
-        $pegawaiid=($table->pegawai_id); 
+        $pegawaiid=($table->pegawai_id);
         if ($table->delete()){
             $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$pegawaiid);
             $deleterulepegawai->delete();
@@ -331,7 +331,7 @@ class DokterPerawatRuanganController extends Controller
         $datadokter=dokter::pluck('pegawai_id')->all();
 
         $dataperawat=perawatruangan::pluck('pegawai_id')->where('ruangan_id','=',$userruangan->ruangan_id)->all();
-        
+
         $users=perawatruangan::leftJoin('pegawais','perawatruangans.pegawai_id','=','pegawais.id')
                 ->leftJoin('ruangans','perawatruangans.ruangan_id','=','ruangans.id')
                 ->where('perawatruangans.ruangan_id','=',$userruangan->ruangan_id)

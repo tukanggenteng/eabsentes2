@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Home
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -30,11 +34,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -189,11 +191,11 @@
                         </div>
 
                 </div>
-                 <!-- hari ini -->                   
+                 <!-- hari ini -->
 
                 <!-- bulan baru ini -->
                 <div class="row">
-                    
+
                         <div class="col-md-12">
                             <div class="box box-default collapsed-box">
                                 <div class="box-header with-border">
@@ -299,10 +301,10 @@
                                             <!-- /.info-box -->
                                         </div>
                                         <!-- /.col -->
-            
+
                                         <!-- fix for small devices only -->
                                         <div class="clearfix visible-sm-block"></div>
-            
+
                                         <div class="col-md-3 col-sm-6 col-xs-12">
                                             <div class="info-box">
                                             <a href="/detail/bulan/terlambat">
@@ -342,7 +344,7 @@
 
                 <!-- tahun baru -->
                 <div class="row">
-                    
+
                         <div class="col-md-12">
                             <div class="box box-default collapsed-box">
                                 <div class="box-header with-border">
@@ -629,13 +631,13 @@
                                               $baris=0;
                                          ?>
                                         @foreach($rulejadwals2 as $rulejadwal2)
-                                            <?php 
+                                            <?php
                                             $tanggalsekarang=date("Y-m-d");
                                             $minimal=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule)));
                                             $minimal=strtotime($minimal);
                                             $sekarangi=date("Y-m-d",strtotime("-4 day",strtotime($rulejadwal2->tanggal_akhirrule))); ?>
                                             @if (($minimal >= strtotime($tanggalsekarang)) && (strtotime($tanggalsekarang) <= strtotime($rulejadwal2->tanggal_akhirrule)))
-                                                    
+
                                                     @if ($baris==0)
                                                     <tr>
                                                         <td colspan="6" ><center>Tidak ada data.</center></td>
@@ -643,9 +645,9 @@
                                                     @endif
 
                                                     <?php $baris++; ?>
-                                                    
+
                                                      <!-- @if (($i >=1) && ($i <= 10))
-                                                    
+
                                                     @else
                                                     <tr>
                                                         <td>{{$rulejadwal2->nip}}</td>
@@ -671,7 +673,7 @@
                                                             data-token="{{csrf_token()}}" href="/jadwalkerjapegawai/{{ encrypt($rulejadwal2->id) }}/hapus">Hapus</a></td>
                                                     </tr>
                                                     @else
-                                                    
+
                                                     @endif  -->
 
                                                     <tr>
@@ -692,8 +694,12 @@
                                     </table>
                             </div>
                             <!-- /.box-body -->
+                            <div class="box-footer clearfix">
+                                <ul class="pagination pagination-sm no-margin pull-right">
+                                    {{ $rulejadwals2->links() }}
+                                </ul>
+                            </div>
 
-                            
                         </div>
                     </div>
                 </div>
@@ -706,7 +712,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                          <table class="table table-striped table-bordered">
+                          <table class="table table-striped table-bordered table-hover table-align">
                             <tr>
                               <th style="width: 10px">#</th>
                               <th>NIP</th>
@@ -737,12 +743,12 @@
                                     <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
                                     @else
                                     <td>{{$kehadiran->terlambat}}</td>
-                                    @endif                                    
+                                    @endif
                                 @endif
                                 @if (($kehadiran->apel=="1") )
                                 <td>A</td>
                                 @else
-                                    @if ($kehadiran->sifat=="WA") 
+                                    @if ($kehadiran->sifat=="WA")
                                         <td><span class="badge bg-red">TA</span></td>
                                     @else
                                         <td>TA</td>
@@ -808,7 +814,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-striped table-bordered table-hover table-align">
                                         <tr>
                                         <th style="width: 10px">#</th>
                                         <th>NIP</th>
@@ -846,7 +852,7 @@
                                             @if ($kehadiranlalu->apel=="1")
                                             <td>A</td>
                                             @else
-                                                @if ($kehadiranlalu->sifat=="WA") 
+                                                @if ($kehadiranlalu->sifat=="WA")
                                                     <td><span class="badge bg-red">TA</span></td>
                                                 @else
                                                     <td>TA</td>
@@ -875,7 +881,7 @@
                                         </tr>
                                         @endforeach
                                     </table>
-                                
+
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer clearfix">
@@ -1191,5 +1197,4 @@
             $('#text').val("");
         });
     </script>
-    </body>
 @endsection

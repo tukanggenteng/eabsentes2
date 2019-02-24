@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Manajemen Pegawai Rumah Sakit
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,7 +21,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -47,7 +51,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
-                                                    <table id="tableruangan" class="table">
+                                                    <table id="tableruangan" class="table table-striped table-hover">
                                                         <thead>
                                                         <tr>
                                                             <th>Nama Ruangan</th>
@@ -165,7 +169,7 @@
                                     <!-- /.modal-dialog -->
                         </div>
                         <!-- modal delete ruangan end -->
-                
+
                         <!-- form pegawai biasa -->
                         <div class="row">
                             <div class="col-xs-12">
@@ -185,9 +189,10 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
-                                                    <table id="tableaja" class="table">
+                                                    <table id="tableaja" class="table table-striped table-hover">
                                                         <thead>
                                                         <tr>
+                                                            <th>ID</th>
                                                             <th>NIP</th>
                                                             <th>Nama</th>
                                                             <th>Instansi</th>
@@ -297,13 +302,13 @@
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- modal delete end -->
-                        
+
                         <!-- form pegawai 24 -->
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="box box-default">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Manajemen Pegawai</h3><small> 24 Jam</small>
+                                        <h3 class="box-title">Manajemen Pegawai</h3><small><strong> 24 Jam</strong></small>
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
@@ -317,9 +322,10 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
-                                                    <table id="tableaja24" class="table">
+                                                    <table id="tableaja24" class="table table-striped table-hover">
                                                         <thead>
                                                         <tr>
+                                                            <th>ID</th>
                                                             <th>NIP</th>
                                                             <th>Nama</th>
                                                             <th>Instansi</th>
@@ -333,7 +339,7 @@
 
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                         <!-- form pegawai 24 end -->
                         <!-- modal add pegawai 24 -->
@@ -407,13 +413,13 @@
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- modal delete pegawai 24 end -->
-                        
+
                         <!-- form perawat -->
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="box box-default">
                                     <div class="box-header with-border">
-                                        <h3 class="box-title">Manajemen Pegawai</h3><small> Ruangan Khusus</small>
+                                        <h3 class="box-title">Manajemen Pegawai</h3><small><strong> Ruangan Khusus </strong></small>
                                     </div>
                                     <div class="box-body">
                                         <div class="row">
@@ -427,9 +433,10 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="table-responsive">
-                                                    <table id="tablepegawai" class="table">
+                                                    <table id="tablepegawai" class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
+                                                                <th>ID</th>
                                                                 <th>NIP</th>
                                                                 <th>Nama</th>
                                                                 <th>Ruangan</th>
@@ -443,7 +450,7 @@
 
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                         <!-- form perawat end -->
                         <!-- modal add pegawai ruangan -->
@@ -461,7 +468,7 @@
                                         <form id="formpegawaiaddruangan" method="post" role="form" enctype="multipart/form-data">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div class="form-group">   
+                                                    <div class="form-group">
                                                         <select id="pegawaiperawat" name="pegawaiperawat[]" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                                         </select>
                                                     </div>
@@ -515,7 +522,7 @@
                         </div>
                         <!-- modal delete pegawai 24 end -->
 
-                        
+
             </section>
             <!-- /.content -->
         </div>
@@ -615,8 +622,8 @@
                 }
             }
             );
-            
-            
+
+
         })
     </script>
 
@@ -630,21 +637,7 @@
                 serverSide: true,
                 ajax: '{{route('datadokter')}}',
                 columns: [
-                    { data: 'nip', name: 'nip' },
-                    { data: 'nama', name: 'nama' },
-                    { data: 'namaInstansi', name: 'namaInstansi' },
-                    { data: 'action', name: 'action' }
-                ]
-            });
-        });
-        
-        var oTable;
-        $(function() {
-            oTable = $('#tableaja').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{route('datapegawaikhusus')}}',
-                columns: [
+                    { data: 'id', name: 'id' },
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'namaInstansi', name: 'namaInstansi' },
@@ -653,7 +646,23 @@
             });
         });
 
-        
+        var oTable;
+        $(function() {
+            oTable = $('#tableaja').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{route('datapegawaikhusus')}}',
+                columns: [
+                    { data: 'id', name: 'id' },
+                    { data: 'nip', name: 'nip' },
+                    { data: 'nama', name: 'nama' },
+                    { data: 'namaInstansi', name: 'namaInstansi' },
+                    { data: 'action', name: 'action' }
+                ]
+            });
+        });
+
+
         var oTablepegawai;
         $(function(){
             oTablepegawai = $('#tablepegawai').DataTable({
@@ -661,6 +670,7 @@
                 serverSide: true,
                 ajax: '{{route('dataallperawat')}}',
                 columns: [
+                    { data: 'id', name: 'id' },
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'nama_ruangan', name: 'nama_ruangan' },
@@ -679,20 +689,20 @@
                     { data: 'action', name: 'action' }
                 ]
             });
-            
-            
+
+
         });
     </script>
 
     <!-- modal add -->
     <script type="text/javascript">
-    
+
         $(document).on('click','#tambahruanganpegawai',function () {
             $('#pegawaiperawat').val('').trigger('change');
             $('#pegawairuangan').val('').trigger('change');
         });
         $(document).on('click','#tambahruangan',function () {
-            $('#ruangan').val("");            
+            $('#ruangan').val("");
         });
 
         $(document).on('click','#simpanaddruangan',function (){
@@ -722,14 +732,14 @@
                     {
                         swal("Gagal menambahkan ruangan.", "", "error");
                     }
-                    
+
                 },
                 error:function(){
                     swal("Gagal menambahkan pegawai.", "", "error");
                 }
             });
         });
-        
+
         // manajemen pegawai biasa
         $(document).on('click','#tambah',function () {
           $('#nip').attr('disabled',false);
@@ -743,7 +753,7 @@
         $(document).on('click','#tambah24',function () {
             $('#pegawaidokter').val('').trigger('change');;
         });
-        
+
         $(document).on('click','#simpanaddpegawai',function (){
             var nip=$('#nip').val();
             var nama=$('#nama').val();
@@ -785,7 +795,7 @@
                 $('.input-group-addon').html('<i class="fa fa-spinner fa-spin"></i>');
               },
               success:function(response){
-                // alert(response['namaInstansi']);                  
+                // alert(response['namaInstansi']);
                 if (response['status']=='1')
                 {
                   $('#nip').attr('disabled',true);
@@ -843,7 +853,7 @@
                     {
                         swal("Gagal menambahkan pegawai.", "", "error");
                     }
-                    
+
                 },
                 error:function(){
                     swal("Gagal menambahkan pegawai.", "", "error");
@@ -875,7 +885,7 @@
                     {
                         swal("Gagal menambahkan pegawai.", "", "error");
                     }
-                    
+
                 },
                 error:function(){
                     swal("Gagal menambahkan pegawai.", "", "error");
@@ -923,7 +933,7 @@
                     {
                         swal("Gagal mengubah ruangan.", "", "error");
                     }
-                    
+
                 },
                 error:function(){
                     swal("Gagal mengubah pegawai.", "", "error");
@@ -931,7 +941,7 @@
             });
         });
 
-        
+
 
     </script>
     <!-- modal edit end -->
@@ -953,12 +963,12 @@
                         delidpegawai:nip,
                         _token:_token
                         },
-                
+
                 success:function(response){
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus pegawai.", "", "success");
                         $('#modal_delete').modal('hide');
-                       
+
                         oTable.ajax.reload();
                         oTable24.ajax.reload();
                         oTablepegawai.ajax.reload();
@@ -1014,7 +1024,7 @@
             // alert($(this).data('nama'));
             $('#delidpegawai24').val($(this).data('id'));
             $('.labelpegawai24').text($(this).data('nama'));
-        }); 
+        });
         $(document).on('click','#simpandelpegawai24',function (){
           var nip=$('#delidpegawai24').val();
           var _token=$("input[name=_token]").val();
@@ -1048,7 +1058,7 @@
             // alert($(this).data('nama'));
             $('#delidpegawaiperawat').val($(this).data('id'));
             $('.labelpegawaiperawat').text($(this).data('nama'));
-        }); 
+        });
         $(document).on('click','#simpandelpegawaiperawat',function (){
           var nip=$('#delidpegawaiperawat').val();
           var _token=$("input[name=_token]").val();
@@ -1063,7 +1073,7 @@
                     if((response== 'Success') || (response== 'success')){
                         swal("Berhasil menghapus pegawai.", "", "success");
                         $('#modal_deleteperawat').modal('hide');
-                        
+
                         oTable.ajax.reload();
                         oTable24.ajax.reload();
                         oTablepegawai.ajax.reload();
@@ -1081,5 +1091,4 @@
     </script>
     <!-- modal delete end -->
 
-    </body>
 @endsection

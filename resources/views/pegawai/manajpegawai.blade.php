@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Manajemen Pegawai
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,7 +21,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -52,7 +56,7 @@
                                 <div class="row">
                                   <div class="col-md-12">
                                     <div class="col-md-8">
-                                        
+
                                     </div>
                                     <div class="col-md-4">
                                         <form action="/pegawai" method="post">
@@ -66,7 +70,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th>NIP</th>
@@ -216,7 +220,7 @@
 
         });
 
-        
+
         </script>
 
         <script type="text/javascript">
@@ -248,5 +252,5 @@
             });
         });
     </script>
-    </body>
+
 @endsection

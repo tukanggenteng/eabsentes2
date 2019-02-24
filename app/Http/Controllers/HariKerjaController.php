@@ -55,7 +55,7 @@ class HariKerjaController extends Controller
         // dd($jadwalkerjas);
 
         $harikerja=harikerja::join('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-            ->select('harikerjas.jadwalkerja_id','jadwalkerjas.jenis_jadwal')
+            ->select('harikerjas.jadwalkerja_id','jadwalkerjas.jenis_jadwal','jadwalkerjas.jam_masukjadwal','jadwalkerjas.jam_keluarjadwal')
             ->where('harikerjas.instansi_id','=',Auth::user()->instansi_id)
             ->distinct()
             ->get();
@@ -82,7 +82,7 @@ class HariKerjaController extends Controller
             $hasildata=array();
             $subdata=array();
         }
-        // dd($jadwalkerjadata);
+         //dd($subdata);
 
 
         $jadwalkerjas2=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
@@ -135,7 +135,7 @@ class HariKerjaController extends Controller
             $subdata2=array();
         }
 
-        // dd($jadwalminggu);
+         //dd($hasildata2);
 
         return view('jadwalkerja.harijadwalkerja',['inforekap'=>$inforekap,'jadwalminggus'=>$jadwalminggu,'jadwalminggudatas'=>$jadwalkerjadata2,'jadwalkerjas'=>$jadwalkerjas,'hasildatas'=>$jadwalkerjadata]);
     }

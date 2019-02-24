@@ -62,7 +62,7 @@ class ChartController extends Controller
 
         $bulan=date("m");
 
-        
+
         $tidakhadirbulan = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
@@ -143,7 +143,7 @@ class ChartController extends Controller
         //     ->whereMonth('periode','=',$bulan)
         //     ->whereYear('periode', '=', $tahun)
         //     ->sum('rapatundangan');
-        
+
         $tidakhadirtahun = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
@@ -210,7 +210,7 @@ class ChartController extends Controller
         //     ->whereYear('periode', '=', $tahun)
         //     ->sum('rapatundangan');
 
-        
+
 
         $tanggalsekarang=date("Y-m-d");
 
@@ -264,7 +264,7 @@ class ChartController extends Controller
             return response()->json(['html'=>$view]);
         }
 
-        
+
 
         $tanggal=date("d");
         $bulan=date("m");
@@ -285,7 +285,7 @@ class ChartController extends Controller
         ->orderBy('pegawais.nama','desc')
         ->paginate(30);
 
-        
+
 
         if (isset($request->periodeabsen)){
             $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
@@ -320,9 +320,9 @@ class ChartController extends Controller
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
         }
-            
 
-        
+
+
 
         // dd($tidakhadirbulan);
 
@@ -342,8 +342,9 @@ class ChartController extends Controller
         ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalsekarang)
         ->select('rulejadwalpegawais.id','pegawais.nip','pegawais.nama','jadwalkerjas.jenis_jadwal','rulejadwalpegawais.tanggal_awalrule','rulejadwalpegawais.tanggal_akhirrule')
         ->orderBy('rulejadwalpegawais.tanggal_akhirrule','ASC')
-        ->get();
-        
+        //->get(); get belum diganti jadi paginate sehingga method links tidak bisa diakses
+        ->paginate(30);
+
         // dd("sad");
         return view('chart.chartprivate',
             ['event'=>$event,'rulejadwals2'=>$rulejadwal2,'tahun'=>$tahun,'tidakhadir'=>$tidakhadir,

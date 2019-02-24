@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Revisi Cuti
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,10 +21,7 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-
-
 
         @include('layouts.header')
 
@@ -40,7 +42,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-hover">
                                                 <thead>
                                                 <tr>
                                                     <th>NIP</th>
@@ -108,13 +110,20 @@
                 columns: [
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
-                    { data: 'lama', name: 'lama' },
-                    { data: 'mulaitanggal', name: 'mulaitanggal' },
+                    { data: 'lama', name: 'lama' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'mulaitanggal', name: 'mulaitanggal',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    },
                     { data: 'namaInstansi', name: 'namaInstansi' },
                     { data: 'action', name: 'action' }
                 ]
             });
         });
     </script>
-    </body>
 @endsection
