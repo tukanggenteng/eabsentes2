@@ -32,11 +32,12 @@ class QueuePegawaiController extends Controller
         $datamacaddress=macaddresse::where('macaddress','=',$macaddress)
                       ->first();
 
-        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress))
+        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress!=null))
         {
           $dataqueuepegawai= queue_pegawai::where('pegawai_id','=',$pegawai_id)
                                           ->where('instansi_id','=',$instansi_id)
                                           ->where('macaddress_id','=',$datamacaddress->id)
+                                          ->where('status','=',false)
                                           ->get();
           return $dataqueuepegawai;
                                           
@@ -71,14 +72,24 @@ class QueuePegawaiController extends Controller
           $dataqueuepegawai= queue_pegawai::where('pegawai_id','=',$pegawai_id)
                                           ->where('instansi_id','=',$instansi_id)
                                           ->where('macaddress_id','=',$datamacaddress->id)
-                                          ->whereNotNull('updated_at')
-                                          ->get();
-          return $dataqueuepegawai;
+                                          ->first();
+
+          $dataqueuepegawai->status=true;
+
+          if ($dataqueuepegawai->save())
+          {
+            return "Success";
+          }
+          else
+          {
+            return "Failed";
+          }
+
                                           
         }
         else
         {
-          return "Null";
+          return "Failed";
         }
 
     }
