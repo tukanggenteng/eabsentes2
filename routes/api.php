@@ -65,6 +65,9 @@ Route::group(['middleware'=>['api']], function () {
     Route::get('/absensi/instansi/hari/apel','MonitoringController@api_monitoring_instansi_hari_apel');
     Route::post('/absensi/instansi/hari/apel','MonitoringController@api_monitoring_instansi_hari_apel');
 
+    Route::post('/logatttrans','LogAttTranController@get');
 
+    Route::get('/queuepegawai/get','QueuePegawaiController@get');
+    Route::post('/queuepegawai/post','QueuePegawaiController@post');
 
 });

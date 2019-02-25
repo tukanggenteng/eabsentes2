@@ -8,6 +8,7 @@ use App\atts_tran;
 use App\instansi;
 use App\jadwalkerja;
 use App\pegawai;
+use App\queue_pegawai;
 use App\rulejadwalpegawai;
 use App\rulejammasuk;
 use App\adminpegawai;
@@ -99,11 +100,23 @@ class TrigerController extends Controller
             'checkbox2'=>'required'
         ]);
 
+        // dd($request->checkbox2);
         foreach ($request->checkbox2 as $key=> $data){
+            
+          
             $data=decrypt($data);
             // dd($data);
-            $table=hapusfingerpegawai::where('id','=',$data);
-            // dd($table);
+            $table=hapusfingerpegawai::where('id','=',$data)->first();
+
+
+            $datapegawai=pegawai::where('id','=',$table->pegawai_id)->first();
+
+            if ($datapegawai->instansi_id != null)
+            {
+              $store_queuepegawai= new PegawaiController();
+              $store_queuepegawai->storequeuepegawai($table->pegawai_id,$datapegawai->instansi_id,"ganti");
+            }
+
             $table->delete();
         }
 

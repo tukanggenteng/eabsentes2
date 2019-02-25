@@ -18,58 +18,81 @@ class AttendanceController extends Controller
     //
     public function __construct()
     {
-        $this->middleware('throttle:20000,1');
+        $this->middleware('throttle:100,1');
     }
 
-    public function store(Request $request){
+    public function store(Request $request){  
 
-       $jam=$request->json('jam');
-       $tanggal=$request->json('tanggal');
-       $user_id=$request->json('user_id');
-       $instansi=$request->json('instansi');
-       $status=$request->json('status');
-       $auth=$request->json('token');
-       $hasilbasic=$jam.$tanggal.$user_id.$instansi.$status;
-       $hasil=$this->encryptOTP($hasilbasic);
-       $statusauth=false;
-    //    dd("sd");
-    //    dd($hasil);
+          // dd($dataattendance['jam']);
 
-       if ($hasil==$auth){
+          $jam=$request->json('jam');
+          $tanggal=$request->json('tanggal');
+          $user_id=$request->json('user_id');
+          $instansi=$request->json('instansi');
+          $status=$request->json('status');
+          $macaddress=$request->json('macaddress');
 
-           $statusauth=true;
+          if ($macaddress==null)
+          {
+            return "Failed";
+          }
 
-              if ($request->json('status')=='0' ){
-                return $this->jam_masuk($user_id,$tanggal,$jam,$status,$instansi);
+          $auth=$request->json('token');
+          // return "asd";
+
+          // $jam=$dataattendance['jam'];
+          // $tanggal=$dataattendance['tanggal'];
+          // $user_id=$dataattendance['user_id'];
+          // $instansi=$dataattendance['instansi'];
+          // $status=$dataattendance['status'];
+          // $macaddress=$dataattendance['macaddress'];
+          // $auth=$dataattendance['token'];
+
+          $hasilbasic=$jam.$tanggal.$user_id.$instansi.$status;
+          $hasil=$this->encryptOTP($hasilbasic);
+          $statusauth=false;
+    
+          // dd($hasil);
+
+          if ($hasil==$auth)
+          {
+              
+              $statusauth=true;
+
+              if ($status=='0' ){
+                return $this->jam_masuk($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
               // ########### absen pulang
-              elseif ($request->json('status')=='1' )
+              elseif ($status=='1' )
               {
-                return $this->jam_keluar($user_id,$tanggal,$jam,$status,$instansi);
+                return $this->jam_keluar($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
-              elseif ($request->json('status')=='2'){
-                return $this->keluaristirahat($user_id,$tanggal,$jam,$status,$instansi);
+              elseif ($status=='2'){
+                return $this->keluaristirahat($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
-              elseif ($request->json('status')=='3'){
-                return $this->masukistirahat($user_id,$tanggal,$jam,$status,$instansi);
+              elseif ($status=='3'){
+                return $this->masukistirahat($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
-              elseif ($request->json('status')=='4'){
-                return $this->jam_masuktanpaapel($user_id,$tanggal,$jam,$status,$instansi);
+              elseif ($status=='4'){
+                return $this->jam_masuktanpaapel($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
-        }
-        else{
-            //dd("s");
-            $statusauth=false;
-            return "Failed";
-            //Token Salah 
-        }
+          }
+          else
+          {
+            
+              $statusauth=false;
+              return "Failed";
+         
+          }
 
+        
+      
+      
     }
 
     public function show(){
         $tanggal=date('H:i');
         $tabel=atts_tran::join('pegawais','atts_trans.pegawai_id','=','pegawais.id')->join('instansis','atts_trans.lokasi_alat','=','instansis.id')->where('tanggal','=',$tanggal)->get();
-//        dd($tanggal);
         return $tabel;
     }
 

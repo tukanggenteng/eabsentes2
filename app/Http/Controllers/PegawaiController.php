@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\fingerpegawai;
 use App\pegawai;
+use App\queue_pegawai;
+use App\macaddresse;
+
 use App\instansi;
 use App\atts_tran;
 use App\dokter;
@@ -327,6 +330,8 @@ class PegawaiController extends Controller
             $updatedata->instansi_id = Auth::user()->instansi_id;
             $updatedata->save();
 
+            $storequeue=$this->storequeuepegawai($updatedata->id,Auth::user()->instansi_id,"daftar");
+
             $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
             foreach ($rulepegawais as $key => $datarule)
             {
@@ -459,11 +464,12 @@ class PegawaiController extends Controller
         // $hapusatts=att::where('pegawai_id','=',$updatedata->id)
         // ->where('tanggal_att','=',$tanggalnow);
         // $hapusatts->delete();
-
+        $storequeue=$this->storequeuepegawai($updatedata->id,$updatedata->instansi_id,"hapus");
         $updatedata->instansi_id = null;
         $updatedata->save();
         
         if ($updatedata->save()){
+            
             return response()->json("Success");
         }else{
             return response()->json("Failed");
@@ -536,6 +542,14 @@ class PegawaiController extends Controller
             $user->valid=$request->json('valid');
             $user->templatefinger = $request->json('templatefinger');
             $user->save();
+
+            $hitung=fingerpegawai::where('pegawai_id','=',$request->json('pegawai_id'))
+                                                                  ->count();
+            if ($hitung == 2)
+            {
+              $datapegawai=pegawai::where('id','=',$request->json('pegawai_id'))->first();
+              $storequeue=$this->storequeuepegawai($request->json('pegawai_id'),$datapegawai->instansi_id,"daftar");
+            }
             return "Succes";
         }
 
@@ -666,6 +680,39 @@ class PegawaiController extends Controller
         else{
             return redirect()->back()->with('error','Pegawai tidak berhasil di import !');
         }
+
+    }
+
+
+
+    public function storequeuepegawai($pegawai_id,$instansi_id,$command)
+    {
+            $fingerprintpegawai=fingerpegawai::where('pegawai_id','=',$pegawai_id)->count();
+
+            if ($fingerprintpegawai==2)
+            {
+              $datamacaddress=macaddresse::where('instansi_id','=',$instansi_id)
+                                            ->whereNotNull('instansi_id')
+                                            ->get();
+              foreach  ($datamacaddress as $key => $datamacaddres)
+              {
+              
+
+                $storequeuepegawai=new queue_pegawai();
+                $storequeuepegawai->macaddress_id=$datamacaddres->id;
+                $storequeuepegawai->instansi_id=$instansi_id;
+                $storequeuepegawai->pegawai_id=$pegawai_id;
+                $storequeuepegawai->command=$command;
+                $storequeuepegawai->save();
+                
+              }
+              return true;  
+            }
+            else
+            {
+              return false;
+            }
+
 
     }
     
