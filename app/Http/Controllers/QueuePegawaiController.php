@@ -17,7 +17,7 @@ class QueuePegawaiController extends Controller
     {
       
     }
-   sd 
+    
 
     public function get(Request $request)
     {
@@ -54,6 +54,10 @@ class QueuePegawaiController extends Controller
         $pegawai_id= $request->json('pegawai');
         $instansi_id=$request->json('instansi');
         $macaddress=$request->json('macaddress');
+        $token=$request->json('token');
+
+        $hasilbasic=$macaddress.$instansi_id.$pegawai_id;
+        $hasil=$this->encryptOTP($hasilbasic); 
 
         $datapegawai=pegawai::where('nip','=',$pegawai_id)
                       ->first();
@@ -62,7 +66,7 @@ class QueuePegawaiController extends Controller
         $datamacaddress=macaddresse::where('macaddress','=',$macaddress)
                       ->first();
 
-        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress))
+        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress!=null) && ($token==$hasil))
         {
           $dataqueuepegawai= queue_pegawai::where('pegawai_id','=',$pegawai_id)
                                           ->where('instansi_id','=',$instansi_id)
