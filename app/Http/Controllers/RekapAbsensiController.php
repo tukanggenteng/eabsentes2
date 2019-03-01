@@ -1422,10 +1422,10 @@ class RekapAbsensiController extends Controller
                                   
 
                                 //   $table->jenisabsen_id = $request->jenisabsen;
-                                //   $table->jam_masuk = $awal;
-                                //   $table->masukinstansi_id=Auth::user()->instansi_id;
-                                //   $table->terlambat = "00:00:00";
-                                //   $table->jenisabsen_id=$request->jenisabsen;
+                                  $table->jam_masuk = $awal;
+                                  $table->masukinstansi_id=Auth::user()->instansi_id;
+                                  $table->terlambat = "00:00:00";
+                                  $table->keteranganmasuk_id=$request->jenisabsen;
                                 //   if ($table->jam_keluar!=null){
                                 //     $harike=date('N', strtotime($tanggalbaru));
                                 //     if (($harike==5) && ($table->jadwalkerja_id==1))
@@ -1447,18 +1447,18 @@ class RekapAbsensiController extends Controller
 
                                 //   }
                                   
-                                //   $table->save();
-
-                                  $table->jenisabsen_id = $request->jenisabsen;
-                                  $table->jam_masuk = null;
-                                  $table->terlambat = "00:00:00";
-                                  $table->keluaristirahat=null;
-                                  $table->masukistirahat=null;
-                                  $table->masukinstansi_id=Auth::user()->instansi_id;
-                                  $table->jam_keluar = null;
-                                  $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                  $table->akumulasi_sehari = "00:00:00";
                                   $table->save();
+
+                                //   $table->jenisabsen_id = $request->jenisabsen;
+                                //   $table->jam_masuk = null;
+                                //   $table->terlambat = "00:00:00";
+                                //   $table->keluaristirahat=null;
+                                //   $table->masukistirahat=null;
+                                //   $table->masukinstansi_id=Auth::user()->instansi_id;
+                                //   $table->jam_keluar = null;
+                                //   $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                //   $table->akumulasi_sehari = "00:00:00";
+                                //   $table->save();
                               }
                               elseif  ($request->jenisabsen=="11"){
 
@@ -1503,20 +1503,22 @@ class RekapAbsensiController extends Controller
                                     return redirect()->back()->with('error','Jam masuk kosong !');
                                 }
                                     
-                                if ($jadwalkerja[0]['jam_masukjadwal']>$jadwalkerja[0]['jam_keluarjadwal'])
+                                if ($jadwalkerja[0]['lewathari'])
                                 {
                                     if ($jadwalkerja[0]['sifat']=="WA"){
                                         $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        // $awal=$table->jam_masuk;
                                         $table->apel=1;     
                                     }
                                     elseif ($jadwalkerja[0]['sifat']=="FD")
                                     {
                                         $tanggalpatokan=date("Y-m-d");
-                                        $awal=date("Y-m-d H:i:s", strtotime($tanggalpatokan." 08:00:00"));
+                                        $awal=date("Y-m-d H:i:s", strtotime($tanggalpatokan." ".$jadwalkerja[0]['jam_masukjadwal']));
                                         $table->apel=0;                                  
                                     }
                                     else{
                                         $awal=$jadwalkerja[0]['jam_masukjadwal'];
+                                        // $awal=$table->jam_masuk;
                                         $table->apel=0;                                                                      
                                     }
                                     
@@ -1627,7 +1629,7 @@ class RekapAbsensiController extends Controller
                                     // $akumulasi=$this->kurangwaktu($jadwalkerja[0]['jam_masukjadwal'],$akhir);
 
                                 }  
-                            
+                                $table->keterangankeluar_id=$request->jenisabsen;
                                 $table->jenisabsen_id = $request->jenisabsen;
                                 $table->jam_keluar = $akhir;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -1800,6 +1802,8 @@ class RekapAbsensiController extends Controller
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
             // ->where('atts.tanggal_att','>=',$awal)
             // ->where('atts.tanggal_att','<=',$akhir)
@@ -1807,7 +1811,8 @@ class RekapAbsensiController extends Controller
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->whereIn('atts.pegawai_id',$dataperawat)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama',
+                'keteranganmasuk.jenis_absen as keteranganmasuk_id','keterangankeluar.jenis_absen as keterangankeluar_id')
             ->orderBy('atts.tanggal_att','desc')
             ->get();
         }
@@ -1816,6 +1821,8 @@ class RekapAbsensiController extends Controller
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
             // ->where('atts.tanggal_att','>=',$awal)
             // ->where('atts.tanggal_att','<=',$akhir)
@@ -1823,7 +1830,8 @@ class RekapAbsensiController extends Controller
             // ->whereNotIn('pegawais.id',$dataperawat)
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','pegawais.id as idpegawai','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama',
+                'keteranganmasuk.jenis_absen as keteranganmasuk_id','keterangankeluar.jenis_absen as keterangankeluar_id')
             ->orderBy('atts.tanggal_att','desc')
             ->get();
         }

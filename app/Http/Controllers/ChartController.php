@@ -274,6 +274,8 @@ class ChartController extends Controller
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
         ->where('atts.tanggal_att','=',$now)
@@ -281,17 +283,20 @@ class ChartController extends Controller
         // ->whereDay('atts.tanggal_att','=',$tanggal)
         // ->whereYear('atts.tanggal_att','=',$tahun)
         ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama',
+            'keteranganmasuk.jenis_absen as keteranganmasuk_id','keterangankeluar.jenis_absen as keterangankeluar_id')
         ->orderBy('pegawais.nama','desc')
         ->paginate(30);
 
         
 
         if (isset($request->periodeabsen)){
-            $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            $kehadiran=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('atts.tanggal_att','=',$request->periodeabsen)
@@ -299,8 +304,8 @@ class ChartController extends Controller
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
-            ->orderBy('atts.tanggal_att','desc')
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+            'keterangankeluar.jenis_absen as keterangankeluar_id')
             ->paginate(30);
         }
         else
@@ -309,6 +314,8 @@ class ChartController extends Controller
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             // ->where('atts.tanggal_att','=',$now)
@@ -316,7 +323,8 @@ class ChartController extends Controller
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+            'keterangankeluar.jenis_absen as keterangankeluar_id')
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
         }

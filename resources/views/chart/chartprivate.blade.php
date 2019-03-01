@@ -714,11 +714,11 @@
                               <th>Absen Terlambat</th>
                               <th>Apel</th>
                               <th>Jam Masuk</th>
-                              <th>Lokasi Absen Masuk</th>
+                              <th>Keterangan Masuk</th>
                               <th>Mulai Istirahat</th>
                               <th>Selesai Istirahat</th>
                               <th>Jam Keluar</th>
-                              <th>Lokasi Absen Keluar</th>
+                              <th>Keterangan Keluar</th>
                               <th>Akumulasi</th>
                               <th>Keterangan</th>
                               <th>Jadwal Kerja</th>
@@ -749,11 +749,11 @@
                                     @endif
                                 @endif
                                 <td>{{$kehadiran->jam_masuk}}</td>
-                                <td>{{$kehadiran->namainstansimasuk}}</td>
+                                <td>{{$kehadiran->keteranganmasuk_id}}</td>
                                 <td>{{$kehadiran->keluaristirahat}}</td>
                                 <td>{{$kehadiran->masukistirahat}}</td>
                                 <td>{{$kehadiran->jam_keluar}}</td>
-                                <td>{{$kehadiran->namainstansikeluar}}</td>
+                                <td>{{$kehadiran->keterangankeluar_id}}</td>
                                 <td>{{$kehadiran->akumulasi_sehari}}</td>
                                 @if ($kehadiran->jenis_absen=="Tanpa Kabar")
                                 <td><span class="badge bg-red">{{$kehadiran->jenis_absen}}</span></td>
@@ -817,11 +817,11 @@
                                         <th>Absen Terlambat</th>
                                         <th>Apel</th>
                                         <th>Jam Masuk</th>
-                                        <th>Lokasi Absen Masuk</th>
+                                        <th>Keterangan Masuk</th>
                                         <th>Mulai Istirahat</th>
                                         <th>Selesai Istirahat</th>
                                         <th>Jam Keluar</th>
-                                        <th>Lokasi Absen Keluar</th>
+                                        <th>Keterangan Keluar</th>
                                         <th>Akumulasi</th>
                                         <th>Keterangan</th>
                                         <th>Jadwal Kerja</th>
@@ -853,11 +853,11 @@
                                                 @endif
                                             @endif
                                             <td>{{$kehadiranlalu->jam_masuk}}</td>
-                                            <td>{{$kehadiranlalu->namainstansimasuk}}</td>
+                                            <td>{{$kehadiranlalu->keteranganmasuk_id}}</td>
                                             <td>{{$kehadiranlalu->keluaristirahat}}</td>
                                             <td>{{$kehadiranlalu->masukistirahat}}</td>
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
-                                            <td>{{$kehadiranlalu->namainstansikeluar}}</td>
+                                            <td>{{$kehadiranlalu->keterangankeluar_id}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>
                                             @if ($kehadiranlalu->jenis_absen=="Tanpa Kabar")
                                             <td><span class="badge bg-red">{{$kehadiranlalu->jenis_absen}}</span></td>
