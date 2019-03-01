@@ -2243,7 +2243,7 @@ class Controller extends BaseController
 
 
     //selesai -> belum dicoba
-    protected function kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin,$macadress_fingerprint){
+    protected function kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin){
         $hitungabsen = att::leftjoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id', '=', $pegawai_id_fingerprint)
             ->where('atts.tanggal_att', '=', $tanggalkemarin)
