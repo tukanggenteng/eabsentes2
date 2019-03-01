@@ -914,7 +914,7 @@ class Controller extends BaseController
         {
             
                     
-            return "Failed";
+            return "Faileds";
         }
         
     }
@@ -2026,7 +2026,7 @@ class Controller extends BaseController
 
             )
             ->whereNotNull('atts.jam_masuk')
-            ->where('jadwalkerjas.lewathari','=','1')
+            ->where('jadwalkerjas.lewathari','=','0')
             // ->latest()
             ->count();
 
@@ -2044,7 +2044,7 @@ class Controller extends BaseController
 
             )
             ->whereNull('atts.jam_keluar')
-            ->where('jadwalkerjas.lewathari','=','1')
+            ->where('jadwalkerjas.lewathari','=','0')
             //->latest()
             ->get();
             //  dd($absens);
