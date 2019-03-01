@@ -291,7 +291,7 @@ class ChartController extends Controller
         
 
         if (isset($request->periodeabsen)){
-            $kehadiran=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
+            $kehadiranlalu=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
