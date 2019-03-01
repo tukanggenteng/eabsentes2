@@ -1924,7 +1924,7 @@ class Controller extends BaseController
                 // dd("asd");
                 //function kehadiranhariini
                 //memakai variabel tanggal_fingerprint
-                return $this->kehadiranhariini($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint);
+                return $this->kehadiranhariini($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint);
             }
             else
             //ini proses hari kemarin
@@ -1933,7 +1933,7 @@ class Controller extends BaseController
 
                 $tanggalkemarin=date("Y-m-d",strtotime("-1 day",strtotime($tanggal_fingerprint)));
 
-                return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin);
+                return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint,$tanggalkemarin);
 
                 
             }
@@ -2243,7 +2243,7 @@ class Controller extends BaseController
 
 
     //selesai -> belum dicoba
-    protected function kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$tanggalkemarin){
+    protected function kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint,$tanggalkemarin){
         $hitungabsen = att::leftjoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id', '=', $pegawai_id_fingerprint)
             ->where('atts.tanggal_att', '=', $tanggalkemarin)
