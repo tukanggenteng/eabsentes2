@@ -2026,6 +2026,7 @@ class Controller extends BaseController
 
             )
             ->whereNotNull('atts.jam_masuk')
+            ->whereNull('atts.jam_keluar')
             ->where('jadwalkerjas.lewathari','=','0')
             // ->latest()
             ->count();
@@ -2043,6 +2044,7 @@ class Controller extends BaseController
                     'jadwalkerjas.lewathari'
 
             )
+            ->whereNotNull('atts.jam_masuk')
             ->whereNull('atts.jam_keluar')
             ->where('jadwalkerjas.lewathari','=','0')
             //->latest()
@@ -2255,6 +2257,7 @@ class Controller extends BaseController
 
             )
             ->whereNotNull('atts.jam_masuk')
+            ->whereNull('atts.jam_keluar')
             ->where('jadwalkerjas.lewathari','=','1')
             // ->latest()
             ->count();
@@ -2269,6 +2272,8 @@ class Controller extends BaseController
                     'jadwalkerjas.sifat',
                     'jadwalkerjas.lewathari'
             )
+            ->whereNotNull('atts.jam_masuk')
+            ->whereNull('atts.jam_keluar')
             ->where('jadwalkerjas.lewathari','=','1')
             ->get();
             // dd($absens);
