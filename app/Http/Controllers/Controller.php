@@ -1914,7 +1914,7 @@ class Controller extends BaseController
             $hitungabsen=att::leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id','=',$pegawai_id_fingerprint)
             ->where('atts.tanggal_att','=',$tanggal_fingerprint)
-            ->whereNull('atts.jam_masuk')
+            ->whereNotNull('atts.jam_masuk')
             ->where('jadwalkerjas.lewathari','=','1')
             ->count();
             // dd($hitungabsen);
