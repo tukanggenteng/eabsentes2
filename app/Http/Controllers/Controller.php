@@ -1911,10 +1911,13 @@ class Controller extends BaseController
         // $table=1;
         if ($table > 0)
         {
+            $tanggalkemarin=date("Y-m-d",strtotime("-1 day",strtotime($tanggal_fingerprint)));
+
             $hitungabsen=att::leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id','=',$pegawai_id_fingerprint)
             ->where('atts.tanggal_att','=',$tanggal_fingerprint)
             ->whereNotNull('atts.jam_masuk')
+            ->whereNull('atts.jam_keluar')
             ->where('jadwalkerjas.lewathari','=','1')
             ->count();
             // dd($hitungabsen);
@@ -1931,7 +1934,6 @@ class Controller extends BaseController
             {
                 //pencarian absen hari ini yang jam masuk nya terisi
 
-                $tanggalkemarin=date("Y-m-d",strtotime("-1 day",strtotime($tanggal_fingerprint)));
 
                 return $this->kehadiranharikemarin($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint,$tanggalkemarin);
 

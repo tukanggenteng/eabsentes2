@@ -21,38 +21,28 @@ class QueuePegawaiController extends Controller
 
     public function get(Request $request)
     {
-        $pegawai_id= $request->json('pegawai');
+
         $instansi_id=$request->json('instansi');
         $macaddress=$request->json('macaddress');
 
-        $datapegawai=pegawai::where('nip','=',$pegawai_id)
-                      ->first();
+        
         $datainstansi=instansi::where('id','=',$instansi_id)
                       ->first();
         $datamacaddress=macaddresse::where('macaddress','=',$macaddress)
                       ->first();
 
-        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress!=null))
-        {
-          $dataqueuepegawai= queue_pegawai::where('pegawai_id','=',$pegawai_id)
-                                          ->where('instansi_id','=',$instansi_id)
-                                          ->where('macaddress_id','=',$datamacaddress->id)
-                                          ->where('status','=',false)
-                                          ->get();
-          return $dataqueuepegawai;
-                                          
-        }
-        else
-        {
-          return "Null";
-        }
-
+        $dataqueuepegawai= queue_pegawai::where('instansi_id','=',$instansi_id)
+        ->where('macaddress_id','=',$datamacaddress->id)
+        ->where('status','=',false)
+        ->get();
+        
+        return $dataqueuepegawai;
 
     }
 
     public function post(Request $request)
     {
-        $pegawai_id= $request->json('pegawai');
+
         $instansi_id=$request->json('instansi');
         $macaddress=$request->json('macaddress');
         $token=$request->json('token');
@@ -60,36 +50,25 @@ class QueuePegawaiController extends Controller
         $hasilbasic=$macaddress.$instansi_id.$pegawai_id;
         $hasil=$this->encryptOTP($hasilbasic); 
 
-        $datapegawai=pegawai::where('nip','=',$pegawai_id)
-                      ->first();
+       
         $datainstansi=instansi::where('id','=',$instansi_id)
                       ->first();
         $datamacaddress=macaddresse::where('macaddress','=',$macaddress)
                       ->first();
 
-        if (($datapegawai!=null) && ($datainstansi!=null) && ($datamacaddress!=null) && ($token==$hasil))
+        $dataqueuepegawai= queue_pegawai::where('instansi_id','=',$instansi_id)
+        ->where('macaddress_id','=',$datamacaddress->id)
+        ->first();
+
+        $dataqueuepegawai->status=true;
+
+        if ($dataqueuepegawai->save())
         {
-          $dataqueuepegawai= queue_pegawai::where('pegawai_id','=',$pegawai_id)
-                                          ->where('instansi_id','=',$instansi_id)
-                                          ->where('macaddress_id','=',$datamacaddress->id)
-                                          ->first();
-
-          $dataqueuepegawai->status=true;
-
-          if ($dataqueuepegawai->save())
-          {
-            return "Success";
-          }
-          else
-          {
-            return "Failed";
-          }
-
-                                          
+        return "Success";
         }
         else
         {
-          return "Failed";
+        return "Failed";
         }
 
     }
