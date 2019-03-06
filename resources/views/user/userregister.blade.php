@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Manajemen User
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->

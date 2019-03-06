@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Status Raspberry
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,7 +21,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -28,7 +32,7 @@
 
           <!-- Main content -->
           <section class="content">
-                
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
@@ -45,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-bordered table-hover table-align">
                                                 <thead>
                                                 <tr>
                                                     <th>Nama Instansi</th>
@@ -113,13 +117,41 @@
                     { data: 'namaInstansi', name: 'namaInstansi' },
                     { data: 'alamatip', name: 'alamatip' },
                     { data: 'versi', name: 'versi' },
-                    { data: 'jumlahmac', name: 'jumlahmac' },
-                    { data: 'jumlahpegawaifinger', name: 'jumlahpegawaifinger' },
-                    { data: 'jumlahadminfinger', name: 'jumlahadminfinger' },
-                    { data: 'jumlahabsensifinger', name: 'jumlahabsensifinger' },
-                    { data: 'jumlahpegawailocal', name: 'jumlahpegawailocal' },
-                    { data: 'jumlahadminlocal', name: 'jumlahadminlocal' },
-                    { data: 'jumlahabsensilocal', name: 'jumlahabsensilocal' },
+                    { data: 'jumlahmac', name: 'jumlahmac',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahpegawaifinger', name: 'jumlahpegawaifinger',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahadminfinger', name: 'jumlahadminfinger' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahabsensifinger', name: 'jumlahabsensifinger' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahpegawailocal', name: 'jumlahpegawailocal' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahadminlocal', name: 'jumlahadminlocal' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'jumlahabsensilocal', name: 'jumlahabsensilocal' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
                     { data: 'created_at', name: 'created_at' },
                     { data: 'updated_at', name: 'updated_at' },
                 ]
@@ -133,6 +165,4 @@
     </script>
 
 
-
-    </body>
 @endsection

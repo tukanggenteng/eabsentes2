@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Manajemen Pegawai
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,11 +21,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -45,7 +48,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-bordered table-hover table-align">
                                                 <thead>
                                                 <tr>
                                                     <th>Id</th>
@@ -205,12 +208,32 @@
                 ajax: '{{route('datapegawaiuser')}}',
                 columns: [
 
-                    { data: 'id', name: 'id' },
-                    { data: 'nip', name: 'nip' },
+                    { data: 'id', name: 'id',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'nip', name: 'nip',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    },
                     { data: 'nama', name: 'nama' },
-                    { data: 'namaInstansi', name: 'namaInstansi' },
-                    { data: 'finger', name: 'finger' },
-                    { data: 'action', name: 'action' }
+                    { data: 'namaInstansi', name: 'namaInstansi',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                     },
+                    { data: 'finger', name: 'finger',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'action', name: 'action' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    }
                 ]
             });
         });
@@ -301,7 +324,7 @@
                 $('.input-group-addon').html('<i class="fa fa-spinner fa-spin"></i>');
               },
               success:function(response){
-                // alert(response['namaInstansi']);                  
+                // alert(response['namaInstansi']);
                 if (response['status']=='1')
                 {
                   $('#nip').attr('disabled',true);
@@ -338,5 +361,4 @@
         });
     </script>
 
-    </body>
 @endsection

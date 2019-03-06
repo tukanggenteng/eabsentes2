@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('layouts.app_login')
 
 @section('body')
     <body class="hold-transition login-page">
     <div class="login-box">
-        
+
         <!-- /.login-logo -->
         <div class="login-box-body">
             <div class="login-logo">

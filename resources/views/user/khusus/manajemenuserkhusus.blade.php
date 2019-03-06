@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Manajemen User Khusus
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -14,7 +19,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -39,7 +43,7 @@
                                 </button>
                                 <hr>
                                 <div class="table-responsive">
-                                    <table id="tableaja" class="table">
+                                    <table id="tableaja" class="table table-striped table-hover">
                                         <thead>
                                         <tr>
                                             <th>Username</th>
@@ -153,7 +157,7 @@
 
                                                 </select>
                                             </div>
-                                            
+
                                             <!-- /.form-group -->
                                         </div>
                                     </div>
@@ -220,11 +224,11 @@
     <!-- FastClick -->
     <script src="{{asset('bower_components/fastclick/lib/fastclick.js')}}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
+
     <!-- AdminLTE App -->
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
     <!-- AdminLTE for demo purposes -->
-    
+
 
     <!-- Page script -->
     <script>
@@ -398,5 +402,4 @@
             });
         });
     </script>
-    </body>
 @endsection

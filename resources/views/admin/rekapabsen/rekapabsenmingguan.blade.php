@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Rekap Bulanan
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -22,7 +27,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
 
     <div class="wrapper">
 
@@ -46,7 +50,7 @@
                             <div class="box-body">
                                 <hr>
                                 <div class="table-responsive">
-                                    <table id="tableaja" class="table">
+                                    <table id="tableaja" class="table table-striped table-bordered table-hover table-align">
                                         <thead>
                                         <tr>
                                             <th>NIP</th>
@@ -160,26 +164,78 @@
         $(function() {
             oTable = $('#tableaja').DataTable({
                 processing: true,
-                
+
                 serverSide: true,
                 ajax: '{{route('datarekapadminmingguan')}}',
                 columns: [
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'periode', name: 'periode' },
-                    { data: 'hari_kerja', name: 'hari_kerja' },
-                    { data: 'hadir', name: 'hadir' },
-                    { data: 'tanpa_kabar', name: 'tanpa_kabar' },
-                    { data: 'ijin', name: 'ijin' },
-                    { data: 'cuti', name: 'cuti' },
-                    { data: 'sakit', name: 'sakit' },
-                    { data: 'tugas_luar', name: 'tugas_luar' },
-                    { data: 'tugas_belajar', name: 'tugas_belajar' },
-                    { data: 'rapatundangan', name: 'rapatundangan' },
-                    { data: 'ijinterlambat', name: 'ijinterlambat' },
-                    { data: 'terlambat', name: 'terlambat' },
-                    { data: 'pulang_cepat', name: 'pulang_cepat' },
-                    { data: 'ijinpulangcepat', name: 'ijinpulangcepat' },
+                    { data: 'hari_kerja', name: 'hari_kerja',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'hadir', name: 'hadir',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'tanpa_kabar', name: 'tanpa_kabar',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'ijin', name: 'ijin',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'cuti', name: 'cuti',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'sakit', name: 'sakit',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'tugas_luar', name: 'tugas_luar',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'tugas_belajar', name: 'tugas_belajar',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'rapatundangan', name: 'rapatundangan',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'ijinterlambat', name: 'ijinterlambat',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'terlambat', name: 'terlambat',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'pulang_cepat', name: 'pulang_cepat',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'ijinpulangcepat', name: 'ijinpulangcepat',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
                     { data: 'total_akumulasi', name: 'total_akumulasi' },
                     { data: 'total_terlambat', name: 'total_terlambat' },
                     { data: 'namaInstansi', name: 'namaInstansi' }
@@ -188,6 +244,4 @@
         });
     </script>
 
-
-    </body>
 @endsection

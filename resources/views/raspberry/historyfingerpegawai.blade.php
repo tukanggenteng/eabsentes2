@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+History Finger Pegawai
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,7 +21,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -28,12 +32,12 @@
 
           <!-- Main content -->
           <section class="content">
-                
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Status Raspberry</h3>
+                                <h3 class="box-title">History Sidik Jari Pegawai</h3>
                             </div>
                             <div class="box-body">
                                 <div class="row">
@@ -45,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-bordered table-hover table-align">
                                                 <thead>
                                                 <tr>
                                                     <th>Nama Instansi</th>
@@ -108,7 +112,11 @@
                 columns: [
                     { data: 'namaInstansi', name: 'namaInstansi' },
                     { data: 'iphapus', name: 'iphapus' },
-                    { data: 'pegawai_id', name: 'pegawai_id' },
+                    { data: 'pegawai_id', name: 'pegawai_id',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
                     { data: 'nip', name: 'nip' },
                     { data: 'nama', name: 'nama' },
                     { data: 'statushapus', name: 'statushapus' },
@@ -124,7 +132,4 @@
         });
     </script>
 
-
-
-    </body>
 @endsection

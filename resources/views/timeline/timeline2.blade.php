@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
+@section('title')
+Time Line
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('dist/css/skins/_all-skins.min.css')}}">
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -104,7 +107,7 @@
         var page = 1;
         $(window).scroll(function() {
             if($(window).scrollTop() >= $(document).height() - $(window).height()-30) {
-                
+
                 page++;
                 loadMoreData(page);
             }
@@ -136,5 +139,4 @@
         }
     </script>
 
-    </body>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Status Surat Ijin Terlambat
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -22,11 +26,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -62,7 +64,7 @@
                             {{csrf_field()}}
                         </form>
                         <hr>
-                        <table class="table table-hover">
+                        <table class="table table-striped table-bordered table-hover">
                             <tr>
                                 <th>NIP</th>
                                 <th>Nama</th>
@@ -75,7 +77,7 @@
                                     <td>{{$rekap->nip}}</td>
                                     <td>{{$rekap->nama}}</td>
                                     <td>{{$rekap->mulaitanggal}}</td>
-                                    <td>{{$rekap->lama}}</td>
+                                    <td style="text-align:right;">{{$rekap->lama}}</td>
                                     @if ($rekap->namafile=="1")
                                     <td><span class="badge bg-green">Terlaporkan</span></td>
                                     @else
@@ -161,5 +163,4 @@
         })
     </script>
 
-    </body>
 @endsection

@@ -1,13 +1,13 @@
 
 <header class="main-header">
     <!-- Logo -->
-    
+
         <!-- <a href="/home/ruangan" class="logo">
-           
+
             <span class="logo-mini"><b>EA</b></span>
             <span class="logo-lg"><b>e-Absen</b></span>
         </a> -->
-    
+
         <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>EA</b></span>
@@ -24,11 +24,39 @@
             <span class="icon-bar"></span>
         </a>
 
+        @if (Auth::user()->role->namaRole=="admin")
+        <div class="navbar-custom-menu pull-left">
+          <ul class="nav navbar-nav ">
+            <li class="active"><a href="#">Status Trigger : [
+              @isset($status)
+                @if ($status=='0')
+                    None
+                @elseif ($status=='1')
+                    Tambah Pegawai - Admin
+                @elseif ($status=='2')
+                    Hapus Pegawai
+                @elseif ($status=='3')
+                    Update Software
+                @elseif ($status=='4')
+                    Reset Data Mesin
+                @endif
+              @endisset
+              @empty($status)
+                  Variable Triger tidak ditemukan
+              @endempty
+
+
+            ]  </a></li>
+          </ul>
+        </div>
+        @endif
+
         <div class="navbar-custom-menu">
+
             <ul class="nav navbar-nav">
             <li class="dropdown notifications-menu">
                 @if ((Auth::user()->role->namaRole=="rs") || (Auth::user()->role->namaRole=="user") || (Auth::user()->role->namaRole=="karu"))
-                
+
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="fa fa-bell-o"></i>
                 <span class="label label-warning">

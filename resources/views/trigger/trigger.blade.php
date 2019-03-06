@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Atur Trigger
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -16,7 +20,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -84,7 +87,7 @@
                                                     @else
                                                         <option value="4">Reset Data Mesin</option>
                                                     @endif
-                                                    
+
                                                 </select>
                                             </div>
 
@@ -146,7 +149,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -175,7 +178,7 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover table-striped">
                                                 <tr>
                                                     <th>
                                                         <input type="checkbox" id="select_all2" name="select_all2" class="flat-red select_all">
@@ -245,7 +248,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="row">
                     <div class="col-md-12">
@@ -274,7 +277,7 @@
                                     {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <table class="table table-hover">
+                                            <table class="table table-striped table-hover">
                                                 <tr>
                                                     <th>
                                                         <input type="checkbox" id="select_all3" name="select_all3" class="flat-red select_all3">
@@ -430,5 +433,4 @@
         })
     </script>
 
-    </body>
 @endsection

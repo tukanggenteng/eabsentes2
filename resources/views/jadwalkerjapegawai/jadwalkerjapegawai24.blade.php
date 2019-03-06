@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Manajemen Jadwal Kerja Pegawai 24 Jam
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -27,7 +31,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -96,7 +99,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="table-responsive">
-                                        <table class="table table-hover" id="tableaja">
+                                        <table class="table table-striped table-hover" id="tableaja">
                                             <thead>
                                                 <tr>
                                                     <th>
@@ -105,13 +108,13 @@
                                                     <th>NIP</th>
                                                     <th>Nama</th>
                                                 </tr>
-                                            </thead> 
+                                            </thead>
                                         </table>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-                            
+
                         </form>
                         </div>
                         <!-- /.box-body -->
@@ -140,7 +143,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                        <table class="table table-hover" id="tablein">
+                                        <table class="table table-striped table-hover" id="tablein">
                                                 <thead>
                                                     <tr>
                                                         <th>
@@ -154,16 +157,16 @@
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
-                                                
-                                                
+
+
                                             </table>
                                         </div>
-                                            
+
                                     </div>
                                 </div>
-                                
+
                             </form>
-                            
+
                     </div>
                     <!-- /.box-body -->
 
@@ -189,7 +192,7 @@
     <!-- DataTables -->
     <script src="{{asset('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
-                                                        
+
     <!-- Select2 -->
     <script src="{{asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
     <!-- InputMask -->
@@ -303,5 +306,4 @@
         });
     </script>
 
-    </body>
 @endsection

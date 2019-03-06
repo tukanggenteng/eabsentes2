@@ -8,6 +8,7 @@ use App\att;
 use App\role;
 use App\atts_tran;
 use App\pegawai;
+use App\triger;
 use Illuminate\Http\Request;
 use App\User;
 use Symfony\Component\VarDumper\Cloner\Data;
@@ -35,6 +36,11 @@ class UserController extends Controller
 
 
     public function index(){
+
+        //for triger info
+        $tables=triger::where('id','=','1')->first();
+        $trigger=$tables->status;
+
         if ($this->notifrekap()=="")
         {
 
@@ -47,7 +53,7 @@ class UserController extends Controller
         $instansi=instansi::where('namaInstansi','!=','Admin')->get();
         $role=role::all();
 //        dd($role);
-        return view('user.manajuser',['inforekap'=>$inforekap,'instansis'=>$instansi,'roles'=>$role]);
+        return view('user.manajuser',['inforekap'=>$inforekap,'instansis'=>$instansi,'roles'=>$role, 'status'=>$trigger]);
     }
 
     public function data(){
@@ -169,13 +175,13 @@ class UserController extends Controller
     public function indexchange(){
       if (Auth::user()->role->namaRole=="gubernur")
       {
-        return view('user.changepasswordtop'); 
+        return view('user.changepasswordtop');
       }
       else
       {
         return view('user.changepassword');
       }
-      
+
     }
 
     public function changepassword(Request $request){
@@ -216,7 +222,7 @@ class UserController extends Controller
                 return redirect()->back()->with('statuserror','Password Salah');
             }
         }
-          
+
 
           // return redirect()->route('password.change');
 

@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Alat untuk Data Pegawai
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,11 +21,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -28,7 +31,7 @@
 
           <!-- Main content -->
           <section class="content">
-                
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
@@ -37,8 +40,8 @@
                                     @if ($notification[0]['pegawaifinger']>0)
                                         <span class="badge bg-red">{{$notification[0]['pegawaifinger']}}</span>
                                     @else
-                                        <span class="badge bg-green">{{$notification[0]['pegawaifinger']}}</span>   
-                                    @endif 
+                                        <span class="badge bg-green">{{$notification[0]['pegawaifinger']}}</span>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="box-body">
@@ -46,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-bordered table-hover table-align">
                                                 <thead>
                                                 <tr>
                                                     <th>IP</th>
@@ -106,18 +109,35 @@
                 ajax: '{{route('dataraspberryinstansi')}}',
                 columns: [
                     { data: 'alamatip', name: 'alamatip' },
-                    { data: 'versi', name: 'versi' },
-                    { data: 'jumlahpegawaifinger', name: 'jumlahpegawaifinger' },
-                    { data: 'jumlahabsensifinger', name: 'jumlahabsensifinger' },
-                    { data: 'created_at', name: 'created_at' },
-                    { data: 'updated_at', name: 'updated_at' },
+                    { data: 'versi', name: 'versi' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    },
+                    { data: 'jumlahpegawaifinger', name: 'jumlahpegawaifinger',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                      },
+                    { data: 'jumlahabsensifinger', name: 'jumlahabsensifinger',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'right');
+                        }
+                    },
+                    { data: 'created_at', name: 'created_at' ,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    },
+                    { data: 'updated_at', name: 'updated_at',
+                        createdCell: function (td, cellData, rowData, row, col) {
+                           $(td).css('text-align', 'center');
+                        }
+                    },
                 ]
             });
         });
 
     </script>
 
-
-
-    </body>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Manajemen Mac Address Fingerscan
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -16,7 +20,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -92,7 +95,7 @@
                                 <div class="box">
                                     <!-- /.box-header -->
                                     <div class="box-body no-padding">
-                                        <table class="table table-striped">
+                                        <table class="table table-hover table-striped">
                                             <tr>
                                                 <th>Mac Address</th>
                                                 <th>Instansi</th>
@@ -202,5 +205,4 @@
         );
     </script>
 
-    </body>
 @endsection

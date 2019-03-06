@@ -167,6 +167,7 @@
                     <i class="fa fa-bullseye"></i>
                             <span>Alat</span>
                                 <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
                                 @if ($notification[0]['pegawaifinger']>0)
                                     <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
                                 @endif
@@ -174,7 +175,7 @@
                                     <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
                                 @endif
                                 </span>
-                            
+
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/alat/instansi"><i class="fa fa-circle-o"></i> <span> Alat untuk data pegawai</span>
@@ -306,6 +307,8 @@
                     <i class="fa fa-bullseye"></i>
                             <span>Alat</span>
                                 <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                                  
                                 @if ($notification[0]['pegawaifinger']>0)
                                     <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
                                 @endif
@@ -313,7 +316,7 @@
                                     <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
                                 @endif
                                 </span>
-                            
+
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="/alat/instansi"><i class="fa fa-circle-o"></i> <span> Alat untuk data pegawai</span>
@@ -331,4 +334,3 @@
             @endif
         </ul>
 </aside>
- 

@@ -1,4 +1,9 @@
 @extends('layouts.app')
+
+@section('title')
+Update Sidik Jari
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
 <!-- Font Awesome -->
@@ -16,11 +21,9 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
-
       @include('layouts.sidebar')
 
       <!-- Content Wrapper. Contains page content -->
@@ -28,7 +31,7 @@
 
           <!-- Main content -->
           <section class="content">
-                
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="box box-default">
@@ -37,8 +40,8 @@
                                     @if ($notification[1]['updatefinger']>0)
                                         <span class="badge bg-red">{{$notification[1]['updatefinger']}}</span>
                                     @else
-                                        <span class="badge bg-green">{{$notification[1]['updatefinger']}}</span>   
-                                    @endif 
+                                        <span class="badge bg-green">{{$notification[1]['updatefinger']}}</span>
+                                    @endif
                                 </h3>
                             </div>
                             <div class="box-body">
@@ -46,7 +49,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="table-responsive">
-                                            <table id="tableaja" class="table">
+                                            <table id="tableaja" class="table table-striped table-hover table-align">
                                                 <thead>
                                                 <tr>
                                                     <th>NIP</th>
@@ -117,7 +120,4 @@
 
     </script>
 
-
-
-    </body>
 @endsection

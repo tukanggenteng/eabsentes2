@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Manajemen Jadwal Kerja
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -21,7 +25,6 @@
 @endpush
 
 @section('body')
-    <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
 
       @include('layouts.header')
@@ -50,7 +53,7 @@
                 <!-- Atur Jadwal Kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Atur Jam Kerja</h3>
+                        <h3 class="box-title">Atur Masa Jam Kerja</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -86,7 +89,7 @@
                                         </div>
                                         {{csrf_field()}}
                                     </div>
-                                
+
                                 </div>
                             </div>
                             <div class="row">
@@ -181,7 +184,7 @@
                 <!-- Table jadwal kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Tabel Aturan Jam Kerja</h3>
+                        <h3 class="box-title">Tabel Aturan Masa Jam Kerja</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -205,7 +208,7 @@
                                                 <th>Lewat Hari</th>
                                                 <th>Aksi</th>
                                             </thead>
-                                               
+
                                         </table>
                                 </div>
                             </div>
@@ -221,7 +224,7 @@
                 <!-- Atur Jadwal Sebelum Masuk Kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Atur Jam Kerja</h3>
+                        <h3 class="box-title">Atur Jam Berlaku Absen</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -278,7 +281,7 @@
                 <!-- Table jadwal Sebelum kerja -->
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Tabel Aturan Jam Kerja</h3>
+                        <h3 class="box-title">Tabel Aturan Jam Berlaku Absen</h3>
 
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -438,7 +441,7 @@
                     { data: 'action', name: 'action',orderable: false }
                 ]
             });
-            
+
             rulejadwalkerjadatatable = $('#rulejadwalkerjadatatable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -477,6 +480,4 @@
             // $('#preview').removeClass()
         })
     </script>
-
-    </body>
 @endsection

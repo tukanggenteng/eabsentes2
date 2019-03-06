@@ -27,7 +27,7 @@ class TransferRekapController extends Controller
     //
     public function index(){
         return view('rekapabsen.transferrekap');
-    } 
+    }
 
     public function datagrid (){
         $rekaps=rekapbulanan::leftJoin('pegawais','rekapbulanans.pegawai_id','=','pegawais.id')
@@ -43,7 +43,7 @@ class TransferRekapController extends Controller
             // ->where('rekapbulanans.ijinpulangcepat','>','0')
             // ->where('rekapbulanans.tugas_belajar','>','0')
             // ->where('rekapbulanans.rapatundangan','>','0');
-            
+
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where(function($q) {
                 $q->where('rekapbulanans.sakit','>',0)
@@ -54,25 +54,25 @@ class TransferRekapController extends Controller
                     ->orWhere('rekapbulanans.tugas_belajar','>',0)
                     ->orWhere('rekapbulanans.rapatundangan','>',0);
             });
-            
+
 
         return Datatables::of($rekaps)
             ->editColumn('ijin',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_ijin"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ijin="'.$rekaps->ijin.'" data-target="#modal_ijin"><i class="fa fa-download"></i> '.$rekaps->ijin.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_ijin"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ijin="'.$rekaps->ijin.'" data-target="#modal_ijin"><i class="fa fa-file"></i> '.$rekaps->ijin.'</button>';})
             ->editColumn('sakit',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_sakit"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-sakit="'.$rekaps->sakit.'" data-target="#modal_sakit"><i class="fa fa-download"></i> '.$rekaps->sakit.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_sakit"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-sakit="'.$rekaps->sakit.'" data-target="#modal_sakit"><i class="fa fa-file"></i> '.$rekaps->sakit.'</button>';})
             ->editColumn('cuti',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_cuti"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-cuti="'.$rekaps->cuti.'" data-target="#modal_cuti"><i class="fa fa-download"></i> '.$rekaps->cuti.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_cuti"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-cuti="'.$rekaps->cuti.'" data-target="#modal_cuti"><i class="fa fa-file"></i> '.$rekaps->cuti.'</button>';})
             ->editColumn('tugas_luar',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_tl"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tl="'.$rekaps->tugas_luar.'" data-target="#modal_tl"><i class="fa fa-download"></i> '.$rekaps->tugas_luar.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_tl"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tl="'.$rekaps->tugas_luar.'" data-target="#modal_tl"><i class="fa fa-file"></i> '.$rekaps->tugas_luar.'</button>';})
             ->editColumn('tugas_belajar',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_tb"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tb="'.$rekaps->tugas_belajar.'" data-target="#modal_tb"><i class="fa fa-download"></i> '.$rekaps->tugas_belajar.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_tb"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-tb="'.$rekaps->tugas_belajar.'" data-target="#modal_tb"><i class="fa fa-file"></i> '.$rekaps->tugas_belajar.'</button>';})
             ->editColumn('rapatundangan',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_rp"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-rp="'.$rekaps->rapatundangan.'" data-target="#modal_rp"><i class="fa fa-download"></i> '.$rekaps->rapatundangan.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_rp"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-rp="'.$rekaps->rapatundangan.'" data-target="#modal_rp"><i class="fa fa-file"></i> '.$rekaps->rapatundangan.'</button>';})
             ->editColumn('ijinterlambat',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_it"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-it="'.$rekaps->ijinterlambat.'" data-target="#modal_it"><i class="fa fa-download"></i> '.$rekaps->ijinterlambat.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_it"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-it="'.$rekaps->ijinterlambat.'" data-target="#modal_it"><i class="fa fa-file"></i> '.$rekaps->ijinterlambat.'</button>';})
             ->editColumn('ijinpulangcepat',function (rekapbulanan $rekaps){
-                return '<button type="button" class="btn btn-block btn-primary modal_ipc"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ipc="'.$rekaps->ijinpulangcepat.'" data-target="#modal_ipc"><i class="fa fa-download"></i> '.$rekaps->ijinpulangcepat.'</button>';})
+                return '<button type="button" class="btn btn-block btn-primary modal_ipc"  data-toggle="modal" data-pegawaiid="'.encrypt($rekaps->pegawai_id).'" data-nip="'.$rekaps->nip.'" data-nama="'.$rekaps->nama.'" data-id="'.encrypt($rekaps->id).'" data-ipc="'.$rekaps->ijinpulangcepat.'" data-target="#modal_ipc"><i class="fa fa-file"></i> '.$rekaps->ijinpulangcepat.'</button>';})
             ->rawColumns(['ijin','sakit','cuti','tugas_luar','tugas_belajar','rapatundangan','ijinterlambat','ijinpulangcepat'])
             ->make(true);
     }
