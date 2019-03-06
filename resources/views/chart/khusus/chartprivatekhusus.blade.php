@@ -506,11 +506,12 @@
                               <th>Nama</th>
                               <th>Absen Terlambat</th>
                               <th>Jam Masuk</th>
-                              <th>Lokasi Absen Masuk</th>
+                              <th>Keterangan Masuk</th>
                               <th>Mulai Istirahat</th>
                               <th>Selesai Istirahat</th>
+                              <th>Tanggal Keluar</th>
                               <th>Jam Keluar</th>
-                              <th>Lokasi Absen Keluar</th>
+                              <th>Keterangan Keluar</th>
                               <th>Akumulasi</th>
                               <th>Keterangan</th>
                               <th>Jadwal Kerja</th>
@@ -527,11 +528,12 @@
                                 <td><span class="badge bg-red">{{$kehadiran->terlambat}}</span></td>
                                 @endif
                                 <td>{{$kehadiran->jam_masuk}}</td>
-                                <td>{{$kehadiran->namainstansimasuk}}</td>
+                                <td>{{$kehadiran->keteranganmasuk_id}}</td>
                                 <td>{{$kehadiran->keluaristirahat}}</td>
                                 <td>{{$kehadiran->masukistirahat}}</td>
+                                <td>{{$kehadiran->tanggal_keluar}}</td>
                                 <td>{{$kehadiran->jam_keluar}}</td>
-                                <td>{{$kehadiran->namainstansikeluar}}</td>
+                                <td>{{$kehadiran->keterangankeluar_id}}</td>
                                 <td>{{$kehadiran->akumulasi_sehari}}</td>
                                 @if ($kehadiran->jenis_absen=="Tanpa Kabar")
                                 <td><span class="badge bg-red">{{$kehadiran->jenis_absen}}</span></td>
@@ -587,11 +589,12 @@
                                         <th>Tanggal</th>
                                         <th>Absen Terlambat</th>
                                         <th>Jam Masuk</th>
-                                        <th>Lokasi Absen Masuk</th>
+                                        <th>Keterangan Masuk</th>
                                         <th>Mulai Istirahat</th>
                                         <th>Selesai Istirahat</th>
                                         <th>Jam Keluar</th>
-                                        <th>Lokasi Absen Keluar</th>
+                                        <th>Tanggal Keluar</th>
+                                        <th>Keterangan Keluar</th>
                                         <th>Akumulasi</th>
                                         <th>Keterangan</th>
                                         <th>Jadwal Kerja</th>
@@ -609,11 +612,12 @@
                                             <td><span class="badge bg-red">{{$kehadiranlalu->terlambat}}</span></td>
                                             @endif
                                             <td>{{$kehadiranlalu->jam_masuk}}</td>
-                                            <td>{{$kehadiranlalu->namainstansimasuk}}</td>
+                                            <td>{{$kehadiranlalu->keteranganmasuk_id}}</td>
                                             <td>{{$kehadiranlalu->keluaristirahat}}</td>
                                             <td>{{$kehadiranlalu->masukistirahat}}</td>
+                                            <td>{{$kehadiranlalu->tanggal_keluar}}</td>
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
-                                            <td>{{$kehadiranlalu->namainstansikeluar}}</td>
+                                            <td>{{$kehadiranlalu->keterangankeluar_id}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>
                                             @if ($kehadiranlalu->jenis_absen=="Tanpa Kabar")
                                             <td><span class="badge bg-red">{{$kehadiranlalu->jenis_absen}}</span></td>

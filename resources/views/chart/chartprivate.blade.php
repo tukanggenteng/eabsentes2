@@ -717,6 +717,7 @@
                               <th>Keterangan Masuk</th>
                               <th>Mulai Istirahat</th>
                               <th>Selesai Istirahat</th>
+                              <th>Tanggal Keluar</th>
                               <th>Jam Keluar</th>
                               <th>Keterangan Keluar</th>
                               <th>Akumulasi</th>
@@ -752,6 +753,7 @@
                                 <td>{{$kehadiran->keteranganmasuk_id}}</td>
                                 <td>{{$kehadiran->keluaristirahat}}</td>
                                 <td>{{$kehadiran->masukistirahat}}</td>
+                                <td>{{$kehadiran->tanggal_keluar}}</td>
                                 <td>{{$kehadiran->jam_keluar}}</td>
                                 <td>{{$kehadiran->keterangankeluar_id}}</td>
                                 <td>{{$kehadiran->akumulasi_sehari}}</td>
@@ -820,6 +822,7 @@
                                         <th>Keterangan Masuk</th>
                                         <th>Mulai Istirahat</th>
                                         <th>Selesai Istirahat</th>
+                                        <th>Tanggal Keluar</th>
                                         <th>Jam Keluar</th>
                                         <th>Keterangan Keluar</th>
                                         <th>Akumulasi</th>
@@ -856,6 +859,7 @@
                                             <td>{{$kehadiranlalu->keteranganmasuk_id}}</td>
                                             <td>{{$kehadiranlalu->keluaristirahat}}</td>
                                             <td>{{$kehadiranlalu->masukistirahat}}</td>
+                                            <td>{{$kehadiranlalu->tanggal_keluar}}</td>
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->keterangankeluar_id}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>

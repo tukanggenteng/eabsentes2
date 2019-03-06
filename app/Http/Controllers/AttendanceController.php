@@ -74,7 +74,7 @@ class AttendanceController extends Controller
                 return $this->masukistirahat($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
               elseif ($status=='4'){
-                return $this->jam_masuktanpaapel($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
+                return $this->jam_masuk_tanpaapel($user_id,$tanggal,$jam,$status,$instansi,$macaddress);
               }
           }
           else
