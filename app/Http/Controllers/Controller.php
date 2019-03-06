@@ -1276,7 +1276,7 @@ class Controller extends BaseController
 
         $pegawaitidakterjadwal_exist=dokter::where('pegawai_id','=',$pegawai_id_fingerprint)->first();
 
-
+        // dd($pegawaitidakterjadwal_exist == null);
         
         if ($pegawaitidakterjadwal_exist == null)
         {
@@ -1292,6 +1292,7 @@ class Controller extends BaseController
             )
             ->whereNotNull('atts.jam_masuk')
             ->whereNull('atts.jam_keluar')
+            ->oldest()
             ->get();
         } 
         else
@@ -1307,6 +1308,7 @@ class Controller extends BaseController
             ->whereNotNull('atts.jam_masuk')
             ->whereNull('atts.jam_keluar')
             ->whereNull('atts.tanggal_keluar')
+            ->oldest()
             ->get();
         }
         
@@ -1485,12 +1487,13 @@ class Controller extends BaseController
                 {
                     $datang=date("Y-m-d H:i:s", strtotime($absen->tanggal_att." ".$absen->jam_masuk));
                     $pulang=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
-                    // dd($pulang)
+                    // dd($absen->tanggal_att);
                     $akumulasi=($this->kurangwaktu($datang,$pulang));
                     // $patokan=new DateTime($this->kurangwaktu("00:00:00","24:00:00"));
                     $pulang=Carbon::createFromFormat('Y-m-d H:i:s', $tanggal_fingerprint." ".$jam_fingerprint);
                     $batas=Carbon::createFromFormat('Y-m-d H:i:s', $absen->tanggal_att." ".$absen->jam_masuk)->addDay();
-
+                    // dd($pulang->greaterThanOrEqualTo($batas));
+                    // dd($pulang." >= ".$batas);
                     if ($pulang->greaterThanOrEqualTo($batas))
                     {
                         $table = att::where('tanggal_att', '=', $absen->tanggal_att)
