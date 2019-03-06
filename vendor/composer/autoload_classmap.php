@@ -16,6 +16,7 @@ return array(
     'AddColumnKeteranganMasukIdKeteranganKeluarIdToAtt' => $baseDir . '/database/migrations/2019_02_28_152607_add_column_keterangan_masuk_id_keterangan_keluar_id_to_att.php',
     'AddColumnLewathariToJadwalkerjasTable' => $baseDir . '/database/migrations/2018_07_23_141710_add_column_lewathari_to_jadwalkerjas_table.php',
     'AddColumnStatusToQueuePegawai' => $baseDir . '/database/migrations/2019_02_25_232323_add_column_status_to_queue_pegawai.php',
+    'AddColumnTanggalKeluarToAtts' => $baseDir . '/database/migrations/2019_03_05_195943_add_column_tanggal_keluar_to_atts.php',
     'AddSifatUsersColumn' => $baseDir . '/database/migrations/2018_03_14_093212_add_sifat_users_column.php',
     'AddcolumApelRekapanTable' => $baseDir . '/database/migrations/2018_04_26_094826_addcolum_apel_rekapan_table.php',
     'App\\Console\\Commands\\CheckRaspberry' => $baseDir . '/app/Console/Commands/CheckRaspberry.php',

@@ -9,6 +9,7 @@ use App\harikerja;
 use App\instansi;
 use App\jadwalminggu;
 use App\pegawai;
+use App\dokter;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use App\finalrekapbulanan;
@@ -454,6 +455,7 @@ class TiapHariCommand extends Command
                                     ->where('harikerjas.hari','=',$hari)
                                     ->where('pegawais.instansi_id','=',$instansi->id)
                                     ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+
                                     //->where('pegawai_id','=','9930')
                                     ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
                                     ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
@@ -463,12 +465,14 @@ class TiapHariCommand extends Command
                                 // dd($hitung);
                                 if ($hitung>0)
                                 {
+                                    $pegawaiterkecuali=dokter::pluck('pegawai_id')->all();
                                 // dd($hitung);
                                     $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
                                                 ->where('pegawais.instansi_id','=',$instansi->id)
                                                 ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
                                                 ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
                                                 ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
+                                                ->whereNotIn('pegawais.id',$pegawaiterkecuali)
                                                 ->get();
 
                                     // dd($jadwalpegawais);

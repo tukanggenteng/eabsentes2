@@ -39,5 +39,10 @@ class AddColumnKeteranganMasukIdKeteranganKeluarIdToAtt extends Migration
             $table->dropForeign('atts_keterangankeluar_id');
         });
 
+        Schema::table('atts', function (Blueprint $table) {
+            $table->dropColumn('keteranganmasuk_id');
+            $table->dropColumn('keterangankeluar_id');
+        });
+
     }
 }
