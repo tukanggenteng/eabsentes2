@@ -144,11 +144,12 @@ Rekap Absensi Pegawai Harian
                                   <th>Apel</th>
                                   <th>Terlambat</th>
                                   <th>Jam Masuk</th>
-                                  <th>Instansi Hadir</th>
+                                  <th>Keterangan Masuk</th>
                                   <th>Mulai Istirahat</th>
                                   <th>Selesai Istirahat</th>
+                                  <th>Tanggal Keluar</th>
                                   <th>Jam Pulang</th>
-                                  <th>Instansi Pulang</th>
+                                  <th>Keterangan Keluar</th>
                                   <th>Akumulasi Kerja</th>
                                   <th>Keterangan</th>
                                   <th>Jenis Jadwal</th>
@@ -167,11 +168,12 @@ Rekap Absensi Pegawai Harian
                                         @endif
                                         <td>{{$att->terlambat}}</td>
                                         <td>{{$att->jam_masuk}}</td>
-                                        <td>{{$att->namainstansimasuk}}</td>
+                                        <td>{{$att->keteranganmasuk_id}}</td>
                                         <td>{{$att->keluaristirahat}}</td>
                                         <td>{{$att->masukistirahat}}</td>
+                                        <td>{{$att->tanggal_keluar}}</td>
                                         <td>{{$att->jam_keluar}}</td>
-                                        <td>{{$att->namainstansikeluar}}</td>
+                                        <td>{{$att->keterangankeluar_id}}</td>
                                         <td>{{$att->akumulasi_sehari}}</td>
                                         <td>{{$att->jenis_absen}}</td>
                                         <td>{{$att->jenis_jadwal}}</td>

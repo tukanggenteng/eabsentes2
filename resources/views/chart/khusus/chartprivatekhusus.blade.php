@@ -592,8 +592,8 @@
                                         <th>Keterangan Masuk</th>
                                         <th>Mulai Istirahat</th>
                                         <th>Selesai Istirahat</th>
-                                        <th>Jam Keluar</th>
                                         <th>Tanggal Keluar</th>
+                                        <th>Jam Keluar</th>
                                         <th>Keterangan Keluar</th>
                                         <th>Akumulasi</th>
                                         <th>Keterangan</th>

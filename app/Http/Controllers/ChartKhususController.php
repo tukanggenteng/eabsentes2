@@ -275,15 +275,17 @@ class ChartKhususController extends Controller
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-            ->whereIn('atts.pegawai_id',$perawat)                        
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             ->where('atts.tanggal_att','=',$request->periodeabsen)
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
-            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+            'keterangankeluar.jenis_absen as keterangankeluar_id')
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
         }
@@ -293,15 +295,17 @@ class ChartKhususController extends Controller
             ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
             ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
             ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
+            ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+            ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
             ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-            ->whereIn('atts.pegawai_id',$perawat)            
             ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
             // ->where('atts.tanggal_att','=',$now)
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
-            ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
-                'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+            ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+            'keterangankeluar.jenis_absen as keterangankeluar_id')
             ->orderBy('atts.tanggal_att','desc')
             ->paginate(30);
         }

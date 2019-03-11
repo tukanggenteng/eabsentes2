@@ -78,7 +78,7 @@ Manajemen Jadwal Kerja Pegawai
                                             <label>Jenis Jadwal Kerja</label>
                                             <select class="form-control select2" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
                                                 @foreach($jadwalkerjas as $jadwalkerja)
-                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}} ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]</option>
+                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}} ({{$jadwalkerja->jamsebelum_masukkerja}} - {{$jadwalkerja->jam_masukjadwal}} >> {{$jadwalkerja->jam_keluarjadwal}} - {{$jadwalkerja->jamsebelum_pulangkerja}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]</option>
                                                 @endforeach
                                             </select>
                                         </div>

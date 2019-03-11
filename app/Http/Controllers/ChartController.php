@@ -304,7 +304,8 @@ class ChartController extends Controller
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
             ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama',
+            'keteranganmasuk.jenis_absen as keteranganmasuk_id',
             'keterangankeluar.jenis_absen as keterangankeluar_id')
             ->paginate(30);
         }

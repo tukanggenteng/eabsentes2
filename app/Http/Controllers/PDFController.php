@@ -15,7 +15,8 @@ use Excel;
 class PDFController extends Controller
 {
     //
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
       if (isset($request->nip) && isset($request->tanggal))
       {
@@ -26,13 +27,16 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
-        // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
-        // ->whereYear('atts.tanggal_att','=',$tanggal[1])
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('atts.tanggal_att','=',$tanggal)
         ->where('pegawais.nip','=',$request->nip)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->select('atts.*','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'keterangankeluar.jenis_absen as keterangankeluar_id','jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar',
+                'jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(30);
 
@@ -48,12 +52,17 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('atts.tanggal_att','=',$tanggal)
         // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->select('atts.*','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'keterangankeluar.jenis_absen as keterangankeluar_id','jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar',
+                'jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(30);
 
@@ -68,10 +77,15 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('pegawais.nip','=',$request->nip)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->select('atts.*','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'keterangankeluar.jenis_absen as keterangankeluar_id','jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar',
+                'jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(30);
         $request->tanggal=null;
@@ -85,6 +99,8 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
         ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
@@ -106,10 +122,23 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.tanggal_att','pegawais.nip','pegawais.nama','atts.jam_masuk','atts.terlambat','instansismasuk.namaInstansi as namainstansimasuk',
-                    'atts.jam_keluar','instansiskeluar.namaInstansi as namainstansikeluar','atts.akumulasi_sehari',
-                    'jenisabsens.jenis_absen','jadwalkerjas.jenis_jadwal')
+        ->select(       
+                        'pegawais.nip',
+                        'pegawais.nama',
+                        'atts.terlambat',
+                        'atts.tanggal_att',
+                        'atts.jam_masuk',
+                        'keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                        'atts.tanggal_keluar',
+                        'atts.jam_keluar',
+                        'keterangankeluar.jenis_absen as keterangankeluar_id',
+                        'atts.akumulasi_sehari',
+                        'jenisabsens.jenis_absen',
+                        'jadwalkerjas.jenis_jadwal',
+                        'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
         ->limit(5000)
         ->get();
@@ -129,14 +158,15 @@ class PDFController extends Controller
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('C1',function ($cell){$cell->setValue('Nama'); });
-                        $sheet->cell('D1',function ($cell){$cell->setValue('Jam Masuk'); });
-                        $sheet->cell('E1',function ($cell){$cell->setValue('Terlambat'); });
-                        $sheet->cell('F1',function ($cell){$cell->setValue('Masuk Instansi'); });
+                        $sheet->cell('D1',function ($cell){$cell->setValue('Terlambat'); });
+                        $sheet->cell('E1',function ($cell){$cell->setValue('Jam Masuk'); });
+                        $sheet->cell('F1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('G1',function ($cell){$cell->setValue('Jam Keluar'); });
-                        $sheet->cell('H1',function ($cell){$cell->setValue('Keluar Instansi'); });
+                        $sheet->cell('H1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('I1',function ($cell){$cell->setValue('Akumulasi'); });
                         $sheet->cell('J1',function ($cell){$cell->setValue('Jenis Absen'); });
                         $sheet->cell('K1',function ($cell){$cell->setValue('Jenis Jadwal'); });
+                        $sheet->cell('L1',function ($cell){$cell->setValue('Sifat Jadwal'); });
                     });
             })->download('xls');
         // return $pdf->setPaper('F4', 'landscape')->download('laporanharian.pdf');
@@ -155,14 +185,26 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
         ->where('atts.tanggal_att','=',$id)        
         ->where('pegawais.nip','=',$id2)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.tanggal_att','pegawais.nip','pegawais.nama','atts.jam_masuk','atts.terlambat','instansismasuk.namaInstansi as namainstansimasuk',
-                    'atts.jam_keluar','instansiskeluar.namaInstansi as namainstansikeluar','atts.akumulasi_sehari',
-                    'jenisabsens.jenis_absen','jadwalkerjas.jenis_jadwal')
+        ->select(       'pegawais.nip',
+                        'pegawais.nama',
+                        'atts.terlambat',
+                        'atts.tanggal_att',
+                        'atts.jam_masuk',
+                        'keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                        'atts.tanggal_keluar',
+                        'atts.jam_keluar',
+                        'keterangankeluar.jenis_absen as keterangankeluar_id',
+                        'atts.akumulasi_sehari',
+                        'jenisabsens.jenis_absen',
+                        'jadwalkerjas.jenis_jadwal',
+                        'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
         ->limit(5000)
         ->get();
@@ -182,14 +224,15 @@ class PDFController extends Controller
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('C1',function ($cell){$cell->setValue('Nama'); });
-                        $sheet->cell('D1',function ($cell){$cell->setValue('Jam Masuk'); });
-                        $sheet->cell('E1',function ($cell){$cell->setValue('Terlambat'); });
-                        $sheet->cell('F1',function ($cell){$cell->setValue('Masuk Instansi'); });
+                        $sheet->cell('D1',function ($cell){$cell->setValue('Terlambat'); });
+                        $sheet->cell('E1',function ($cell){$cell->setValue('Jam Masuk'); });
+                        $sheet->cell('F1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('G1',function ($cell){$cell->setValue('Jam Keluar'); });
-                        $sheet->cell('H1',function ($cell){$cell->setValue('Keluar Instansi'); });
+                        $sheet->cell('H1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('I1',function ($cell){$cell->setValue('Akumulasi'); });
                         $sheet->cell('J1',function ($cell){$cell->setValue('Jenis Absen'); });
                         $sheet->cell('K1',function ($cell){$cell->setValue('Jenis Jadwal'); });
+                        $sheet->cell('L1',function ($cell){$cell->setValue('Sifat Jadwal'); });
                     });
             })->download('xls');
     }
@@ -203,13 +246,26 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
         ->where('atts.tanggal_att','=',$id)        
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.tanggal_att','pegawais.nip','pegawais.nama','atts.jam_masuk','atts.terlambat','instansismasuk.namaInstansi as namainstansimasuk',
-                    'atts.jam_keluar','instansiskeluar.namaInstansi as namainstansikeluar','atts.akumulasi_sehari',
-                    'jenisabsens.jenis_absen','jadwalkerjas.jenis_jadwal')
+        ->select(       
+                'pegawais.nip',
+                'pegawais.nama',
+                'atts.terlambat',
+                'atts.tanggal_att',
+                'atts.jam_masuk',
+                'keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'atts.tanggal_keluar',
+                'atts.jam_keluar',
+                'keterangankeluar.jenis_absen as keterangankeluar_id',
+                'atts.akumulasi_sehari',
+                'jenisabsens.jenis_absen',
+                'jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
         ->limit(5000)
         ->get();
@@ -223,20 +279,19 @@ class PDFController extends Controller
                        
                         $sheet->protect('b1k1n4pl1k451');
 
-                        
-                        
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('C1',function ($cell){$cell->setValue('Nama'); });
-                        $sheet->cell('D1',function ($cell){$cell->setValue('Jam Masuk'); });
-                        $sheet->cell('E1',function ($cell){$cell->setValue('Terlambat'); });
-                        $sheet->cell('F1',function ($cell){$cell->setValue('Masuk Instansi'); });
+                        $sheet->cell('D1',function ($cell){$cell->setValue('Terlambat'); });
+                        $sheet->cell('E1',function ($cell){$cell->setValue('Jam Masuk'); });
+                        $sheet->cell('F1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('G1',function ($cell){$cell->setValue('Jam Keluar'); });
-                        $sheet->cell('H1',function ($cell){$cell->setValue('Keluar Instansi'); });
+                        $sheet->cell('H1',function ($cell){$cell->setValue('Keterangan Masuk'); });
                         $sheet->cell('I1',function ($cell){$cell->setValue('Akumulasi'); });
                         $sheet->cell('J1',function ($cell){$cell->setValue('Jenis Absen'); });
                         $sheet->cell('K1',function ($cell){$cell->setValue('Jenis Jadwal'); });
+                        $sheet->cell('L1',function ($cell){$cell->setValue('Sifat Jadwal'); });
                     });
             })->download('xls');
     }
@@ -250,10 +305,24 @@ class PDFController extends Controller
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
         ->leftJoin('instansis as instansiskeluar', 'instansiskeluar.id','=','atts.keluarinstansi_id')
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
+        ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
+        ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('pegawais.nip','=',$id)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->select(       
+                'pegawais.nip',
+                'pegawais.nama',
+                'atts.terlambat',
+                'atts.tanggal_att',
+                'atts.jam_masuk',
+                'keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'atts.tanggal_keluar',
+                'atts.jam_keluar',
+                'keterangankeluar.jenis_absen as keterangankeluar_id',
+                'atts.akumulasi_sehari',
+                'jenisabsens.jenis_absen',
+                'jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
         ->get();
 
@@ -261,11 +330,33 @@ class PDFController extends Controller
         $instansi=Auth::user()->instansi->namaInstansi;
         // ini_set('memory_limit', '30MB');
         set_time_limit(600);
-        $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
-        // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
-        // return $pdf->setPaper('F4', 'landscape')->stream();
-        return $pdf->setPaper(array(0, 0, 595.35, 935.55), 'landscape')->stream();
-        
+        // $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
+        // // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
+        // // return $pdf->setPaper('F4', 'landscape')->stream();
+        // return $pdf->setPaper(array(0, 0, 595.35, 935.55), 'landscape')->stream();
+        return Excel::create('laporanharian',function($excel) use ($atts){
+                $excel->sheet('laporan',function($sheet) use ($atts){
+                       
+                        $sheet->protect('b1k1n4pl1k451');
+
+                        
+                        
+                        $sheet->fromArray($atts);
+                        $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
+                        $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
+                        $sheet->cell('C1',function ($cell){$cell->setValue('Terlambat'); });
+                        $sheet->cell('D1',function ($cell){$cell->setValue('Tanggal Masuk'); });
+                        $sheet->cell('E1',function ($cell){$cell->setValue('Jam Masuk'); });
+                        $sheet->cell('F1',function ($cell){$cell->setValue('Keterangan Masuk'); });
+                        $sheet->cell('G1',function ($cell){$cell->setValue('Tanggal Keluar'); });
+                        $sheet->cell('H1',function ($cell){$cell->setValue('Jam Keluar'); });
+                        $sheet->cell('I1',function ($cell){$cell->setValue('Keterangan Masuk'); });
+                        $sheet->cell('J1',function ($cell){$cell->setValue('Akumulasi'); });
+                        $sheet->cell('K1',function ($cell){$cell->setValue('Jenis Absen'); });
+                        $sheet->cell('L1',function ($cell){$cell->setValue('Jenis Jadwal'); });
+                        $sheet->cell('M1',function ($cell){$cell->setValue('Sifat Jadwal'); });
+                    });
+            })->download('xls');
     }
 
 
@@ -289,7 +380,7 @@ class PDFController extends Controller
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -297,7 +388,7 @@ class PDFController extends Controller
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 'instansis.namaInstansi',
@@ -328,13 +419,13 @@ class PDFController extends Controller
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        DB::raw('count(*) hari_kerja'),
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -342,7 +433,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                         'instansis.namaInstansi',
@@ -385,13 +476,13 @@ class PDFController extends Controller
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -399,7 +490,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                         'instansis.namaInstansi',
@@ -425,17 +516,17 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+                        'pegawais.id',
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -443,9 +534,11 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
-                        DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
+                        DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
+                        'instansis.namaInstansi',
+                        'pegawais.instansi_id'
                 )
                 ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
@@ -480,7 +573,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -488,7 +581,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -550,21 +643,21 @@ class PDFController extends Controller
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                         DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
-                        DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulangcepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -626,13 +719,13 @@ class PDFController extends Controller
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        DB::raw('count(*) hari_kerja'),
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1" ,1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -640,7 +733,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
 
@@ -704,11 +797,11 @@ class PDFController extends Controller
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -716,7 +809,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -777,14 +870,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -792,7 +885,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -820,14 +913,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -835,7 +928,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -860,14 +953,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -875,7 +968,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -899,14 +992,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "2"|| (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
+                        DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -914,7 +1007,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -938,14 +1031,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -953,7 +1046,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -1013,14 +1106,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -1028,7 +1121,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -1086,14 +1179,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -1101,7 +1194,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
@@ -1157,14 +1250,14 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                        DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
+                        DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                         DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                         DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                        DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                        DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                         DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
                         DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                         DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
@@ -1172,7 +1265,7 @@ class PDFController extends Controller
                         DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                         DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                         DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                        DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                        DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )

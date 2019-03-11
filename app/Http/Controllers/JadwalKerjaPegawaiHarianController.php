@@ -294,6 +294,16 @@ class JadwalKerjaPegawaiHarianController extends Controller
                                     $table->pegawai_id = $id;
                                     $table->jadwalkerja_id = $jadwalkerjaid;
                                     $table->tanggal_att = $tanggalhariini;
+                                    if ($jadwalkerja->lewathari)
+                                    {
+                                        $table->tanggal_keluar=date("Y-m-d",strtotime("+1 days",strtotime($tanggalhariini)));
+                                    }
+                                    else
+                                    {
+                                        // dd("sd");
+                                        $table->tanggal_keluar=$tanggalhariini;
+                                    }
+                                    
                                     $table->terlambat="00:00:00";
                                     $table->akumulasi_sehari="00:00:00";
                                     $table->apel="0";  
@@ -428,6 +438,15 @@ class JadwalKerjaPegawaiHarianController extends Controller
                                             $table->tanggal_att = $tanggalhariini;
                                             $table->terlambat="00:00:00";
                                             $table->akumulasi_sehari="00:00:00";
+                                            if ($jadwalkerja->lewathari)
+                                            {
+                                                $table->tanggal_keluar=date("Y-m-d",strtotime("+1 days",strtotime($tanggalhariini)));
+                                            }
+                                            else
+                                            {
+                                                // dd("sd");
+                                                $table->tanggal_keluar=$tanggalhariini;
+                                            }
                                             $table->apel="0";  
                                             if ($jadwalkerja->sifat=="FD"){
                                                 $table->jenisabsen_id = '13';
@@ -486,6 +505,7 @@ class JadwalKerjaPegawaiHarianController extends Controller
         ->where('jadwalkerjas.instansi_id','=',Auth::user()->instansi_id)
         ->where('jadwalkerjas.sifat','!=','FD')
         ->where('jadwalkerjas.instansi_id','!=','1')
+        ->select('jadwalkerjas.*','rulejammasuks.jamsebelum_masukkerja','rulejammasuks.jamsebelum_pulangkerja')
         ->get();
         // dd($jadwals);
 
