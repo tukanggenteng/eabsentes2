@@ -144,6 +144,7 @@
                                                 <th>Tidak Apel Wajib Apel</th>
                                                 <th>Persentase Apel</th>
                                                 <th>Ijin</th>
+                                                <th>Cuti</th>
                                                 <th>Ijin Terlambat</th>
                                                 <th>Sakit</th>
                                                 <th>Tugas Luar</th>
@@ -165,11 +166,20 @@
                                                         <td>{{$data->hari_kerja}}</td>
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>
-                                                        <td>{{$data->persentase_kehadiran}}%</td>                                                                                                                    
+                                                        @if ($data->persentase_kehadiran==null)
+                                                            <td>0.00%</td>   
+                                                        @else
+                                                            <td>{{$data->persentase_kehadiran}}%</td>   
+                                                        @endif                                                                                                                  
                                                         <td>{{$data->apelbulanan}}</td>
                                                         <td>{{$data->tidakapelwajibapel}}</td>
-                                                        <td>{{$data->persentase_apel}}%</td>
+                                                        @if ($data->persentase_apel==null)
+                                                            <td>0.00%</td>   
+                                                        @else
+                                                            <td>{{$data->persentase_apel}}%</td>   
+                                                        @endif  
                                                         <td>{{$data->ijin}}</td>
+                                                        <td>{{$data->cuti}}</td>
                                                         <td>{{$data->ijinterlambat}}</td>
                                                         <td>{{$data->sakit}}</td>
                                                         <td>{{$data->tugas_luar}}</td>
