@@ -26,6 +26,7 @@ class QueuePegawaiController extends Controller
         $macaddress=$request->json('macaddress');
         $fingerprint_ip=$request->json('fingerprint_ip');
         // $queue_id=$request->json('id');
+        // dd($instansi_id); 
         
         $datainstansi=instansi::where('id','=',$instansi_id)
                       ->first();
@@ -38,6 +39,7 @@ class QueuePegawaiController extends Controller
             $datamacaddress->save();
         }
 
+        
                      
 
         $dataqueuepegawai= queue_pegawai::where('instansi_id','=',$instansi_id)

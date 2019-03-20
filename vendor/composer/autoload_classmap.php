@@ -12,6 +12,7 @@ return array(
     'AddColumAtts' => $baseDir . '/database/migrations/2018_01_31_030818_add_colum_atts.php',
     'AddColumFinalrekapbulanan' => $baseDir . '/database/migrations/2018_01_28_235239_add_colum_finalrekapbulanan.php',
     'AddColumRekapbulanan' => $baseDir . '/database/migrations/2018_01_29_001457_add_colum_rekapbulanan.php',
+    'AddColumnFingerprintIpToQueuePegawais' => $baseDir . '/database/migrations/2019_03_20_170513_add_column_fingerprint_ip_to_queue_pegawais.php',
     'AddColumnInstanumnInstansiIdToMacaddresses' => $baseDir . '/database/migrations/2018_08_07_111608_add_column_instanumn_instansi_id_to_macaddresses.php',
     'AddColumnKeteranganMasukIdKeteranganKeluarIdToAtt' => $baseDir . '/database/migrations/2019_02_28_152607_add_column_keterangan_masuk_id_keterangan_keluar_id_to_att.php',
     'AddColumnLewathariToJadwalkerjasTable' => $baseDir . '/database/migrations/2018_07_23_141710_add_column_lewathari_to_jadwalkerjas_table.php',

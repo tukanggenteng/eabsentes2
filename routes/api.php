@@ -67,7 +67,7 @@ Route::group(['middleware'=>['api']], function () {
 
     Route::post('/logatttrans','LogAttTranController@get');
 
-    Route::get('/queuepegawai/get','QueuePegawaiController@get');
+    Route::post('/queuepegawai/get','QueuePegawaiController@get');
     Route::post('/queuepegawai/post','QueuePegawaiController@post');
 
 });
