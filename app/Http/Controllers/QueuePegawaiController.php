@@ -25,7 +25,7 @@ class QueuePegawaiController extends Controller
         $instansi_id=$request->json('instansi');
         $macaddress=$request->json('macaddress');
         $fingerprint_ip=$request->json('fingerprint_ip');
-        $queue_id=$request->json('id');
+        // $queue_id=$request->json('id');
         
         $datainstansi=instansi::where('id','=',$instansi_id)
                       ->first();
@@ -48,18 +48,25 @@ class QueuePegawaiController extends Controller
         if ($dataqueuepegawai->count()==0)
         {
             $datapegawais=pegawai::where('instansi_id','=',$instansi_id)->get();
-
+            
             foreach ($datapegawais as $key => $datapegawai)
             {
-
-                $addqueuepegawai= new queue_pegawai();
-                $addqueuepegawai->pegawai_id=$datapegawai->id;
-                $addqueuepegawai->macaddress_id=$datamacaddress->id;
-                $addqueuepegawai->instansi_id=$instansi_id;
-                $addqueuepegawai->fingerprint_ip=$fingerprint_ip;
-                $addqueuepegawai->command="daftar";
-                $addqueuepegawai->status=false;
-                $addqueuepegawai->save();
+                $lograspberries=lograspberry::where('instansi_id','=',$instansi_id)
+                    ->groupBy(DB::raw('alamat_ip'))
+                    ->get();
+                
+                    foreach ($lograspberries as $key => $lograspberry)
+                    {
+                        $addqueuepegawai= new queue_pegawai();
+                        $addqueuepegawai->pegawai_id=$datapegawai->id;
+                        $addqueuepegawai->macaddress_id=$datamacaddress->id;
+                        $addqueuepegawai->instansi_id=$instansi_id;
+                        $addqueuepegawai->fingerprint_ip=$lograspberry->alamat_ip;
+                        $addqueuepegawai->command="daftar";
+                        $addqueuepegawai->status=false;
+                        $addqueuepegawai->save(); 
+                    }
+                        
             }
         }
         

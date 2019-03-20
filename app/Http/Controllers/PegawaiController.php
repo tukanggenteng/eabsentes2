@@ -691,18 +691,20 @@ class PegawaiController extends Controller
 
             if ($fingerprintpegawai==2)
             {
-              $datamacaddress=macaddresse::where('instansi_id','=',$instansi_id)
-                                            ->whereNotNull('instansi_id')
+              $dataqueues=queue_pegawai::where('instansi_id','=',$instansi_id)
+                                            ->groupBy(DB::raw('macaddress_id'),DB::raw('fingerprint_ip'))
                                             ->get();
-              foreach  ($datamacaddress as $key => $datamacaddres)
+              foreach  ($dataqueues as $key => $dataqueue)
               {
               
 
                 $storequeuepegawai=new queue_pegawai();
-                $storequeuepegawai->macaddress_id=$datamacaddres->id;
+                $storequeuepegawai->macaddress_id=$dataqueue->macaddress_id;
                 $storequeuepegawai->instansi_id=$instansi_id;
                 $storequeuepegawai->pegawai_id=$pegawai_id;
                 $storequeuepegawai->command=$command;
+                $storequeuepegawai->fingerprint_ip=$dataqueue->fingerprint_ip;
+                $storequeuepegawai->status=false;
                 $storequeuepegawai->save();
                 
               }
