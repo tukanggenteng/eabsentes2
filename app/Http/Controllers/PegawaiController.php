@@ -6,7 +6,7 @@ use App\fingerpegawai;
 use App\pegawai;
 use App\queue_pegawai;
 use App\macaddresse;
-
+use App\lograspberry;
 use App\instansi;
 use App\atts_tran;
 use App\dokter;

@@ -6,8 +6,9 @@ use App\fingerpegawai;
 use App\pegawai;
 use App\queue_pegawai;
 use App\macaddresse;
-
+use App\lograspberry;
 use App\instansi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class QueuePegawaiController extends Controller
@@ -54,7 +55,7 @@ class QueuePegawaiController extends Controller
             foreach ($datapegawais as $key => $datapegawai)
             {
                 $lograspberries=lograspberry::where('instansi_id','=',$instansi_id)
-                    ->groupBy(DB::raw('alamat_ip'))
+                    ->groupBy(DB::raw('alamatip'))
                     ->get();
                 
                     foreach ($lograspberries as $key => $lograspberry)
@@ -63,7 +64,7 @@ class QueuePegawaiController extends Controller
                         $addqueuepegawai->pegawai_id=$datapegawai->id;
                         $addqueuepegawai->macaddress_id=$datamacaddress->id;
                         $addqueuepegawai->instansi_id=$instansi_id;
-                        $addqueuepegawai->fingerprint_ip=$lograspberry->alamat_ip;
+                        $addqueuepegawai->fingerprint_ip=$lograspberry->alamatip;
                         $addqueuepegawai->command="daftar";
                         $addqueuepegawai->status=false;
                         $addqueuepegawai->save(); 
