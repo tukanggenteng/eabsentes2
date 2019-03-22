@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
+
+  Route::get('/queue/pegawai','QueuePegawaiController@index');
+  Route::post('/queue/pegawai','QueuePegawaiController@index')->name('queuepegawaisearchpost');
+
   Route::get('/home','ChartController@index');
   Route::get('/home/data','ChartController@data');
   Route::get('/home/datacari','ChartController@datacari');
@@ -47,7 +51,7 @@ Route::group(['middleware'=>['rule:user,admin,kadis,rs,karu']],function(){
   Route::get('/detail/harian/tugasluar','DetailAbsenController@tugasluarharian');
   Route::get('/detail/harian/terlambat','DetailAbsenController@terlambatharian');
   Route::get('/detail/harian/rapatundangan','DetailAbsenController@rapatundanganharian');
-
+  
   // bulanan
 
   Route::get('/detail/bulan/absent','DetailAbsenController@absentbulan');

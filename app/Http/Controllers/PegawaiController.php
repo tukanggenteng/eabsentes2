@@ -330,7 +330,8 @@ class PegawaiController extends Controller
             $updatedata->instansi_id = Auth::user()->instansi_id;
             $updatedata->save();
 
-            $storequeue=$this->storequeuepegawai($updatedata->id,Auth::user()->instansi_id,"daftar");
+            $dataqueuepegawai=new QueuePegawaiController();
+            $dataqueuepegawai->storequeuepegawaispesific(Auth::user()->instansi_id,$updatedata->id,"daftar");
 
             $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
             foreach ($rulepegawais as $key => $datarule)
@@ -464,7 +465,10 @@ class PegawaiController extends Controller
         // $hapusatts=att::where('pegawai_id','=',$updatedata->id)
         // ->where('tanggal_att','=',$tanggalnow);
         // $hapusatts->delete();
-        $storequeue=$this->storequeuepegawai($updatedata->id,$updatedata->instansi_id,"hapus");
+        $dataqueuepegawai=new QueuePegawaiController();
+        dd($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
+
+
         $updatedata->instansi_id = null;
         $updatedata->save();
         
@@ -548,7 +552,8 @@ class PegawaiController extends Controller
             if ($hitung == 2)
             {
               $datapegawai=pegawai::where('id','=',$request->json('pegawai_id'))->first();
-              $storequeue=$this->storequeuepegawai($request->json('pegawai_id'),$datapegawai->instansi_id,"daftar");
+              $dataqueuepegawai=new QueuePegawaiController();
+              $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
             }
             return "Succes";
         }
@@ -685,38 +690,7 @@ class PegawaiController extends Controller
 
 
 
-    public function storequeuepegawai($pegawai_id,$instansi_id,$command)
-    {
-            $fingerprintpegawai=fingerpegawai::where('pegawai_id','=',$pegawai_id)->count();
-
-            if ($fingerprintpegawai==2)
-            {
-              $dataqueues=queue_pegawai::where('instansi_id','=',$instansi_id)
-                                            ->groupBy(DB::raw('macaddress_id'),DB::raw('fingerprint_ip'))
-                                            ->get();
-              foreach  ($dataqueues as $key => $dataqueue)
-              {
-              
-
-                $storequeuepegawai=new queue_pegawai();
-                $storequeuepegawai->macaddress_id=$dataqueue->macaddress_id;
-                $storequeuepegawai->instansi_id=$instansi_id;
-                $storequeuepegawai->pegawai_id=$pegawai_id;
-                $storequeuepegawai->command=$command;
-                $storequeuepegawai->fingerprint_ip=$dataqueue->fingerprint_ip;
-                $storequeuepegawai->status=false;
-                $storequeuepegawai->save();
-                
-              }
-              return true;  
-            }
-            else
-            {
-              return false;
-            }
-
-
-    }
+    
     
 
 }

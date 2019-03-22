@@ -9,7 +9,7 @@
             </div>
             <div class="pull-left info">
                 <p>{{Auth::user()->name}}</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+               
             </div>
         </div>
 
@@ -56,6 +56,7 @@
                     <li><a href="/raspberry"><i class="fa fa-circle-o"></i> Status Raspberry</a></li>
                     <li><a href="/historyfingerpegawai"><i class="fa fa-circle-o"></i> History Fingerprint</a></li>
                     <li><a href="/historycrashraspberry"><i class="fa fa-circle-o"></i> History Crash Raspberry</a></li>
+                    <li><a href="/queue/pegawai"><i class="fa fa-circle-o"></i> <span> Antrian Distribusi Pegawai</span></a></li>
                 </ul>
             </li>
             <li class="treeview">
@@ -168,12 +169,9 @@
                             <span>Alat</span>
                                 <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
-                                @if ($notification[0]['pegawaifinger']>0)
-                                    <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
-                                @endif
-                                @if ($notification[1]['updatefinger']>0)
-                                    <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
-                                @endif
+                                    @if ($notification[0]['pegawaifinger']>0)
+                                        <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
+                                    @endif
                                 </span>
 
                 </a>
@@ -183,11 +181,7 @@
                                 <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
                             @endif
                   </a></li>
-                  <li><a href="/alat/instansi/sidikjari"><i class="fa fa-circle-o"></i> <span>Update sidik jari</span>
-                            @if ($notification[1]['updatefinger']>0)
-                                <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
-                            @endif
-                  </a></li>
+                  
                 </ul>
             </li>
             @elseif (Auth::user()->role->namaRole=="karu")
@@ -312,9 +306,6 @@
                                 @if ($notification[0]['pegawaifinger']>0)
                                     <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
                                 @endif
-                                @if ($notification[1]['updatefinger']>0)
-                                    <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
-                                @endif
                                 </span>
 
                 </a>
@@ -324,10 +315,7 @@
                                 <small class="label pull-right bg-red">{{$notification[0]['pegawaifinger']}}</small>
                             @endif
                   </a></li>
-                  <li><a href="/alat/instansi/sidikjari"><i class="fa fa-circle-o"></i> <span>Update sidik jari</span>
-                            @if ($notification[1]['updatefinger']>0)
-                                <small class="label pull-right bg-blue">{{$notification[1]['updatefinger']}}</small>
-                            @endif
+                  <li><a href="/queue/pegawai"><i class="fa fa-circle-o"></i> <span> Antrian Distribusi Pegawai</span>
                   </a></li>
                 </ul>
             </li>
