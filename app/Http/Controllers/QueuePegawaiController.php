@@ -66,7 +66,7 @@ class QueuePegawaiController extends Controller
         $fingerprint_ip=$request->json('fingerprint_ip');
         $command="daftar";
         
-        dd($instansi_id);
+        // dd($instansi_id);
 
         $dataqueuepegawai=$this->storequeuepegawai($instansi_id,$macaddress,$fingerprint_ip,$command);
 
