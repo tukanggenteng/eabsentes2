@@ -127,9 +127,11 @@ class QueuePegawaiController extends Controller
         
                      
 
-        $dataqueuepegawai= queue_pegawai::where('instansi_id','=',$instansi_id)
-                        ->where('macaddress_id','=',$datamacaddress->id)
-                        ->where('fingerprint_ip','=',$fingerprint_ip);
+        $dataqueuepegawai= queue_pegawai::leftJoin('pegawais','pegawais.id','=','queue_pegawais.pegawai_id')
+                        ->where('queue_pegawais.instansi_id','=',$instansi_id)
+                        ->where('queue_pegawais.macaddress_id','=',$datamacaddress->id)
+                        ->where('queue_pegawais.fingerprint_ip','=',$fingerprint_ip)
+                        ->select('queue_pegawais.*','pegawais.nama');
 
 
         if ($dataqueuepegawai->count()==0)
@@ -156,7 +158,7 @@ class QueuePegawaiController extends Controller
             }
         }
         
-        return $dataqueuepegawai->where('status','=',false)->get();
+        return $dataqueuepegawai->where('queue_pegawais.status','=',false)->get();
     }
     
 

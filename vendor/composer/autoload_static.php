@@ -671,6 +671,7 @@ class ComposerStaticInit6bfbed70a70d797ea5b62ef92e92e776
         'Dotenv\\Exception\\ValidationException' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/ValidationException.php',
         'Dotenv\\Loader' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Loader.php',
         'Dotenv\\Validator' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Validator.php',
+        'DropColumnNomorNotaFromTransaksiPenjualan' => __DIR__ . '/../..' . '/database/migrations/2019_03_22_154416_drop_column_nomor_nota_from_transaksi_penjualan.php',
         'DropcolumHistorycrashraspberry' => __DIR__ . '/../..' . '/database/migrations/2018_02_15_123906_dropcolum_historycrashraspberry.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
         'Faker\\Calculator\\Iban' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',

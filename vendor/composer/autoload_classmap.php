@@ -302,6 +302,7 @@ return array(
     'Dotenv\\Exception\\ValidationException' => $vendorDir . '/vlucas/phpdotenv/src/Exception/ValidationException.php',
     'Dotenv\\Loader' => $vendorDir . '/vlucas/phpdotenv/src/Loader.php',
     'Dotenv\\Validator' => $vendorDir . '/vlucas/phpdotenv/src/Validator.php',
+    'DropColumnNomorNotaFromTransaksiPenjualan' => $baseDir . '/database/migrations/2019_03_22_154416_drop_column_nomor_nota_from_transaksi_penjualan.php',
     'DropcolumHistorycrashraspberry' => $baseDir . '/database/migrations/2018_02_15_123906_dropcolum_historycrashraspberry.php',
     'Error' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/Error.php',
     'Faker\\Calculator\\Iban' => $vendorDir . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
