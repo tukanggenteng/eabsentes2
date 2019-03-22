@@ -466,7 +466,7 @@ class PegawaiController extends Controller
         // ->where('tanggal_att','=',$tanggalnow);
         // $hapusatts->delete();
         $dataqueuepegawai=new QueuePegawaiController();
-        dd($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
+        ($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
 
 
         $updatedata->instansi_id = null;
