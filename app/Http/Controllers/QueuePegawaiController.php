@@ -135,13 +135,12 @@ class QueuePegawaiController extends Controller
         if ($dataqueuepegawai->count()==0)
         {
             $datapegawais=pegawai::where('instansi_id','=',$instansi_id)->get();
-            
+            dd($datapegawais);
             foreach ($datapegawais as $key => $datapegawai)
             {
                 $lograspberries=lograspberry::where('instansi_id','=',$instansi_id)
                     ->groupBy(DB::raw('alamatip'))
                     ->get();
-                
                     foreach ($lograspberries as $key => $lograspberry)
                     {
                         $addqueuepegawai= new queue_pegawai();
