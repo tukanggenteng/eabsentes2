@@ -66,7 +66,7 @@ class QueuePegawaiController extends Controller
         $fingerprint_ip=$request->json('fingerprint_ip');
         $command="daftar";
         
-        // dd($request);
+        dd($instansi_id);
 
         $dataqueuepegawai=$this->storequeuepegawai($instansi_id,$macaddress,$fingerprint_ip,$command);
 
@@ -135,7 +135,7 @@ class QueuePegawaiController extends Controller
         if ($dataqueuepegawai->count()==0)
         {
             $datapegawais=pegawai::where('instansi_id','=',$instansi_id)->get();
-            dd($datapegawais);
+            // dd($datapegawais);
             foreach ($datapegawais as $key => $datapegawai)
             {
                 $lograspberries=lograspberry::where('instansi_id','=',$instansi_id)
