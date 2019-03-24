@@ -42,7 +42,7 @@ class PDFController extends Controller
       elseif (!isset($request->nip) && isset($request->tanggal))
       {
         // $tanggal=explode('-',$request->tanggal);
-        $tanggal=$request->tanggal;        
+        $tanggal=$request->tanggal;
         $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
@@ -62,7 +62,7 @@ class PDFController extends Controller
       elseif (isset($request->nip) && !isset($request->tanggal))
       {
         // $tanggal=explode('-',$request->tanggal);
-        $tanggal=$request->tanggal;        
+        $tanggal=$request->tanggal;
         $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
@@ -79,7 +79,7 @@ class PDFController extends Controller
       }
       elseif (!isset($request->nip) && !isset($request->tanggal))
       {
-        
+
         $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
@@ -120,11 +120,11 @@ class PDFController extends Controller
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
         return Excel::create('laporanharian',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
 
-                        
-                        
+
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
@@ -157,7 +157,7 @@ class PDFController extends Controller
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
         // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
-        ->where('atts.tanggal_att','=',$id)        
+        ->where('atts.tanggal_att','=',$id)
         ->where('pegawais.nip','=',$id2)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
         ->select('atts.tanggal_att','pegawais.nip','pegawais.nama','atts.jam_masuk','atts.terlambat','instansismasuk.namaInstansi as namainstansimasuk',
@@ -173,11 +173,11 @@ class PDFController extends Controller
         $pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
         return Excel::create('laporanharian',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
 
-                        
-                        
+
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
@@ -205,7 +205,7 @@ class PDFController extends Controller
         ->leftJoin('jenisabsens','atts.jenisabsen_id','=','jenisabsens.id')
         // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
         // ->whereYear('atts.tanggal_att','=',$tanggal[1])
-        ->where('atts.tanggal_att','=',$id)        
+        ->where('atts.tanggal_att','=',$id)
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
         ->select('atts.tanggal_att','pegawais.nip','pegawais.nama','atts.jam_masuk','atts.terlambat','instansismasuk.namaInstansi as namainstansimasuk',
                     'atts.jam_keluar','instansiskeluar.namaInstansi as namainstansikeluar','atts.akumulasi_sehari',
@@ -220,11 +220,11 @@ class PDFController extends Controller
         //$pdf=PDF::loadView('pdf.pdfharian',['atts'=>$atts,'instansi'=>$instansi]);
         return Excel::create('laporanharian',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
 
-                        
-                        
+
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('Tanggal'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('NIP'); });
@@ -265,7 +265,7 @@ class PDFController extends Controller
         // return $pdf->setPaper('a4', 'landscape')->download('laporanharian.pdf');
         // return $pdf->setPaper('F4', 'landscape')->stream();
         return $pdf->setPaper(array(0, 0, 595.35, 935.55), 'landscape')->stream();
-        
+
     }
 
 
@@ -283,7 +283,7 @@ class PDFController extends Controller
                                 'pegawais.nip',
                                 'pegawais.nama',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                                DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
+                                DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                                 DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
@@ -304,14 +304,14 @@ class PDFController extends Controller
                                 'pegawais.instansi_id'
                         )
                         ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                        ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                         ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                         ->where('pegawais.nip','=',$request->nip)
                         ->whereYear('atts.tanggal_att','=',$tanggal[1])
                         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                         ->paginate(50);
 
-        
+
 
         return view('laporan.laporanbulan',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
 
@@ -349,12 +349,12 @@ class PDFController extends Controller
                         'pegawais.instansi_id'
                 )
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                            
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 ->whereYear('atts.tanggal_att','=',$tanggal[1])
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->paginate(50);
-                
+
                 // $atts=finalrekapbulanan::leftJoin('pegawais','finalrekapbulanans.pegawai_id','=','pegawais.id')
                 // ->leftJoin('instansis','instansis.id','=','finalrekapbulanans.pegawai_id')
                 // ->whereMonth('finalrekapbulanans.periode','=',$tanggal[0])
@@ -406,15 +406,15 @@ class PDFController extends Controller
                         'pegawais.instansi_id'
                 )
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->where('pegawais.nip','=',$request->nip)
                 // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 // ->whereYear('atts.tanggal_att','=',$tanggal[1])
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->paginate(50);
-        
+
         // dd($atts);
-        
+
         return view('laporan.laporanbulan',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
       }
       elseif (!isset($request->nip) && !isset($request->tanggal))
@@ -425,7 +425,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
@@ -447,7 +447,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
                 // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 // ->whereYear('atts.tanggal_att','=',$tanggal[1])
@@ -463,10 +463,11 @@ class PDFController extends Controller
 
     public function pdfbulan(){
 
-     
+
         $tanggal=date('Y-m');
         $tanggal=explode('-',$tanggal);
-        
+        //dd($tanggal[0]);
+
         $atts=pegawai::leftJoin('atts','atts.pegawai_id','=','pegawais.id')
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
@@ -492,7 +493,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
                 // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 // ->whereYear('atts.tanggal_att','=',$tanggal[1])
@@ -504,39 +505,59 @@ class PDFController extends Controller
         $instansi=Auth::user()->instansi->namaInstansi;
         // ini_set('memory_limit', '30MB');
         set_time_limit(600);
-        return Excel::create('laporanbulanan',function($excel) use ($atts){
-                $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+        return Excel::create('lb_'.$instansi.'_'.$tanggal[0].'-'.$tanggal[1],function($excel) use ($atts, $instansi){ // create('namaFilenya',function($excel) use ($atts)
+                //dd(); cek ouput
+                $excel->sheet('laporan',function($sheet) use ($atts, $instansi){
+                        //dd($instansi);
                         $sheet->protect('b1k1n4pl1k451');
-                        
-                        $sheet->fromArray($atts);
-                        $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
-                        $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
-                        $sheet->cell('C1',function ($cell){$cell->setValue('Periode'); });
-                        $sheet->cell('D1',function ($cell){$cell->setValue('Hari Kerja'); });
-                        $sheet->cell('E1',function ($cell){$cell->setValue('Hadir'); });
-                        $sheet->cell('F1',function ($cell){$cell->setValue('Wajib Apel'); });
-                        $sheet->cell('G1',function ($cell){$cell->setValue('Terlambat'); });
-                        $sheet->cell('H1',function ($cell){$cell->setValue('Tanpa Kabar'); });
-                        $sheet->cell('I1',function ($cell){$cell->setValue('Izin'); });
-                        $sheet->cell('J1',function ($cell){$cell->setValue('Izin Terlambat'); });
-                        $sheet->cell('K1',function ($cell){$cell->setValue('Tidak Wajib Apel'); });
-                        $sheet->cell('L1',function ($cell){$cell->setValue('Sakit'); });
-                        $sheet->cell('M1',function ($cell){$cell->setValue('Cuti'); });
-                        $sheet->cell('N1',function ($cell){$cell->setValue('Tugas Luar'); });
-                        $sheet->cell('O1',function ($cell){$cell->setValue('Tugas Belajar'); });
-                        $sheet->cell('P1',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
-                        $sheet->cell('Q1',function ($cell){$cell->setValue('Pulang Cepat'); });
-                        $sheet->cell('R1',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
-                        $sheet->cell('S1',function ($cell){$cell->setValue('Akumulasi Kerja'); });
-                        $sheet->cell('T1',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
+
+                        $sheet->fromArray($atts, null, 'A4', true, false);
+
+                        $sheet->fromArray($instansi, null, 'A1', true, false);
+                        //dd($sheet->fromArray($atts,null, null, true));
+                        $sheet->mergeCells('A1:T1');
+                        $sheet->cell('A1',function ($cell){
+                          // Set black background
+                          $cell->setBackground('#d0d6ff');
+                          $cell->setAlignment('center');
+                          //$cell->setValue('DATA INSTANSI');
+                          $cell->setFontWeight('bold');
+                          $cell->setFontSize(16);
+                        })->setBorder('A1','thin');
+
+
+                        //paremeter ke 4 untuk mengubah nilai 0 ditulis sebagai 0, bukan sebagai null data
+                        //array use ->fromArray($source, $nullValue, $startCell, $strictNullComparison, $headingGeneration) inside the sheet closure.
+
+
+
+                        $sheet->cell('A2',function ($cell){$cell->setValue('NIP'); });
+                        $sheet->cell('B2',function ($cell){$cell->setValue('Nama'); });
+                        $sheet->cell('C2',function ($cell){$cell->setValue('Periode'); });
+                        $sheet->cell('D2',function ($cell){$cell->setValue('Hari Kerja'); });
+                        $sheet->cell('E2',function ($cell){$cell->setValue('Hadir'); });
+                        $sheet->cell('F2',function ($cell){$cell->setValue('Wajib Apel'); });
+                        $sheet->cell('G2',function ($cell){$cell->setValue('Terlambat'); });
+                        $sheet->cell('H2',function ($cell){$cell->setValue('Tanpa Kabar'); });
+                        $sheet->cell('I2',function ($cell){$cell->setValue('Izin'); });
+                        $sheet->cell('J2',function ($cell){$cell->setValue('Izin Terlambat'); });
+                        $sheet->cell('K2',function ($cell){$cell->setValue('Tidak Wajib Apel'); });
+                        $sheet->cell('L2',function ($cell){$cell->setValue('Sakit'); });
+                        $sheet->cell('M2',function ($cell){$cell->setValue('Cuti'); });
+                        $sheet->cell('N2',function ($cell){$cell->setValue('Tugas Luar'); });
+                        $sheet->cell('O2',function ($cell){$cell->setValue('Tugas Belajar'); });
+                        $sheet->cell('P2',function ($cell){$cell->setValue('Ijin Kepentingan Lain'); });
+                        $sheet->cell('Q2',function ($cell){$cell->setValue('Pulang Cepat'); });
+                        $sheet->cell('R2',function ($cell){$cell->setValue('Ijin Pulang Cepat'); });
+                        $sheet->cell('S2',function ($cell){$cell->setValue('Akumulasi Kerja'); });
+                        $sheet->cell('T2',function ($cell){$cell->setValue('Akumulasi Terlambat'); });
 
 
                     });
             })->download('xls');
     }
 
-    public function pdfbulanfull($id,$id2){
+    public function pdfbulanfull($id,$id2){ //bagian yang milih Periode
 
         $id=decrypt($id);
         $id2=decrypt($id2);
@@ -550,7 +571,7 @@ class PDFController extends Controller
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
+                        DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                         DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
@@ -569,7 +590,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                               
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 ->whereYear('atts.tanggal_att','=',$tanggal[1])
                 ->where('pegawais.nip','=',$id2)
@@ -582,11 +603,11 @@ class PDFController extends Controller
         $instansi=Auth::user()->instansi->namaInstansi;
         // ini_set('memory_limit', '30MB');
         set_time_limit(600);
-        return Excel::create('laporanbulanan',function($excel) use ($atts){
+        return Excel::create('laporanbulanan',function($excel) use ($atts){ //bagian yang milih Periode
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -646,7 +667,7 @@ class PDFController extends Controller
 
                 )
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                            
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 ->whereYear('atts.tanggal_att','=',$tanggal[1])
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
@@ -659,9 +680,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanbulanan',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -721,7 +742,7 @@ class PDFController extends Controller
                         DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat')
                 )
                 ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')
-                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
+                ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))
                 ->where('pegawais.nip','=',$id)
                 // ->whereMonth('atts.tanggal_att','=',$tanggal[0])
                 // ->whereYear('atts.tanggal_att','=',$tanggal[1])
@@ -735,9 +756,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanbulanan',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -774,7 +795,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -803,8 +824,8 @@ class PDFController extends Controller
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
 
-        
-        
+
+
         // dd("dsa");
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
 
@@ -817,7 +838,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -845,7 +866,7 @@ class PDFController extends Controller
                 ->where('atts.tanggal_att','=',$request->tanggal)
                 ->paginate(50);
 
-        
+
         // dd("asd");
         $request->nip=null;
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
@@ -857,7 +878,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -884,7 +905,7 @@ class PDFController extends Controller
                 ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
                 ->where('pegawais.nip','=',$request->nip)
                 ->paginate(50);
-        
+
         $tanggal=null;
         // dd("as");
         return view('laporan.laporanminggu',['atts'=>$atts,'nip'=>$request->nip,'tanggal'=>$request->tanggal]);
@@ -896,7 +917,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -935,7 +956,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -969,9 +990,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanminggu',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -1010,7 +1031,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -1044,9 +1065,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanminggu',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -1083,7 +1104,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -1116,9 +1137,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanminggu',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -1154,7 +1175,7 @@ class PDFController extends Controller
                 ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                 ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                 ->select(
-                        
+
                         'pegawais.nip',
                         'pegawais.nama',
                         DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
@@ -1182,7 +1203,7 @@ class PDFController extends Controller
                 ->where('pegawais.nip','=',$id)
                 ->get();
 
-        
+
 
 
 
@@ -1191,9 +1212,9 @@ class PDFController extends Controller
         set_time_limit(600);
         return Excel::create('laporanminggu',function($excel) use ($atts){
                 $excel->sheet('laporan',function($sheet) use ($atts){
-                       
+
                         $sheet->protect('b1k1n4pl1k451');
-                        
+
                         $sheet->fromArray($atts);
                         $sheet->cell('A1',function ($cell){$cell->setValue('NIP'); });
                         $sheet->cell('B1',function ($cell){$cell->setValue('Nama'); });
@@ -1220,5 +1241,5 @@ class PDFController extends Controller
                     });
             })->download('xls');
     }
-    
+
 }
