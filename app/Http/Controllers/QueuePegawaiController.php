@@ -84,9 +84,10 @@ class QueuePegawaiController extends Controller
         $queue_id=$request->json('id'); 
         $token=$request->json('token');
 
-        $hasilbasic=$macaddress.$instansi_id.$pegawai_id.$fingerprint_ip.$queue_id;
+        $hasilbasic=$macaddress.$instansi_id.$fingerprint_ip.$queue_id;
         $hasil=$this->encryptOTP($hasilbasic); 
-
+        
+        // dd($hasil);
 
         $dataqueuepegawai= queue_pegawai::where('instansi_id','=',$instansi_id)
         ->where('id','=',$queue_id)
