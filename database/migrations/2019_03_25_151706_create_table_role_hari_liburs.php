@@ -16,7 +16,8 @@ class CreateTableRoleHariLiburs extends Migration
         //
         Schema::create('role_hari_liburs',function(Blueprint $table){
             $table->bigIncrements('id');
-            $table->unsignedBigIncrements('hari_libur_id');
+            $table->unsignedBigInteger('hari_libur_id')->nullable();
+            $table->date('tanggalberlakuharilibur');
             $table->timestamps();
             $table->softDeletes();
         });

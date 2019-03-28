@@ -114,7 +114,7 @@ class TrigerController extends Controller
             if ($datapegawai->instansi_id != null)
             {
               $dataqueuepegawai=new QueuePegawaiController();
-              ($dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$table->pegawai_id,"ganti"));
+              ($dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$table->pegawai_id,"hapus"));
             }
 
             $table->delete();

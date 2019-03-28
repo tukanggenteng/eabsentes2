@@ -24,6 +24,11 @@ use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
 
+  
+
+  Route::get('/role/harilibur','RoleHariLiburController@index');
+  Route::post('/role/harilibur/calendar','RoleHariLiburController@eventcalendar'); 
+
   Route::get('/queue/pegawai','QueuePegawaiController@index');
   Route::post('/queue/pegawai','QueuePegawaiController@index')->name('queuepegawaisearchpost');
 
@@ -385,6 +390,18 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
 
 
 Route::group(['middleware' => ['rule:admin']],function(){
+      Route::get('/harilibur','HariLiburController@index'); 
+      Route::post('/harilibur','HariLiburController@index')->name('carinamaharilibur');  
+      Route::get('/harilibur/create','HariLiburController@create'); 
+      Route::post('/harilibur/store','HariLiburController@store')->name('postharilibur');  
+      Route::get('/harilibur/show/{id}','HariLiburController@edit');
+      Route::put('/harilibur/update/{id}','HariLiburController@update');
+      Route::get('/harilibur/delete/{id}', 'HariLiburController@destroy');
+
+
+      Route::post('/role/harilibur/calendar/store','RoleHariLiburController@store'); 
+      Route::post('/role/harilibur/calendar/delete','RoleHariLiburController@destroy');
+
       #raspberry
       Route::get('/raspberry','LogRaspberryController@index');
       Route::get('/raspberry/data','LogRaspberryController@data')->name('dataraspberry');
