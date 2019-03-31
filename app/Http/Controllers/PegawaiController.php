@@ -16,6 +16,7 @@ use App\rulejammasuk;
 use App\hapusfingerpegawai;
 use App\adminpegawai;
 use App\rulejadwalpegawai;
+use App\Pegawai_Hari_Libur;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\Auth;
@@ -467,7 +468,13 @@ class PegawaiController extends Controller
         // $hapusatts->delete();
         $dataqueuepegawai=new QueuePegawaiController();
         ($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
-
+        
+        $tablepegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','=',$idpeg)->first();
+        if ($tablepegawaiharilibur!=null)
+        {
+            $tablepegawaiharilibur->delete();
+        }
+        
 
         $updatedata->instansi_id = null;
         $updatedata->save();

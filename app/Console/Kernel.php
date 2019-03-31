@@ -27,8 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('TiapHariCommand:tambahabsen')
-	             ->dailyAt('00:01');
+        //  $schedule->command('TiapHariCommand:tambahabsen')
+	    //          ->dailyAt('00:01');
 	// ->everyMinute();
        // $schedule->call(function () {
 

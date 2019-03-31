@@ -24,7 +24,9 @@ use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
 
-  
+  Route::get('/harilibur/pegawai','PegawaiHariLiburController@index');
+  Route::get('/harilibur/pegawai/data','PegawaiHariLiburController@getdata')->name('getpegawaiharilibur');
+  Route::post('/harilibur/pegawai/store','PegawaiHariLiburController@store')->name('storepegawaiharilibur');
 
   Route::get('/role/harilibur','RoleHariLiburController@index');
   Route::post('/role/harilibur/calendar','RoleHariLiburController@eventcalendar'); 
