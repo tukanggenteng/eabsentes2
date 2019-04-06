@@ -137,51 +137,71 @@ Rekap Absensi Pegawai Harian
                         <div class="row">
                           <div class="col-md-12">
                             <table class="table table-striped table-bordered table-hover table-align">
+                              <thead class="thead-dark table-eabsen">
                                 <tr>
-                                  <th>NIP</th>
-                                  <th>Nama</th>
-                                  <th>Tanggal</th>
-                                  <th>Apel</th>
-                                  <th>Terlambat</th>
-                                  <th>Jam Masuk</th>
-                                  <th>Instansi Hadir</th>
-                                  <th>Mulai Istirahat</th>
-                                  <th>Selesai Istirahat</th>
-                                  <th>Jam Pulang</th>
-                                  <th>Instansi Pulang</th>
-                                  <th>Akumulasi Kerja</th>
-                                  <th>Keterangan</th>
-                                  <th>Jenis Jadwal</th>
-                                  <th>Sifat Jadwal</th>
-                                </tr>
+                                    <th>NIP</th>
+                                    <th>Nama</th>
+                                    <th>Hari</th>
+                                    <th style="width: 85px;">Tanggal</th>
+                                    <th>Apel</th>
+                                    <th>Terlambat</th>
+                                    <th>Jam Masuk</th>
+                                    <th>Mulai Istirahat</th>
+                                    <th>Selesai Istirahat</th>
+                                    <th>Jam Pulang</th>
+                                    <th>Akumulasi Kerja</th>
+                                    <th>Keterangan</th>
+                                    <th>Jenis Jadwal</th>
+                                    <th>Sifat Jadwal</th>
+                                    <th>Instansi</th>
+                                  </tr>
+                                </thead>
 
                                 @foreach($atts as $att)
                                     <tr>
                                         <td>{{$att->nip}}</td>
                                         <td>{{$att->nama}}</td>
-                                        <td>{{$att->tanggal_att}}</td>
-                                        @if ($att->apel=="0")
-                                        <td>Tidak Apel</td>
-                                        @else
-                                        <td>Apel</td>
-                                        @endif
-                                        <td>{{$att->terlambat}}</td>
-                                        <td>{{$att->jam_masuk}}</td>
-                                        <td>{{$att->namainstansimasuk}}</td>
-                                        <td>{{$att->keluaristirahat}}</td>
-                                        <td>{{$att->masukistirahat}}</td>
-                                        <td>{{$att->jam_keluar}}</td>
-                                        <td>{{$att->namainstansikeluar}}</td>
-                                        <td>{{$att->akumulasi_sehari}}</td>
-                                        <td>{{$att->jenis_absen}}</td>
-                                        <td>{{$att->jenis_jadwal}}</td>
-                                        @if ($att->sifat=="WA")
-                                        <td>Wajib Apel</td>
-                                        @elseif ($att->sifat=="TWA")
-                                        <td>Tidak Wajib Apel</td>
-                                        @elseif ($att->sifat=="FD")
-                                        <td>Full Day</td>
-                                        @endif
+                                        <td>{{$att->hari}}</td>
+                                        <td>{{$hari = date("d-m-Y", strtotime($att->tanggal_att)) }}</td>
+                                        <td style="text-align:center;">
+                                          @if ($att->apel=="0")
+                                            <p class="text-danger bg-danger">Tidak Apel</p>
+                                          @else
+                                            <p class="text-success bg-success">Apel</p>
+                                          @endif
+                                        </td>
+                                        <td style="text-align:center;">
+                                          @if ($att->terlambat>0)
+                                            <p class="text-danger bg-danger">{{$att->terlambat}}</p>
+                                          @else
+                                            {{$att->terlambat}}
+                                          @endif
+                                        </td>
+                                        <td style="text-align:center;">{{$att->jam_masuk}}</td>
+                                        <td style="text-align:center;">{{$att->keluaristirahat}}</td>
+                                        <td style="text-align:center;">{{$att->masukistirahat}}</td>
+                                        <td style="text-align:center;">{{$att->jam_keluar}}</td>
+                                        <td style="text-align:center;">{{$att->akumulasi_sehari}}</td>
+                                        <td style="text-align:center;">
+                                          @if ($att->jenis_absen=="Hadir")
+                                            <p class="text-success bg-success">{{$att->jenis_absen}}</p>
+                                          @elseif ($att->jenis_absen=="Tanpa Kabar")
+                                            <p class="text-danger bg-danger">{{$att->jenis_absen}}</p>
+                                          @else
+                                            <p class="text-warning bg-warning">{{$att->jenis_absen}}</p>
+                                          @endif
+                                        </td>
+                                        <td style="text-align:center;">{{$att->jenis_jadwal}}</td>
+                                        <td style="text-align:center;">
+                                          @if ($att->sifat=="WA")
+                                            Wajib Apel
+                                          @elseif ($att->sifat=="TWA")
+                                            Tidak Wajib Apel
+                                          @elseif ($att->sifat=="FD")
+                                            Full Day
+                                          @endif
+                                        </td>
+                                        <td style="text-align:center;">{{$att->namainstansimasuk}}</td>
                                     </tr>
                                 @endforeach
                             </table>

@@ -137,12 +137,19 @@ Rekap Absensi Pegawai Mingguan
                         <div class="row">
                           <div class="col-md-12">
                             <table class="table table-striped table-bordered table-hover table-align">
+                              <thead class="thead-dark table-eabsen">
                                 <tr>
-                                  <th>NIP</th>
-                                  <th>Nama</th>
-                                  <th>Periode</th>
-                                  <th>Hari Kerja</th>
-                                  <th>Hadir</th>
+                                  <th rowspan="2">NIP</th>
+                                  <th rowspan="2">Nama</th>
+                                  <th rowspan="2">Periode</th>
+                                  <th rowspan="2">Hari Kerja</th>
+                                  <th rowspan="2">Hadir</th>
+                                  <th rowspan="2">Apel</th>
+                                  <th rowspan="2">Akumulasi Jam Kerja</th>
+                                  <th colspan="9">Tidak Masuk Kerja</th>
+                                  <th colspan="3">Melanggar Ketentuan Jam Kerja</th>
+                                </tr>
+                                <tr>
                                   <th>Tanpa Kabar</th>
                                   <th>Ijin</th>
                                   <th>Ijin Terlambat</th>
@@ -152,11 +159,11 @@ Rekap Absensi Pegawai Mingguan
                                   <th>Tugas Luar</th>
                                   <th>Tugas Belajar</th>
                                   <th>Ijin Kepentingan Lain</th>
-                                  <th>Pulang Cepat</th>
-                                  <th>Apel</th>
+                                  <th>Terlambat Masuk Kerja</th>
                                   <th>Akumulasi Terlambat</th>
-                                  <th>Akumulasi Jam Kerja</th>
+                                  <th>Pulang Cepat</th>
                                 </tr>
+                              </thead>
 
                                 @foreach($atts as $att)
                                     <tr>
@@ -165,6 +172,9 @@ Rekap Absensi Pegawai Mingguan
                                         <td>{{$att->periode}}</td>
                                         <td style="text-align:right;">{{$att->hari_kerja}}</td>
                                         <td style="text-align:right;">{{$att->hadir}}</td>
+                                        <td style="text-align:right;">{{$att->apelbulanan}}</td>
+                                        <td style="text-align:center;">{{$att->total_akumulasi}}</td>
+
                                         <td style="text-align:right;">{{$att->tanpa_kabar}}</td>
                                         <td style="text-align:right;">{{$att->ijin}}</td>
                                         <td style="text-align:right;">{{$att->ijinterlambat}}</td>
@@ -174,10 +184,11 @@ Rekap Absensi Pegawai Mingguan
                                         <td style="text-align:right;">{{$att->tugas_luar}}</td>
                                         <td style="text-align:right;">{{$att->tugas_belajar}}</td>
                                         <td style="text-align:right;">{{$att->rapatundangan}}</td>
-                                        <td style="text-align:right;">{{$att->pulang_cepat}}</td>
-                                        <td style="text-align:right;">{{$att->apelbulanan}}</td>
+
+                                        <td style="text-align:right;">{{$att->terlambat}}</td>
                                         <td style="text-align:center;">{{$att->total_terlambat}}</td>
-                                        <td style="text-align:center;">{{$att->total_akumulasi}}</td>
+                                        <td style="text-align:right;">{{$att->pulang_cepat}}</td>
+
                                     </tr>
                                 @endforeach
                             </table>
