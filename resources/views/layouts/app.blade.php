@@ -39,6 +39,7 @@
 
 <body class="hold-transition skin-blue sidebar-mini fixed">
 @yield('body')
-</body>
 
+<script src="{{asset('dist/js/ea.js')}}"></script>
+</body>
 </html>

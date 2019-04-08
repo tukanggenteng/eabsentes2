@@ -3,3 +3,8 @@ thead.table-eabsen>tr>th {
   background-color: #888484;
   border: #999 solid 1px;
 }
+.treeview-menu>li.active>a, .skin-blue .sidebar-menu .treeview-menu>li>a:hover {
+    color: #ffffff;
+    font-weight: bold;
+    background-color: #3c8dbc;
+}
