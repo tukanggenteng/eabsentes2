@@ -52,10 +52,6 @@ class MonitoringController extends Controller
             //$subdata['tanpakabar']=$tanpakabar;
             array_push($data['tanpakabar'],$tanpakabar);
         }
-        //dd($tanpakabar);
-        //dd($tanggal." ".$instansi);
-        //dd($datasets);
-
         $data['harikerja']=[];
         for ($i=0;$i<=9;$i++)
         {
@@ -1467,10 +1463,10 @@ class MonitoringController extends Controller
                                 'pegawais.nama',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                                 DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
-                                DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                                DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                                DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
                                 DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),

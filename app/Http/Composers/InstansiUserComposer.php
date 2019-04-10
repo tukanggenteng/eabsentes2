@@ -239,7 +239,7 @@ class InstansiUserComposer {
 
 
 
-
+            $countdoctor=0;
             // dd($countperawat);
             $view->with('statustrigger',$statustrigger);
             $view->with('datapegawai', $countpegawai);                

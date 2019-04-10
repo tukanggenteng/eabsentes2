@@ -1370,7 +1370,7 @@ class KeteranganAbsenController extends Controller
 
                 
 
-              //   $table->jenisabsen_id = $jenisabsen_id;
+                $table->jenisabsen_id = "1";
                 $table->jam_masuk = $awal;
                 $table->masukinstansi_id=Auth::user()->instansi_id;
                 $table->terlambat = "00:00:00";

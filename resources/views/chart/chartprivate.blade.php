@@ -491,128 +491,17 @@ Home
                 <!-- tahun baru tutup -->
 
 
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="box">
-                            <div class="box-header  with-border">
-                                <h3 class="box-title">Rekap Absensi Pegawai</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-wrench"></i></button>
-                                    </div>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                                </div>
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body table-responsive">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Tahun</label>
-                                            <div class="input-group input-group-sm" style="width: 100px;">
-                                                <input type="text" id="periode" readonly name="periode" class="form-control pull-right" value="{{$tahun}}" placeholder="Periode">
-                                                <div class="input-group-btn">
-                                                    <button type="button" id="cari" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <canvas id="container"></canvas>
-                            </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer clearfix">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="box box-warning direct-chat direct-chat-warning">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Chat</h3>
-
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <!-- /.box-header -->
-                            <!-- /.box-body -->
-                            <div class="box-footer">
-                                <form id="formchat" action="" method="post" role="form" enctype="multipart/form-data">
-                                    <div class="input-group">
-                                        <input type="text" id="text" name="text" placeholder="Type Message ..." class="form-control">
-                                        <input type="text" hidden readonly name="name" value="{{Auth::user()->name}}">
-                                        <input type="text" hidden readonly name="user_id" value="{{Auth::user()->id}}">
-                                        {{csrf_field()}}
-                                        <span class="input-group-btn">
-                                            <button type="button" id="kirim" class="btn btn-warning btn-flat">Send</button>
-                                        </span>
-                                    </div>
-                                </form>
-                            </div>
-                            <!-- /.box-footer-->
-                            <div  class="box-body">
-
-                                <div class="direct-chat-messages" id="app" style="overflow-y:scroll;height:300px;">
-                                    <div class="" v-for="chat in chats">
-                                        <div class="direct-chat-msg right" v-if="chat.user_id== {{Auth::user()->id}}">
-                                            <div class="direct-chat-info clearfix">
-                                                <span class="direct-chat-name pull-right">@{{ chat.name  }}</span>
-                                                <span class="direct-chat-timestamp pull-left">@{{ chat.created_at }}</span>
-                                            </div>
-                                            <!-- /.direct-chat-info -->
-                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                @{{ chat.text }}
-                                            </div>
-                                        </div>
-                                        <div class="direct-chat-msg" v-else>
-                                            <div class="direct-chat-info clearfix">
-                                                <span class="direct-chat-name pull-left">@{{ chat.name }}</span>
-                                                <span class="direct-chat-timestamp pull-right" >@{{ chat.created_at }}</span>
-                                            </div>
-                                            <!-- /.direct-chat-info -->
-                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
-                                            <!-- /.direct-chat-img -->
-                                            <div class="direct-chat-text">
-                                                @{{ chat.text }}
-                                            </div>
-                                            <!-- /.direct-chat-text -->
-                                    <!-- /.direct-chat-msg -->
-                                        </div>
-                                    </div>
-                                    @include('chart.datachat')
-
-                                    <div class="ajax-load text-center" id="ajax-load" style="display:none">
-                                        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">Loading More post</p>
-                                    </div>
-
-
-                                </div>
-
-                                <!--/.direct-chat-messages-->
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
+                
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="box">
+                        <div class="box box-default collapsed-box">
                             <div class="box-header">
                                 <h3 class="box-title">Jadwal Kerja Pegawai <small>yang hampir habis masa berlakunya</small></h3>
-
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body table-responsive no-padding">
@@ -698,6 +587,83 @@ Home
                                 <ul class="pagination pagination-sm no-margin pull-right">
                                     {{ $rulejadwals2->links() }}
                                 </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-warning direct-chat direct-chat-warning">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Chat</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <!-- /.box-body -->
+                            <div class="box-footer">
+                                <form id="formchat" action="" method="post" role="form" enctype="multipart/form-data">
+                                    <div class="input-group">
+                                        <input type="text" id="text" name="text" placeholder="Type Message ..." class="form-control">
+                                        <input type="text" hidden readonly name="name" value="{{Auth::user()->name}}">
+                                        <input type="text" hidden readonly name="user_id" value="{{Auth::user()->id}}">
+                                        {{csrf_field()}}
+                                        <span class="input-group-btn">
+                                            <button type="button" id="kirim" class="btn btn-warning btn-flat">Send</button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box-footer-->
+                            <div  class="box-body">
+
+                                <div class="direct-chat-messages" id="app" style="overflow-y:scroll;height:300px;">
+                                    <div class="" v-for="chat in chats">
+                                        <div class="direct-chat-msg right" v-if="chat.user_id== {{Auth::user()->id}}">
+                                            <div class="direct-chat-info clearfix">
+                                                <span class="direct-chat-name pull-right">@{{ chat.name  }}</span>
+                                                <span class="direct-chat-timestamp pull-left">@{{ chat.created_at }}</span>
+                                            </div>
+                                            <!-- /.direct-chat-info -->
+                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                @{{ chat.text }}
+                                            </div>
+                                        </div>
+                                        <div class="direct-chat-msg" v-else>
+                                            <div class="direct-chat-info clearfix">
+                                                <span class="direct-chat-name pull-left">@{{ chat.name }}</span>
+                                                <span class="direct-chat-timestamp pull-right" >@{{ chat.created_at }}</span>
+                                            </div>
+                                            <!-- /.direct-chat-info -->
+                                            <img class="direct-chat-img" src="{{asset('dist/img/avatarumum.png')}}" alt="message user image">
+                                            <!-- /.direct-chat-img -->
+                                            <div class="direct-chat-text">
+                                                @{{ chat.text }}
+                                            </div>
+                                            <!-- /.direct-chat-text -->
+                                    <!-- /.direct-chat-msg -->
+                                        </div>
+                                    </div>
+                                    @include('chart.datachat')
+
+                                    <div class="ajax-load text-center" id="ajax-load" style="display:none">
+                                        <p><img src="http://demo.itsolutionstuff.com/plugin/loader.gif">Loading More post</p>
+                                    </div>
+
+
+                                </div>
+
+                                <!--/.direct-chat-messages-->
+
                             </div>
 
                         </div>
@@ -969,161 +935,11 @@ Home
 
             var url = "{{url('/home/data')}}";
 
-            $.get(url, function(response) {
-
-                absen.push(response['Absen']);
-                apel.push(response['Apel']);
-
-                // var ctx = $('#container').getContext("2d");
-                var ctx = document.getElementById("container").getContext("2d");
-                var color = Chart.helpers.color;
-                  window.myBar = new Chart(ctx, {
-                      type: 'bar',
-                      data: {
-                              labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
-                              datasets: [
-                                  {
-                                      label: "Apel",
-                                      data: apel[0],
-                                      backgroundColor: [
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                      ],
-                                      borderColor: [
-                                          'rgba(255,99,132,1)'
-                                      ],
-                                      borderWidth: 1,
-                                  },
-                                  {
-                                      label: "Tanpa Kabar",
-                                      data: absen[0],
-                                      backgroundColor: [
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                      ],
-                                      borderColor: [
-                                          'rgba(54, 162, 235, 1)'
-                                      ],
-                                      borderWidth: 1,
-                                  }
-                              ]
-                          },
-                      options: {
-                          responsive: true,
-                          legend: {
-                              position: 'top',
-                          },
-                          title: {
-                              display: true,
-                              text: 'Grafik Absensi'
-                          }
-                      }
-                  });
-
-            });
+            
         });
 
 
-        $("#cari").click(function () {
-            apel=[];
-            absen=[];
-            $("#container").html("");
-
-            var tahun = $("#periode").val();
-
-            var url = "{{url('/home/datacari')}}";
-
-            $.get(url,{ tahun: tahun }, function(response) {
-
-                absen.push(response['Absen']);
-                apel.push(response['Apel']);
-
-                var ctx = document.getElementById("container").getContext("2d");
-                var color = Chart.helpers.color;
-                  window.myBar = new Chart(ctx, {
-                      type: 'bar',
-                      data: {
-                              labels: ["JAN", "FEB", "MAR", "APR","MEI", "JUN", "JUL", "AGS", "SEPT", "OKT", "NOV", "DES"],
-                              datasets: [
-                                  {
-                                      label: "Apel",
-                                      data: apel[0],
-                                      backgroundColor: [
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                          'rgba(255, 99, 132, 0.2)',
-                                      ],
-                                      borderColor: [
-                                          'rgba(255,99,132,1)'
-                                      ],
-                                      borderWidth: 1,
-                                  },
-                                  {
-                                      label: "Tanpa Kabar",
-                                      data: absen[0],
-                                      backgroundColor: [
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                          'rgba(54, 162, 235, 0.2)',
-                                      ],
-                                      borderColor: [
-                                          'rgba(54, 162, 235, 1)'
-                                      ],
-                                      borderWidth: 1,
-                                  }
-                              ]
-                          },
-                      options: {
-                          responsive: true,
-                          legend: {
-                              position: 'top',
-                          },
-                          title: {
-                              display: true,
-                              text: 'Grafik Absensi'
-                          }
-                      }
-                  });
-            });
-        });
+        
     </script>
     <script>
 

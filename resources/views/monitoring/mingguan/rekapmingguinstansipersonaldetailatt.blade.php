@@ -136,10 +136,12 @@
                                             <td>{{$data->jam_keluar}}</td>
                                             <td>{{$data->namainstansikeluar}}</td>
                                             <td>{{$data->akumulasi_sehari}}</td>
-                                            @if ($data->jenis_absen=="Tanpa Kabar")
-                                            <td><span class="badge bg-red">{{$data->jenis_absen}}</span></td>
+                                            @if (($data->jenis_absen=="Hadir") && ($data->jam_keluar==null) && ($data->tanggal_keluar!=null))
+                                                <td><span class="badge bg-red">Tanpa Kabar</span></td>
+                                            @elseif ($data->jenis_absen=="Tanpa Kabar")
+                                                <td><span class="badge bg-red">Tanpa Kabar</span></td>
                                             @else
-                                            <td>{{$data->jenis_absen}}</td>
+                                                <td>{{$data->jenis_absen}}</td>
                                             @endif
                                             <td>{{$data->jenis_jadwal}}</td>
                                             @if ($data->sifat=="WA")
