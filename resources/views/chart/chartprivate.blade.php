@@ -869,10 +869,12 @@ Home
                                             <td>{{$kehadiranlalu->jam_keluar}}</td>
                                             <td>{{$kehadiranlalu->keterangankeluar_id}}</td>
                                             <td>{{$kehadiranlalu->akumulasi_sehari}}</td>
-                                            @if ($kehadiranlalu->jenis_absen=="Tanpa Kabar")
-                                            <td><span class="badge bg-red">{{$kehadiranlalu->jenis_absen}}</span></td>
+                                            @if (($kehadiranlalu->jenis_absen=="Hadir") && ($kehadiranlalu->jam_keluar==null))
+                                                <td><span class="badge bg-red">Tanpa Kabar</span></td>
+                                            @elseif ($kehadiranlalu->jenis_absen=="Tanpa Kabar")
+                                                <td><span class="badge bg-red">Tanpa Kabar</span></td>
                                             @else
-                                            <td>{{$kehadiranlalu->jenis_absen}}</td>
+                                                <td>{{$kehadiranlalu->jenis_absen}}</td>
                                             @endif
                                             <td>{{$kehadiranlalu->jenis_jadwal}}</td>
                                             @if ($kehadiranlalu->sifat=="WA")

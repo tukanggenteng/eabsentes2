@@ -23,6 +23,15 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
+  Route::get('/keteranganabsen','KeteranganAbsenController@index');
+  Route::post('/keteranganabsen','KeteranganAbsenController@index')->name('postindexketeranganabsen');
+  Route::get('/keteranganabsen/{pegawai_id}','KeteranganAbsenController@showpegawai');
+  Route::get('/keteranganabsen/{pegawai_id}/{jadwalkerja_id}','KeteranganAbsenController@create');
+  Route::post('/keteranganabsen/calendar/data','KeteranganAbsenController@calendardata')->name('datacalendarketeranganabsen');
+  Route::post('/keteranganabsen/calendar/store','KeteranganAbsenController@storecalendardata')->name('storecalendarketeranganabsen');
+  Route::post('/keteranganabsen/calendar/destroy','KeteranganAbsenController@destroycalendardata')->name('destroycalendarketeranganabsen');
+
+
 
   Route::get('/harilibur/pegawai','PegawaiHariLiburController@index');
   Route::get('/harilibur/pegawai/data','PegawaiHariLiburController@getdata')->name('getpegawaiharilibur');
@@ -168,15 +177,15 @@ Route::group(['middleware' => ['rule:rs']],function(){
       Route::post('/datapegawai/storedokter','DokterPerawatRuanganController@storedokter')->name('storedokter');
       Route::post('/datapegawai/destroydokter','DokterPerawatRuanganController@destroydokter')->name('destroydokter');
       #karu dan tata usaha rs
-      Route::get('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
-      Route::get('/jadwalkerjapegawai24/data','RuleJadwalKerja24JamController@datapegawai')->name('datapegawaijadwalkerja24');
-      Route::get('/jadwalkerjapegawai24/data/jadwalkerja','RuleJadwalKerja24JamController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja24');
-      Route::post('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
-      Route::post('/jadwalkerjapegawaiedit24','RuleJadwalKerja24JamController@store');
-      Route::get('/jadwalkerjapegawai24/{id}/edit','RuleJadwalKerja24JamController@show');
-      Route::post('/jadwalkerjapegawai24/edit','RuleJadwalKerja24JamController@update');
-      Route::get('/jadwalkerjapegawai24/{id}/hapus','RuleJadwalKerja24JamController@destroy');
-      Route::post('/hapusjadwalkerjapegawai24','RuleJadwalKerja24JamController@destroyall');
+      // Route::get('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
+      // Route::get('/jadwalkerjapegawai24/data','RuleJadwalKerja24JamController@datapegawai')->name('datapegawaijadwalkerja24');
+      // Route::get('/jadwalkerjapegawai24/data/jadwalkerja','RuleJadwalKerja24JamController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja24');
+      // Route::post('/jadwalkerjapegawai24','RuleJadwalKerja24JamController@index');
+      // Route::post('/jadwalkerjapegawaiedit24','RuleJadwalKerja24JamController@store');
+      // Route::get('/jadwalkerjapegawai24/{id}/edit','RuleJadwalKerja24JamController@show');
+      // Route::post('/jadwalkerjapegawai24/edit','RuleJadwalKerja24JamController@update');
+      // Route::get('/jadwalkerjapegawai24/{id}/hapus','RuleJadwalKerja24JamController@destroy');
+      // Route::post('/hapusjadwalkerjapegawai24','RuleJadwalKerja24JamController@destroyall');
 
       #user ruangan
       Route::get('/userkhusus','UserRuanganController@index');
@@ -223,8 +232,8 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');
       Route::post('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::post('/jadwalkerjapegawaiedit','JadwalKerjaPegawaiController@store');
-      Route::get('/jadwalkerjapegawai/{id}/edit','JadwalKerjaPegawaiController@show');
-      Route::post('/jadwalkerjapegawai/edit','JadwalKerjaPegawaiController@update');
+      // Route::get('/jadwalkerjapegawai/{id}/edit','JadwalKerjaPegawaiController@show');
+      // Route::post('/jadwalkerjapegawai/edit','JadwalKerjaPegawaiController@update');
       Route::get('/jadwalkerjapegawai/{id}/hapus','JadwalKerjaPegawaiController@destroy');
       Route::post('/hapusjadwalkerjapegawai','JadwalKerjaPegawaiController@destroyall');
 
@@ -257,43 +266,43 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/laporanbulan/pdf/nip/{id2}','PDFController@pdfbulannip');
       Route::get('/laporanbulan/pdf','PDFController@pdfbulan');
 
-      #transrekap absensi
-      Route::get('/transrekap/datarekap','TransferRekapController@datagrid')->name('datatransrekap');
-      Route::get('/transrekap','TransferRekapController@index');
-      Route::post('/transrekap/postijin','TransferRekapController@postijin')->name('postijin');
-      Route::post('/transrekap/postsakit','TransferRekapController@postsakit')->name('postsakit');
-      Route::post('/transrekap/postcuti','TransferRekapController@postcuti')->name('postcuti');
-      Route::post('/transrekap/posttb','TransferRekapController@posttb')->name('posttb');
-      Route::post('/transrekap/posttl','TransferRekapController@posttl')->name('posttl');
-      Route::post('/transrekap/postrp','TransferRekapController@postrp')->name('postrp');
-      Route::post('/transrekap/postit','TransferRekapController@postit')->name('postit');
-      Route::post('/transrekap/postipc','TransferRekapController@postipc')->name('postipc');
+      // #transrekap absensi
+      // Route::get('/transrekap/datarekap','TransferRekapController@datagrid')->name('datatransrekap');
+      // Route::get('/transrekap','TransferRekapController@index');
+      // Route::post('/transrekap/postijin','TransferRekapController@postijin')->name('postijin');
+      // Route::post('/transrekap/postsakit','TransferRekapController@postsakit')->name('postsakit');
+      // Route::post('/transrekap/postcuti','TransferRekapController@postcuti')->name('postcuti');
+      // Route::post('/transrekap/posttb','TransferRekapController@posttb')->name('posttb');
+      // Route::post('/transrekap/posttl','TransferRekapController@posttl')->name('posttl');
+      // Route::post('/transrekap/postrp','TransferRekapController@postrp')->name('postrp');
+      // Route::post('/transrekap/postit','TransferRekapController@postit')->name('postit');
+      // Route::post('/transrekap/postipc','TransferRekapController@postipc')->name('postipc');
 
       #halaman download surat
-      Route::get('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijin');
-      Route::post('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijinpost');
-      // Route::get('/transrekap/download/ijin/surat/{id}','TransferRekapController@downloadijin')->name('downloadingsuratijin');
-      Route::get('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakit');
-      Route::post('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakitpost');
-      // Route::get('/transrekap/download/sakit/surat/{id}','TransferRekapController@downloadsakit')->name('downloadingsuratsakit');
-      Route::get('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcuti');
-      Route::post('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcutipost');
-      // Route::get('/transrekap/download/cuti/surat/{id}','TransferRekapController@downloadcuti')->name('downloadingsuratcuti');
-      Route::get('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattl');
-      Route::post('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattlpost');
-      // Route::get('/transrekap/download/tl/surat/{id}','TransferRekapController@downloadtl')->name('downloadingsurattl');
-      Route::get('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattb');
-      Route::post('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattbpost');
-      // Route::get('/transrekap/download/tb/surat/{id}','TransferRekapController@downloadtb')->name('downloadingsurattb');
-      Route::get('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratru');
-      Route::post('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratrupost');
-      // Route::get('/transrekap/download/ru/surat/{id}','TransferRekapController@downloadru')->name('downloadingsuratru');
-      Route::get('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratit');
-      Route::post('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratitpost');
-      // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
-      Route::get('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipc');
-      Route::post('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipcpost');
-      // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
+      // Route::get('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijin');
+      // Route::post('/transrekap/download/ijin','TransferRekapController@downloadsuratijin')->name('downloadsuratijinpost');
+      // // Route::get('/transrekap/download/ijin/surat/{id}','TransferRekapController@downloadijin')->name('downloadingsuratijin');
+      // Route::get('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakit');
+      // Route::post('/transrekap/download/sakit','TransferRekapController@downloadsuratsakit')->name('downloadsuratsakitpost');
+      // // Route::get('/transrekap/download/sakit/surat/{id}','TransferRekapController@downloadsakit')->name('downloadingsuratsakit');
+      // Route::get('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcuti');
+      // Route::post('/transrekap/download/cuti','TransferRekapController@downloadsuratcuti')->name('downloadsuratcutipost');
+      // // Route::get('/transrekap/download/cuti/surat/{id}','TransferRekapController@downloadcuti')->name('downloadingsuratcuti');
+      // Route::get('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattl');
+      // Route::post('/transrekap/download/tl','TransferRekapController@downloadsurattl')->name('downloadsurattlpost');
+      // // Route::get('/transrekap/download/tl/surat/{id}','TransferRekapController@downloadtl')->name('downloadingsurattl');
+      // Route::get('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattb');
+      // Route::post('/transrekap/download/tb','TransferRekapController@downloadsurattb')->name('downloadsurattbpost');
+      // // Route::get('/transrekap/download/tb/surat/{id}','TransferRekapController@downloadtb')->name('downloadingsurattb');
+      // Route::get('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratru');
+      // Route::post('/transrekap/download/ru','TransferRekapController@downloadsuratru')->name('downloadsuratrupost');
+      // // Route::get('/transrekap/download/ru/surat/{id}','TransferRekapController@downloadru')->name('downloadingsuratru');
+      // Route::get('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratit');
+      // Route::post('/transrekap/download/it','TransferRekapController@downloadsuratit')->name('downloadsuratitpost');
+      // // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
+      // Route::get('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipc');
+      // Route::post('/transrekap/download/ipc','TransferRekapController@downloadsuratipc')->name('downloadsuratipcpost');
+      // // Route::get('/transrekap/download/it/surat/{id}','TransferRekapController@downloadit')->name('downloadingsuratit');
 
       #raspberry
       Route::get('/alat/instansi','LogRaspberryController@indexinstansi');
@@ -312,12 +321,12 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/minggukerja/{id}','JadwalKerjaController@hapusjadwalminggu');
 });
 
-Route::group(['middleware' => ['rule:admin,bkd']],function(){
-      #rekap bulanan
-      Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');
-      Route::get('/rekapbulanan/rekapbulanan/admin/data','RekapAbsensiController@datarekapadmin')->name('datarekapadminmingguan');
+// Route::group(['middleware' => ['rule:admin,bkd']],function(){
+//       #rekap bulanan
+//       Route::get('/rekapbulanan/rekapbulanan/admin','RekapAbsensiController@indexrekapadmin');
+//       Route::get('/rekapbulanan/rekapbulanan/admin/data','RekapAbsensiController@datarekapadmin')->name('datarekapadminmingguan');
 
-});
+// });
 
 Route::group(['middleware' => ['rule:user,rs']],function(){
       
@@ -438,30 +447,30 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/finger/{id}','FingerPegawaiController@show');
       Route::get('/finger/delete/{id}','FingerPegawaiController@destroy');
 
-      #halaman data untuk download surat
-      Route::get('/ijin/admin','IjinAdminController@index');
-      // Route::get('/ijin/admin/show/{id}','IjinAdminController@show');
-      // Route::get('/ijin/admin/download/{id}','TransferRekapController@downloadijin');
-      // Route::post('/ijin/admin/update/{id}','IjinAdminController@update');
-      Route::get('ijin/admin/data','IjinAdminController@dataijin')->name('dataijinadmin');
+      // #halaman data untuk download surat
+      // Route::get('/ijin/admin','IjinAdminController@index');
+      // // Route::get('/ijin/admin/show/{id}','IjinAdminController@show');
+      // // Route::get('/ijin/admin/download/{id}','TransferRekapController@downloadijin');
+      // // Route::post('/ijin/admin/update/{id}','IjinAdminController@update');
+      // Route::get('ijin/admin/data','IjinAdminController@dataijin')->name('dataijinadmin');
 
-      Route::get('/sakit/admin','SakitAdminController@index');
-      // Route::get('/sakit/admin/show/{id}','SakitAdminController@show');
-      // Route::get('/sakit/admin/download/{id}','TransferRekapController@downloadsakit');
-      // Route::post('/sakit/admin/update/{id}','SakitAdminController@update');
-      Route::get('/sakit/admin/data','SakitAdminController@datasakit')->name('datasakitadmin');
+      // Route::get('/sakit/admin','SakitAdminController@index');
+      // // Route::get('/sakit/admin/show/{id}','SakitAdminController@show');
+      // // Route::get('/sakit/admin/download/{id}','TransferRekapController@downloadsakit');
+      // // Route::post('/sakit/admin/update/{id}','SakitAdminController@update');
+      // Route::get('/sakit/admin/data','SakitAdminController@datasakit')->name('datasakitadmin');
 
-      Route::get('/cuti/admin','CutiAdminController@index');
-      // Route::get('/cuti/admin/show/{id}','CutiAdminController@show');
-      // Route::get('/cuti/admin/download/{id}','TransferRekapController@downloadcuti');
-      // Route::post('/cuti/admin/update/{id}','CutiAdminController@update');
-      Route::get('/cuti/admin/data','CutiAdminController@datasakit')->name('datacutiadmin');
+      // Route::get('/cuti/admin','CutiAdminController@index');
+      // // Route::get('/cuti/admin/show/{id}','CutiAdminController@show');
+      // // Route::get('/cuti/admin/download/{id}','TransferRekapController@downloadcuti');
+      // // Route::post('/cuti/admin/update/{id}','CutiAdminController@update');
+      // Route::get('/cuti/admin/data','CutiAdminController@datasakit')->name('datacutiadmin');
 
-      Route::get('/tugasbelajar/admin','TbAdminController@index');
-      // Route::get('/tugasbelajar/admin/show/{id}','TbAdminController@show');
-      // Route::get('/tugasbelajar/admin/download/{id}','TransferRekapController@downloadtb');
-      // Route::post('/tugasbelajar/admin/update/{id}','TbAdminController@update');
-      Route::get('/tugasbelajar/admin/data','TbAdminController@datatb')->name('datatugasbelajaradmin');
+      // Route::get('/tugasbelajar/admin','TbAdminController@index');
+      // // Route::get('/tugasbelajar/admin/show/{id}','TbAdminController@show');
+      // // Route::get('/tugasbelajar/admin/download/{id}','TransferRekapController@downloadtb');
+      // // Route::post('/tugasbelajar/admin/update/{id}','TbAdminController@update');
+      // Route::get('/tugasbelajar/admin/data','TbAdminController@datatb')->name('datatugasbelajaradmin');
 
       Route::get('/macaddress','MacAdressControllers@index');
       Route::get('/macaddress/{id}','MacAdressControllers@show');
@@ -469,25 +478,25 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/macaddress/edit','MacAdressControllers@edit');
       Route::get('/macaddress/delete/{id}','MacAdressControllers@destroy');
 
-      Route::get('/tugasluar/admin','TlAdminController@index');
-      // Route::get('/tugasluar/admin/show/{id}','TlAdminController@show');
-      // Route::get('/tugasluar/admin/download/{id}','TransferRekapController@downloadtl');
-      // Route::post('/tugasluar/admin/update/{id}','TlAdminController@update');
-      Route::get('/tugasluar/admin/data','TlAdminController@datatl')->name('datatugasluaradmin');
+      // Route::get('/tugasluar/admin','TlAdminController@index');
+      // // Route::get('/tugasluar/admin/show/{id}','TlAdminController@show');
+      // // Route::get('/tugasluar/admin/download/{id}','TransferRekapController@downloadtl');
+      // // Route::post('/tugasluar/admin/update/{id}','TlAdminController@update');
+      // Route::get('/tugasluar/admin/data','TlAdminController@datatl')->name('datatugasluaradmin');
 
 
-      Route::get('/rapatundangan/admin','RpAdminController@index');
-      // Route::get('/rapatundangan/admin/show/{id}','RpAdminController@show');
-      // Route::get('/rapatundangan/admin/download/{id}','TransferRekapController@downloadrp');
-      // Route::post('/rapatundangan/admin/update/{id}','RpAdminController@update');
-      Route::get('/rapatundangan/admin/data','RpAdminController@datarp')->name('datarapatundanganadmin');
+      // Route::get('/rapatundangan/admin','RpAdminController@index');
+      // // Route::get('/rapatundangan/admin/show/{id}','RpAdminController@show');
+      // // Route::get('/rapatundangan/admin/download/{id}','TransferRekapController@downloadrp');
+      // // Route::post('/rapatundangan/admin/update/{id}','RpAdminController@update');
+      // Route::get('/rapatundangan/admin/data','RpAdminController@datarp')->name('datarapatundanganadmin');
 
 
-      Route::get('/ijinterlambat/admin','ItAdminController@index');
-      // Route::get('/ijinterlambat/admin/show/{id}','ItAdminController@show');
-      // Route::get('/ijinterlambat/admin/download/{id}','TransferRekapController@downloadit');
-      // Route::post('/ijinterlambat/admin/update/{id}','ItAdminController@update');
-      Route::get('/ijinterlambat/admin/data','ItAdminController@datait')->name('dataijinterlambatadmin');
+      // Route::get('/ijinterlambat/admin','ItAdminController@index');
+      // // Route::get('/ijinterlambat/admin/show/{id}','ItAdminController@show');
+      // // Route::get('/ijinterlambat/admin/download/{id}','TransferRekapController@downloadit');
+      // // Route::post('/ijinterlambat/admin/update/{id}','ItAdminController@update');
+      // Route::get('/ijinterlambat/admin/data','ItAdminController@datait')->name('dataijinterlambatadmin');
 
       #manajemen pegawai()
       Route::get('/pegawai','PegawaiController@index');

@@ -14,7 +14,10 @@ use Illuminate\Http\Request;
 
 class QueuePegawaiController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('throttle:1000,1');
+    }
     public function index(Request $request)
     {
         $instansis=instansi::where('namaInstansi','!=','Admin')
@@ -125,7 +128,7 @@ class QueuePegawaiController extends Controller
             $datamacaddress->save();
         }
 
-        
+        // dd($datamacaddress);
                      
 
         $dataqueuepegawai= queue_pegawai::leftJoin('pegawais','pegawais.id','=','queue_pegawais.pegawai_id')
@@ -134,10 +137,14 @@ class QueuePegawaiController extends Controller
                         ->where('queue_pegawais.fingerprint_ip','=',$fingerprint_ip)
                         ->select('queue_pegawais.*','pegawais.nama');
 
-
         if ($dataqueuepegawai->count()==0)
-        {
-            $datapegawais=pegawai::where('instansi_id','=',$instansi_id)->get();
+        {   
+            $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+            $datapegawais=pegawai::leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+            // ->where('instansi_id','!=',null)
+            ->where('finger','=',2)
+            ->where('instansi_id','=',$instansi_id)
+            ->select('pegawais.*')->get();
             // dd($datapegawais);
             foreach ($datapegawais as $key => $datapegawai)
             {
@@ -159,7 +166,15 @@ class QueuePegawaiController extends Controller
             }
         }
         
-        return $dataqueuepegawai->where('queue_pegawais.status','=',false)->get();
+        $dataqueuepegawais= queue_pegawai::leftJoin('pegawais','pegawais.id','=','queue_pegawais.pegawai_id')
+                        ->where('queue_pegawais.instansi_id','=',$instansi_id)
+                        ->where('queue_pegawais.macaddress_id','=',$datamacaddress->id)
+                        ->where('queue_pegawais.fingerprint_ip','=',$fingerprint_ip)
+                        ->where('queue_pegawais.status','=',0)
+                        ->select('queue_pegawais.*','pegawais.nama')->get();
+
+        // dd($datamacaddress->id);
+        return $dataqueuepegawais;
     }
     
 

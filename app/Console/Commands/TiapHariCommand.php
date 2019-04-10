@@ -343,324 +343,315 @@ class TiapHariCommand extends Command
         }
 
 
-        $month=Carbon::now()->month;
-        $year = Carbon::now()->year;
-        $date = Carbon::createFromDate($year,$month);
-        $numberOfWeeks = floor($date->daysInMonth / Carbon::DAYS_PER_WEEK);
-        $start = [];
-        $end = [];
-        $j=1;
-        for ($i=1; $i <= $date->daysInMonth ; $i++) {
-            Carbon::createFromDate($year,$month,$i); 
-            $start['Week: '.$j.' Start Date']= (array)Carbon::createFromDate($year,$month,$i)->startOfWeek()->toDateString();
-            $end['Minggu '.$j]= (array)Carbon::createFromDate($year,$month,$i)->endOfweek()->toDateString();
-            $i+=7;
-            $j++; 
-        }
-        // $result = array_merge($start,$end);
-        // $result['numberOfWeeks'] = ["$numberOfWeeks"];
-        $tanggalsekarang=date('Y-m-d');
-        // dd($end);
+        // $month=Carbon::now()->month;
+        // $year = Carbon::now()->year;
+        // $date = Carbon::createFromDate($year,$month);
+        // $numberOfWeeks = floor($date->daysInMonth / Carbon::DAYS_PER_WEEK);
+        // $start = [];
+        // $end = [];
+        // $j=1;
+        // for ($i=1; $i <= $date->daysInMonth ; $i++) {
+        //     Carbon::createFromDate($year,$month,$i); 
+        //     $start['Week: '.$j.' Start Date']= (array)Carbon::createFromDate($year,$month,$i)->startOfWeek()->toDateString();
+        //     $end['Minggu '.$j]= (array)Carbon::createFromDate($year,$month,$i)->endOfweek()->toDateString();
+        //     $i+=7;
+        //     $j++; 
+        // }
+        // // $result = array_merge($start,$end);
+        // // $result['numberOfWeeks'] = ["$numberOfWeeks"];
+        // $tanggalsekarang=date('Y-m-d');
+        // // $tanggalsekarang=date('2019-04-5');
+        // // dd($end);
 
         
 
-        $checkattendance=attendancecheck::latest()
-                                        ->first();
+        // $checkattendance=attendancecheck::latest()->first();
 
-        $diffdate=Controller::difftanggal2($checkattendance->tanggalcheckattendance,$tanggalsekarang);
-        // dd($checkattendance->tanggalcheckattendance.' >> '.$tanggalsekarang.' = '.$diffdate);
+        // $diffdate=Controller::difftanggal2($checkattendance->tanggalcheckattendance,$tanggalsekarang);
 
+        // for ($k=1 ; $k <= $diffdate ; $k++) {
+        //     // echo $k." - ".$diffdate;
+        //     $tanggalproses=date('Y-m-d',strtotime('+'.$k.' days',strtotime($checkattendance->tanggalcheckattendance)));
+        //     echo $tanggalproses;
+        //     $date=date('N',strtotime($tanggalproses));
+        //     if ($date==1){
+        //         $hari='Senin';
+        //     }
+        //     elseif ($date==2){
+        //         $hari='Selasa';
+        //     }
+        //     elseif ($date==3){
+        //         $hari='Rabu';
+        //     }
+        //     elseif ($date==4){
+        //         $hari='Kamis';
+        //     }
+        //     elseif ($date==5){
+        //         $hari='Jumat';
+        //     }
+        //     elseif ($date==6){
+        //         $hari='Sabtu';
+        //     }
+        //     elseif ($date==7){
+        //         $hari='Minggu';
+        //     }
 
-        for ($k=1 ; $k <= $diffdate ; $k++) {
-            // echo $k." - ".$diffdate;
-            $tanggalproses=date('Y-m-d',strtotime('+'.$k.' days',strtotime($checkattendance->tanggalcheckattendance)));
-            echo $tanggalproses;
-            $date=date('N',strtotime($tanggalproses));
-            if ($date==1){
-                $hari='Senin';
-            }
-            elseif ($date==2){
-                $hari='Selasa';
-            }
-            elseif ($date==3){
-                $hari='Rabu';
-            }
-            elseif ($date==4){
-                $hari='Kamis';
-            }
-            elseif ($date==5){
-                $hari='Jumat';
-            }
-            elseif ($date==6){
-                $hari='Sabtu';
-            }
-            elseif ($date==7){
-                $hari='Minggu';
-            }
-
-            if ($tanggalproses==$tanggalsekarang)
-            {
-                $checkatt=attendancecheck::where('tanggalcheckattendance','=',$tanggalproses)->count();
-                // dd("asd");                
-                if ($checkatt > 0)
-                {
+        //     if ($tanggalproses==$tanggalsekarang)
+        //     {
+        //         $checkatt=attendancecheck::where('tanggalcheckattendance','=',$tanggalproses)->count();
+        //         // dd("asd");                
+        //         if ($checkatt > 0)
+        //         {
                     
-                }
-                else{
+        //         }
+        //         else{
 
-                    // $tanggalsekarang="2018-01-15";
-                    if ($tanggalproses <= $end['Minggu 1'][0]){
-                        $minggu=1;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 2'][0]){
-                        $minggu=2;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 3'][0]){
-                        $minggu=3;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 4'][0]){
-                        $minggu=4;
-                    }
-                    elseif ($tanggalproses >= $end['Minggu 4'][0]){
-                        $minggu=1;
-                    }
-                    // dd($minggu);
+        //             // $tanggalsekarang="2018-01-15";
+        //             if ($tanggalproses <= $end['Minggu 1'][0]){
+        //                 $minggu=1;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 2'][0]){
+        //                 $minggu=2;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 3'][0]){
+        //                 $minggu=3;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 4'][0]){
+        //                 $minggu=4;
+        //             }
+        //             elseif ($tanggalproses >= $end['Minggu 4'][0]){
+        //                 $minggu=1;
+        //             }
+        //             // dd($minggu);
 
-                    // return dd($end['Minggu 1'][0]);
+        //             // return dd($end['Minggu 1'][0]);
 
-                    $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
+        //             $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
 
-                    foreach ($minggujadwals as $key => $minggujadwal){
-                        // dd($minggujadwal->jadwalkerja_id);
-                        $harikerjas=harikerja::leftJoin('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->where('harikerjas.hari','=',$hari)
-                                    ->where('harikerjas.jadwalkerja_id','=',$minggujadwal->jadwalkerja_id)
-                                    ->distinct()
-                                    ->get(['jadwalkerja_id','hari']);
+        //             foreach ($minggujadwals as $key => $minggujadwal){
+        //                 // dd($minggujadwal->jadwalkerja_id);
+        //                 $harikerjas=harikerja::leftJoin('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->where('harikerjas.hari','=',$hari)
+        //                             ->where('harikerjas.jadwalkerja_id','=',$minggujadwal->jadwalkerja_id)
+        //                             ->distinct()
+        //                             ->get(['jadwalkerja_id','hari']);
 
-                        $tanggalharini=date("Y-m-d");
+        //                 $tanggalharini=date("Y-m-d");
 
-                        $instansis=instansi::all();
-                        foreach ($instansis as $kunci => $instansi){
+        //                 $instansis=instansi::all();
+        //                 foreach ($instansis as $kunci => $instansi){
 
-                            foreach ($harikerjas as $key =>$jadwalkerja){
-                                    #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
-                                    // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                    //     //->where('pegawai_id','=','9930')
-                                    // ->where('tanggal_awalrule','<=',$tanggalharini)
-                                    // ->where('tanggal_akhirrule','>=',$tanggalharini)
-                                    // ->count();
+        //                     foreach ($harikerjas as $key =>$jadwalkerja){
+        //                             #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
+        //                             // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                             //     //->where('pegawai_id','=','9930')
+        //                             // ->where('tanggal_awalrule','<=',$tanggalharini)
+        //                             // ->where('tanggal_akhirrule','>=',$tanggalharini)
+        //                             // ->count();
 
-                                    $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                                    ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->where('harikerjas.instansi_id','=',$instansi->id)
-                                    ->where('harikerjas.hari','=',$hari)
-                                    ->where('pegawais.instansi_id','=',$instansi->id)
-                                    ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                             $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+        //                             ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->where('harikerjas.instansi_id','=',$instansi->id)
+        //                             ->where('harikerjas.hari','=',$hari)
+        //                             ->where('pegawais.instansi_id','=',$instansi->id)
+        //                             ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
 
-                                    //->where('pegawai_id','=','9930')
-                                    ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
-                                    ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
-                                    ->count();
+        //                             //->where('pegawai_id','=','9930')
+        //                             ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
+        //                             ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
+        //                             ->count();
 
 
-                                // dd($hitung);
-                                if ($hitung>0)
-                                {
-                                    $pegawaiterkecuali=dokter::pluck('pegawai_id')->all();
-                                // dd($hitung);
-                                    $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                                                ->where('pegawais.instansi_id','=',$instansi->id)
-                                                ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                                ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
-                                                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
-                                                ->whereNotIn('pegawais.id',$pegawaiterkecuali)
-                                                ->get();
+        //                         // dd($hitung);
+        //                         if ($hitung>0)
+        //                         {
+        //                             $pegawaiterkecuali=dokter::pluck('pegawai_id')->all();
+        //                         // dd($hitung);
+        //                             $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+        //                                         ->where('pegawais.instansi_id','=',$instansi->id)
+        //                                         ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                                         ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
+        //                                         ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
+        //                                         ->whereNotIn('pegawais.id',$pegawaiterkecuali)
+        //                                         ->get();
 
-                                    // dd($jadwalpegawais);
-                                    foreach ($jadwalpegawais as $jadwalpegawai)
-                                    {
-                                        $cek=att::where('tanggal_att','=',$tanggalproses)
-                                            ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
-                                            ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                            ->where('jenisabsen_id','=','2')
-                                            ->count();
-                                            // dd($cek);
-                                        if ($cek > 0){
+        //                             // dd($jadwalpegawais);
+        //                             foreach ($jadwalpegawais as $jadwalpegawai)
+        //                             {
+        //                                 $cek=att::where('tanggal_att','=',$tanggalproses)
+        //                                     ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
+        //                                     ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                                     ->where('jenisabsen_id','=','2')
+        //                                     ->count();
+        //                                     // dd($cek);
+        //                                 if ($cek > 0){
 
-                                        }
-                                        else{
-                                            $roleharilibur=Role_Hari_Libur::where('tanggalberlakuharilibur','=',$tanggalproses)->first();
-                                            $pegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','',$jadwalpegawai->pegawai_id)->first();
+        //                                 }
+        //                                 else{
+        //                                     $roleharilibur=Role_Hari_Libur::where('tanggalberlakuharilibur','=',$tanggalproses)->first();
+        //                                     $pegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','',$jadwalpegawai->pegawai_id)->first();
                                             
-                                            if (($roleharilibur!=null)&&($pegawaiharilibur!=null))
-                                            {
+        //                                     if (($roleharilibur!=null)&&($pegawaiharilibur!=null))
+        //                                     {
 
-                                            }
-                                            else
-                                            {   
-                                                $details['pegawai_id']=$jadwalpegawai->pegawai_id;
-                                                $details['tanggal_att']=$tanggalproses;
-                                                $details['terlambat']='00:00:00';
-                                                $details['apel']='0';
-                                                $details['jadwalkerja_id']=$jadwalkerja->jadwalkerja_id;
-                                                $details['jenisabsen_id'] = '2';
-                                                $details['akumulasi_sehari']='00:00:00';
-                                                dispatch(new GenerateAttendance($details));
-                                            }
-                                        }
+        //                                     }
+        //                                     else
+        //                                     {   
+                                                
+        //                                     }
+        //                                 }
 
-                                    }
-                                }
-                                else
-                                {
-                                    // dd("tidak jalan");
-                                }
-                            }
-                        }
-                    }
+        //                             }
+        //                         }
+        //                         else
+        //                         {
+        //                             // dd("tidak jalan");
+        //                         }
+        //                     }
+        //                 }
+        //             }
 
-                    $addcheck=new attendancecheck;
-                    $addcheck->tanggalcheckattendance=$tanggalproses;
-                    $addcheck->statuscheckattendance="1";
-                    $addcheck->save();
+        //             $addcheck=new attendancecheck;
+        //             $addcheck->tanggalcheckattendance=$tanggalproses;
+        //             $addcheck->statuscheckattendance="1";
+        //             $addcheck->save();
                 
-                }
-            }
-            else
-            {
-                $checkatt=attendancecheck::where('tanggalcheckattendance','=',$tanggalproses)->count();
-                // dd($checkatt);
-                if ($checkatt > 0)
-                {
+        //         }
+        //     }
+        //     else
+        //     {
+        //         $checkatt=attendancecheck::where('tanggalcheckattendance','=',$tanggalproses)->count();
+        //         // dd($checkatt);
+        //         if ($checkatt > 0)
+        //         {
                     
-                }
-                else{
+        //         }
+        //         else{
 
-                    // $tanggalsekarang="2018-01-15";
-                    if ($tanggalproses <= $end['Minggu 1'][0]){
-                        $minggu=1;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 2'][0]){
-                        $minggu=2;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 3'][0]){
-                        $minggu=3;
-                    }
-                    elseif ($tanggalproses <= $end['Minggu 4'][0]){
-                        $minggu=4;
-                    }
-                    elseif ($tanggalproses >= $end['Minggu 4'][0]){
-                        $minggu=1;
-                    }
-                    // dd($minggu);
+        //             // $tanggalsekarang="2018-01-15";
+        //             if ($tanggalproses <= $end['Minggu 1'][0]){
+        //                 $minggu=1;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 2'][0]){
+        //                 $minggu=2;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 3'][0]){
+        //                 $minggu=3;
+        //             }
+        //             elseif ($tanggalproses <= $end['Minggu 4'][0]){
+        //                 $minggu=4;
+        //             }
+        //             elseif ($tanggalproses >= $end['Minggu 4'][0]){
+        //                 $minggu=1;
+        //             }
+        //             // dd($minggu);
 
-                    // return dd($end['Minggu 1'][0]);
+        //             // return dd($end['Minggu 1'][0]);
 
-                    $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
+        //             $minggujadwals=jadwalminggu::where('minggu','=',$minggu)->get();
 
-                    foreach ($minggujadwals as $key => $minggujadwal){
-                        // dd($minggujadwal->jadwalkerja_id);
-                        $harikerjas=harikerja::leftJoin('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->where('harikerjas.hari','=',$hari)
-                                    ->where('harikerjas.jadwalkerja_id','=',$minggujadwal->jadwalkerja_id)
-                                    ->distinct()
-                                    ->get(['jadwalkerja_id','hari']);
+        //             foreach ($minggujadwals as $key => $minggujadwal){
+        //                 // dd($minggujadwal->jadwalkerja_id);
+        //                 $harikerjas=harikerja::leftJoin('jadwalkerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->where('harikerjas.hari','=',$hari)
+        //                             ->where('harikerjas.jadwalkerja_id','=',$minggujadwal->jadwalkerja_id)
+        //                             ->distinct()
+        //                             ->get(['jadwalkerja_id','hari']);
 
-                        $tanggalharini=date("Y-m-d");
+        //                 $tanggalharini=date("Y-m-d");
 
-                        $instansis=instansi::all();
-                        foreach ($instansis as $kunci => $instansi){
+        //                 $instansis=instansi::all();
+        //                 foreach ($instansis as $kunci => $instansi){
 
-                            foreach ($harikerjas as $key =>$jadwalkerja){
-                                    #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
-                                    // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                    //     //->where('pegawai_id','=','9930')
-                                    // ->where('tanggal_awalrule','<=',$tanggalharini)
-                                    // ->where('tanggal_akhirrule','>=',$tanggalharini)
-                                    // ->count();
+        //                     foreach ($harikerjas as $key =>$jadwalkerja){
+        //                             #relasi kan jadwalkerja harikerja dan rulejadwalpegawai
+        //                             // $hitung=rulejadwalpegawai::where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                             //     //->where('pegawai_id','=','9930')
+        //                             // ->where('tanggal_awalrule','<=',$tanggalharini)
+        //                             // ->where('tanggal_akhirrule','>=',$tanggalharini)
+        //                             // ->count();
 
-                                    $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                                    ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
-                                    ->where('harikerjas.instansi_id','=',$instansi->id)
-                                    ->where('harikerjas.hari','=',$hari)
-                                    ->where('pegawais.instansi_id','=',$instansi->id)
-                                    ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                    //->where('pegawai_id','=','9930')
-                                    ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
-                                    ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
-                                    ->count();
+        //                             $hitung=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+        //                             ->leftJoin('jadwalkerjas','rulejadwalpegawais.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->leftJoin('harikerjas','harikerjas.jadwalkerja_id','=','jadwalkerjas.id')
+        //                             ->where('harikerjas.instansi_id','=',$instansi->id)
+        //                             ->where('harikerjas.hari','=',$hari)
+        //                             ->where('pegawais.instansi_id','=',$instansi->id)
+        //                             ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                             //->where('pegawai_id','=','9930')
+        //                             ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
+        //                             ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
+        //                             ->count();
 
 
-                                // dd($hitung);
-                                if ($hitung>0)
-                                {
-                                // dd($hitung);
-                                    $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
-                                                ->where('pegawais.instansi_id','=',$instansi->id)
-                                                ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                                ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
-                                                ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
-                                                ->get();
+        //                         // dd($hitung);
+        //                         if ($hitung>0)
+        //                         {
+        //                         // dd($hitung);
+        //                             $jadwalpegawais=rulejadwalpegawai::leftJoin('pegawais','rulejadwalpegawais.pegawai_id','=','pegawais.id')
+        //                                         ->where('pegawais.instansi_id','=',$instansi->id)
+        //                                         ->where('rulejadwalpegawais.jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                                         ->where('rulejadwalpegawais.tanggal_awalrule','<=',$tanggalproses)
+        //                                         ->where('rulejadwalpegawais.tanggal_akhirrule','>=',$tanggalproses)
+        //                                         ->get();
 
-                                    // dd($jadwalpegawais);
-                                    foreach ($jadwalpegawais as $jadwalpegawai)
-                                    {
-                                        $cek=att::where('tanggal_att','=',$tanggalproses)
-                                            ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
-                                            ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
-                                            ->where('jenisabsen_id','=','2')
-                                            ->count();
-                                            // dd($cek."tidak");
-                                        if ($cek > 0){
+        //                             // dd($jadwalpegawais);
+        //                             foreach ($jadwalpegawais as $jadwalpegawai)
+        //                             {
+        //                                 $cek=att::where('tanggal_att','=',$tanggalproses)
+        //                                     ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
+        //                                     ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+        //                                     ->where('jenisabsen_id','=','2')
+        //                                     ->count();
+        //                                     // dd($cek."tidak");
+        //                                 if ($cek > 0){
 
-                                        }
-                                        else{
+        //                                 }
+        //                                 else{
 
-                                            $roleharilibur=Role_Hari_Libur::where('tanggalberlakuharilibur','=',$tanggalproses)->first();
-                                            $pegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','',$jadwalpegawai->pegawai_id)->first();
+        //                                     $roleharilibur=Role_Hari_Libur::where('tanggalberlakuharilibur','=',$tanggalproses)->first();
+        //                                     $pegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','',$jadwalpegawai->pegawai_id)->first();
                                             
-                                            if (($roleharilibur!=null)&&($pegawaiharilibur!=null))
-                                            {
+        //                                     if (($roleharilibur!=null)&&($pegawaiharilibur!=null))
+        //                                     {
 
-                                            }
-                                            else
-                                            {   
-                                                $details['pegawai_id']=$jadwalpegawai->pegawai_id;
-                                                $details['tanggal_att']=$tanggalproses;
-                                                $details['terlambat']='00:00:00';
-                                                $details['apel']='0';
-                                                $details['jadwalkerja_id']=$jadwalkerja->jadwalkerja_id;
-                                                $details['jenisabsen_id'] = '2';
-                                                $details['akumulasi_sehari']='00:00:00';
-                                                dispatch(new GenerateAttendance($details));
+        //                                     }
+        //                                     else
+        //                                     {   
+        //                                         $details['pegawai_id']=$jadwalpegawai->pegawai_id;
+        //                                         $details['tanggal_att']=$tanggalproses;
+        //                                         $details['terlambat']='00:00:00';
+        //                                         $details['apel']='0';
+        //                                         $details['jadwalkerja_id']=$jadwalkerja->jadwalkerja_id;
+        //                                         $details['jenisabsen_id'] = '2';
+        //                                         $details['akumulasi_sehari']='00:00:00';
+        //                                         dispatch(new GenerateAttendance($details));
 
-                                            }
+        //                                     }
 
                                             
-                                            // dd($jadwalpegawai->pegawai_id);
-                                        }
+        //                                     // dd($jadwalpegawai->pegawai_id);
+        //                                 }
 
-                                    }
-                                }
-                                else
-                                {
-                                    // dd("tidak jalan");
-                                }
-                            }
-                        }
-                    }
+        //                             }
+        //                         }
+        //                         else
+        //                         {
+        //                             // dd("tidak jalan");
+        //                         }
+        //                     }
+        //                 }
+        //             }
 
-                    $addcheck=new attendancecheck;
-                    $addcheck->tanggalcheckattendance=$tanggalproses;
-                    $addcheck->statuscheckattendance="1";
-                    $addcheck->save();
+        //             $addcheck=new attendancecheck;
+        //             $addcheck->tanggalcheckattendance=$tanggalproses;
+        //             $addcheck->statuscheckattendance="1";
+        //             $addcheck->save();
                 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
         //sleep(3600);
 

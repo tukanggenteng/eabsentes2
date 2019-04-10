@@ -45,6 +45,8 @@ class PDFController extends Controller
       }
       elseif (!isset($request->nip) && isset($request->tanggal))
       {
+        // dd("sd");
+
         // $tanggal=explode('-',$request->tanggal);
         $tanggal=$request->tanggal;        
         $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
@@ -93,7 +95,6 @@ class PDFController extends Controller
       }
       elseif (!isset($request->nip) && !isset($request->tanggal))
       {
-        
         $atts=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
@@ -102,10 +103,14 @@ class PDFController extends Controller
         ->leftJoin('jenisabsens as keteranganmasuk', 'keteranganmasuk.id','=','atts.keteranganmasuk_id')
         ->leftJoin('jenisabsens as keterangankeluar', 'keterangankeluar.id','=','atts.keterangankeluar_id')
         ->where('pegawais.instansi_id','=',Auth::user()->instansi_id)
-        ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
-            'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
+        ->select('atts.*','keteranganmasuk.jenis_absen as keteranganmasuk_id',
+                'keterangankeluar.jenis_absen as keterangankeluar_id','jadwalkerjas.jenis_jadwal',
+                'jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
+                'instansiskeluar.namaInstansi as namainstansikeluar',
+                'jenisabsens.jenis_absen','pegawais.nip','pegawais.nama')
         ->orderBy('atts.tanggal_att','desc')
         ->paginate(30);
+        
         $nip=null;
         $tanggal=null;
         // dd("as");
@@ -136,7 +141,8 @@ class PDFController extends Controller
                         'atts.jam_keluar',
                         'keterangankeluar.jenis_absen as keterangankeluar_id',
                         'atts.akumulasi_sehari',
-                        'jenisabsens.jenis_absen',
+                        DB::raw('(if (atts.jenisabsen_id = "1" && atts.jam_keluar is null ,"Tanpa Kabar","Hadir")) as jenis_absen'),
+                        // 'jenisabsens.jenis_absen',
                         'jadwalkerjas.jenis_jadwal',
                         'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
@@ -202,7 +208,7 @@ class PDFController extends Controller
                         'atts.jam_keluar',
                         'keterangankeluar.jenis_absen as keterangankeluar_id',
                         'atts.akumulasi_sehari',
-                        'jenisabsens.jenis_absen',
+                        DB::raw('(if (atts.jenisabsen_id = "1" && atts.jam_keluar is null ,"Tanpa Kabar","Hadir")) as jenis_absen'),                        
                         'jadwalkerjas.jenis_jadwal',
                         'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
@@ -263,7 +269,7 @@ class PDFController extends Controller
                 'atts.jam_keluar',
                 'keterangankeluar.jenis_absen as keterangankeluar_id',
                 'atts.akumulasi_sehari',
-                'jenisabsens.jenis_absen',
+                DB::raw('(if (atts.jenisabsen_id = "1" && atts.jam_keluar is null ,"Tanpa Kabar","Hadir")) as jenis_absen'),                
                 'jadwalkerjas.jenis_jadwal',
                 'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
@@ -320,7 +326,7 @@ class PDFController extends Controller
                 'atts.jam_keluar',
                 'keterangankeluar.jenis_absen as keterangankeluar_id',
                 'atts.akumulasi_sehari',
-                'jenisabsens.jenis_absen',
+                DB::raw('(if (atts.jenisabsen_id = "1" && atts.jam_keluar is null ,"Tanpa Kabar","Hadir")) as jenis_absen'),                
                 'jadwalkerjas.jenis_jadwal',
                 'jadwalkerjas.sifat')
         ->orderBy('atts.tanggal_att','desc')
@@ -870,7 +876,7 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
@@ -913,7 +919,7 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
@@ -953,7 +959,7 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
@@ -992,7 +998,7 @@ class PDFController extends Controller
                         
                         'pegawais.nip',
                         'pegawais.nama',
-                        DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                        DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                         DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),
                         DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                         DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),

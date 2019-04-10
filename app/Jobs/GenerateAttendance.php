@@ -7,6 +7,23 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Role_Hari_Libur;
+use App\Pegawai_Hari_Libur;
+use App\attendancecheck;
+use App\rekapbulancheck;
+use App\rekapminggucheck;
+use App\harikerja;
+use App\instansi;
+use App\jadwalminggu;
+use App\pegawai;
+use App\dokter;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use App\finalrekapbulanan;
+use App\rekapbulanan;
+use App\masterbulanan;
+use App\rulejadwalpegawai;
+use App\jenisabsen;
 
 class GenerateAttendance implements ShouldQueue
 {
@@ -30,17 +47,31 @@ class GenerateAttendance implements ShouldQueue
      */
     public function handle()
     {
-        //
-        echo $this->details['pegawai_id'];
         
+        $tanggalsekarang=date('Y-m-d');
+
+        $tanggalproses=$this->details['tanggalproses'];
+        $pegawai_id=$this->details['pegawai_id'];
+        $jadwalkerja_id=$this->details['jadwalkerja_id'];
+        $sifat=$this->details['sifat'];
+
         $user = new att();
-        $user->pegawai_id = $this->details['pegawai_id'];
-        $user->tanggal_att=$this->details['tanggal_att'];
-        $user->terlambat=$this->details['terlambat'];
-        $user->apel=$this->details['apel'];
-        $user->jadwalkerja_id=$this->details['jadwalkerja_id'];
-        $user->jenisabsen_id = $this->details['jenisabsen_id'];
-        $user->akumulasi_sehari=$this->details['akumulasi_sehari'];
+        $user->pegawai_id = $pegawai_id;
+        $user->tanggal_att=$tanggalproses;
+        $user->terlambat='00:00:00';
+        $user->apel='0';
+        $user->jadwalkerja_id=$jadwalkerja_id;
+        if ($sifat=="FD")
+        {
+            $user->jenisabsen_id = '13';
+
+        }
+        else
+        {
+            $user->jenisabsen_id = '2';
+
+        }
+        $user->akumulasi_sehari='00:00:00';
         $user->save();
     }
 }

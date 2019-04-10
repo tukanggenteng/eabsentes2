@@ -18,6 +18,7 @@ use App\jadwalkerja;
 use App\pegawai;
 use App\rulejadwalpegawai;
 use App\rulejammasuk;
+use App\perawatruangan;
 use App\adminpegawai;
 use App\hapusfingerpegawai;
 use App\lograspberry;
@@ -320,11 +321,7 @@ class Controller extends BaseController
 
     protected function jam_masuk($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint)
     {
-        $table=attendancecheck::where('tanggalcheckattendance','=',$tanggal_fingerprint)
-                    ->count();
-        //dd("sd");
-        if ($table > 0)
-        {
+        
          
             $pegawaitidakterjadwal_exist=dokter::where('pegawai_id','=',$pegawai_id_fingerprint)->first();
             
@@ -577,14 +574,8 @@ class Controller extends BaseController
             $flag=false;
             $store_atts_tran=$this->store_atts_trans($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint,$flag);
                     
-            return ("Success");
-        }        
-        else
-        {
-            
-                    
-            return "Failed";
-        }
+            return ("Success");    
+        
         
     }
 
@@ -1212,21 +1203,9 @@ class Controller extends BaseController
     protected function jam_keluar($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint){
         //cek absen jam masuk yang kosong hari ini
         
-        $table=attendancecheck::where('tanggalcheckattendance','=',$tanggal_fingerprint)
-                    ->count();
-        // $table=1;
-        if ($table > 0)
-        {
-            
+       
             return $this->kehadiranpulang($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint);
 
-            
-            // return "Success";
-        }
-        else
-        {
-            return "Failed";
-        }
     }
 
     protected function notification($instansi){
@@ -1306,6 +1285,7 @@ class Controller extends BaseController
             $absens= att::leftjoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id', '=', $pegawai_id_fingerprint)
             ->where('atts.tanggal_keluar', '=', $tanggal_fingerprint)
+            // ->where('atts.jenisabsen_id', '=', '2')
             ->select('atts.*','jadwalkerjas.jenis_jadwal',
                     'jadwalkerjas.jam_masukjadwal',
                     'jadwalkerjas.jam_keluarjadwal',
@@ -1321,6 +1301,7 @@ class Controller extends BaseController
         {
             $absens = att::leftjoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
             ->where('atts.pegawai_id', '=', $pegawai_id_fingerprint)
+            // ->where('atts.jenisabsen_id', '=', '2')
             ->select('atts.*','jadwalkerjas.jenis_jadwal',
                     'jadwalkerjas.jam_masukjadwal',
                     'jadwalkerjas.jam_keluarjadwal',
@@ -1333,7 +1314,7 @@ class Controller extends BaseController
             ->oldest()
             ->get();
         }
-        
+            // dd($absens);
             // dd($absens);
             foreach ($absens as $key => $absen) {
                 //cek kecocokan jam masuk berdasarkan jadwalkerja
@@ -1354,33 +1335,11 @@ class Controller extends BaseController
 
                 if ($pegawaitidakterjadwal_exist==null)
                 {
-                    // dd(($jamfingerprint > $jammasuk) && ($jamfingerprint <= $jamakhir) && ($jamfingerprint <= $jampulang));
-                    if (($jamfingerprint > $jammasuk) && ($jamfingerprint <= $jamakhir) && ($jamfingerprint <= $jampulang))
+                    // dd(($jamfingerprint > $jammasuk) && ($jamfingerprint <= $jamakhir));
+                    if (($jamfingerprint > $jammasuk) && ($jamfingerprint <= $jamakhir))
                     // kondisi pulang tepat waktu    
                     {
-                        // $cari = atts_tran::where('pegawai_id','=', $pegawai_id_fingerprint)
-                        //             ->where('tanggal', '=', $tanggal_fingerprint)
-                        //             ->where('status_kedatangan', '=', $status_fingerprint)
-                        //             ->count();
-                        //jika hasil nya lebih dari 0 maka
-                        // if ($cari > 0) {
-                        //     //melakukan perubahan data absen trans yang ada
-                        //     $table = atts_tran::where('tanggal', '=', $tanggal_fingerprint)
-                        //         ->where('pegawai_id', '=', $pegawai_id_fingerprint)
-                        //         ->first();
-                        //     $table->jam = $jam_fingerprint;
-                        //     $table->tanggal = $tanggal_fingerprint;
-                        //     $table->save();
-                        // } else {
-                        //     //menambah data absen trans yang baru
-                        //     $save = new atts_tran();
-                        //     $save->pegawai_id = $pegawai_id_fingerprint;
-                        //     $save->tanggal = $tanggal_fingerprint;
-                        //     $save->jam = $jam_fingerprint;
-                        //     $save->lokasi_alat = $instansi_fingerprint;
-                        //     $save->status_kedatangan = $status_fingerprint;
-                        //     $save->save();
-                        // }
+                        // dd("ad");
                         //meubah data masuk
                         $table2 = jadwalkerja::where('id','=',$absen->jadwalkerja_id)
                         ->get();
@@ -1395,7 +1354,8 @@ class Controller extends BaseController
                         {
                             $harike=date('N', strtotime($absen->tanggal_att));
                             // if (($harike==5) && ($table2[0]['sifat']=="WA") && ($absen->masukistirahat!=null))
-                            if (($harike==5) && ($table2[0]['jam_keluarjadwal']>="14:00:00") && ($table2[0]['jam_masukjadwal']<="11:30:00"))                        
+                            $cekperawatruangan=perawatruangan::where('pegawai_id','=',$pegawai_id_fingerprint)->first();
+                            if (($harike==5) && ($table2[0]['jam_keluarjadwal']>="14:00:00") && ($table2[0]['jam_masukjadwal']<="11:30:00") && ($cekperawatruangan==null))                        
                             {
                             
 
@@ -1409,21 +1369,21 @@ class Controller extends BaseController
                                     if ($jam_fingerprint < $batasakhir){
                                         $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                         $akumulasi=$this->kurangwaktu($jamban,$jamban2);
-                                        dd("halilintar");
+                                        // dd("halilintar");
 
                                     }
                                     elseif ($jam_fingerprint < $batasakhir2)
                                     {
                                         $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                         $akumulasi=$this->kurangwaktu($jamban,$jamban2);
-                                        dd("aha");
+                                        // dd("aha");
                                         
                                     }
                                     else
                                     {
                                         $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$table2[0]['jam_keluarjadwal']));
                                         $akumulasi=$this->kurangwaktu($jamban,$jamban2);
-                                        dd("kurang");
+                                        // dd("kurang");
                                         $akumulasi=date("H:i:s", strtotime("-2 hours -30 minutes",strtotime($akumulasi)));
                                     }
                                     
@@ -1441,14 +1401,15 @@ class Controller extends BaseController
                                     if ($jam_fingerprint < $batasakhir){
                                         $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$jam_fingerprint));
                                         $akumulasi=$this->kurangwaktu($jamban,$jamban2);
-                                        dd("halilintar1");
+                                        // dd("halilintar1");
 
                                     }
                                     elseif ($jam_fingerprint < $batasakhir2)
                                     {
                                         $jamban2=date("Y-m-d H:i:s", strtotime($tanggal_fingerprint." ".$batasakhir));
                                         $akumulasi=$this->kurangwaktu($jamban,$jamban2);
-                                        dd("halilintar2");
+                                        // dd("halilintar2");
+                                        // dd($akumulasi);
 
                                     }
                                     else
@@ -1486,6 +1447,7 @@ class Controller extends BaseController
                             ->where('jadwalkerja_id', '=', $absen->jadwalkerja_id)
                             ->where('id','=',$absen->id)                    
                             ->first();
+                        // dd($table);
 
                         $pegawai = pegawai::join('instansis', 'pegawais.instansi_id', '=', 'instansis.id')
                             ->where('pegawais.id', '=', $pegawai_id_fingerprint)->get();
@@ -1494,7 +1456,7 @@ class Controller extends BaseController
                             $table->jenisabsen_id = "1";
                         }
                         $table->keterangankeluar_id="1";
-
+                        // dd($akumulasi);
                         $table->jam_keluar = $jam_fingerprint;
                         $table->keluarinstansi_id = $instansi_fingerprint;
                         $table->akumulasi_sehari = $akumulasi;
@@ -1546,6 +1508,7 @@ class Controller extends BaseController
                     }
                     else
                     {
+                        // dd('as');
                         $flag=false;
                         $store_atts_tran=$this->store_atts_trans($pegawai_id_fingerprint,$tanggal_fingerprint,$jam_fingerprint,$status_fingerprint,$instansi_fingerprint,$macadress_fingerprint,$flag);
 
@@ -1573,6 +1536,7 @@ class Controller extends BaseController
                             ->where('id','=',$absen->id)                    
                             ->first();
                         $table->tanggal_keluar=$tanggal_fingerprint;
+                        $table->jenisabsen_id=2;
                         $table->save();
 
                         $flag=false;
@@ -1627,7 +1591,7 @@ class Controller extends BaseController
                         $att->function="kehadiranharikemarin";
                         $att->status="Success";
                         $att->save();
-
+                        // dd("as");
                         return "Success";
                     }
                 }
@@ -1644,6 +1608,7 @@ class Controller extends BaseController
             $att->function="kehadiranharikemarin";
             $att->status="Success3";
             $att->save();
+            // dd("as");
             return "Success";
 
 

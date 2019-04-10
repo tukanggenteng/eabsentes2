@@ -320,6 +320,8 @@ class RekapAbsensiController extends Controller
                                   $table->jam_masuk = null;
                                   $table->keluaristirahat=null;
                                   $table->masukistirahat=null;
+                                  $table->keteranganmasuk_id=null;
+                                  $table->keterangankeluar_id=null;
                                   $table->apel=0;                                  
                                   $table->masukinstansi_id=Auth::user()->instansi_id;
                                   $table->jam_keluar = null;
@@ -481,6 +483,8 @@ class RekapAbsensiController extends Controller
                                     $table->terlambat = "00:00:00";
                                     $table->keluaristirahat=null;
                                     $table->masukistirahat=null;
+                                    $table->keteranganmasuk_id=null;
+                                    $table->keterangankeluar_id=null;
                                     $table->masukinstansi_id=Auth::user()->instansi_id;
                                     $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -640,6 +644,8 @@ class RekapAbsensiController extends Controller
                                 $table->terlambat = "00:00:00";
                                 $table->keluaristirahat=null;
                                 $table->masukistirahat=null;
+                                $table->keteranganmasuk_id=null;
+                                $table->keterangankeluar_id=null;
                                 $table->masukinstansi_id=Auth::user()->instansi_id;
                                 $table->jam_keluar = null;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -799,6 +805,8 @@ class RekapAbsensiController extends Controller
                                 $table->terlambat = "00:00:00";
                                 $table->keluaristirahat=null;
                                 $table->masukistirahat=null;
+                                $table->keteranganmasuk_id=null;
+                                $table->keterangankeluar_id=null;
                                 $table->masukinstansi_id=Auth::user()->instansi_id;
                                 $table->jam_keluar = null;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -956,6 +964,8 @@ class RekapAbsensiController extends Controller
                                     $table->terlambat = "00:00:00";
                                     $table->keluaristirahat=null;
                                     $table->masukistirahat=null;
+                                    $table->keteranganmasuk_id=null;
+                                    $table->keterangankeluar_id=null;
                                     $table->masukinstansi_id=Auth::user()->instansi_id;
                                     $table->jam_keluar = null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
@@ -1116,6 +1126,9 @@ class RekapAbsensiController extends Controller
                                     $table->masukistirahat=null;
                                     $table->masukinstansi_id=Auth::user()->instansi_id;
                                     $table->jam_keluar = null;
+
+                                    $table->keteranganmasuk_id=null;
+                                    $table->keterangankeluar_id=null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
                                     $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
@@ -1274,6 +1287,8 @@ class RekapAbsensiController extends Controller
                                     $table->masukistirahat=null;
                                     $table->masukinstansi_id=Auth::user()->instansi_id;
                                     $table->jam_keluar = null;
+                                    $table->keteranganmasuk_id=null;
+                                    $table->keterangankeluar_id=null;
                                     $table->keluarinstansi_id=Auth::user()->instansi_id;
                                     $table->akumulasi_sehari = "00:00:00";
                                     $table->save();
@@ -1291,6 +1306,8 @@ class RekapAbsensiController extends Controller
                                   $table->masukistirahat=null;
                                   $table->masukinstansi_id=Auth::user()->instansi_id;
                                   $table->jam_keluar = null;
+                                  $table->keteranganmasuk_id=null;
+                                  $table->keterangankeluar_id=null;
                                   $table->keluarinstansi_id=Auth::user()->instansi_id;
                                   $table->akumulasi_sehari = "00:00:00";
                                   $table->save();
@@ -1423,6 +1440,8 @@ class RekapAbsensiController extends Controller
 
                                 //   $table->jenisabsen_id = $request->jenisabsen;
                                   $table->jam_masuk = $awal;
+                                  $table->keteranganmasuk_id="1";
+                                  $table->keterangankeluar_id=null;
                                   $table->masukinstansi_id=Auth::user()->instansi_id;
                                   $table->terlambat = "00:00:00";
                                   $table->keteranganmasuk_id=$request->jenisabsen;
@@ -1485,6 +1504,8 @@ class RekapAbsensiController extends Controller
                                   $table->masukistirahat=null;
                                   $table->masukinstansi_id=Auth::user()->instansi_id;
                                   $table->jam_keluar = null;
+                                  $table->keteranganmasuk_id=null;
+                                  $table->keterangankeluar_id=null;
                                   $table->keluarinstansi_id=Auth::user()->instansi_id;
                                   $table->akumulasi_sehari = "00:00:00";
                                   $table->save();
@@ -1639,23 +1660,25 @@ class RekapAbsensiController extends Controller
                               }
                               elseif  ($request->jenisabsen=="13"){
 
-                                $table = att::where('tanggal_att', '=', $tanggalbaru)
-                                    ->where('jadwalkerja_id','=',$data)
-                                    ->where('id', '=', $id)
-                                    ->first();
+                                    $table = att::where('tanggal_att', '=', $tanggalbaru)
+                                        ->where('jadwalkerja_id','=',$data)
+                                        ->where('id', '=', $id)
+                                        ->first();
 
-                                $table->jenisabsen_id = $request->jenisabsen;
-                                $table->jam_masuk = null;
-                                $table->terlambat = "00:00:00";
-                                $table->masukinstansi_id=Auth::user()->instansi_id;
-                                $table->jam_keluar = null;
-                                $table->keluaristirahat=null;
-                                $table->masukistirahat=null;
-                                $table->keluarinstansi_id=Auth::user()->instansi_id;
-                                $table->akumulasi_sehari = "00:00:00";
-                                $table->save();
+                                    $table->jenisabsen_id = $request->jenisabsen;
+                                    $table->jam_masuk = null;
+                                    $table->terlambat = "00:00:00";
+                                    $table->masukinstansi_id=Auth::user()->instansi_id;
+                                    $table->jam_keluar = null;
+                                    $table->keluaristirahat=null;
+                                    $table->keteranganmasuk_id=null;
+                                    $table->keterangankeluar_id=null;
+                                    $table->masukistirahat=null;
+                                    $table->keluarinstansi_id=Auth::user()->instansi_id;
+                                    $table->akumulasi_sehari = "00:00:00";
+                                    $table->save();
 
-                            }
+                              }
                                 
                             
                           } else {

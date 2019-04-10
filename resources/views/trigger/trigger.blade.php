@@ -114,8 +114,8 @@ Atur Trigger
                     <div class="col-md-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Hapus Pegawai</h3>
-
+                                <h3 class="box-title">Ganti Jari Pegawai</h3>
+                                <small>Daftarkan dulu NIP yang ingin diganti sidik jarinya kemudian hapus sidik jarinya.</small>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
@@ -155,8 +155,8 @@ Atur Trigger
                     <div class="col-md-12">
                         <div class="box box-default">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Daftar Pegawai Yang DiHapus</h3>
-
+                                <h3 class="box-title">Daftar Pegawai Yang Ganti Jari</h3>
+                                <small>Setor jari baru, kemudian pilih pegawai (yang sudah setor) dibawah lalu tekan tombol ganti.</small>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
@@ -169,7 +169,7 @@ Atur Trigger
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <div class="col-md-3">
-                                                    <button type="submit" class="btn btn-danger btn-flat">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger btn-flat">Ganti</button>
                                                 </div>
                                             </div>
                                         </div>

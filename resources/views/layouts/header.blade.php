@@ -27,25 +27,7 @@
         @if (Auth::user()->role->namaRole=="admin")
         <div class="navbar-custom-menu pull-left">
           <ul class="nav navbar-nav ">
-            <li class="active"><a href="#">Status Trigger : [
-              @isset($status)
-                @if ($status=='0')
-                    None
-                @elseif ($status=='1')
-                    Tambah Pegawai - Admin
-                @elseif ($status=='2')
-                    Hapus Pegawai
-                @elseif ($status=='3')
-                    Update Software
-                @elseif ($status=='4')
-                    Reset Data Mesin
-                @endif
-              @endisset
-              @empty($status)
-                  Variable Triger tidak ditemukan
-              @endempty
-
-
+            <li class="active"><a href="#">Status Trigger : [ {{$statustrigger}}
             ]  </a></li>
           </ul>
         </div>

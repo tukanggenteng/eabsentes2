@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('title')
+Keterangan Absen
+@endsection
+
 @push('style')
 <link rel="stylesheet" href="{{asset('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 <!-- bootstrap datepicker -->
@@ -43,65 +47,87 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
             <h1>
-                Jadwal Kerja
-                <small>Harian</small>
+                Keterangan Absen
             </h1>
             </section>
 
             <!-- Main content -->
             <section class="content">
             <div class="row">
+
                 <div class="col-md-3">
-                <div class="box">
-                    <div class="box-header with-border">
-                      <h3 class="box-title">Data Pegawai</h3>
-                    </div>
-                    <div class="box-body">
-                      NIP : {{$pegawai->nip}}
-                      <br>
-                      Nama : {{$pegawai->nama}}
-                      <br>
-                      <hr>
-                      <a class="btn btn-block btn-success btn-sm" href="{{route('indexjadwalkerjapegawaiharian')}}"><span class="fa fa-chevron-circle-left"></span> Kembali</a>
-                    </div>
-                  </div>
                   <div class="box box-solid">
-                      <div class="box-header with-border">
-                      <h4 class="box-title">Jadwal Kerja</h4>
-                      </div>
-                      <div class="box-body">
-                        <div id="external-events">
-                            @foreach ($jadwals as $jadwal)
-                              <div class="external-event {{$jadwal->classdata}}" data-id="{{encrypt($jadwal->id)}}" data-jammasuk="{{$jadwal->jam_masukjadwal}}" data-jamkeluar="{{$jadwal->jam_keluarjadwal}}" data-jenisjadwal="{{$jadwal->jenis_jadwal}}">
-                                {{$jadwal->jenis_jadwal}} - [{{$jadwal->jamsebelum_masukkerja}} - {{$jadwal->jam_masukjadwal}} >> {{$jadwal->jam_keluarjadwal}} - {{$jadwal->jamsebelum_pulangkerja}}]
-                              </div>
-                            @endforeach
+
+                        <div class="box-header with-border">
+                          <h4 class="box-title">{{$jadwalkerjadata->jenis_jadwal}}</h4>
+                        </div>
+                        <div class="box-body">
+                          NIP : {{$pegawai->nip}}
+                          <br>
+                          Nama : {{$pegawai->nama}}
+                          <br>
+                          <hr>
+                          <a class="btn btn-block btn-success btn-sm" href="/keteranganabsen"><span class="fa fa-chevron-circle-left"></span> Kembali</a>
+                        </div>
+                        <div class="box-body">
+                          <div id="external-events">
+                              @foreach ($jenisabsens as $jenisabsen)
+                              @if ((Auth::user()->role->namaRole=="user") && (($jenisabsen->id==13) || ($jenisabsen->id==11)))
+                              
+                              @else
+
+                                  @if ($jenisabsen->id==2)
+                                  <div class="external-event bg-red" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif ($jenisabsen->id==3)
+                                  <div class="external-event bg-blue" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==4))
+                                  <div class="external-event bg-navy" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==5))
+                                  <div class="external-event bg-orange" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==6))
+                                  <div class="external-event bg-maroon" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==7))
+                                  <div class="external-event bg-purple" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==8))
+                                  <div class="external-event bg-olive" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==9))
+                                  <div class="external-event bg-black" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==10))
+                                  <div class="external-event bg-blue" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==11))
+                                  <div class="external-event bg-blue" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==12))
+                                  <div class="external-event bg-blue" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @elseif (($jenisabsen->id==13))
+                                  <div class="external-event bg-blue" data-id="{{encrypt($jenisabsen->id)}}" data-jammasuk="00:00" data-jamkeluar="23:59:59" data-jenisabsen="{{$jenisabsen->jenis_absen}}">
+                                  @endif
+                                  
+                                    {{$jenisabsen->jenis_absen}}
+                                  </div>
+                                @endif
+                                
+                              @endforeach
+                          </div>
+                        <!-- </div> -->
                         </div>
 
-                      </div>
-                      <div class="box-footer">
-                          <ul class="pagination pagination-sm no-margin pull-right">
-                              {{$jadwals->links()}}
-                          </ul>
+                        <!-- /.box-body -->
+                  </div>
+                </div>
+
+                <!-- /.col -->
+               
+                <div class="col-md-9">
+                  <div class="box box-primary">
+
+                      <div class="box-body no-padding">
+                      <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+
+                      <!-- THE CALENDAR -->
+                      <div id="calendar"></div>
                       </div>
                       <!-- /.box-body -->
                   </div>
-                  
-                <!-- /. box -->
-                
-                </div>
-                <!-- /.col -->
-                <div class="col-md-9">
-                <div class="box box-primary">
-
-                    <div class="box-body no-padding">
-                    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="idemploye" id="idemploye" value="{{$idemploye}}">
-                    <!-- THE CALENDAR -->
-                    <div id="calendar"></div>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
                 <!-- /. box -->
                 </div>
                 <!-- /.col -->
@@ -157,12 +183,10 @@
 
     eventdata=[];
 
-    var idemploye=$('#idemploye').val();
     var token=$('#token').val();
-
-    var url = "{{url('/eventcalendar')}}";
-    var urldelete = "{{url('/eventcalendar/delete')}}";
-    var urlpost = "{{url('/eventcalendar/post')}}";
+    var url = "{{url('/keteranganabsen/calendar/data')}}";
+    var urldelete = "{{url('/keteranganabsen/calendar/destroy')}}";
+    var urlpost = "{{url('/keteranganabsen/calendar/store')}}";
 
     // $.get(url,{ idemploye : idemploye }, function(response) {
     //   eventdata.push(response);
@@ -181,7 +205,7 @@
         // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
         // it doesn't need to have a start or end
         var eventObject = {
-          title: $(this).data("jenisjadwal"), // use the element's text as the event title
+          title: $(this).data("jenisabsen"), // use the element's text as the event title
           id: $(this).data("id"),
           jammasuk: $(this).data("jammasuk"),
           jamkeluar: $(this).data("jamkeluar")
@@ -230,7 +254,8 @@
         url: url,
         type: 'POST',
         data: {
-          idemploye: idemploye,
+          jadwalkerja_id: "{{$jadwalkerja_id}}",
+          pegawai_id: "{{$pegawai_id}}",
           _token:token
         },
         error: function() {
@@ -278,21 +303,22 @@
           $.ajax({
             url: urlpost,
             data: { _token:token,
-                    idemploye:idemploye,
                     awalrule:date2.toISOString().slice(0,10),
-                    akhirrule:date2.toISOString().slice(0,10),
-                    jadwalid:copiedEventObject.id,
+                    tanggalberlakuharilibur:date2.toISOString().slice(0,10),
+                    jadwalkerja_id: "{{$jadwalkerja_id}}",
+                    pegawai_id: "{{$pegawai_id}}",
+                    jenisabsen_id:copiedEventObject.id,
                   },
             type: 'POST',
             dataType: 'json',
             success: function(response){
               if (response=='success')
               {
-                swal("Berhasil menambah jadwal kerja pegawai.", "", "success");
+                swal("Berhasil mengubah keterangan absen.", "", "success");
               }
               else
               {
-                swal("Gagal menambah jadwal  kerja pegawai.", "", "error");
+                swal("Gagal mengubah keterangan absen.", "", "error");
               }
               
               // console.log(response);
@@ -301,7 +327,7 @@
               $('#calendar').fullCalendar('refetchEvents');
             },
             error: function(e){
-              swal("Gagal menambah jadwal  kerja pegawai.", "", "error");
+              swal("Gagal mengubah keterangan absen.", "", "error");
             }
           });
 
@@ -315,19 +341,25 @@
             url: urldelete,
             data: { _token:token,
                   id:event.id,
-                  tanggal:event.start._i
                   },
             type: 'POST',
             dataType: 'json',
             success: function(response){
-              swal("Berhasil menghapus jadwal kerja pegawai.", "", "success");
+              if (response=='success')
+              {
+                swal("Berhasil menghapus keterangan absen.", "", "success");
+              }
+              else
+              {
+                swal("Gagal menghapus keterangan absen.", "", "error");
+              }
               // console.log(response);
               // if(response == 'success')
               // $('#calendar').fullCalendar('updateEvent',event);
               $('#calendar').fullCalendar('refetchEvents');
             },
             error: function(e){
-              swal("Gagal menghapus jadwal kerja pegawai.", "", "error");
+              swal("Gagal menghapus keterangan absen.", "", "error");
             }
           });
         }

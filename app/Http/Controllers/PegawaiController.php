@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Redis;
 use Ixudra\Curl\Facades\Curl;
 use App\Events\Timeline;
 use Excel;
+use App\keterangan_absen;
+
 
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -39,7 +41,7 @@ class PegawaiController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:60,1');
+        $this->middleware('throttle:1000,1');
     }
 
 
@@ -334,26 +336,8 @@ class PegawaiController extends Controller
             $dataqueuepegawai=new QueuePegawaiController();
             $dataqueuepegawai->storequeuepegawaispesific(Auth::user()->instansi_id,$updatedata->id,"daftar");
 
-            $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
-            foreach ($rulepegawais as $key => $datarule)
-            {
 
-                $tanggalhari=date('Y-m-d');
-                $atts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
-                                ->where('tanggal_att','=',$tanggalhari)
-                                ->where('pegawai_id','=',$updatedata->id)
-                                ->whereNull('jam_masuk');
-                                
-                if ($atts->count() > 0){
-                    $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
-                                    ->where('tanggal_att','=',$tanggalhari)
-                                    ->where('pegawai_id','=',$updatedata->id)
-                                    ->whereNull('jam_masuk')->delete();
-                }
-            }
-                
-            $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
-            $deleterulepegawai->delete();
+            
             
             return response()->json($updatedata);
         }
@@ -423,6 +407,7 @@ class PegawaiController extends Controller
         // dd($updatedata->id);
 
         $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
+        // dd($rulepegawais);
         foreach ($rulepegawais as $key => $datarule)
         {
 
@@ -431,13 +416,22 @@ class PegawaiController extends Controller
                             ->where('tanggal_att','=',$tanggalhari)
                             ->where('pegawai_id','=',$updatedata->id)
                             ->whereNull('jam_masuk');
-                            
+            // dd($atts->count());
             if ($atts->count() > 0){
                 $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
                                 ->where('tanggal_att','=',$tanggalhari)
                                 ->where('pegawai_id','=',$updatedata->id)
                                 ->whereNull('jam_masuk')->delete();
+                // dd($attsdelete);
+
+
+                
             }
+            $deleteatts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                ->where('tanggal_att','>',$tanggalhari)
+                ->where('pegawai_id','=',$updatedata->pegawai_id)->delete();
+            $keteranganabsendelete=keterangan_absen::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                            ->where('pegawai_id','=',$updatedata->pegawai_id)->delete();
         }
             
         $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
@@ -477,7 +471,6 @@ class PegawaiController extends Controller
         
 
         $updatedata->instansi_id = null;
-        $updatedata->save();
         
         if ($updatedata->save()){
             
@@ -559,8 +552,8 @@ class PegawaiController extends Controller
             if ($hitung == 2)
             {
               $datapegawai=pegawai::where('id','=',$request->json('pegawai_id'))->first();
-              $dataqueuepegawai=new QueuePegawaiController();
-              $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
+            //   $dataqueuepegawai=new QueuePegawaiController();
+            //   $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
             }
             return "Succes";
         }
