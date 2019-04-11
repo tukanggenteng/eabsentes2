@@ -453,10 +453,11 @@ class JadwalKerjaPegawaiHarianController extends Controller
                                                     }
                                                     else
                                                     {   
+                                                            $sifatjadwalkerja=jadwalkerja::where('id','=',$jadwalkerjaid)->first();
                                                             $details['tanggalproses']=$tanggalproses;
                                                             $details['pegawai_id']=$id;
                                                             $details['jadwalkerja_id']=$jadwalkerjaid;
-                                                            $details['sifat']=$jadwalkerja->sifat;
+                                                            $details['sifat']=$sifatjadwalkerja->sifat;
 
                                                             // $details['instansi_id']=Auth::user()->instansi_id;
                                                             dispatch(new GenerateAttendance($details));
@@ -611,6 +612,8 @@ class JadwalKerjaPegawaiHarianController extends Controller
                                         $table->jadwalkerja_id = $jadwalkerjaid;
                                         if ($table->save())
                                         {
+                                            $sifatjadwalkerja=jadwalkerja::where('id','=',$jadwalkerjaid)->first();
+
                                             $details['tanggalawal']=$tanggalawal;
                                             $details['tanggalakhir']=$tanggalakhir;
                                             $details['pegawai_id']=$id;

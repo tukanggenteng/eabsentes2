@@ -388,10 +388,11 @@ class JadwalKerjaPegawaiController extends Controller
                                                             }
                                                             else
                                                             {   
+                                                                    $sifatjadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
                                                                     $details['tanggalproses']=$tanggalproses;
                                                                     $details['pegawai_id']=$data;
                                                                     $details['jadwalkerja_id']=$request->jadwalkerjamasuk;
-                                                                    $details['sifat']=$jadwalkerja->sifat;
+                                                                    $details['sifat']=$sifatjadwalkerja->sifat;
                                                                     // $details['instansi_id']=Auth::user()->instansi_id;
                                                                     dispatch(new GenerateAttendance($details));
                                                            
@@ -607,10 +608,12 @@ class JadwalKerjaPegawaiController extends Controller
                                                             }
                                                             else
                                                             {   
+                                                                    $sifatjadwalkerja=jadwalkerja::where('id','=',$request->jadwalkerjamasuk)->first();
+
                                                                     $details['tanggalproses']=$tanggalproses;
                                                                     $details['pegawai_id']=$data;
                                                                     $details['jadwalkerja_id']=$request->jadwalkerjamasuk;
-                                                                    $details['sifat']=$jadwalkerja->sifat;
+                                                                    $details['sifat']=$sifatjadwalkerja->sifat;
                                                                     // $details['instansi_id']=Auth::user()->instansi_id;
                                                                     dispatch(new GenerateAttendance($details));
                                                            
@@ -631,12 +634,6 @@ class JadwalKerjaPegawaiController extends Controller
                             
                             if ($table->save())
                             {
-                                $details['tanggalawal']=$tanggal[0];
-                                $details['tanggalakhir']=$tanggal[1];
-                                $details['pegawai_id']=$data;
-                                $details['jadwalkerja_id']=$request->jadwalkerjamasuk;
-                                $details['instansi_id']=Auth::user()->instansi_id;
-                                dispatch(new GenerateAttendance($details));
                                 $status=true;
                                 break;
                             }
