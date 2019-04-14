@@ -56,7 +56,7 @@ class GenerateAttendanceSeeder extends Seeder
     {
         //
 
-        $tanggalsekarang=date('Y-m-d');
+        $tanggalsekarang=date('Y-m-d',strtotime('2019-04-14'));
 
         $rulejadwalpegawais=rulejadwalpegawai::where('tanggal_akhirrule','>=',$tanggalsekarang)->get();
 
