@@ -69,7 +69,7 @@ class GenerateAttendanceSeeder extends Seeder
             $jadwalkerja_id=$rulejadwalpegawai->jadwalkerja_id;
             $instansi_id=$pegawai->instansi_id;
             
-            echo $pegawai->id;
+            // echo $pegawai->id;
 
             $month=Carbon::now()->month;
             $year = Carbon::now()->year;
