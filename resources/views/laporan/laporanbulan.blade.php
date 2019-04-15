@@ -222,7 +222,7 @@ Rekap Absensi Pegawai Bulanan
                                         <td style="text-align:right;">{{$att->pulang_cepat}}</td>
                                         <td>
                                           <a href="/laporanharian/bulan/{{encrypt($att->periode)}}/nip/{{encrypt($att->nip)}}">
-                                            <i class='fa fa-sticky-note' data-toggle="tooltip" data-placement="right" title="klik, untuk lihat detail harian {{$att->nama}}!" style='font-size:20px'></i>
+                                            <i class='fa fa-sticky-note' data-toggle="tooltip" data-placement="left" title="klik, untuk lihat detail harian {{$att->nama}}!" style='font-size:20px'></i>
                                           </a>
                                         </td>
                                     </tr>
