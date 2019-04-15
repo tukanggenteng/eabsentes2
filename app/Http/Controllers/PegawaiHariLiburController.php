@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 use App\Pegawai_Hari_Libur;
 use App\pegawai;
+use App\Role_Hari_Libur;
+use App\att;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\ChangeAttPegawaiLiburNasional;
 
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Http\Request;
@@ -82,14 +85,38 @@ class PegawaiHariLiburController extends Controller
                 $data=decrypt($data);
                 
                 $checktable=Pegawai_Hari_Libur::where('pegawai_id','=',$data)->count();
-
+                
                 if ($checktable==0)
                 {
                     $table= new Pegawai_Hari_Libur();
                     $table->pegawai_id=$data;
                     if ($table->save())
                     {
-                        // $roleharilibur=Role_Hari_Libur::
+
+                        $tanggalsekarang=date('Y-m-d');
+                        $rolehariliburs=Role_Hari_Libur::where('tanggalberlakuharilibur','>=',$tanggalsekarang)
+                                        ->get();
+                        // dd($rolehariliburs);
+
+                        foreach ($rolehariliburs as $roleharilibur)
+                        {
+                            $dataatts=att::where('tanggal_att','=',$roleharilibur->tanggalberlakuharilibur)
+                                            ->where('pegawai_id','=',$data)
+                                            ->get();
+                                // dd($dataatts);
+
+                            foreach ($dataatts as $dataatt)
+                            {
+                                $details['tanggal_att']=$roleharilibur->tanggalberlakuharilibur;
+                                $details['jadwalkerja_id']=$dataatt->jadwalkerja_id;
+                                $details['pegawai_id']=$dataatt->pegawai_id;
+                                $details['command']="change";
+
+
+                                dispatch(new ChangeAttPegawaiLiburNasional($details));
+                            }
+                        }
+
                         $status=true;
                     }
                     else
@@ -116,8 +143,34 @@ class PegawaiHariLiburController extends Controller
                 
 
                 $table=Pegawai_Hari_Libur::where('pegawai_id','=',$data)->first();
+                if ($table==null)
+                {
+                    return redirect('/harilibur/pegawai')->with('err','Gagal menyimpan hari libur nasional pegawai!');
+                }
                 if ($table->delete())
                 {
+                    $bulan=date('m');
+                    $tahun=date('Y');
+
+                    $tanggalsekarang=date('Y-m-d');
+                    $rolehariliburs=Role_Hari_Libur::where('tanggalberlakuharilibur','>=',$tanggalsekarang)
+                                    ->get();
+                    // dd($rolehariliburs);
+                    foreach ($rolehariliburs as $roleharilibur)
+                    {
+                        $dataatts=att::where('tanggal_att','=',$roleharilibur->tanggalberlakuharilibur)
+                                        ->where('pegawai_id','=',$data)
+                                        ->get();
+                                        // dd($dataatts);
+                        foreach ($dataatts as $dataatt)
+                        {
+                            $details['tanggal_att']=$roleharilibur->tanggalberlakuharilibur;
+                            $details['jadwalkerja_id']=$dataatt->jadwalkerja_id;
+                            $details['pegawai_id']=$data;
+                            $details['command']="delete";
+                            dispatch(new ChangeAttPegawaiLiburNasional($details));
+                        }
+                    }
                     $status=true;
                 }
                 else
