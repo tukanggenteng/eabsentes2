@@ -228,6 +228,18 @@ class KeteranganAbsenController extends Controller
                             ->where('jenisabsen_id','=',$jenisabsen_id)
                             ->first();
 
+        $cekketeranganabsen=keterangan_absen::where('tanggal','=',$tanggal)
+                            ->where('pegawai_id','=',$pegawai_id)
+                            ->where('jadwalkerja_id','=',$jadwalkerja_id)
+                            ->where('jenisabsen_id','!=',"10")
+                            ->where('jenisabsen_id','!=',"12")
+                            ->first();
+
+        if (($cekketeranganabsen!=null))
+        {
+            return response()->json("failed");
+        }
+
         if (($cariketeranganabsen!=null))
         {
             return response()->json("failed");
