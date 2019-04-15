@@ -62,7 +62,7 @@ class ChartController extends Controller
 
         $bulan=date("m");
 
-
+        $tanggalsekarang=date('Y-m-d');
         $tidakhadirbulan = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
