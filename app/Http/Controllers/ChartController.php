@@ -21,12 +21,12 @@ class ChartController extends Controller
 {
 
 
+
     public function store(Request $request){
 
         date_default_timezone_set('Asia/Makassar');
         $tanggal=date("Y-m-d H:i:s");
-
-
+        $tanggalsekarang=date('Y-m-d');
         $rules=array(
             'user_id'=>'required',
             'text'=>'required',
@@ -67,42 +67,49 @@ class ChartController extends Controller
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','2')
             ->count();
         $sakitbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','5')
             ->count();
         $ijinbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','3')
             ->count();
         $cutibulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','4')
             ->count();
         $tlbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','7')
             ->count();
         $tbbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','6')
             ->count();
         $terlambatbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.terlambat','!=','00:00:00')
             ->count();
         $eventbulan= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
@@ -110,107 +117,60 @@ class ChartController extends Controller
             ->whereMonth('atts.tanggal_att', '=', $bulan)
             ->whereYear('atts.tanggal_att', '=', $tahun)
             ->where('atts.jenisabsen_id','=','8')
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->count();
-        // $tidakhadirbulan = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tanpa_kabar');
-        // $sakitbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('sakit');
-        // $ijinbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('ijin');
-        // $cutibulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('cuti');
-        // $tlbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tugas_luar');
-        // $tbbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tugas_belajar');
-        // $terlambatbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('terlambat');
-        // $eventbulan= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereMonth('periode','=',$bulan)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('rapatundangan');
+        
 
         $tidakhadirtahun = att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','2')
             ->count();
         $sakittahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
             ->where('atts.jenisabsen_id','=','5')
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->count();
         $ijintahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
             ->where('atts.jenisabsen_id','=','3')
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->count();
         $cutitahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','4')
             ->count();
         $tltahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','7')
             ->count();
         $tbtahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','6')
             ->count();
         $terlambattahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
             ->where('atts.terlambat','!=','00:00:00')
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->count();
         $eventtahun= att::leftJoin('pegawais','pegawais.id','=','atts.pegawai_id')
             ->where('pegawais.instansi_id', '=', Auth::user()->instansi_id)
             ->whereYear('atts.tanggal_att', '=', $tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->where('atts.jenisabsen_id','=','8')
             ->count();
 
-        // $tidakhadirtahun = masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tanpa_kabar');
-        // $sakittahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('sakit');
-        // $ijintahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('ijin');
-        // $cutitahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('cuti');
-        // $tltahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tugas_luar');
-        // $tbtahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('tugas_belajar');
-        // $terlambattahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('terlambat');
-        // $eventtahun= masterbulanan::where('instansi_id', '=', Auth::user()->instansi_id)
-        //     ->whereYear('periode', '=', $tahun)
-        //     ->sum('rapatundangan');
-
-
+     
 
         $tanggalsekarang=date("Y-m-d");
 
@@ -303,6 +263,8 @@ class ChartController extends Controller
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
+
             ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama',
             'keteranganmasuk.jenis_absen as keteranganmasuk_id',
@@ -323,6 +285,8 @@ class ChartController extends Controller
             // ->whereMonth('atts.tanggal_att','=',$bulan)
             // ->whereDay('atts.tanggal_att','=',$tanggal)
             // ->whereYear('atts.tanggal_att','=',$tahun)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
+
             ->select('atts.*','jadwalkerjas.jenis_jadwal','jadwalkerjas.sifat','instansismasuk.namaInstansi as namainstansimasuk',
             'instansiskeluar.namaInstansi as namainstansikeluar','jenisabsens.jenis_absen','pegawais.nip','pegawais.nama','keteranganmasuk.jenis_absen as keteranganmasuk_id',
             'keterangankeluar.jenis_absen as keterangankeluar_id')

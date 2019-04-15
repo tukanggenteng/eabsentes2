@@ -19,7 +19,7 @@ Route::group(['middleware'=>['api']], function () {
 
     // Route::get('/ambilfinger/{id}','PegawaiController@ambilfinger');
     // //addfingerpegawai
-    // Route::post('/addfinger','PegawaiController@addfinger');
+    Route::post('/addfinger','PegawaiController@addfinger');
 
     // Route::get('/admin/finger','PegawaiController@getadmin');
 

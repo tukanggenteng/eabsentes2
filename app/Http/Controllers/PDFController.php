@@ -17,7 +17,7 @@ class PDFController extends Controller
     //
     public function index(Request $request)
     {
-
+      $tanggalhariini=date('Y-m-d');  
       if (isset($request->nip) && isset($request->tanggal))
       {
         // $tanggal=explode('-',$request->tanggal);
