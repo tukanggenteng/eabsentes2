@@ -210,12 +210,15 @@ class KeteranganAbsenController extends Controller
         // {
         //     return response()->json("failed");
         // }
+        
 
         if ($tanggalbulan < $tanggalhariinibulan)
         {
             return response()->json("failed");
         }
         
+
+
         $caridata=att::where('pegawai_id','=',$pegawai_id)
                     ->where('jadwalkerja_id','=',$jadwalkerja_id)
                     ->first();
@@ -226,6 +229,17 @@ class KeteranganAbsenController extends Controller
                             ->first();
 
         if (($cariketeranganabsen!=null))
+        {
+            return response()->json("failed");
+        }
+
+        $cariketeranganabsen2=keterangan_absen::where('tanggal','=',$tanggal)
+                            ->where('pegawai_id','=',$pegawai_id)
+                            ->where('jadwalkerja_id','=',$jadwalkerja_id)
+                            ->where('jenisabsen_id','=',"10")
+                            ->orWhere('jenisabsen_id','=',"12")
+                            ->first();
+        if ($cariketeranganabsen2!=null)
         {
             return response()->json("failed");
         }

@@ -89,6 +89,7 @@ class PegawaiHariLiburController extends Controller
                     $table->pegawai_id=$data;
                     if ($table->save())
                     {
+                        // $roleharilibur=Role_Hari_Libur::
                         $status=true;
                     }
                     else
