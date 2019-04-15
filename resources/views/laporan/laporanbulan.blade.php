@@ -138,7 +138,7 @@ Rekap Absensi Pegawai Bulanan
 
                         <div class="alert alert-info">
                           <strong>Info!</strong> Untuk mengecek jumlah keterangan pegawai dalam detil harian, dapat dilakukan dengan mengklik tombol <i class='fa fa-sticky-note' style='font-size:20px'></i>.
-                          pada sudut sebelah kiri !
+                          pada sudut sebelah kanan !
                           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                         </div>
 
@@ -148,7 +148,6 @@ Rekap Absensi Pegawai Bulanan
                             <table class="table table-striped table-bordered table-hover table-align">
                               <thead class="thead-dark table-eabsen">
                                 <tr>
-                                  <th rowspan="2"></th>
                                   <th rowspan="2">NIP</th>
                                   <th rowspan="2">Nama</th>
                                   <th rowspan="2">Periode</th>
@@ -158,6 +157,7 @@ Rekap Absensi Pegawai Bulanan
                                   <th rowspan="2">Akumulasi Jam Kerja</th>
                                   <th colspan="9">Tidak Masuk Kerja</th>
                                   <th colspan="3">Melanggar Ketentuan Jam Kerja</th>
+                                  <th rowspan="2"></th>
                                 </tr>
                                 <tr>
                                   <th>Tanpa Kabar</th>
@@ -176,11 +176,6 @@ Rekap Absensi Pegawai Bulanan
                               </thead>
                                 @foreach($atts as $att)
                                     <tr>
-                                        <td>
-                                          <a href="/laporanharian/bulan/{{encrypt($att->periode)}}/nip/{{encrypt($att->nip)}}">
-                                            <i class='fa fa-sticky-note' data-toggle="tooltip" data-placement="right" title="klik, untuk lihat detail harian {{$att->nama}}!" style='font-size:20px'></i>
-                                          </a>
-                                        </td>
                                         <td>{{$att->nip}}</td>
                                         <td>{{$att->nama}}</td>
                                         <td>{{$att->periode}}</td>
@@ -200,6 +195,11 @@ Rekap Absensi Pegawai Bulanan
                                         <td style="text-align:right;">{{$att->terlambat}}</td>
                                         <td style="text-align:center;">{{$att->total_terlambat}}</td>
                                         <td style="text-align:right;">{{$att->pulang_cepat}}</td>
+                                        <td>
+                                          <a href="/laporanharian/bulan/{{encrypt($att->periode)}}/nip/{{encrypt($att->nip)}}">
+                                            <i class='fa fa-sticky-note' data-toggle="tooltip" data-placement="right" title="klik, untuk lihat detail harian {{$att->nama}}!" style='font-size:20px'></i>
+                                          </a>
+                                        </td>
                                     </tr>
                                 @endforeach
 
