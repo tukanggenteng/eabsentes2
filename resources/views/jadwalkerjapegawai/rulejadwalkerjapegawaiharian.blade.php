@@ -70,12 +70,19 @@
                       <h4 class="box-title">Jadwal Kerja</h4>
                       </div>
                       <div class="box-body">
-                      <!-- the events -->
-                      <div id="external-events">
-                          @foreach ($jadwals as $jadwal)
-                            <div class="external-event {{$jadwal->classdata}}" data-id="{{encrypt($jadwal->id)}}" data-jammasuk="{{$jadwal->jam_masukjadwal}}" data-jamkeluar="{{$jadwal->jam_keluarjadwal}}" data-jenisjadwal="{{$jadwal->jenis_jadwal}}">{{$jadwal->jenis_jadwal}} - [{{$jadwal->jam_masukjadwal}} - {{$jadwal->jam_keluarjadwal}}]</div>
-                          @endforeach
+                        <div id="external-events">
+                            @foreach ($jadwals as $jadwal)
+                              <div class="external-event {{$jadwal->classdata}}" data-id="{{encrypt($jadwal->id)}}" data-jammasuk="{{$jadwal->jam_masukjadwal}}" data-jamkeluar="{{$jadwal->jam_keluarjadwal}}" data-jenisjadwal="{{$jadwal->jenis_jadwal}}">
+                                {{$jadwal->jenis_jadwal}} - [{{$jadwal->jamsebelum_masukkerja}} - {{$jadwal->jam_masukjadwal}} >> {{$jadwal->jam_keluarjadwal}} - {{$jadwal->jamsebelum_pulangkerja}}]
+                              </div>
+                            @endforeach
+                        </div>
+
                       </div>
+                      <div class="box-footer">
+                          <ul class="pagination pagination-sm no-margin pull-right">
+                              {{$jadwals->links()}}
+                          </ul>
                       </div>
                       <!-- /.box-body -->
                   </div>
@@ -127,6 +134,7 @@
     <script src="{{asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
     <!-- bootstrap color picker -->
     <script src="{{asset('bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js')}}"></script>
+    <script src="{{asset('bower_components/jquery-touch-punch/jquery.ui.touch-punch.min.js')}}"></script>
     <!-- bootstrap time picker -->
     <script src="{{asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
     <!-- SlimScroll -->
@@ -141,6 +149,10 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <script>
+
+
+
+
   $(function () {
 
     eventdata=[];
@@ -234,6 +246,7 @@
       eventDurationEditable: false,
       eventStartEditable: false,
       droppable : true, // this allows things to be dropped onto the calendar !!!
+
       drop      : function (date ,dateend, allDay) { // this function is called when something is dropped
 
         // retrieve the dropped element's stored Event Object
@@ -320,6 +333,7 @@
         }
       }
     })
+
   })
 </script>
 

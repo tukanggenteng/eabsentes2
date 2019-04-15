@@ -31,6 +31,7 @@ class MonitoringController extends Controller
 
     public function grafikmonitoringhariandata(Request $request)
     {
+        $tanggalsekarang=date('Y-m-d');
         //dd($request);
         $tanggal=$request->tanggal;
         $instansi=$request->instansi_id;
@@ -52,10 +53,6 @@ class MonitoringController extends Controller
             //$subdata['tanpakabar']=$tanpakabar;
             array_push($data['tanpakabar'],$tanpakabar);
         }
-        //dd($tanpakabar);
-        //dd($tanggal." ".$instansi);
-        //dd($datasets);
-
         $data['harikerja']=[];
         for ($i=0;$i<=9;$i++)
         {
@@ -736,6 +733,7 @@ class MonitoringController extends Controller
     //
     public function monitoringinstansiminggu(Request $request)
     {
+        $tanggalsekarang=date('Y-m-d');
         // dd($request->instansi_id[0]);
 
         if ($request->tanggal==""){
@@ -837,14 +835,14 @@ class MonitoringController extends Controller
                                 ,2) as persentase_apel'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                                 DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 'instansis.namaInstansi',
@@ -853,6 +851,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->where('pegawais.instansi_id','=',$request->instansi_id[0])
                         ->orderBy($order,$request->metode)
                         ->paginate(50);
@@ -870,39 +869,40 @@ class MonitoringController extends Controller
                         ->leftJoin('jadwalkerjas','atts.jadwalkerja_id','=','jadwalkerjas.id')
                         ->leftJoin('instansis','pegawais.instansi_id','=','instansis.id')
                         ->select(
-                                'pegawais.id',
-                                'pegawais.nip',
-                                'pegawais.nama',
-                                DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
-                                DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
-                                DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
-                                DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
-                                DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
-                                DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
-                                DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
-                                DB::raw('ROUND(
-                                    ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
-                                    
-                                ,2) as persentase_apel'),
-                                DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
-                                DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
-                                DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
-                                DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
-                                DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
-                                DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
-                                DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
-                                DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
-                                'instansis.namaInstansi',
-                                'pegawais.instansi_id'
+                            'pegawais.id',
+                            'pegawais.nip',
+                            'pegawais.nama',
+                            DB::raw('DATE_FORMAT( tanggal_att, "%m-%Y" ) as periode'),
+                            DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
+                            DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
+                            DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
+                            DB::raw('ROUND((((count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null))) + (count(if (atts.jenisabsen_id = "3",1,null))) + (count(if (atts.jenisabsen_id = "5",1,null))) + (count(if (atts.jenisabsen_id = "4",1,null))) + (count(if (atts.jenisabsen_id = "7",1,null))) + (count(if (atts.jenisabsen_id = "6",1,null))) + (count(if (atts.jenisabsen_id = "8",1,null))) + (count(if (atts.jenisabsen_id = "10",1,null))) + (count(if (atts.jenisabsen_id = "12",1,null)))) / (count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null))) * 100),2 ) as persentase_kehadiran'),
+                            DB::raw('count(if (atts.apel = "1",1,null)) as apelbulanan'),
+                            DB::raw('count(if ((atts.apel = "0" && jadwalkerjas.sifat="FD") || ((atts.apel = "0" && jadwalkerjas.sifat="TWA")),1,null)) as tidakapelwajibapel'),
+                            DB::raw('ROUND(
+                                ( count(if (atts.apel = "1",1,null)) ) / count(if (jadwalkerjas.sifat="WA",1,null)) * 100
+                                
+                            ,2) as persentase_apel'),
+                            DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
+                            DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
+                            DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
+                            DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
+                            DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
+                            DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
+                            DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
+                            DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
+                            DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
+                            DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
+                            DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
+                            DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
+                            'instansis.namaInstansi',
+                            'pegawais.instansi_id'
                         )
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->whereNotNull('pegawais.instansi_id')
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->orderBy($order,$request->metode)
                         ->paginate(50);
 
@@ -921,6 +921,8 @@ class MonitoringController extends Controller
 
     public function monitoringinstansimingguexport(Request $request)
     {
+        $tanggalsekarang=date('Y-m-d');
+
 
         if ($request->tanggal==""){
             $tanggal=date("Y-m");
@@ -1015,19 +1017,20 @@ class MonitoringController extends Controller
                             ,2) as persentase_apel'),
                             DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                             DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                            DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                            DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                             DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                             DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                             DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                             DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                             DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                             DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                            DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat')
+                            DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat')
                         )
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.instansi_id'))    
                         ->whereNotNull('pegawais.instansi_id')            
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->orderBy($order,$request->metode);
 
         if ($request->instansi_id!="")
@@ -1071,6 +1074,7 @@ class MonitoringController extends Controller
 
     public function monitoringinstansiminggupersonal(Request $request,$id,$tanggal){
         // dd("sa");
+        $tanggalsekarang=date('Y-m-d');
         $url="/monitoring/instansi/export/".$id."/".$tanggal;
         $id=decrypt($id);
         // dd($id);
@@ -1176,14 +1180,14 @@ class MonitoringController extends Controller
                                 ,2) as persentase_apel'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                                 DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 'instansis.namaInstansi',
@@ -1194,6 +1198,7 @@ class MonitoringController extends Controller
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->orderBy($order,$request->metode)
                         ->where('pegawais.instansi_id','=',$id)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->paginate(50);
 
 
@@ -1209,7 +1214,7 @@ class MonitoringController extends Controller
 
     public function monitoringinstansiminggupersonalexport(Request $request,$id,$tanggal){
         $url="/monitoring/instansi/export/".$id."/".$tanggal;
-
+        $tanggalsekarang=date('Y-m-d');
         $id=decrypt($id);
         // dd($id);
         $tanggal=decrypt($tanggal);
@@ -1313,14 +1318,14 @@ class MonitoringController extends Controller
                             ,2) as persentase_apel'),
                             DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                             DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                            DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                            DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                             DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                             DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                             DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                             DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                             DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                             DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                            DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                            DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                             DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                             DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                             'instansis.namaInstansi'
@@ -1329,6 +1334,7 @@ class MonitoringController extends Controller
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
                         ->orderBy($order,$request->metode)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->where('pegawais.instansi_id','=',$id);
 
 
@@ -1467,19 +1473,19 @@ class MonitoringController extends Controller
                                 'pegawais.nama',
                                 DB::raw('DATE_FORMAT( tanggal_att, "%d-%m-%Y" ) as periode'),
                                 DB::raw('count(if(atts.jenisabsen_id!="9" && atts.jenisabsen_id != "11" && atts.jenisabsen_id!="13",1,null)) as hari_kerja'),                        
-                                DB::raw('count(if (atts.jenisabsen_id = "1",1,null)) as hadir'),
+                                DB::raw('count(if (atts.jenisabsen_id = "1" && atts.jam_keluar is not null,1,null)) as hadir'),
                                 DB::raw('count(if (atts.apel = "1",1,null)) as apel_bulanan'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "2",1,null)) as tanpa_kabar'),
+                                DB::raw('count(if (atts.jenisabsen_id = "2" || (atts.jam_keluar is null && atts.jenisabsen_id="1"),1,null)) as tanpa_kabar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                                 DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 'instansis.namaInstansi',
@@ -1488,6 +1494,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->orderBy($order,$request->metode)
                         ->where('pegawais.id','=',$id)
                         ->whereNotNull('pegawais.instansi_id')
@@ -1697,14 +1704,14 @@ class MonitoringController extends Controller
                                 ,2) as persentase_apel'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                                 DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 'instansis.namaInstansi',
@@ -1715,6 +1722,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->whereNotNull('pegawais.instansi_id');
             
 
@@ -1856,14 +1864,14 @@ class MonitoringController extends Controller
                                 ,2) as persentase_apel'),
                                 DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                                DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                                DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                                 DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                                 DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                                 DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                                 DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                                 DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                                DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                                DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                                 DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                                 'instansis.namaInstansi'
@@ -1873,6 +1881,7 @@ class MonitoringController extends Controller
                         ->groupBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),DB::raw('pegawais.id'))                
                         ->whereMonth('atts.tanggal_att','=',$bulan)
                         ->whereYear('atts.tanggal_att','=',$tahun)
+                        ->where('atts.tanggal_att','<=',$tanggalsekarang)
                         ->whereNotNull('pegawais.instansi_id');
             
 
@@ -2026,14 +2035,14 @@ class MonitoringController extends Controller
                     ,2) as persentase_apel'),
                     DB::raw('count(if (atts.terlambat != "00:00:00",1,null)) as terlambat'),
                     DB::raw('count(if (atts.jenisabsen_id = "3",1,null)) as ijin'),
-                    DB::raw('count(if (atts.jenisabsen_id = "10",1,null)) as ijinterlambat'),
+                    DB::raw('count(if (atts.keteranganmasuk_id = "10",1,null)) as ijinterlambat'),
                     DB::raw('count(if (atts.jenisabsen_id = "5",1,null)) as sakit'),
                     DB::raw('count(if (atts.jenisabsen_id = "4",1,null)) as cuti'),
                     DB::raw('count(if (atts.jenisabsen_id = "7",1,null)) as tugas_luar'),
                     DB::raw('count(if (atts.jenisabsen_id = "6",1,null)) as tugas_belajar'),
                     DB::raw('count(if (atts.jenisabsen_id = "8",1,null)) as rapatundangan'),
                     DB::raw('count(if (atts.jenisabsen_id < jadwalkerjas.jam_keluarjadwal && atts.jam_masuk is not null && jam_keluar is null,1,null)) as pulang_cepat'),
-                    DB::raw('count(if (atts.jenisabsen_id = "12",1,null)) as ijinpulangcepat'),
+                    DB::raw('count(if (atts.keterangankeluar_id = "12",1,null)) as ijinpulangcepat'),
                     DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.akumulasi_sehari))) as total_akumulasi'),
                     DB::raw('SEC_TO_TIME(SUM(time_to_sec(atts.terlambat))) as total_terlambat'),
                     'instansis.namaInstansi',
@@ -2042,6 +2051,7 @@ class MonitoringController extends Controller
             ->whereMonth('atts.tanggal_att','=',$bulan)
             ->whereYear('atts.tanggal_att','=',$tahun)
             ->where('pegawais.nip','=',$id)
+            ->where('atts.tanggal_att','<=',$tanggalsekarang)
             ->groupBy(DB::raw('FROM_DAYS(TO_DAYS(atts.tanggal_att) -MOD(TO_DAYS(atts.tanggal_att) -1, 7))'))                
             ->orderBy($order,$request->metode)
             ->orderBy(DB::raw('EXTRACT(YEAR_MONTH FROM atts.tanggal_att)'),'DESC')                          

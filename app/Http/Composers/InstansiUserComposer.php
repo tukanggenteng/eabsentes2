@@ -14,6 +14,7 @@ use App\perawatruangan;
 use App\ruangan;
 use App\lograspberry;
 use App\historyfingerpegawai;
+use App\triger;
 
 class InstansiUserComposer {
 
@@ -213,8 +214,34 @@ class InstansiUserComposer {
                     }
                 }
             }
-            
+            $statustrigger="";
+            $tables=triger::where('id','=','1')->first();
+            if ($tables->status=='0')
+            {
+                $statustrigger="None";
+            }
+            elseif ($tables->status=='1')
+            {
+                $statustrigger="Add Pegawai - Admin";
+            }
+            elseif ($tables->status=='2')
+            {
+                $statustrigger="Hapus Pegawai";
+            }
+            elseif ($tables->status=='3')
+            {
+                $statustrigger="Update Software";
+            }
+            elseif ($tables->status=='4')
+            {
+                $statustrigger="Reset Data Mesin";
+            }
+
+
+
+            $countdoctor=0;
             // dd($countperawat);
+            $view->with('statustrigger',$statustrigger);
             $view->with('datapegawai', $countpegawai);                
             $view->with('datadokter', $countdoctor);                
             $view->with('dataperawat', $countperawat);                

@@ -43,26 +43,32 @@ Rekap Absensi Pegawai Bulanan
                         <h3 class="box-title">Rekap Absensi Pegawai Bulanan</h3>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body table-responsive">
+                    <div class="box-body">
 
                         @if (isset($nip) && isset($tanggal))
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanbulan" method="post">
-                                  <div class="form-group">
-                                      <div class="col-md-4">
-                                          <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP" value="{{$nip}}">
-                                      </div>
-                                      <div class="col-md-3">
-                                          <input type="text" id="tanggal" name="tanggal" readonly class="form-control pull-right" value="{{$tanggal}}" placeholder="Periode">
-                                      </div>
-                                      <div class="col-md-1">
-                                          <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
-                                      </div>
-                                      <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanbulan/pdf/tanggal/{{encrypt($tanggal)}}/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
-                                      </div>
-                                  </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="nip" name="nip" class="form-control" placeholder="NIP" value="{{$nip}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="tanggal" name="tanggal" readonly class="form-control" value="{{$tanggal}}" placeholder="Periode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <a class="btn btn-block btn-success" href="/laporanbulan/pdf/tanggal/{{encrypt($tanggal)}}/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
+                                        </div>
+                                    </div>
                                   {{csrf_field()}}
                                 </form>
                               </div>
@@ -71,20 +77,26 @@ Rekap Absensi Pegawai Bulanan
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanbulan" method="post">
-                                  <div class="form-group">
-                                      <div class="col-md-4">
-                                          <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP">
-                                      </div>
-                                      <div class="col-md-3">
-                                          <input type="text" id="tanggal" name="tanggal" readonly class="form-control pull-right" value="{{$tanggal}}" placeholder="Periode">
-                                      </div>
-                                      <div class="col-md-1">
-                                          <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
-                                      </div>
-                                      <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanbulan/pdf/tanggal/{{encrypt($tanggal)}}"><i class="fa fa-print"></i></a>
-                                      </div>
-                                  </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="nip" name="nip" class="form-control" placeholder="NIP">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="tanggal" name="tanggal" readonly class="form-control" value="{{$tanggal}}" placeholder="Periode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <a class="btn btn-block btn-success" href="/laporanbulan/pdf/tanggal/{{encrypt($tanggal)}}"><i class="fa fa-print"></i></a>
+                                        </div>
+                                    </div>
                                   {{csrf_field()}}
                                 </form>
                               </div>
@@ -93,20 +105,26 @@ Rekap Absensi Pegawai Bulanan
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanbulan" method="post">
-                                  <div class="form-group">
-                                      <div class="col-md-4">
-                                          <input type="text" id="nip" name="nip" class="form-control pull-right" value="{{$nip}}"  placeholder="NIP">
-                                      </div>
-                                      <div class="col-md-3">
-                                          <input type="text" id="tanggal" name="tanggal" readonly class="form-control pull-right" placeholder="Periode">
-                                      </div>
-                                      <div class="col-md-1">
-                                          <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
-                                      </div>
-                                      <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanbulan/pdf/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
-                                      </div>
-                                  </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="nip" name="nip" class="form-control" value="{{$nip}}"  placeholder="NIP">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="tanggal" name="tanggal" readonly class="form-control" placeholder="Periode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <a class="btn btn-block btn-success" href="/laporanbulan/pdf/nip/{{encrypt($nip)}}"><i class="fa fa-print"></i></a>
+                                        </div>
+                                    </div>
                                   {{csrf_field()}}
                                 </form>
                               </div>
@@ -115,19 +133,26 @@ Rekap Absensi Pegawai Bulanan
                           <div class="row">
                               <div class="col-md-12">
                                 <form action="/laporanbulan" method="post">
-                                  <div class="form-group">
-                                      <div class="col-md-4">
-                                          <input type="text" id="nip" name="nip" class="form-control pull-right" placeholder="NIP">
-                                      </div>
-                                      <div class="col-md-3">
-                                          <input type="text" id="tanggal" name="tanggal" readonly class="form-control pull-right" placeholder="Periode">
-                                      </div>
-                                      <div class="col-md-1">
-                                          <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
-                                      </div>
-                                      <div class="col-md-1">
-                                          <a class="btn btn-block btn-success" href="/laporanbulan/pdf"><i class="fa fa-print"></i></a>
-                                      </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="nip" name="nip" class="form-control" placeholder="NIP">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-5">
+                                            <input type="text" id="tanggal" name="tanggal" readonly class="form-control" placeholder="Periode">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-1">
+                                            <a class="btn btn-block btn-success" href="/laporanbulan/pdf"><i class="fa fa-print"></i></a>
+                                        </div>
+                                    </div>
                                   </div>
                                   {{csrf_field()}}
                                 </form>

@@ -43,4 +43,9 @@ class instansi extends Model
     public function raspberrystatus(){
         return $this->hasMany(raspberrystatu::class);
     }
+
+    public function log_att_tran(){
+        return $this->hasMany(log_att_tran::class);
+    }
+    
 }

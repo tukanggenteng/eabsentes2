@@ -144,6 +144,7 @@
                                                     <th>Hadir</th>
                                                     <th>Tanpa Kabar</th>
                                                     <th>Ijin</th>
+                                                    <th>Cuti</th>
                                                     <th>Ijin Terlambat</th>
                                                     <th>Sakit</th>
                                                     <th>Tugas Luar</th>
@@ -165,6 +166,7 @@
                                                         <td>{{$data->hadir}}</td>
                                                         <td>{{$data->tanpa_kabar}}</td>
                                                         <td>{{$data->ijin}}</td>
+                                                        <td>{{$data->cuti}}</td>
                                                         <td>{{$data->ijinterlambat}}</td>
                                                         <td>{{$data->sakit}}</td>
                                                         <td>{{$data->tugas_luar}}</td>

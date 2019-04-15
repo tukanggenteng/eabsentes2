@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\fingerpegawai;
 use App\pegawai;
+use App\queue_pegawai;
+use App\macaddresse;
+use App\lograspberry;
 use App\instansi;
 use App\atts_tran;
 use App\dokter;
@@ -13,6 +16,7 @@ use App\rulejammasuk;
 use App\hapusfingerpegawai;
 use App\adminpegawai;
 use App\rulejadwalpegawai;
+use App\Pegawai_Hari_Libur;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +26,8 @@ use Illuminate\Support\Facades\Redis;
 use Ixudra\Curl\Facades\Curl;
 use App\Events\Timeline;
 use Excel;
+use App\keterangan_absen;
+
 
 use Illuminate\Support\Facades\DB;
 use Validator;
@@ -35,7 +41,7 @@ class PegawaiController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('throttle:60,1');
+        $this->middleware('throttle:1000,1');
     }
 
 
@@ -327,26 +333,11 @@ class PegawaiController extends Controller
             $updatedata->instansi_id = Auth::user()->instansi_id;
             $updatedata->save();
 
-            $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
-            foreach ($rulepegawais as $key => $datarule)
-            {
+            $dataqueuepegawai=new QueuePegawaiController();
+            $dataqueuepegawai->storequeuepegawaispesific(Auth::user()->instansi_id,$updatedata->id,"daftar");
 
-                $tanggalhari=date('Y-m-d');
-                $atts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
-                                ->where('tanggal_att','=',$tanggalhari)
-                                ->where('pegawai_id','=',$updatedata->id)
-                                ->whereNull('jam_masuk');
-                                
-                if ($atts->count() > 0){
-                    $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
-                                    ->where('tanggal_att','=',$tanggalhari)
-                                    ->where('pegawai_id','=',$updatedata->id)
-                                    ->whereNull('jam_masuk')->delete();
-                }
-            }
-                
-            $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
-            $deleterulepegawai->delete();
+
+            
             
             return response()->json($updatedata);
         }
@@ -416,6 +407,7 @@ class PegawaiController extends Controller
         // dd($updatedata->id);
 
         $rulepegawais=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id)->get();
+        // dd($rulepegawais);
         foreach ($rulepegawais as $key => $datarule)
         {
 
@@ -424,13 +416,22 @@ class PegawaiController extends Controller
                             ->where('tanggal_att','=',$tanggalhari)
                             ->where('pegawai_id','=',$updatedata->id)
                             ->whereNull('jam_masuk');
-                            
+            // dd($atts->count());
             if ($atts->count() > 0){
                 $attsdelete=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
                                 ->where('tanggal_att','=',$tanggalhari)
                                 ->where('pegawai_id','=',$updatedata->id)
                                 ->whereNull('jam_masuk')->delete();
+                // dd($attsdelete);
+
+
+                
             }
+            $deleteatts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                ->where('tanggal_att','>',$tanggalhari)
+                ->where('pegawai_id','=',$updatedata->pegawai_id)->delete();
+            $keteranganabsendelete=keterangan_absen::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
+                            ->where('pegawai_id','=',$updatedata->pegawai_id)->delete();
         }
             
         $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
@@ -459,11 +460,20 @@ class PegawaiController extends Controller
         // $hapusatts=att::where('pegawai_id','=',$updatedata->id)
         // ->where('tanggal_att','=',$tanggalnow);
         // $hapusatts->delete();
+        $dataqueuepegawai=new QueuePegawaiController();
+        ($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
+        
+        $tablepegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','=',$idpeg)->first();
+        if ($tablepegawaiharilibur!=null)
+        {
+            $tablepegawaiharilibur->delete();
+        }
+        
 
         $updatedata->instansi_id = null;
-        $updatedata->save();
         
         if ($updatedata->save()){
+            
             return response()->json("Success");
         }else{
             return response()->json("Failed");
@@ -536,6 +546,15 @@ class PegawaiController extends Controller
             $user->valid=$request->json('valid');
             $user->templatefinger = $request->json('templatefinger');
             $user->save();
+
+            $hitung=fingerpegawai::where('pegawai_id','=',$request->json('pegawai_id'))
+                                                                  ->count();
+            if ($hitung == 2)
+            {
+              $datapegawai=pegawai::where('id','=',$request->json('pegawai_id'))->first();
+            //   $dataqueuepegawai=new QueuePegawaiController();
+            //   $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
+            }
             return "Succes";
         }
 
@@ -668,6 +687,10 @@ class PegawaiController extends Controller
         }
 
     }
+
+
+
+    
     
 
 }

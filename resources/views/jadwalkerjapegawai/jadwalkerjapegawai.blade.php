@@ -78,7 +78,7 @@ Manajemen Jadwal Kerja Pegawai
                                             <label>Jenis Jadwal Kerja</label>
                                             <select class="form-control select2" name="jadwalkerjamasuk" data-placeholder="Jenis Jadwal Kerja">
                                                 @foreach($jadwalkerjas as $jadwalkerja)
-                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}} ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]</option>
+                                                    <option value="{{$jadwalkerja->id}}">{{$jadwalkerja->jenis_jadwal}} ({{$jadwalkerja->jamsebelum_masukkerja}} - {{$jadwalkerja->jam_masukjadwal}} >> {{$jadwalkerja->jam_keluarjadwal}} - {{$jadwalkerja->jamsebelum_pulangkerja}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -230,7 +230,7 @@ Manajemen Jadwal Kerja Pegawai
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 
 
-        <script type="text/javascript">
+    <script type="text/javascript">
             $(function() {
                 $('input[name="daterange"]').daterangepicker(
                         {
@@ -265,21 +265,21 @@ Manajemen Jadwal Kerja Pegawai
             });
 
 
-        $('.select2').select2();
-        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-            checkboxClass: 'icheckbox_minimal-blue',
-            radioClass   : 'iradio_minimal-blue'
-        })
-        //Red color scheme for iCheck
-        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-            checkboxClass: 'icheckbox_minimal-red',
-            radioClass   : 'iradio_minimal-red'
-        })
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass   : 'iradio_flat-green'
-        })
+            $('.select2').select2();
+            $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+                checkboxClass: 'icheckbox_minimal-blue',
+                radioClass   : 'iradio_minimal-blue'
+            })
+            //Red color scheme for iCheck
+            $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+                checkboxClass: 'icheckbox_minimal-red',
+                radioClass   : 'iradio_minimal-red'
+            })
+            //Flat red color scheme for iCheck
+            $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+                checkboxClass: 'icheckbox_flat-green',
+                radioClass   : 'iradio_flat-green'
+            })
     </script>
 
     <script type="text/javascript">

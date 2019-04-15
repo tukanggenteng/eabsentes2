@@ -85,13 +85,17 @@ Manajemen Keterangan Absensi
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <div class="col-md-7">
-                                    <label>Jadwal Kerja</label>
-                                    @foreach($jadwalkerjas as $jadwalkerja)
-                                    <div class="form-group">
-                                        <input type="checkbox" name="checkbox[]" value="{{encrypt($jadwalkerja->id)}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]
+                                <div class="col-md-12">
+                                    <div style="max-height:200px;max-width:100%;overflow:auto;">
+                                        <table class="table-responsive">
+                                            <label>Jadwal Kerja</label>
+                                            @foreach($jadwalkerjas as $jadwalkerja)
+                                                <div class="form-group">
+                                                    <input type="checkbox" name="checkbox[]" value="{{encrypt($jadwalkerja->id)}}" class="flat-red"> {{$jadwalkerja->jenis_jadwal}}  ({{$jadwalkerja->jam_masukjadwal}} - {{$jadwalkerja->jam_keluarjadwal}}) [{{$jadwalkerja->sifat}}] [{{$jadwalkerja->singkatan}}]
+                                                </div>
+                                            @endforeach
+                                        </table>
                                     </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
@@ -132,11 +136,12 @@ Manajemen Keterangan Absensi
                                                 <th>Nama</th>
                                                 <th>Tanggal</th>
                                                 <th>Jam Masuk</th>
-                                                <th>Lokasi Masuk</th>
+                                                <th>Keterangan Masuk</th>
                                                 <th>Mulai Istirahat</th>
                                                 <th>Selesai Istirahat</th>
+                                                <th>Tanggal Keluar</th>
                                                 <th>Jam Keluar</th>
-                                                <th>Lokasi Keluar</th>
+                                                <th>Keterangan Keluar</th>
                                                 <th>Jadwal Kerja</th>
                                                 <th>Akumulasi</th>
                                                 <th>Status</th>
@@ -289,11 +294,12 @@ Manajemen Keterangan Absensi
                     { data: 'nama', name: 'nama' },
                     { data: 'tanggal_att', name: 'tanggal_att' },
                     { data: 'jam_masuk', name: 'jam_masuk' },
-                    { data: 'namainstansimasuk', name: 'namainstansimasuk' },
+                    { data: 'keteranganmasuk_id', name: 'keteranganmasuk_id' },
                     { data: 'keluaristirahat', name: 'keluaristirahat' },
                     { data: 'masukistirahat', name: 'masukistirahat' },
+                    { data: 'tanggal_keluar', name: 'tanggal_keluar' },
                     { data: 'jam_keluar', name: 'jam_keluar' },
-                    { data: 'namainstansikeluar', name: 'namainstansikeluar' },
+                    { data: 'keterangankeluar_id', name: 'keterangankeluar_id' },
                     { data: 'jenis_jadwal', name: 'jenis_jadwal' },
                     { data: 'akumulasi_sehari', name: 'akumulasi_sehari' },
                     { data: 'jenis_absen', name: 'jenis_absen' },
