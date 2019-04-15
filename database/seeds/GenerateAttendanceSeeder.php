@@ -97,7 +97,6 @@ class GenerateAttendanceSeeder extends Seeder
             for ($k=0 ; $k <= $diffdate ; $k++) {
                 // dd($k);
                 $tanggalproses=date('Y-m-d',strtotime('+'.$k.' days',strtotime($tanggalawal)));
-                echo $tanggalproses;
                 // dd($tanggalproses);
                 if ($tanggalproses < $tanggalsekarang)
                 {
@@ -200,6 +199,8 @@ class GenerateAttendanceSeeder extends Seeder
                                         }
                                         else
                                         {   
+                                                echo "<<".$tanggalproses." pegawai id = ".$pegawai_id." instansi = ".$pegawai->instansi_id;
+
                                                 $sifatjadwalkerja=jadwalkerja::where('id','=',$jadwalkerja_id)->first();
                                                 // dd($sifatjadwalkerja->sifat);
                                                 $details['tanggalproses']=$tanggalproses;

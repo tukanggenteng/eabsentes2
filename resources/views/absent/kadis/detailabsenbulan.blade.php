@@ -25,50 +25,62 @@
 @section('body')
 <!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
 <body class="hold-transition skin-blue layout-top-nav">
-<div class="wrapper">
+<div class="wrapper" style="height: auto; min-height: 100%;">
+
 
   <header class="main-header">
     <nav class="navbar navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <a href="/home/pegawai" class="navbar-brand"><b>e-Absen</b></a>
+        <a href="/home/pegawai" class="navbar-brand"><b>e-Absen</b></a>
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
             <i class="fa fa-bars"></i>
           </button>
         </div>
 
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+          </ul>
+          
+        </div>
+        <!-- /.navbar-collapse -->
         <!-- Navbar Right Menu -->
         <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav">
+            
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- The user image in the navbar-->
+                <img src="{{asset('dist/img/avatarumum.png')}}" class="user-image" alt="User Image">
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                <span class="hidden-xs">{{Auth::user()->name}}</span>
+              </a>
+              <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <img src="{{asset('dist/img/avatarumum.png')}}" class="img-circle" alt="User Image">
 
-                  <li class="dropdown user user-menu">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          <img src="{{asset('dist/img/avatarumum.png')}}" class="user-image" alt="User Image">
-                          <span class="hidden-xs">{{Auth::user()->name}}</span>
-                      </a>
-                      <ul class="dropdown-menu">
-                          <!-- User image -->
-                          <li class="user-header">
-                              <img src="{{asset('dist/img/avatarumum.png')}}" class="img-circle" alt="User Image">
-
-                              <p>
-                                  {{Auth::user()->name}}
-                                  <small>{{Auth::user()->instansi->namaInstansi}}</small>
-                              </p>
-                          </li>
-                          <!-- Menu Body -->
-                          <!-- Menu Footer-->
-                          <li class="user-footer">
-                              <div class="pull-left">
-                                  <a href="/changepassword" class="btn btn-default btn-flat">Ubah Password</a>
-                              </div>
-                              <div class="pull-right">
-                                  <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
-                              </div>
-                          </li>
-                      </ul>
-                  </li>
+                  <p>
+                      {{Auth::user()->name}}
+                      <small>{{Auth::user()->instansi->namaInstansi}}</small>
+                  </p>
+                </li>
+             
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                      <a href="/changepassword" class="btn btn-default btn-flat">Ubah Password</a>
+                  </div>
+                  <div class="pull-right">
+                      <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+                  </div>
+                </li>
               </ul>
+            </li>
+          </ul>
         </div>
         <!-- /.navbar-custom-menu -->
       </div>
@@ -76,7 +88,7 @@
     </nav>
   </header>
   <!-- Full Width Column -->
-  <div class="content-wrapper">
+  <div class="content-wrapper" style="min-height: 548px;">
     <div class="container">
 
       <!-- Main content -->

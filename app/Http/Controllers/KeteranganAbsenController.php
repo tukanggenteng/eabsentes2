@@ -203,7 +203,15 @@ class KeteranganAbsenController extends Controller
             return response()->json("failed");
         }
 
-        if ($tanggal < $tanggalhariini)
+        $tanggalbulan=date('Y-m',strtotime($tanggal));
+        $tanggalhariinibulan=date('Y-m',strtotime($tanggalhariini));
+
+        // if ($tanggal < $tanggalhariini)
+        // {
+        //     return response()->json("failed");
+        // }
+
+        if ($tanggalbulan < $tanggalhariinibulan)
         {
             return response()->json("failed");
         }
