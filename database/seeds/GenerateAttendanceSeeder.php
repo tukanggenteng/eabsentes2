@@ -190,9 +190,12 @@ class GenerateAttendanceSeeder extends Seeder
                                         $hapusatt=att::where('tanggal_att','=',$tanggalproses)
                                                     ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
                                                     ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                                                    // ->where('jenisabsen_id','=','2')
                                                     ->get();
 
                                         $hapusatt->delete();
+
+
 
                                         echo "<<".$tanggalproses." pegawai id = ".$pegawai_id." instansi = ".$pegawai->instansi_id;
 
