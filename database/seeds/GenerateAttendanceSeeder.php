@@ -191,9 +191,9 @@ class GenerateAttendanceSeeder extends Seeder
                                                     ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
                                                     ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
                                                     // ->where('jenisabsen_id','=','2')
-                                                    ->get();
+                                                    ->delete();
 
-                                        $hapusatt->delete();
+
 
 
 
