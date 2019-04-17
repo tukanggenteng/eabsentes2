@@ -187,7 +187,23 @@ class GenerateAttendanceSeeder extends Seeder
                                         ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
                                         ->count();
                                     if ($cek > 0){
+                                        $hapusatt=att::where('tanggal_att','=',$tanggalproses)
+                                                    ->where('pegawai_id','=',$jadwalpegawai->pegawai_id)
+                                                    ->where('jadwalkerja_id','=',$jadwalkerja->jadwalkerja_id)
+                                                    ->get();
 
+                                        $hapusatt->delete();
+
+                                        echo "<<".$tanggalproses." pegawai id = ".$pegawai_id." instansi = ".$pegawai->instansi_id;
+
+                                        $sifatjadwalkerja=jadwalkerja::where('id','=',$jadwalkerja_id)->first();
+                                        // dd($sifatjadwalkerja->sifat);
+                                        $details['tanggalproses']=$tanggalproses;
+                                        $details['pegawai_id']=$pegawai_id;
+                                        $details['jadwalkerja_id']=$jadwalkerja_id;
+                                        $details['sifat']=$sifatjadwalkerja->sifat;
+                                        $details['instansi_id']=$pegawai->instansi_id;
+                                        dispatch(new GenerateAttendance($details));
                                     }
                                     else{
                                         $roleharilibur=Role_Hari_Libur::where('tanggalberlakuharilibur','=',$tanggalproses)->first();
