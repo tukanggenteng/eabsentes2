@@ -143,7 +143,7 @@ class KeteranganAbsenController extends Controller
             $keteranganabsen=keterangan_absen::leftJoin('pegawais','keterangan_absens.pegawai_id','=','pegawais.id')
                         // ->whereNotIn('keterangan_absens.pegawai_id',$jadwalkerja_idperawat)
                         ->leftJoin('jenisabsens','jenisabsens.id','=','keterangan_absens.jenisabsen_id')
-                        ->where('keterangan_absens.tanggal','>=',$tanggal)
+                        // ->where('keterangan_absens.tanggal','>=',$tanggal)
                         ->where('keterangan_absens.jadwalkerja_id','=',$jadwalkerja_id)
                         ->where('keterangan_absens.pegawai_id','=',$pegawai_id)
                         ->select('keterangan_absens.*','pegawais.nama','jenisabsens.jenis_absen')
