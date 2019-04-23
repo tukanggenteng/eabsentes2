@@ -131,7 +131,7 @@ class KeteranganAbsenController extends Controller
                         ->whereIn('keterangan_absens.pegawai_id',$jadwalkerja_idperawat)
                         ->where('keterangan_absens.jadwalkerja_id','=',$jadwalkerja_id)
                         ->where('keterangan_absens.pegawai_id','=',$pegawai_id)
-                        ->where('keterangan_absens.tanggal','>=',$tanggal)
+                        // ->where('keterangan_absens.tanggal','>=',$tanggal)
                         ->select('keterangan_absens.*','pegawais.nama','jenisabsens.jenis_absen')
                         ->get();
 
