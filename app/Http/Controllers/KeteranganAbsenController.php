@@ -1694,10 +1694,10 @@ class KeteranganAbsenController extends Controller
         {
             return response()->json("failed");
         }
-        if ($getketeranganabsen->tanggal < $tanggalhariini)
-        {
-            return response()->json("failed");
-        }
+        // if ($getketeranganabsen->tanggal < $tanggalhariini)
+        // {
+        //     return response()->json("failed");
+        // }
 
         $getatt=att::where('pegawai_id','=',$getketeranganabsen->pegawai_id)
                     ->where('jadwalkerja_id','=',$getketeranganabsen->jadwalkerja_id)
