@@ -1409,6 +1409,7 @@ class MonitoringController extends Controller
         $tahun=$pecah[0];
 
 
+        $tanggalsekarang=date('Y-m-d');
         
         // dd($id);
 
@@ -1561,7 +1562,8 @@ class MonitoringController extends Controller
         //                 ->where('pegawais.id','=',$id)
         //                 ->paginate(50);
                         // dd($data);
-
+        $tanggalsekarang=date('Y-m-d');
+        
         $data=att::leftJoin('pegawais','atts.pegawai_id','=','pegawais.id')
         ->leftJoin('jadwalkerjas','jadwalkerjas.id','=','atts.jadwalkerja_id')
         ->leftJoin('instansis as instansismasuk', 'instansismasuk.id','=','atts.masukinstansi_id')
@@ -1596,6 +1598,7 @@ class MonitoringController extends Controller
         //$tanggal=decrypt($tanggal);
         // dd($tanggal);
         // dd($request->tanggal);
+        $tanggalsekarang=date('Y-m-d');
 
 
         $hitungtanggal=strlen($request->tanggal);
@@ -1782,6 +1785,9 @@ class MonitoringController extends Controller
         
         // dd($id);
 
+        $tanggalsekarang=date('Y-m-d');
+
+
         // dd($request->jenis_absen);
 
         if ($request->jenis_absen==""){
@@ -1959,6 +1965,7 @@ class MonitoringController extends Controller
         $bulan=$pecah[1];
         $tahun=$pecah[0];
 
+        $tanggalsekarang=date('Y-m-d');
 
         
         // dd($id);
@@ -2088,6 +2095,7 @@ class MonitoringController extends Controller
         // $tanggalakhir=date('Y-m-d',strtotime('-1 days',strtotime($tanggal)));
         $tanggalawal=date('Y-m-d',strtotime('+6 days',strtotime($tanggal)));
         $tanggalakhir=date('Y-m-d',strtotime(($tanggal)));
+        $tanggalsekarang=date('Y-m-d');
 
         // dd($tanggalawal."+".$tanggalakhir);
 
