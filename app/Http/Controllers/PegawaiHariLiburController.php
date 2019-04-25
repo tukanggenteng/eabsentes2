@@ -73,7 +73,9 @@ class PegawaiHariLiburController extends Controller
     {
         //
 
-     
+        $this->validate($request, [
+            'checkbox2'=>'required'
+        ]);
         
         // dd($request);
 
