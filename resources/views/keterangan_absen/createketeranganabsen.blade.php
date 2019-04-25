@@ -107,8 +107,15 @@ Keterangan Absen
                                 @endif
                                 
                               @endforeach
+
                           </div>
+
                         <!-- </div> -->
+                        </div>
+                        <div class="box-footer">
+                          <ul class="pagination pagination-sm no-margin pull-right">
+                              {{$jenisabsens->links()}}
+                          </ul>
                         </div>
 
                         <!-- /.box-body -->

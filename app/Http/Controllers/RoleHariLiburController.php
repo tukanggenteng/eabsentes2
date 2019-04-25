@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Hari_Libur;
 use App\Role_Hari_Libur;
+use App\Pegawai_Hari_Libur;
+
 use Illuminate\Http\Request;
 
 class RoleHariLiburController extends Controller
@@ -72,7 +74,10 @@ class RoleHariLiburController extends Controller
         
         if ($dataroleharilibur->save())
         {
+            $getpegawaiharilibur=Pegawai_Hari_Libur::all();
+            
             return response()->json("success");
+
         }
         else
         {

@@ -98,10 +98,10 @@ class KeteranganAbsenController extends Controller
         $pegawai=pegawai::where('id','=',decrypt($pegawai_id))->first();
         $jadwalkerja=jadwalkerja::where('id','=',decrypt($jadwalkerja_id))->first();
         if (Auth::user()->role->namaRole=="rs"){
-            $jenisabsens=jenisabsen::all()->where('jenis_absen','!=','Hadir');
+            $jenisabsens=jenisabsen::where('jenis_absen','!=','Hadir')->paginate(3);
         }else{
-            $jenisabsens=jenisabsen::all()->where('jenis_absen','!=','Hadir')
-            ->where('jenis_absen','!=','Tidak Hadir');
+            $jenisabsens=jenisabsen::where('jenis_absen','!=','Hadir')
+            ->where('jenis_absen','!=','Tidak Hadir')->paginate(3);
             
         }
 
