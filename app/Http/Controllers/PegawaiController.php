@@ -469,7 +469,7 @@ class PegawaiController extends Controller
             $tablepegawaiharilibur->delete();
         }
         
-
+        
         $updatedata->instansi_id = null;
         
         if ($updatedata->save()){

@@ -222,11 +222,11 @@ class InstansiUserComposer {
             }
             elseif ($tables->status=='1')
             {
-                $statustrigger="Add Pegawai - Admin";
+                $statustrigger="Distribusi Pegawai";
             }
             elseif ($tables->status=='2')
             {
-                $statustrigger="Hapus Pegawai";
+                $statustrigger="Validasi Pegawai";
             }
             elseif ($tables->status=='3')
             {
@@ -234,9 +234,8 @@ class InstansiUserComposer {
             }
             elseif ($tables->status=='4')
             {
-                $statustrigger="Reset Data Mesin";
+                $statustrigger="Hapus Data Kehadiran Raspberry";
             }
-
 
 
             $countdoctor=0;

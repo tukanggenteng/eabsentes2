@@ -65,15 +65,15 @@ Atur Trigger
                                                     @endif
 
                                                     @if ($status=='1')
-                                                        <option selected="selected" value="1">Add Pegawai - Admin</option>
+                                                        <option selected="selected" value="1">Distribusi Pegawai</option>
                                                     @else
-                                                        <option value="1">Add Pegawai - Admin</option>
+                                                        <option value="1">Distribusi Pegawai</option>
                                                     @endif
 
                                                     @if ($status=='2')
-                                                        <option selected="selected" value="2">Hapus Pegawai</option>
+                                                        <option selected="selected" value="2">Validasi Pegawai</option>
                                                     @else
-                                                        <option value="2">Hapus Pegawai</option>
+                                                        <option value="2">Validasi Pegawai</option>
                                                     @endif
 
                                                     @if ($status=='3')
@@ -83,9 +83,9 @@ Atur Trigger
                                                     @endif
 
                                                     @if ($status=='4')
-                                                        <option selected="selected" value="4">Reset Data Mesin</option>
+                                                        <option selected="selected" value="4">Hapus Data Kehadiran Raspberry</option>
                                                     @else
-                                                        <option value="4">Reset Data Mesin</option>
+                                                        <option value="4">Hapus Data Kehadiran Raspberry</option>
                                                     @endif
 
                                                 </select>

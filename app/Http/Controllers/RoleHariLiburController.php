@@ -74,8 +74,11 @@ class RoleHariLiburController extends Controller
         
         if ($dataroleharilibur->save())
         {
-            $getpegawaiharilibur=Pegawai_Hari_Libur::all();
-            
+            $getpegawaihariliburs=Pegawai_Hari_Libur::all();
+            foreach($getpegawaihariliburs as $getpegawaihariliburs)
+            {
+                
+            }
             return response()->json("success");
 
         }

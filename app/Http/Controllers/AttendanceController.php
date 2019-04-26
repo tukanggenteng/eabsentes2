@@ -31,7 +31,7 @@ class AttendanceController extends Controller
           $instansi=$request->json('instansi');
           $status=$request->json('status');
           $macaddress=$request->json('macaddress');
-
+          // dd($request);
           if ($macaddress==null)
           {
             return "Failed";
