@@ -1622,7 +1622,7 @@ class KeteranganAbsenController extends Controller
 
               }  
               $table->keterangankeluar_id=$jenisabsen_id;
-              $table->jenisabsen_id = $jenisabsen_id;
+              $table->jenisabsen_id = "1";
               $table->jam_keluar = $akhir;
               $table->keluarinstansi_id=Auth::user()->instansi_id;
               $table->akumulasi_sehari = $akumulasi;
