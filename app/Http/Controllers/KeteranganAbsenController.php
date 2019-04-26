@@ -198,10 +198,10 @@ class KeteranganAbsenController extends Controller
         // dd($jadwalkerja_id);
         $tanggalhariini=date('Y-m-d');
 
-        if ((($jenisabsen_id=="10") || ($jenisabsen_id=="12")) && ($tanggal!=$tanggalhariini))
-        {
-            return response()->json("failed");
-        }
+        // if ((($jenisabsen_id=="10") || ($jenisabsen_id=="12")) && ($tanggal!=$tanggalhariini))
+        // {
+        //     return response()->json("failed");
+        // }
 
         $tanggalbulan=date('Y-m',strtotime($tanggal));
         $tanggalhariinibulan=date('Y-m',strtotime($tanggalhariini));
