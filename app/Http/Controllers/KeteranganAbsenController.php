@@ -32,6 +32,7 @@ class KeteranganAbsenController extends Controller
             $jadwalkerjas=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                 // ->where('sifat','!=','FD')
                 ->orWhere('id','=','1')
+                ->orWhere('instansi_id','=','1')
                 // ->whereNotIn('sifat',['FD'])
                 ->get();
         }
@@ -86,6 +87,7 @@ class KeteranganAbsenController extends Controller
             $jadwalkerjas=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                 // ->where('sifat','!=','FD')
                 ->orWhere('id','=','1')
+                ->orWhere('instansi_id','=','1')
                 // ->whereNotIn('sifat',['FD'])
                 ->get();
         }
