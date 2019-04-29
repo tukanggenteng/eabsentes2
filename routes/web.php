@@ -508,7 +508,7 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::post('/pegawai/import','PegawaiController@uploadpegawaiExcel');
       // Route::get('/pegawai/manajemen','PegawaiController@pagepegawaiadmin');
       // Route::get('/pegawai/show/data/admin','PegawaiController@datauser')->name('datapegawaiadmin');
-      Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');
+      // Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');
       Route::post('/editpegawaiadmin','PegawaiController@updateadmin')->name('updateadmin');
       // Route::post('/deletepegawai','PegawaiController@destroy')->name('deletepegawai');
 
