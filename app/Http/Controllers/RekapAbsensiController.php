@@ -130,7 +130,7 @@ class RekapAbsensiController extends Controller
         if (Auth::user()->role->namaRole=="karu"){
             $jadwalkerjas=jadwalkerja::where('instansi_id','=',Auth::user()->instansi_id)
                 ->where('sifat','!=','FD')
-                ->orWhere('id','!=','1')
+                ->orWhere('instansi_id','!=','1')
                 // ->whereNotIn('sifat',['FD'])
                 ->get();
         }else{
