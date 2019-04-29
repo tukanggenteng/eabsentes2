@@ -59,6 +59,12 @@ Manajemen Jadwal Kerja Pegawai
                     {!!session('success')!!}
                 </div>
                 @endif
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-check"></i> Perhatian !</h4>
+                    Untuk penginputan jadwal kerja struktural ramadhan, harus dipastikan data kehadiran terkirim terlebih dahulu sebelum mengatur jadwal kerja ramadhan.
+                </div>
+
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">Atur Jadwal Kerja Pegawai</h3>
