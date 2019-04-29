@@ -31,7 +31,7 @@ Manajemen Pegawai
       <div class="content-wrapper">
 
           <!-- Main content -->
-          <section class="content">
+            <section class="content">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box box-default">
@@ -85,7 +85,8 @@ Manajemen Pegawai
                                                           <td>{{$pegawai->nip}}</td>
                                                           <td>{{$pegawai->nama}}</td>
                                                           <td id="{{$pegawai->id}}">{{$pegawai->namaInstansi}}</td>
-                                                          <td><button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-idrow="{{$pegawai->id}}" data-nip="{{$pegawai->nip}}"  data-nama="{{$pegawai->nama}}" data-id="{{encrypt($pegawai->id)}}" data-target="#modal_delete">Hapus</button></td>
+                                                          <td><button type="button" class="modal_delete btn btn-danger btn-sm" data-toggle="modal" data-idrow="{{$pegawai->id}}" data-nip="{{$pegawai->nip}}"  data-nama="{{$pegawai->nama}}" data-id="{{encrypt($pegawai->id)}}" data-target="#modal_delete">Hapus</button> | 
+                                                          <button type="button" class="modal_edit btn btn-success btn-sm" data-toggle="modal" data-idrow="{{$pegawai->id}}" data-instansi_id="{{$pegawai->instansi_id}}" data-nip="{{$pegawai->nip}}"  data-nama="{{$pegawai->nama}}" data-namaInstansi="{{$pegawai->namaInstansi}}" data-id="{{encrypt($pegawai->id)}}" data-target="#modal_edit">Edit</button></td>
                                                       </tr>
                                                   @endforeach
                                                 </tbody>
@@ -104,36 +105,68 @@ Manajemen Pegawai
                             </div>
                         </div>
                         <div class="modal modal-danger fade" id="modal_delete">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span></button>
-                                                <h4 class="modal-title">Peringatan</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form id="formdeletepegawai" action="" method="post" role="form" enctype="multipart/form-data">
-                                                    <h4>
-                                                        <i class="icon fa fa-ban"></i>
-                                                        Peringatan
-                                                    </h4>
-                                                    {{csrf_field()}}
-                                                    Yakin ingin menghapus pegawai <span class="labelpegawai"></span> dari instansi anda ?
-                                                    <input id="delidpegawai" name="delidpegawai" type="hidden">
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Keluar</button>
-                                                <button type="button" id="simpandelpegawai" class="btn btn-outline">Simpan</button>
-                                            </div>
-                                        </div>
-                                        <!-- /.modal-content -->
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Peringatan</h4>
                                     </div>
-                                    <!-- /.modal-dialog -->
+                                    <div class="modal-body">
+                                        <form id="formdeletepegawai" action="" method="post" role="form" enctype="multipart/form-data">
+                                            <h4>
+                                                <i class="icon fa fa-ban"></i>
+                                                Peringatan
+                                            </h4>
+                                            {{csrf_field()}}
+                                            Yakin ingin menghapus pegawai <span class="labelpegawai"></span> dari instansi anda ?
+                                            <input id="delidpegawai" name="delidpegawai" type="hidden">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Keluar</button>
+                                        <button type="button" id="simpandelpegawai" class="btn btn-outline">Simpan</button>
+                                    </div>
                                 </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <div class="modal modal-success fade" id="modal_edit">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title">Ubah</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="formeditpegawai" action="" method="post" role="form" enctype="multipart/form-data">
+                                            <h4>
+                                                <i class="icon fa fa-check"></i>
+                                                Ubah Instansi ?
+                                            </h4>
+                                            {{csrf_field()}}
+                                            <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" name="instansi_id" id="instansi_id" tabindex="-1" aria-hidden="true">
+
+                                                @foreach ($instansis as $instansi)
+                                                    <option value="{{$instansi->id}}" data-namaInstansi="{{$instansi->namaInstansi}}">{{$instansi->namaInstansi}}</option>
+                                                @endforeach
+                                            </select>
+                                            <input id="editidpegawai" name="editidpegawai" type="hidden">
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Keluar</button>
+                                        <button type="button" id="simpaneditpegawai" class="btn btn-outline">Simpan</button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
                     </div>
                 </div>
-
             </section>
             <!-- /.content -->
         </div>
@@ -221,17 +254,25 @@ Manajemen Pegawai
         });
 
 
-        </script>
+    </script>
 
-        <script type="text/javascript">
+    <script type="text/javascript">
             $(document).on('click','.modal_delete',function () {
                 $('#delidpegawai').val($(this).data('id'));
                 $('.labelpegawai').text($(this).data('nama'));
                 idrow=$(this).data('idrow');
             });
-        </script>
 
-        <script type="text/javascript">
+            $(document).on('click','.modal_edit',function () {
+                $('#editidpegawai').val($(this).data('nip'));
+                $('.labelpegawai').text($(this).data('nama'));
+                idrow=$(this).data('idrow');
+                $('#instansi_id').val($(this).data('instansi_id')).trigger('change');
+            });
+            
+    </script>
+
+    <script type="text/javascript">
         $(document).on('click','#simpandelpegawai',function (){
           var nip=$('#delidpegawai').val();
 
@@ -248,6 +289,30 @@ Manajemen Pegawai
                     $('#modal_delete').modal('hide');
                     // oTable.ajax.reload();
                     $('#'+idrow).text("");
+                },
+            });
+        });
+
+        $(document).on('click','#simpaneditpegawai',function (){
+          var nip=$('#editidpegawai').val();
+          var instansi_id=$('#instansi_id').val();
+
+          var _token=$("input[name=_token]").val();
+            $.ajax({
+                type:'post',
+                url:'{{route('updateadmin')}}',
+                data : {
+                        editidpegawai:nip,
+                        instansi_id:instansi_id,
+                        _token:_token
+                        },
+                success:function(response){
+                    $('.error').addClass('hidden');
+                    $('#modal_edit').modal('hide');
+                    // oTable.ajax.reload();
+                    namaInstansi=$('#instansi_id').select2('data')[0]['text'];
+                    console.log(namaInstansi)
+                    $('#'+idrow).text(namaInstansi);
                 },
             });
         });

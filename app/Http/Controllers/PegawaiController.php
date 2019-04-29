@@ -58,6 +58,8 @@ class PegawaiController extends Controller
             $inforekap=$this->notifrekap();
         }
 
+        $instansis=instansi::all();
+
         $hitung=pegawai::all()->count();
 
         if ($request->cari=="")
@@ -78,7 +80,7 @@ class PegawaiController extends Controller
 
         $pegawaisearch=$request->cari;
 
-        return view('pegawai.manajpegawai',['hitungs'=>$hitung,'inforekap'=>$inforekap,'pegawais'=>$pegawais,'pegawaisearch'=>$pegawaisearch]);
+        return view('pegawai.manajpegawai',['hitungs'=>$hitung,'inforekap'=>$inforekap,'pegawais'=>$pegawais,'pegawaisearch'=>$pegawaisearch,'instansis'=>$instansis]);
     }
 
     /**
@@ -312,14 +314,8 @@ class PegawaiController extends Controller
     public function update(Request $request)
     {
         $tes=$request->instansi;
-        // dd($request->nip);
-        // $updatedata = pegawai::where('nip','=',$request->nip)->get();
-        // dd($updatedata);
-        // $updatedata->instansi_id = $tes;
-        // $updatedata->save();
-        // return response()->json($updatedata);
+        
         $rules=array(
-            'nama'=>'required | min:3',
             'instansi'=>'required'
         );
 
@@ -347,6 +343,46 @@ class PegawaiController extends Controller
         //   'jabatan2'=>'required',
         //   'instansi2'=>'required',
         // ]);
+    }
+
+    public function updateadmin(Request $request)
+    {
+
+        
+        $rules=array(
+            
+        );
+        // dd(($request->editidpegawai));
+
+        // dd(decrypt($request->editidpegawai));
+        // dd(decrypt($request->instansi_id));
+
+        $validator=Validator::make(Input::all(),$rules);
+        if($validator->fails()){
+            return Response::json(array('errors'=>$validator->getMessageBag()->toArray()));
+        }
+        else {
+            $updatedata = pegawai::where('nip','=',$request->editidpegawai)->first();
+            $dataqueuepegawai=new QueuePegawaiController();
+
+            // dd($updatedata);
+            if ($request->instansi_id!="")
+            {
+                $dataqueuepegawai->storequeuepegawaispesific($request->instansi_id,$updatedata->id,"daftar");
+            }
+            else
+            {
+                $dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$updatedata->id,"hapus");
+            }
+            $updatedata->instansi_id = $request->instansi_id;
+            $updatedata->save();
+
+            
+
+            
+            
+            return response()->json($updatedata);
+        }
     }
 
 
@@ -552,8 +588,8 @@ class PegawaiController extends Controller
             if ($hitung == 2)
             {
               $datapegawai=pegawai::where('id','=',$request->json('pegawai_id'))->first();
-            //   $dataqueuepegawai=new QueuePegawaiController();
-            //   $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
+              $dataqueuepegawai=new QueuePegawaiController();
+              $dataqueuepegawai->storequeuepegawaispesific($datapegawai->instansi_id,$datapegawai->id,"daftar");
             }
             return "Succes";
         }
@@ -598,13 +634,13 @@ class PegawaiController extends Controller
         ->get();
 
 
-    //   $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
-    //    $table=pegawai::
-    //    leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
-    //    ->where('instansi_id','!=',null)
-    //    ->where('id','=',$id)
-    //    ->where('finger','>=',2)
-    //    ->get();
+        //   $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
+        //    $table=pegawai::
+        //    leftJoin($finger,'fingerpegawais.pegawai_id','=','pegawais.id')
+        //    ->where('instansi_id','!=',null)
+        //    ->where('id','=',$id)
+        //    ->where('finger','>=',2)
+        //    ->get();
 
     	return $table;
     }
