@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 
 Route::group(['middleware'=>['api']], function () {
-    Route::post('/attendance', 'AttendanceController@store');
+    // Route::post('/attendance', 'AttendanceController@store');
     Route::get('/attendanceall', 'AttendanceController@show');
     //Gasan trigger
     Route::get('/triger','TrigerController@index');
