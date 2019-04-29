@@ -1480,7 +1480,7 @@ class KeteranganAbsenController extends Controller
                 $table->save();
 
             }
-            elseif  ($jenisabsen_id=="12"){
+            elseif  ($jenisabsen_id=="12"){w
 
               $jadwalkerja=jadwalkerja::where('id','=',$jadwalkerja_id)->get();
 
