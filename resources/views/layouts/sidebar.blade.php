@@ -93,6 +93,7 @@
                             <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Atur Hari Kerja</a></li>
                             <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
                             <li><a href="/keteranganabsen"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
+                            <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen Harian</a></li>
                         </ul>
                     </li>
                     <li class="treeview">
@@ -159,6 +160,7 @@
                             <li><a href="/manajemanpegawairuangan"><i class="fa fa-circle-o"></i> Manajemen Pegawai</a></li>
                             <li><a href="/jadwalkerjapegawaiharian"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
                             <li><a href="/keteranganabsen"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
+                            <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen Harian</a></li>
                         </ul>
                     </li>
                 @elseif (Auth::user()->role->namaRole=="bkd")
@@ -188,7 +190,7 @@
                             <li><a href="/monitoring/instansi"><i class="fa fa-circle-o"></i> Monitoring Absen Instansi</a></li>
                         </ul>
                     </li>
-                    <li class="treeview">
+                    <!-- <li class="treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Rekap</span>
                             <span class="pull-right-container">
@@ -198,7 +200,7 @@
                         <ul class="treeview-menu">
                             <li><a href="/rekapbulanan/rekapbulanan/admin"><i class="fa fa-circle-o"></i> Verifikasi Surat</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                 @else
                     <li>
                         <a href="/timeline">
@@ -220,6 +222,7 @@
                             <li><a href="/harikerja"><i class="fa fa-circle-o"></i> Atur Hari Kerja</a></li>
                             <li><a href="/jadwalkerjapegawai"><i class="fa fa-circle-o"></i> Jadwal Pegawai</a></li>
                             <li><a href="/keteranganabsen"><i class="fa fa-circle-o"></i> Keterangan Absen</a></li>
+                            <li><a href="/rekapabsensipegawai"><i class="fa fa-circle-o"></i> Keterangan Absen Harian</a></li>
 
                         </ul>
                     </li>

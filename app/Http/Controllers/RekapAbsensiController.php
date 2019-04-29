@@ -1438,7 +1438,7 @@ class RekapAbsensiController extends Controller
 
                                   
 
-                                //   $table->jenisabsen_id = $request->jenisabsen;
+                                  $table->jenisabsen_id = "1";
                                   $table->jam_masuk = $awal;
                                   $table->keteranganmasuk_id="1";
                                   $table->keterangankeluar_id=null;
@@ -1651,7 +1651,7 @@ class RekapAbsensiController extends Controller
 
                                 }  
                                 $table->keterangankeluar_id=$request->jenisabsen;
-                                $table->jenisabsen_id = $request->jenisabsen;
+                                $table->jenisabsen_id = "1";
                                 $table->jam_keluar = $akhir;
                                 $table->keluarinstansi_id=Auth::user()->instansi_id;
                                 $table->akumulasi_sehari = $akumulasi;
