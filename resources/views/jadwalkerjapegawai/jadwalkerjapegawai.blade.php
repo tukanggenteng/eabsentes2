@@ -61,7 +61,7 @@ Manajemen Jadwal Kerja Pegawai
                 @endif
                 <div class="alert alert-warning alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-check"></i> Perhatian !</h4>
+                    <h4><i class="icon fa fa-warning"></i> Perhatian !</h4>
                     Untuk penginputan jadwal kerja struktural ramadhan, harus dipastikan data kehadiran terkirim terlebih dahulu sebelum mengatur jadwal kerja ramadhan.
                 </div>
 
