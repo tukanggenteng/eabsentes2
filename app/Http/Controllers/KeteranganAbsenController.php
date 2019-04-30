@@ -215,7 +215,7 @@ class KeteranganAbsenController extends Controller
         // }
         
 
-        if ($tanggalbulan < $tanggalhariinibulan)
+        if ($tanggalbulan != $tanggalhariinibulan)
         {
             return response()->json("failed");
         }
