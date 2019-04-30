@@ -248,16 +248,16 @@ class KeteranganAbsenController extends Controller
             return response()->json("failed3");
         }
 
-        $cariketeranganabsen2=keterangan_absen::where('tanggal','=',$tanggal)
-                            ->where('pegawai_id','=',$pegawai_id)
-                            ->where('jadwalkerja_id','=',$jadwalkerja_id)
-                            ->where('jenisabsen_id','=',"10")
-                            ->orWhere('jenisabsen_id','=',"12")
-                            ->first();
-        if ($cariketeranganabsen2!=null)
-        {
-            return response()->json("failed4");
-        }
+        // $cariketeranganabsen2=keterangan_absen::where('tanggal','=',$tanggal)
+        //                     ->where('pegawai_id','=',$pegawai_id)
+        //                     ->where('jadwalkerja_id','=',$jadwalkerja_id)
+        //                     ->where('jenisabsen_id','=',"10")
+        //                     ->orWhere('jenisabsen_id','=',"12")
+        //                     ->first();
+        // if ($cariketeranganabsen2!=null)
+        // {
+        //     return response()->json("failed4");
+        // }
 
         if ($caridata==null)
         {
