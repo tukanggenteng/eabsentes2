@@ -217,7 +217,7 @@ class KeteranganAbsenController extends Controller
 
         if ($tanggalbulan != $tanggalhariinibulan)
         {
-            return response()->json("failed");
+            return response()->json("failed1");
         }
         
 
@@ -240,12 +240,12 @@ class KeteranganAbsenController extends Controller
 
         if (($cekketeranganabsen!=null))
         {
-            return response()->json("failed");
+            return response()->json("failed2");
         }
 
         if (($cariketeranganabsen!=null))
         {
-            return response()->json("failed");
+            return response()->json("failed3");
         }
 
         $cariketeranganabsen2=keterangan_absen::where('tanggal','=',$tanggal)
@@ -256,12 +256,12 @@ class KeteranganAbsenController extends Controller
                             ->first();
         if ($cariketeranganabsen2!=null)
         {
-            return response()->json("failed");
+            return response()->json("failed4");
         }
 
         if ($caridata==null)
         {
-            return response()->json("failed");
+            return response()->json("failed5");
         }
         else
         {
@@ -1495,7 +1495,7 @@ class KeteranganAbsenController extends Controller
                   ->first();
 
               if ($table->jam_masuk==null){
-                return response()->json("failed");
+                return response()->json("failed5");
               }
                   
               if ($jadwalkerja[0]['lewathari'])
@@ -1668,7 +1668,7 @@ class KeteranganAbsenController extends Controller
         }
         else
         {
-            return response()->json("failed");
+            return response()->json("failed6");
         }
 
 
