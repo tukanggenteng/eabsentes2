@@ -30,7 +30,7 @@ Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
   Route::post('/home/chat','ChartController@store')->name('chatpost');
   Route::post('/pegawai/delete','PegawaiController@destroy')->name('deletepegawai');
   Route::get('/instansi/cari','InstansiController@cari')->name('cariinstansi');
-  
+
 });
 
 Route::group(['middleware' => ['rule:kadis,bkd,karu,rs,sekda,user,admin,pegawai,gubernur']],function(){
@@ -81,7 +81,7 @@ Route::get('/logout',function (){
 
 Route::group(['middleware' => ['rule:pegawai']],function(){
   Route::get('/user/pegawai','UserController@indexpegawai');
-}); 
+});
 
 Route::group(['middleware' => ['rule:kadis']],function(){
   Route::get('/home/pegawai','DashboardController@indexkadis');
@@ -113,7 +113,7 @@ Route::group(['middleware' => ['rule:karu']],function(){
     #jadwalkerja pegawai harian
     Route::get('/jadwalkerjapegawaiharian','JadwalKerjaPegawaiHarianController@index')->name('indexjadwalkerjapegawaiharian');
     Route::post('/jadwalkerjapegawaiharian','JadwalKerjaPegawaiHarianController@index');
-    
+
 
     Route::get('/jadwalkerjapegawaiharian/{id}','JadwalKerjaPegawaiHarianController@show');
     Route::post('/eventcalendar','JadwalKerjaPegawaiHarianController@eventcalendartoday');
@@ -182,7 +182,7 @@ Route::group(['middleware' => ['rule:bkd']],function(){
       Route::get('/monitoring/pegawai/{id}/{tanggal}','MonitoringController@monitoringpegawaiminggu');
       Route::post('/monitoring/pegawai/{id}/{tanggal}','MonitoringController@monitoringpegawaiminggu')->name('monitoringpegawaiminggu');
       Route::get('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari');
-      Route::post('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari')->name('monitoringpegawaihari');    
+      Route::post('/monitoring/pegawai/{id}/{tanggal}/att','MonitoringController@monitoringpegawaihari')->name('monitoringpegawaihari');
       Route::get('/monitoring/pegawai/export','MonitoringController@monitoringpegawaibulanexport');
 
 
@@ -192,21 +192,21 @@ Route::group(['middleware' => ['rule:bkd']],function(){
       Route::get('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal');
       Route::get('/monitoring/instansi/export/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonalexport');
       Route::post('/monitoring/instansi/{id}/{tanggal}','MonitoringController@monitoringinstansiminggupersonal')->name('monitoringinstansiminggupersonal');
-      Route::get('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');  
-      Route::post('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail'); 
-      Route::get('/monitoring/instansi/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt'); 
-  
+      Route::get('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail');
+      Route::post('/monitoring/instansi/detail/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetail')->name('monitoringinstansiminggupersonaldetail');
+      Route::get('/monitoring/instansi/detail/att/{id}/{tanggal}/{instansi_id}','MonitoringController@monitoringinstansiminggupersonaldetailatt');
+
       Route::get('/monitoring/grafik/harian','MonitoringController@grafikmonitoringharian');
       Route::get('/monitoring/grafik/harian/data','MonitoringController@grafikmonitoringhariandata')->name('monitoringgrafikhariandata');
       Route::get('/monitoring/grafik/bulanan','MonitoringController@grafikmonitoringbulan');
       Route::get('/monitoring/grafik/bulanan/data','MonitoringController@grafikmonitoringbulandata')->name('monitoringgrafikbulanandata');
 
- 
+
 });
 
 Route::group(['middleware' => ['rule:rs,user']],function(){
 
-      
+
       Route::get('/jadwalkerjapegawai','JadwalKerjaPegawaiController@index');
       Route::get('/jadwalkerjapegawai/data','JadwalKerjaPegawaiController@datapegawai')->name('datapegawaijadwalkerja');
       Route::get('/jadwalkerjapegawai/data/jadwalkerja','JadwalKerjaPegawaiController@datarulejadwalpegawai')->name('datapegawairulejadwalkerja');
@@ -224,10 +224,14 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       #laporanharian
       Route::get('/laporanharian','PDFController@index');
       Route::post('/laporanharian','PDFController@index');
+      //detail keterangan harian pegawai dalam satu bulan
+      Route::get('/laporanharian/bulan/{id}/nip/{id2}','PDFController@indexNipBulan');
+
       Route::get('/laporanharian/pdf/tanggal/{id}/nip/{id2}','PDFController@pdfharianfull');
       Route::get('/laporanharian/pdf/tanggal/{id}','PDFController@pdfhariantanggal');
       Route::get('/laporanharian/pdf/nip/{id2}','PDFController@pdfhariannip');
       Route::get('/laporanharian/pdf','PDFController@pdfharian');
+
 
       #laporanminggu
       Route::get('/laporanmingguan','PDFController@pdfmingguanindex');
@@ -289,8 +293,8 @@ Route::group(['middleware' => ['rule:rs,user']],function(){
       Route::get('/alat/instansi/data','LogRaspberryController@datainstansi')->name('dataraspberryinstansi');
       Route::get('/alat/instansi/sidikjari','LogRaspberryController@indexfinger');
       Route::get('/alat/instansi/sidikjari/data','LogRaspberryController@datasidikjariinstansi')->name('dataraspberrysidikjariinstansi');
-      
-      
+
+
 
       #atur hari kerja
       Route::get('/harikerja','HariKerjaController@index');
@@ -309,14 +313,14 @@ Route::group(['middleware' => ['rule:admin,bkd']],function(){
 });
 
 Route::group(['middleware' => ['rule:user,rs']],function(){
-      
 
-      
+
+
 
       #atur jadwal kerja pegawai
-      
 
-      
+
+
 
       // Route::get('/manajemenpegawaikhusus','DokterPerawatRuanganController@index');
       // Route::post('/manajemenpegawaikhusus/addruangan','DokterPerawatRuanganController@storeruangan')->name('storeruangan');
@@ -338,12 +342,12 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
       // Route::get('/manajemanpegawairuangan','DokterPerawatRuanganController@indexruangan');
       // Route::get('/dataruangan/cariruanganspesifik','DokterPerawatRuanganController@caridokterspesifik')->name('cariruanganspesifik');
       // Route::get('/manajemanpegawairuangan/data','DokterPerawatRuanganController@dataspesifikperawat')->name('dataspesifikruangan');
-    
 
-      
-      
 
-      
+
+
+
+
 
       #rekap absensi pegawai (menentukan jenis absen)
       // Route::get('/rekapabsensipegawai','RekapAbsensiController@index');
@@ -354,16 +358,16 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
       // Route::get('/rekapabsensipegawai/data','RekapAbsensiController@attsdata')->name('dataatts');
 
       #table rekap mingguan
-      
+
 
       #backend proses
       #Route::post('/rekapbulanans','MasterAbsensiController@index');
 
       #transfer surat rekap
-      
-      
 
-      
+
+
+
 
       #manajemen pegawai
       Route::get('/pegawai/show','PegawaiController@show');
@@ -372,7 +376,7 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
       Route::get('/pegawai/cek/{id}','PegawaiController@validasipegawai')->name('validasipegawai');
 
 
-      
+
 });
 
 
