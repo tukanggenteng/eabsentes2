@@ -387,7 +387,7 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
 
       //#rekap absen ke mantra oleh operator
       //Rekap absen ke Database MANTRA
-      Route::get('/rekapAbsenMantra',function(){ return view('laporan.mantra'); })->name('ToMantra');
+      //Route::get('/rekapAbsenMantra',function(){ return view('laporan.mantra'); })->name('ToMantra');
       Route::post('/rekapAbsenMantra','RekapAbsensiController@saveToMantra')->name('saveToMantra');
 
 
