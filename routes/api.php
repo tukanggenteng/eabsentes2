@@ -6,7 +6,7 @@ Route::group(['middleware'=>['api']], function () {
     // Route::post('/attendance', 'AttendanceController@store');
     // Route::get('/attendanceall', 'AttendanceController@show');
     // //Gasan trigger
-    // Route::get('/triger','TrigerController@index');
+    Route::get('/triger','TrigerController@index');
     // //gasan pegawai
 
     // Route::get('/cekpegawai','PegawaiController@cekpegawai2');

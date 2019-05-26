@@ -17,6 +17,7 @@ use App\hapusfingerpegawai;
 use App\adminpegawai;
 use App\rulejadwalpegawai;
 use App\Pegawai_Hari_Libur;
+use App\sourceapiconfig;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Facades\Datatables;
 use Illuminate\Support\Facades\Auth;
@@ -337,8 +338,8 @@ class PegawaiController extends Controller
             $dataqueuepegawai->storequeuepegawaispesific(Auth::user()->instansi_id,$updatedata->id,"daftar");
 
 
-            
-            
+
+
             return response()->json($updatedata);
         }
 
@@ -364,6 +365,22 @@ class PegawaiController extends Controller
             ->make(true);
     }
 
+
+    public function validasipegawaiAdm($id){
+
+      $pegawai=pegawai::where('nip','=',$id)
+      ->count();
+      if ($pegawai!=0){
+        $ambilpegawai=pegawai::where('nip','=',$id)->first();
+        $seluruh['status']="0";
+        $seluruh['nama']=$ambilpegawai->nama;
+        return $seluruh;
+      }
+      else{
+        $seluruh['status']="3";
+        return $seluruh;
+      }
+    }
 
     public function validasipegawai($id){
       $pegawai=pegawai::where('nip','=',$id)
@@ -391,6 +408,190 @@ class PegawaiController extends Controller
         return $seluruh;
       }
     }
+
+    //API & MANTRA --------------------------------------------------------------------------------------------------------
+
+    public function apimantra($id)
+    {
+      //generate from mantra-----------------------
+      $url="http://mantra.kalselprov.go.id/diskominfo_kalsel/simpeg/tampilDataPegawaiFromMantra";
+      $accesskey="m0a1gcgyjd69g005c9jwqblpqtcoxe8cwp5pvpuzefbyfhxy2tbpj3dixckq0lmn"; //Kunci akses diperoleh dari permohonan akses requester
+      $pardata=array();
+
+      $pardata["q_nip"]=urlencode($id);
+      $pardata["q_jumlahbaris"]=urlencode("");
+      $pardata["q_awalbaris"]=urlencode("");
+      $par="?".http_build_query($pardata);
+
+      $options=array(
+      	'http'=>array(
+      		'ignore_errors'=>true,
+      		'method'=>"GET",
+      		'header'=>implode("\r\n",[
+      			"Content-Type:application/x-www-form-urlencoded",
+      			"Accept:application/json",
+      			"Accept-Charset:UTF-8",
+      			"AccessKey:$accesskey"
+      		])
+      	)
+      );
+      $context=stream_context_create($options);
+      $content=file_get_contents($url.$par,false,$context);
+
+      //END.generate from mantra-----------------------
+      $decode_l1 = json_decode($content);
+      //dd($decode_l1);
+
+      if(empty($decode_l1->response)) { $nama=""; }
+      else { $nama = $decode_l1->response->data->tampilDataPegawaiFromMantra[0]->nama; }
+
+      if($nama!="")
+      {
+        $seluruh['status']="0";
+        $seluruh['nama']=$nama;
+        return $seluruh;
+      }
+
+      else
+      {
+        $seluruh['status']="3";
+        return $seluruh;
+      }
+
+    }
+
+    public function apimantrasimpeg($id)
+    {
+      //generate from mantra-----------------------
+      $url="http://mantra.kalselprov.go.id/diskominfo_kalsel/simpeg/tampilDataPegawai";
+      $accesskey="7sv6uqivb6ilao084n2783drp8u8jy8zj8ym7oe8bylulmfu3dm5501gu5i1pohb"; //Kunci akses diperoleh dari permohonan akses requester
+      $pardata=array();
+
+      $pardata["q_nip"]=$id;
+      $pardata["q_jumlahbaris"]="";
+      $pardata["q_awalbaris"]="";
+      $par=json_encode($pardata,JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+
+      $options=array(
+      	'http'=>array(
+      		'ignore_errors'=>true,
+      		'method'=>"GET",
+      		'header'=>implode("\r\n",[
+      			"Content-Type:application/json",
+      			"Accept:application/json",
+      			"Accept-Charset:UTF-8",
+      			"AccessKey:$accesskey"
+      		]),
+      		'content'=>$par
+      	)
+      );
+      $context=stream_context_create($options);
+      $content=file_get_contents($url,false,$context);
+      //END.generate from mantra-----------------------
+      $decode_l1 = json_decode($content);
+
+      //Get Variable from Object
+      //use DD if must;
+      //dd($decode_l1);
+      //echo $decode_l1->response->data->tampilDataPegawai[0]->nama;
+
+      //Trying to get property 'response' of non-object
+      if(empty($decode_l1->response)) { $nama=""; }
+      else { $nama = $decode_l1->response->data->tampilDataPegawai[0]->nama; }
+
+      if($nama!="")
+      {
+        $seluruh['status']="0";
+        $seluruh['nama']=$nama;
+        return $seluruh;
+      }
+
+      else
+      {
+        $seluruh['status']="3";
+        return $seluruh;
+      }
+
+    }
+
+    public function simpeg($id)
+    {
+      set_time_limit(0);
+      $data = json_decode(file_get_contents('https://simpeg.kalselprov.go.id/api/identitas'));;
+
+      $nip = $id;
+      $count = count($data); //membandingkan data di simpeg dengan menghitung jumlah data
+
+      for($i=0;$i<$count;$i++)
+      {
+
+        if($nip==$data[$i]->nip)
+        {
+          dd($data[$i]->nip);
+          break;
+          $seluruh['status']="0";
+          $seluruh['nama']=$data[$i]->nama;
+          return $seluruh;
+        }
+
+        else
+        {
+          break;
+          $seluruh['status']="3";
+          return $seluruh;
+        }
+      }
+    }
+
+    public function simpanDataApi(Request $request)
+    {
+        $rules=array(
+            'nama'=>'required | min:3',
+            'nip'=>'required'
+        );
+
+        $validator=Validator::make(Input::all(),$rules);
+        if($validator->fails()){
+            return Response::json(array('errors'=>$validator->getMessageBag()->toArray()));
+        }
+        else {
+
+            $cekdata = pegawai::where('nip','=',$request->nip)->first();
+            if($cekdata!="")
+            {
+              $updatedata = new pegawai();
+              $updatedata->error = "Sudah ada data pegawai yang sama";
+            }
+            else
+            {
+              $updatedata = new pegawai();
+              $updatedata->nip = $request->nip;
+              $updatedata->nama = $request->nama;
+              $updatedata->save();
+            }
+
+            return response()->json($updatedata);
+        }
+    }
+
+    public function simpanConfigApi(Request $request)
+    {
+      $rules=array(
+          'id'=>'required | max:1'
+      );
+
+      //neutralize config
+      $updateSourceApi = sourceapiconfig::where('id',1)->update(['active' => 0]);
+      $updateSourceApi = sourceapiconfig::where('id',2)->update(['active' => 0]);
+      $updateSourceApi = sourceapiconfig::where('id',3)->update(['active' => 0]);
+
+      //update
+      $updateSourceApi = sourceapiconfig::where('id',$request->id)->update(['active' => 1]);
+
+      return redirect('/pegawai/import')->with('berhasil', 'Berhasil menyimpan Konfigurasi API.');
+    }
+
+    //--------------------------------------------------------------------------------------------------------------------------------
     /**
      * Remove the specified resource from storage.
      *
@@ -425,7 +626,7 @@ class PegawaiController extends Controller
                 // dd($attsdelete);
 
 
-                
+
             }
             $deleteatts=att::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
                 ->where('tanggal_att','>',$tanggalhari)
@@ -433,7 +634,7 @@ class PegawaiController extends Controller
             $keteranganabsendelete=keterangan_absen::where('jadwalkerja_id','=',$datarule->jadwalkerja_id)
                             ->where('pegawai_id','=',$updatedata->pegawai_id)->delete();
         }
-            
+
         $deleterulepegawai=rulejadwalpegawai::where('pegawai_id','=',$updatedata->id);
         $deleterulepegawai->delete();
 
@@ -445,13 +646,13 @@ class PegawaiController extends Controller
             $hapusperawat=perawatruangan::where('pegawai_id','=',$idpeg)->first();
             $hapusperawat->delete();
         }
-        
+
         $countdokter=dokter::where('pegawai_id','=',$idpeg)->count();
         if ($countdokter>0){
             $hapusdokter=dokter::where('pegawai_id','=',$idpeg)->first();
             $hapusdokter->delete();
         }
-        
+
 
         // $hapusattstrans=atts_tran::where('pegawai_id','=',$updatedata->id)
         // ->where('tanggal','=',$tanggalnow);
@@ -462,18 +663,18 @@ class PegawaiController extends Controller
         // $hapusatts->delete();
         $dataqueuepegawai=new QueuePegawaiController();
         ($dataqueuepegawai->storequeuepegawaispesific($updatedata->instansi_id,$idpeg,"hapus"));
-        
+
         $tablepegawaiharilibur=Pegawai_Hari_Libur::where('pegawai_id','=',$idpeg)->first();
         if ($tablepegawaiharilibur!=null)
         {
             $tablepegawaiharilibur->delete();
         }
-        
+
 
         $updatedata->instansi_id = null;
-        
+
         if ($updatedata->save()){
-            
+
             return response()->json("Success");
         }else{
             return response()->json("Failed");
@@ -499,9 +700,9 @@ class PegawaiController extends Controller
 
             return $table;
 
-        
+
        }
-       
+
        public function cekpegawai2(){
 
         $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
@@ -518,7 +719,7 @@ class PegawaiController extends Controller
 
             return $table;
 
-        
+
 	   }
 
      public function cekpegawaiinstansi($id){
@@ -558,7 +759,7 @@ class PegawaiController extends Controller
             return "Succes";
         }
 
-        
+
     }
 
 
@@ -582,7 +783,7 @@ class PegawaiController extends Controller
                 ->get();
       return $table;
     }
- 
+
     public function cekpegawaiparams($id){
         $finger=DB::raw("(SELECT pegawai_id,COUNT(pegawai_id) as finger from fingerpegawais group by pegawai_id) as fingerpegawais");
         $tanpapegawai=hapusfingerpegawai::pluck('pegawai_id')->all();
@@ -633,7 +834,15 @@ class PegawaiController extends Controller
 
     public function indexuploadexcel(){
         $datas=instansi::all();
-        return view('pegawai.importpegawai',['datas'=>$datas]);
+        $sumbers=sourceapiconfig::all();
+
+        //variable untuk testing config source API
+        //$sumber='/pegawai/cekAdm/'; // tes cek from eabsen database
+        //$sumber='/pegawai/apimantra/'; // tes cek from Mantra Simpeg
+        //$sumber='/pegawai/apimantrasimpeg/'; // tes cek from Mantra <- Simpeg
+        //$sumber='/pegawai/simpeg/'; // tes cek from direct Simpeg
+
+        return view('pegawai.importpegawai',['datas'=>$datas, 'sumbers'=>$sumbers]);
     }
 
     public function uploadpegawaiExcel(Request $request){
@@ -654,7 +863,7 @@ class PegawaiController extends Controller
             $datap="";
             foreach ($data as $key){
                 $nip=(string)$key->nip;
-                
+
                 $nip=str_replace(" ","",$nip);
                 // dd($nip);
                 if (!empty($key->nip))
@@ -666,7 +875,7 @@ class PegawaiController extends Controller
                         $table->instansi_id=$request->instansi_id;
                         $table->save();
 
-                        
+
                     }
                     else{
                         // $data=$datap.$nip."<br>";
@@ -690,7 +899,7 @@ class PegawaiController extends Controller
 
 
 
-    
-    
+
+
 
 }
