@@ -38,7 +38,7 @@ Route::group(['middleware' => ['rule:user,admin,rs,karu,bkd']],function(){
   Route::post('/harilibur/pegawai/store','PegawaiHariLiburController@store')->name('storepegawaiharilibur');
 
   Route::get('/role/harilibur','RoleHariLiburController@index');
-  Route::post('/role/harilibur/calendar','RoleHariLiburController@eventcalendar'); 
+  Route::post('/role/harilibur/calendar','RoleHariLiburController@eventcalendar');
 
   Route::get('/queue/pegawai','QueuePegawaiController@index');
   Route::post('/queue/pegawai','QueuePegawaiController@index')->name('queuepegawaisearchpost');
@@ -67,7 +67,7 @@ Route::group(['middleware'=>['rule:user,admin,kadis,rs,karu']],function(){
   Route::get('/detail/harian/tugasluar','DetailAbsenController@tugasluarharian');
   Route::get('/detail/harian/terlambat','DetailAbsenController@terlambatharian');
   Route::get('/detail/harian/rapatundangan','DetailAbsenController@rapatundanganharian');
-  
+
   // bulanan
 
   Route::get('/detail/bulan/absent','DetailAbsenController@absentbulan');
@@ -385,7 +385,10 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
 
       #transfer surat rekap
 
-
+      //#rekap absen ke mantra oleh operator
+      //Rekap absen ke Database MANTRA
+      Route::get('/rekapAbsenMantra',function(){ return view('laporan.mantra'); })->name('ToMantra');
+      Route::post('/rekapAbsenMantra','RekapAbsensiController@saveToMantra')->name('saveToMantra');
 
 
 
@@ -405,16 +408,16 @@ Route::group(['middleware' => ['rule:user,rs']],function(){
 
 
 Route::group(['middleware' => ['rule:admin']],function(){
-      Route::get('/harilibur','HariLiburController@index'); 
-      Route::post('/harilibur','HariLiburController@index')->name('carinamaharilibur');  
-      Route::get('/harilibur/create','HariLiburController@create'); 
-      Route::post('/harilibur/store','HariLiburController@store')->name('postharilibur');  
+      Route::get('/harilibur','HariLiburController@index');
+      Route::post('/harilibur','HariLiburController@index')->name('carinamaharilibur');
+      Route::get('/harilibur/create','HariLiburController@create');
+      Route::post('/harilibur/store','HariLiburController@store')->name('postharilibur');
       Route::get('/harilibur/show/{id}','HariLiburController@edit');
       Route::put('/harilibur/update/{id}','HariLiburController@update');
       Route::get('/harilibur/delete/{id}', 'HariLiburController@destroy');
 
 
-      Route::post('/role/harilibur/calendar/store','RoleHariLiburController@store'); 
+      Route::post('/role/harilibur/calendar/store','RoleHariLiburController@store');
       Route::post('/role/harilibur/calendar/delete','RoleHariLiburController@destroy');
 
       #raspberry
@@ -510,6 +513,16 @@ Route::group(['middleware' => ['rule:admin']],function(){
       Route::get('/pegawai/cari','PegawaiController@cari');
       Route::get('/pegawai/import','PegawaiController@indexuploadexcel');
       Route::post('/pegawai/import','PegawaiController@uploadpegawaiExcel');
+
+      Route::get('/pegawai/cekAdm/{id}','PegawaiController@validasipegawaiAdm')->name('validasipegawaiAdm');
+      Route::get('/pegawai/apimantra/{id}','PegawaiController@apimantra')->name('apimantra');
+      Route::get('/pegawai/apimantrasimpeg/{id}','PegawaiController@apimantrasimpeg')->name('apimantrasimpeg');
+      Route::get('/pegawai/simpeg/{id}','PegawaiController@simpeg')->name('simpeg');
+
+      //Simpan Data Pegawai Import
+      Route::post('/pegawai/apiconfig','PegawaiController@simpanConfigApi')->name('apiconfig');
+      Route::post('/pegawai/simpanDataApi','PegawaiController@simpanDataApi')->name('simpanDataApi');
+
       // Route::get('/pegawai/manajemen','PegawaiController@pagepegawaiadmin');
       // Route::get('/pegawai/show/data/admin','PegawaiController@datauser')->name('datapegawaiadmin');
       // Route::post('/editpegawai','PegawaiController@update')->name('editpegawai');

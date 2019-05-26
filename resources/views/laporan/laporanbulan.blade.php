@@ -23,6 +23,8 @@ Rekap Absensi Pegawai Bulanan
 <!-- Include Date Range Picker -->
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 @endpush
 
 @section('body')
@@ -170,7 +172,7 @@ Rekap Absensi Pegawai Bulanan
                         <hr>
                         <div class="row">
                           <div class="col-md-12">
-                            <table class="table table-striped table-bordered table-hover table-align">
+                            <table class="table table-striped table-bordered table-hover table-align" id="tabelrekap">
                               <thead class="thead-dark table-eabsen">
                                 <tr>
                                   <th rowspan="2">NIP</th>
@@ -224,6 +226,9 @@ Rekap Absensi Pegawai Bulanan
                                           <a href="/laporanharian/bulan/{{encrypt($att->periode)}}/nip/{{encrypt($att->nip)}}">
                                             <i class='fa fa-sticky-note' data-toggle="tooltip" data-placement="left" title="klik, untuk lihat detail harian {{$att->nama}}!" style='font-size:20px'></i>
                                           </a>
+                                          <a href="#" data-toggle="" id="backupMantra" data-target="" class="modal_backupmantra">
+                                            <i class="material-icons" data-toggle="tooltip" data-placement="left" title="klik, untuk backup rekap {{$att->nama}}!">backup</i>
+                                          </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -246,7 +251,269 @@ Rekap Absensi Pegawai Bulanan
         </div>
         <!-- /.content-wrapper -->
 
-                @include('layouts.footer')
+        <!-- modal backup ke Mantra-->
+        <div class="modal fade" id="modal_backupmantra">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Data Rekap Absensi Pegawai</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error alert-danger alert-dismissible">
+                        </div>
+                        <form id="formbackupmantra" method="post" role="form" enctype="multipart/form-data">
+                            <div class="row form-horizontal">
+                                <div class="col-md-12">
+                                  <div class="col-md-12">
+                                    <div class="form-group">
+                                      {{csrf_field()}}
+                                      <label class="control-label col-sm-4" for="nip">NIP</label>
+                                      <div class="col-sm-8">
+                                          <input class="form-control input-sm" id="nip_m" name="nip" type="text">
+                                      </div>
+                                    </div>
+                                  </div>
+                                    <!-- /.form-group -->
+                                </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="periode">Periode</label>
+                                      <div class="col-sm-8">
+                                        <input id="periode" name="periode" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="harikerja">Hari Kerja</label>
+                                      <div class="col-sm-8">
+                                        <input id="harikerja" name="harikerja" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="hadir">Hadir</label>
+                                      <div class="col-sm-8">
+                                        <input id="hadir" name="hadir" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="apel">Apel</label>
+                                      <div class="col-sm-8">
+                                        <input id="apel" name="apel" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="akumulasi_jk">Akumulasi Jam Kerja</label>
+                                      <div class="col-sm-8">
+                                        <input id="akumulasi_jk" name="akumulasi_jk" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="tanpakabar">Tanpa Kabar</label>
+                                      <div class="col-sm-8">
+                                        <input id="tanpakabar" name="tanpakabar" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="ijin">Ijin</label>
+                                      <div class="col-sm-8">
+                                        <input id="ijin" name="ijin" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="ijin_t">Ijin Terlambat</label>
+                                      <div class="col-sm-8">
+                                        <input id="ijin_t" name="ijin_t" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="ijin_pc">Ijin Pulang Cepat</label>
+                                      <div class="col-sm-8">
+                                        <input id="ijin_pc" name="ijin_pc" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="sakit">Sakit</label>
+                                      <div class="col-sm-8">
+                                        <input id="sakit" name="sakit" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="cuti">Cuti</label>
+                                      <div class="col-sm-8">
+                                        <input id="cuti" name="cuti" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="tugasluar">Tugas Luar</label>
+                                      <div class="col-sm-8">
+                                        <input id="tugasluar" name="tugasluar" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="tugasbelajar">Tugas Belajar</label>
+                                      <div class="col-sm-8">
+                                        <input id="tugasbelajar" name="tugasbelajar" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="ijin_kl">Ijin Kepentingan Lain</label>
+                                      <div class="col-sm-8">
+                                        <input id="ijin_kl" name="ijin_kl" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="terlambat_mk">Terlambat Masuk Kerja</label>
+                                      <div class="col-sm-8">
+                                        <input id="terlambat_mk" name="terlambat_mk" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="akumulasi_t">Akumulasi Terlambat</label>
+                                      <div class="col-sm-8">
+                                        <input id="akumulasi_t" name="akumulasi_t" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row form-horizontal">
+                              <div class="col-md-12">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                      <label class="control-label col-sm-4" for="pulangcepat">Pulang Cepat</label>
+                                      <div class="col-sm-8">
+                                        <input id="pulangcepat" name="pulangcepat" class="form-control input-sm" type="text">
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+                        <button type="button" id="simpanaddpegawai" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+    @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
 
@@ -281,6 +548,8 @@ Rekap Absensi Pegawai Bulanan
     <!-- AdminLTE App -->
     <script src="{{asset('dist/js/adminlte.min.js')}}"></script>
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -308,6 +577,67 @@ Rekap Absensi Pegawai Bulanan
             checkboxClass: 'icheckbox_flat-green',
             radioClass   : 'iradio_flat-green'
         })
+
+        $(document).ready(function(){
+          $("#tabelrekap").on('click','.modal_backupmantra', function(){
+            //get current row
+            var currentRow = $(this).closest('tr');
+
+            var nip = currentRow.find('td:eq(0)').text();
+            var periode = currentRow.find('td:eq(2)').text();
+            var harikerja = currentRow.find('td:eq(3)').text();
+            var hadir = currentRow.find('td:eq(4)').text();
+            var apel = currentRow.find('td:eq(5)').text();
+            var akumulasi_jk = currentRow.find('td:eq(6)').text();
+            var tanpakabar = currentRow.find('td:eq(7)').text();
+            var ijin = currentRow.find('td:eq(8)').text();
+            var ijin_t = currentRow.find('td:eq(9)').text();
+            var ijin_pc = currentRow.find('td:eq(10)').text();
+            var sakit = currentRow.find('td:eq(11)').text();
+            var cuti = currentRow.find('td:eq(12)').text();
+            var tugasluar = currentRow.find('td:eq(13)').text();
+            var tugasbelajar = currentRow.find('td:eq(14)').text();
+            var ijin_kl = currentRow.find('td:eq(15)').text();
+            var terlambat_mk = currentRow.find('td:eq(16)').text();
+            var akumulasi_t = currentRow.find('td:eq(17)').text();
+            var pulangcepat = currentRow.find('td:eq(18)').text();
+            //console.log(periode);
+
+            var _token=$("input[name=_token]").val();
+
+            $.ajax({
+                type:'post',
+                url: '{{route('saveToMantra')}}',
+                data : {
+                        nip:nip, periode:periode, harikerja:harikerja, hadir:hadir, apel:apel, akumulasi_jk:akumulasi_jk, tanpakabar:tanpakabar,
+                        ijin:ijin, ijin_t:ijin_t, ijin_pc:ijin_pc, sakit:sakit, cuti:cuti, tugasluar:tugasluar, tugasbelajar:tugasbelajar,
+                        ijin_kl:ijin_kl, terlambat_mk:terlambat_mk, akumulasi_t:akumulasi_t, pulangcepat:pulangcepat,
+                        _token:_token
+                        },
+                beforeSend:function () {
+                  $('.material-icons').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success:function(response){
+                  // alert(response['namaInstansi']);
+                  if (response['status']=='0') {
+                    swal(response.message, "", "error");
+                    $('.material-icons').html('<i class="material-icons">backup</i>');
+                    //console.log(response);
+                  }
+                  else {
+                    swal(response.message+" Menyimpan Data", "", "success");
+                    $('.material-icons').html('<i class="material-icons">backup</i>');
+                    //console.log(response);
+                  }
+
+                },
+
+            });
+
+          });
+        });
+
+
     </script>
 
 @endsection
