@@ -467,7 +467,7 @@ class PegawaiController extends Controller
       $accesskey="7sv6uqivb6ilao084n2783drp8u8jy8zj8ym7oe8bylulmfu3dm5501gu5i1pohb"; //Kunci akses diperoleh dari permohonan akses requester
       $pardata=array();
 
-      $pardata["q_nip"]=$id;
+      $pardata["q_nip"]="%201903%";
       $pardata["q_jumlahbaris"]="";
       $pardata["q_awalbaris"]="";
       $par=json_encode($pardata,JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
@@ -489,7 +489,7 @@ class PegawaiController extends Controller
       $content=file_get_contents($url,false,$context);
       //END.generate from mantra-----------------------
       $decode_l1 = json_decode($content);
-
+      dd($decode_l1);
       //Get Variable from Object
       //use DD if must;
       //dd($decode_l1);
